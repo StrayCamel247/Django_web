@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en-US">
+
+<head>
+    <title>娃哈哈店长</title>
+    <!-- META TAGS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!-- CSS FILES -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/slick.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/rrssb.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <!-- READING POSITION INDICATOR -->
+    <progress value="0" id="eskimo-progress-bar">
+        <span class="eskimo-progress-container">
+            <span class="eskimo-progress-bar"></span>
+        </span>
+    </progress>
+    <!-- SITE WRAPPER -->
+    <div id="eskimo-site-wrapper">
+        <!-- MAIN CONTAINER -->
+        {% block content %}
+        {% endblock %}
+        <!-- FOOTER -->
+        <footer id="eskimo-footer">
+            <div class="container">
+                <div class="row eskimo-footer-wrapper">
+                    <!-- FOOTER WIDGET 1 -->
+                    <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                        <h5 class="eskimo-title-with-border"><span>关于我</span></h5>
+                        <p>开发中。。。</p>
+                        <p><a href="#" class="btn btn-default">Read More</a></p>
+                    </div>
+                    <!-- FOOTER WIDGET 2 -->
+                    <div class="col-12 col-lg-6">
+                        <h5 class="eskimo-title-with-border"><span>通讯</span></h5>
+                        <form method="post" action="index.html">
+                            <label>订阅我们的邮件列表!</label>
+                            <div class="input-group">
+                                <input type="email" class="form-control" name="EMAIL" placeholder="Your email address" required />
+                                <div class="input-group-append"> 
+                                    <input type="submit" value="Sign up"  class="btn btn-default" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- CREDITS -->
+                <div class="eskimo-footer-credits">
+                    <p>
+                        CREATED BY  <a href="#" target="_blank">娃哈哈店长</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- GO TO TOP BUTTON -->
+    <a id="eskimo-gototop" href="#"><i class="fa fa-chevron-up"></i></a>
+    <!-- SLIDE PANEL OVERLAY -->
+    <div id="eskimo-overlay"></div>
+    <!-- SLIDE PANEL -->
+    <div id="eskimo-panels">
+        <aside id="eskimo-panel" class="eskimo-panel">
+            <div class="eskimo-panel-inner">
+                <!-- CLOSE SLIDE PANEL BUTTON -->
+                <a href="#" class="eskimo-panel-close"><i class="fa fa-times"></i></a>
+                <!-- AUTHOR BOX -->
+                <div class="eskimo-author-box eskimo-widget">
+                    <div class="eskimo-author-img">
+                        <img src="{% static 'uploads/2018/05/img.jpg' %}" alt="JOHN DOE" />
+                    </div>
+                    <h3><span>娃哈哈店长</span></h3>
+                    <p class="eskimo-author-subtitle">武汉理工大学</p>
+                    <p class="eskimo-author-description">自我介绍 待定。。。</p>
+                    <div class="eskimo-author-box-btn">
+                        <a class="btn btn-default" href="#">Email-me</a>
+                    </div>
+                </div>
+                <!-- RECENT POSTS -->
+                <div class="eskimo-recent-entries eskimo-widget">
+                    <h5 class="eskimo-title-with-border"><span>最近文章</span></h5>
+                    <ul>
+                        {% for post in post_list %}
+                        <li>
+                            <a href="{% url 'detail' id=post.id %}">{{ post.title }}</a>
+                            <span class="post-date">{{ post.pub_time |date:'Y-m-d' }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- CATEGORIES -->
+                <div class="eskimo-categories eskimo-widget">
+                    <h5 class="eskimo-title-with-border"><span>分类</span></h5>
+                    <ul>
+                        {% for category in category_list %}
+                        <li>
+                            <a href="{% url 'category_menu' id=category.id %}" title="">{{ category }}</a> <span class="badge badge-pill badge-default">n</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                  <!-- ARCHIVE -->
+                <div class="eskimo-categories eskimo-widget">
+                    <h5 class="eskimo-title-with-border"><span>归档</span></h5>
+                    <ul>
+                        {% for m in months %}
+                        <li>
+                            <a href="{% url 'archives' year=m.year month=m.month %}" title="">{{ m | date:'Y年m月' }}</a> <span class="badge badge-pill badge-default">n</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- TAGS -->
+                <div class="eskimo-widget">
+                    <h5 class="eskimo-title-with-border"><span>标签</span></h5>
+                    <div class="eskimo-tag-cloud">
+                        {% for Tag in Tag_list %}
+                        <a href="{% url 'Tag_menu' id=Tag.id %}">{{ Tag }}<span>n</span></a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <!-- FULLSCREEN SEARCH -->
+    <div id="eskimo-fullscreen-search">
+        <div id="eskimo-fullscreen-search-content">
+            <a href="#" id="eskimo-close-search"><i class="fa fa-times"></i></a>
+            <form role="search" method="get" action="search.html" class="eskimo-lg-form">
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-lg" placeholder="Enter a keyword..." name="s" />
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- JS FILES -->
+    <script src="{% static 'js/jquery-3.3.1.min.js ' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js ' %}"></script>
+    <script src="{% static 'js/salvattore.min.js ' %}"></script>
+    <script src="{% static 'js/slick.min.js ' %}"></script>
+    <script src="{% static 'js/panel.js ' %}"></script>
+    <script src="{% static 'js/reading-position-indicator.js ' %}"></script>
+    <script src="{% static 'js/custom.js ' %}"></script>
+    <!-- POST SLIDER -->
+    <script>
+        (function($) {
+            "use strict";
+            $(document).ready(function() {
+                $('#eskimo-post-slider').slick({
+                    autoplay: true,
+                    autoplaySpeed: 5000,
+                    slidesToScroll: 1,
+                    adaptiveHeight: true,
+                    slidesToShow: 1,
+                    arrows: true,
+                    dots: false,
+                    fade: true
+                });
+            });
+            $(window).on('load', function() {
+                $('#eskimo-post-slider').css('opacity', '1');
+                $('#eskimo-post-slider').parent().removeClass('eskimo-bg-loader');
+            });
+        })(jQuery);
+    </script>
+    <!-- POST CAROUSEL -->
+    <script>
+        (function($) {
+            "use strict";
+            $(document).ready(function() {
+                $('#eskimo-post-carousel').slick({
+                    infinite: false,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    dots: false,
+                    slidesToShow: 3,
+                    responsive: [{
+                        breakpoint: 992,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    }, {
+                        breakpoint: 576,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }]
+
+                });
+                $('#eskimo-post-carousel').css('opacity', '1');
+            });
+        })(jQuery);
+    </script>
+</body>
+
+</html>

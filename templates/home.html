@@ -1,0 +1,142 @@
+﻿{% extends "base.html" %}
+{% load static %}
+{% block content %}
+        <!-- MAIN CONTAINER -->
+        <main id="eskimo-main-container">
+            <div class="container">
+                <!-- SIDEBAR -->
+                <div id="eskimo-sidebar">
+                    <div id="eskimo-sidebar-wrapper" class="d-flex align-items-start flex-column h-100 w-100">
+                        <!-- LOGO -->
+                        <div id="eskimo-logo-cell" class="w-100">
+                            <a class="eskimo-logo-link" href="#">
+                                <img src="{% static 'images/logo.png' %}" class="eskimo-logo" alt="eskimo" />
+                            </a>
+                        </div>
+                        <!-- MENU CONTAINER -->
+                        <div id="eskimo-sidebar-cell" class="w-100">
+                            <!-- MOBILE MENU BUTTON -->
+                            <div id="eskimo-menu-toggle">菜单</div>
+                            <!-- MENU -->
+                            <nav id="eskimo-main-menu" class="menu-main-menu-container">
+                                <ul class="eskimo-menu-ul">
+                                    <li><a href="#">开发中...</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="#">开发中。。。</a></li>
+
+                                            <li><a href="#">开发中。。。</a></li>
+                                        </ul>
+                                    </li>
+                                   
+                                    <li><a href="#"></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- SOCIAL MEDIA ICONS -->
+                        <div id="eskimo-social-cell" class="mt-auto w-100">
+                            <div id="eskimo-social-inner">
+                                <ul class="eskimo-social-icons">
+                                    <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-vimeo"></i></a></li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- TOP ICONS -->
+                <ul class="eskimo-top-icons">
+                    <li id="eskimo-panel-icon">
+                        <a href="#eskimo-panel" class="eskimo-panel-open"><i class="fa fa-bars"></i></a>
+                    </li>
+                    <li id="eskimo-search-icon">
+                        <a id="eskimo-open-search" href="#"><i class="fa fa-search"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+                <!-- SLIDER -->
+                <div class="eskimo-carousel-container eskimo-bg-loader">
+                    <div id="eskimo-post-slider" class="eskimo-slider">
+                        <!-- SLIDE -->
+                        {% for post in post_list %}
+                        <div>
+                            <a class="eskimo-slider-img" href="single-post.html"></a>
+                            <ul class="eskimo-slider-image-meta eskimo-image-meta-post">
+                                <li><a href="#"><span class="badge badge-default">{{ post.pub_time |date:'Y-m-d' }}</span></a></li>
+                                <li><a href="#"><span class="badge badge-default">{{ post.category }}</span></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                            <img src="{% static 'uploads/2018/05/blog4-1-1200x600.jpg' %}" alt="#" />
+                            <div class="eskimo-slider-desc">
+                                <div class="eskimo-slider-desc-inner">
+                                    <h2 class="card-title">{{ post.title }}</h2>
+                                    <p>                            
+                                    {#striptags用于过滤正文中所有的HTML标签#}
+                                    {#truncatechars用于截取正文前30个字符#}
+                                    {{ post.content|striptags|truncatechars:30 }}
+                                </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- BLOG POSTS -->
+                {% for post in post_list %}
+                <!-- POST 1 -->
+                <div href="{% url 'detail' id=post.id %}" class="card card-horizontal">
+                    <div class="card-body">
+                        <div class="card-horizontal-left">
+                            <div class="card-category">
+                                <a href="{% url 'detail' id=post.id %}">{{ post.category }}</a> </div>
+                            <h3 class="card-title"><a href="{% url 'detail' id=post.id %}">{{ post.title }}</a></h3>
+                            <div class="card-excerpt">
+                                <p>                            
+                                    {#striptags用于过滤正文中所有的HTML标签#}
+                                    {#truncatechars用于截取正文前15个字符#}
+                                    {{ post.content|striptags|truncatechars:150 }}
+                                </p>
+                            </div>
+                            <div class="card-horizontal-meta">
+                                <div class="eskimo-author-meta">
+                                    By <a class="author-meta" href="{% url 'detail' id=post.id %}">ROOT</a>
+                                </div>
+                                <div class="eskimo-date-meta">
+                                    <a href="{% url 'detail' id=post.id %}">{{ post.pub_time |date:'Y-m-d' }}</a>
+                                </div>
+                                <div class="eskimo-reading-meta">{{ post.views }}次浏览</div>
+                            </div>
+                        </div>
+                        <div class="card-horizontal-right" data-img="{% static 'uploads/2018/05/blog18-1024x682.jpg' %}">
+                            <a class="card-featured-img" href="{% url 'detail' id=post.id %}"></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- PAGINATION -->
+                {% if post_list.object_list and post_list.paginator.num_pages > 1 %}
+                <div class="eskimo-pager">
+                    <ul class='pagination flex-wrap'>
+                        {% if post_list.has_previous %}
+                        <li class='page-item'><a class='page-link'  href="?page={{ post_list.previous_page_number }}"><i class="fa fa-chevron-left"></i></a></li>
+                        {% endif %}
+                        {% for i in post_list.object_list %}
+                        <li class='page-item active'><a class='page-link' href='#'>开发中...</a></li>
+                        {% endfor %}
+                        {% if post_list.has_next %}
+                        <li class='page-item'><a class='page-link'  href="?page={{ post_list.next_page_number }}"><i class="fa fa-chevron-right"></i></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+                <div class="clearfix"></div>
+                
+                <!-- DIVIDER -->
+                <hr class="section-divider" />
+
+            </div>
+        </main>
+{% endblock %}   

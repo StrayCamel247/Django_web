@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+        <!-- MAIN CONTAINER -->
+        <main id="eskimo-main-container">
+            <div class="container">
+                <!-- SIDEBAR -->
+                <div id="eskimo-sidebar">
+                    <div id="eskimo-sidebar-wrapper" class="d-flex align-items-start flex-column h-100 w-100">
+                        <!-- LOGO -->
+                        <div id="eskimo-logo-cell" class="w-100">
+                            <a class="eskimo-logo-link" href="#">
+                                <img src="{% static 'images/logo.png' %}" class="eskimo-logo" alt="eskimo" />
+                            </a>
+                        </div>
+                        <!-- MENU CONTAINER -->
+                        <div id="eskimo-sidebar-cell" class="w-100">
+                            <!-- MOBILE MENU BUTTON -->
+                            <div id="eskimo-menu-toggle">菜单</div>
+                            <!-- MENU -->
+                            <nav id="eskimo-main-menu" class="menu-main-menu-container">
+                                <ul class="eskimo-menu-ul">
+                                    <li><a href="#">开发中...</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="#">开发中。。。</a></li>
+
+                                            <li><a href="#">开发中。。。</a></li>
+                                        </ul>
+                                    </li>
+                                   
+                                    <li><a href="#"></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- SOCIAL MEDIA ICONS -->
+                        <div id="eskimo-social-cell" class="mt-auto w-100">
+                            <div id="eskimo-social-inner">
+                                <ul class="eskimo-social-icons">
+                                    <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-vimeo"></i></a></li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- TOP ICONS -->
+                <ul class="eskimo-top-icons">
+                    <li id="eskimo-panel-icon">
+                        <a href="#eskimo-panel" class="eskimo-panel-open"><i class="fa fa-bars"></i></a>
+                    </li>
+                    <li id="eskimo-search-icon">
+                        <a id="eskimo-open-search" href="#"><i class="fa fa-search"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+
+                <!-- PAGE TITLE -->
+                <div class="eskimo-page-title">
+                    <h1><span>{{ post.title }}</span></h1>
+                    <div class="eskimo-page-title-meta">
+                        <div class="eskimo-author-meta">
+                            By <a class="author-meta" href="author.html">ROOT</a>
+                        </div>
+                        <div class="eskimo-cat-meta">
+                            In <a href="category.html">{{ post.category }}</a>
+                        </div>
+                        <div class="eskimo-date-meta"> {{ post.pub_time|date:'Y-m-d H:i' }}</div>
+                        <div class="eskimo-reading-meta">{{ post.views }}次浏览</div>
+                    </div>
+                </div>
+                <!-- FEATURED IMAGE -->
+                <!-- POST CONTENT -->
+                <div class="eskimo-page-content">
+                    {{ post.content |safe }}
+                    <!-- TAGS -->
+                    <div class="eskimo-meta-tags">
+                        {% for tag in tags %}
+                        <span class="badge badge-default"><a href="category.html">{{ tag }}</a></span>
+                        {% endfor %}
+                    </div>
+                    <!-- POST NAVIGATION -->
+                    <div class="eskimo-post-nav-wrapper">
+                        <!-- PREVIOUS POST -->
+                        <div class="eskimo-post-nav-left-row">
+                            <div class="eskimo-post-nav-table">
+                                {% if prev_post %}
+                                <a class="eskimo-post-nav" >
+                                    <i class="fa fa-chevron-left"></i>
+                                </a>
+                                <div class="eskimo-post-nav-link">
+                                    <a class="eskimo-post-nav" href="{% url 'detail' id=prev_post.id %}">上一篇：{{ prev_post.title }}</a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- NEXT POST -->
+                        <div class="eskimo-post-nav-left-row">
+                            <div class="eskimo-post-nav-table">
+                                {% if next_post %}
+                                <div class="eskimo-post-nav-link">
+                                    <a class="eskimo-post-nav" href="{% url 'detail' id=next_post.id %}">上一篇：{{ next_post.title }}</a>
+                                </div>
+                                <a class="eskimo-post-nav" >
+                                    <i class="fa fa-chevron-right"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <hr />
+
+            </div>
+        </main>
+{% endblock %}   

@@ -1,0 +1,15 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>django-summernote frame</title>
+        {% for url in css %}
+        <link href="{{ url }}" rel="stylesheet">{% endfor %}
+        {% for url in js %}
+        <script src="{{ url }}"></script>{% endfor %}
+    </head>
+    <body>
+        <div id="summernote"></div>
+    </body>
+    {% include "django_summernote/widget_common.html" with iframe=True %}
+</html>
