@@ -3,6 +3,7 @@ from apps.blog.models import Article, Category, Tag
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import Http404
 from django.conf import settings
+import markdown
 
 categories = Category.objects.all()  # 获取全部的分类对象
 tags = Tag.objects.all()  # 获取全部的标签对象
@@ -30,6 +31,9 @@ def detail(request, id):
         tags = post.tags.all()
         next_post = post.next_article()  # 上一篇文章对象
         prev_post = post.prev_article()  # 下一篇文章对象
+        post.content = markdown.markdown(post.content, extensions = [
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',])
     except Article.DoesNotExist:
         raise Http404
     return render(

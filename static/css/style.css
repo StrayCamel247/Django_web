@@ -2802,7 +2802,7 @@ video {
 }
 
 .card.card-horizontal {
-    margin-bottom: 60px;
+    margin-bottom: 20px;
 }
 
 .card-horizontal .card-body {
@@ -2823,8 +2823,8 @@ video {
 }
 
 .card-horizontal-left {
-    width: 61.8%;
-    padding: 3rem;
+    width: 75%;
+    padding: 2rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-right: none;
     -webkit-transition: border 200ms ease;
