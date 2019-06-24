@@ -1,0 +1,13 @@
+﻿{% extends "base.html" %}
+
+{% load blog_tags %}
+{% load_article_summary articles %}
+{% block content %}
+<div class="text-secondary font-weight-bold py-2 f-15 choice">
+    <a class="pb-2 active" href="/">
+        <i class="fa fa-bars mr-1"></i>时间排序</a>
+    <a class="pb-2 ml-4 " href="/hot/">
+        <i class="fa fa-fire mr-1"></i>热度排序</a>
+</div>
+{% include "post.html" %}
+{% endblock %}   
