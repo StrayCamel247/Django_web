@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+                <!-- PAGE TITLE -->
+                <div id="">
+                     <div class="markdown-body editormd-preview-container" id="custom-toc-container" >#custom-toc-container</div>
+                </div>
+                <!-- PAGE TITLE -->
+                <div class="eskimo-page-title mb-4 mt-2 " style=" padding-right: 15px; opacity: 1;">
+                    <h1><span>  post.title  </span></h1>
+                    <div class="eskimo-page-title-meta">
+                        <div class="eskimo-author-meta">
+                            By <a class="author-meta" href="author.html">ROOT</a>
+                        </div>
+                        <div class="eskimo-cat-meta">
+                            In <a href="category.html">  post.category  </a>
+                        </div>
+                        <div class="eskimo-date-meta">   post.pub_time|date:'Y-m-d H:i'  </div>
+                        <div class="eskimo-reading-meta">  post.views  次浏览</div>
+                    </div>
+                </div>
+                <!-- FEATURED IMAGE -->
+                <!-- POST CONTENT -->
+                <div class="">
+                	<div class="">
+                         
+                        <div id="test-editormd-view">
+                        <textarea id="append-test" style="display:none;">  post.content |safe  </textarea>     
+                    </div>
+
+                    <!-- <script src="js/zepto.min.js"></script>
+                    <script>        
+                        var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以使用Zepto.js时想支持flowChart/sequenceDiagram就得加上这一句
+                    </script> -->
+                    <script  src="{% static 'mdeditor/js/jquery.min.js' %}"></script>
+                    <script  src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script>
+                    <script  src="{% static 'mdeditor/js/lib/prettify.min.js' %}"></script>
+                    
+                    <script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>
+                     
+                    <script type="text/javascript">
+                        $(function() {
+                            var testEditormdView;
+                            
+                                
+                            testEditormdView = editormd.markdownToHTML("test-editormd-view", {
+                                emoji           : true,
+                                taskList        : true,
+                                tex             : true,  // 默认不解析
+                                flowChart       : true,  // 默认不解析
+                                sequenceDiagram : true,  // 默认不解析
+
+                                htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
+                                tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
+                            });
+
+                        });
+                    </script>
+                    <!-- TAGS -->
+                    <div class="eskimo-meta-tags">
+                        {% for tag in tags %}
+                        <span class="badge badge-default"><a href="category.html">  tag  </a></span>
+                        {% endfor %}
+                    </div>
+                    <!-- POST NAVIGATION -->
+                    <div class="eskimo-post-nav-wrapper ">
+                        <!-- PREVIOUS POST -->
+                        <!-- <div class="eskimo-post-nav-left-row ">
+                            <div class="eskimo-post-nav-table ">
+                                {% if prev_post %}
+                                <a class="eskimo-post-nav" >
+                                </a>
+                                <div class="eskimo-post-nav-link">
+                                    <a href="{% url 'detail' id=prev_post.id %}" class="eskimo-post-nav" ><i class="fa fa-hand-o-left" aria-hidden="true"></i>&nbsp;  prev_post.title  </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div> -->
+                        <!-- NEXT POST -->
+                        <!-- <div class="eskimo-post-nav-left-row">
+                            <div class="eskimo-post-nav-table">
+                                {% if next_post %}
+                                <div class="eskimo-post-nav-link">
+                                    <a href="{% url 'detail' id=prev_post.id %}" class="eskimo-post-nav" >  next_post.title  &nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></a>
+                                </div>
+                                <a class="eskimo-post-nav" >
+                                    <i class="fa fa-chevron-right"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+                <div class="clearfix"></div>
+                <hr />
+{% endblock %}   

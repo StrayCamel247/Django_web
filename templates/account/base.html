@@ -1,0 +1,31 @@
+{% load staticfiles %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="referrer" content="origin">
+    <!-- TDK and ICO -->
+    {% block title %}{% endblock %}
+
+    <meta name="description" content="用户账号管理，使用django-allauth社交用户系统，支持微博、Github等社交账号登录，加入TendCode，查看更多信息。">
+    <meta name="keywords" content="django-allauth,社交用户系统,OAuth 2.0">
+
+
+    <!-- Bootstrap and font-awesome CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type='text/css'>
+    <link href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet">
+
+</head>
+<body>
+
+<!--主要内容块-->
+{% block main %}
+{% endblock %}
+
+
+
+</body>
+</html>
