@@ -7,7 +7,7 @@ import emoji
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='%(class)s_related', verbose_name='评论人')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='%(class)s_related', verbose_name='评论人',null=False, default='root')
     create_date = models.DateTimeField('创建时间', auto_now_add=True)
     content = models.TextField('评论内容')
     parent = models.ForeignKey('self', verbose_name='父评论',on_delete=models.CASCADE, related_name='%(class)s_child_comments', blank=True,
@@ -33,7 +33,7 @@ class Comment(models.Model):
         return to_md
 
 class ArticleComment(Comment):
-    belong = models.ForeignKey(Article,on_delete=models.CASCADE, related_name='article_comments', verbose_name='所属文章')
+    belong = models.ForeignKey(Article,on_delete=models.CASCADE, related_name='article_comments', verbose_name='所属文章',null=False, default='4')
 
     class Meta:
         verbose_name = '文章评论'

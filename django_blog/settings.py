@@ -30,9 +30,8 @@ ALLOWED_HOSTS = ['boywithacoin.cn', '127.0.0.1','www.boywithacoin.cn']
 
 # Application definition
 INSTALLED_APPS = [
-    'mdeditor',
     'django.contrib.admin',
-    'django.contrib.auth',
+    
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -42,9 +41,33 @@ INSTALLED_APPS = [
     'apps.user',
     'apps.comment',
     #lib
-    'uuslug',
+    'mdeditor',#django mdeditor富文本编辑器
+    'django.contrib.sitemaps',#网站地图
+    'uuslug',#将中文转化成拼音 slug 的插件
     'markdown',
+    
+    'xadmin',
+    'crispy_forms',
+    'reversion',  # bootstrap表单样式
+    # allauth需要注册的应用    
+    'django.contrib.auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+     # github 登陆 
+    'allauth.socialaccount.providers.github',
+    # auth 身份验证 与 allauth 无关
 ]
+
+AUTHENTICATION_BACKENDS = (
+    # auth 身份验证 与 allauth 无关
+    'django.contrib.auth.backends.ModelBackend',
+    # allauth 身份验证 
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+
 # 网站信息设置 用于SEO
 SITE_DESCRIPTION = "娃哈哈店长的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好"
 SITE_KEYWORDS = "娃哈哈店长,静觅,网络,IT,技术,博客,Python"
@@ -64,8 +87,14 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'aboyinsky@outlook.com'
 EMAIL_HOST_PASSWORD = '1026shenyang'
 DEFAULT_FROM_EMAIL = 'aboyinsky@outlook.com'
-LOGIN_REDIRECT_URL = '/' 
 
+
+# 这里是随便写的一个 也可以是 /accounts/logout/ 测试比较随便
+LOGIN_REDIRECT_URL = '/accounts/profile/'
+# 注册中邮件验证方法:“强制（mandatory）”,“可选（optional）【默认】”或“否（none）”之一。
+# 开启邮箱验证的话，如果邮箱配置不可用会报错，所以默认关闭，根据需要自行开启
+# ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = os.getenv('IZONE_ACCOUNT_EMAIL_VERIFICATION', 'optional')
 ROOT_URLCONF = 'blog.urls'
 
 AUTH_USER_MODEL = 'user.Ouser'
@@ -94,12 +123,15 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                #全局变量
                 'apps.blog.views.global_setting',
+                # allauth 需要 django 提供这个处理器
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
-
+SITE_ID = 1
 WSGI_APPLICATION = 'django_blog.wsgi.application'
 
 

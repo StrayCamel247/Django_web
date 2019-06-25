@@ -15,7 +15,7 @@ register = template.Library()
 @register.simple_tag
 def get_categoty_list():
     """返回大分类列表"""
-    return Category.objects.all()
+    return Category.objects.annotate(total_num=Count('article')).filter(total_num__gt=0)
 
 
 # 返回文章分类查询集
@@ -85,6 +85,12 @@ def get_article_list(sort=None, num=None):
         return Article.objects.all()[:num]
     return Article.objects.all()
 
+
+@register.simple_tag
+def get_article_num():
+    """获取指定排序方式和指定数量的文章"""
+
+    return Article.objects.all().count()
 
 # 返回文章列表模板
 #inclusion_tag里面的内容用下面函数的返回值渲染，然后作为一个组件一样，加载到使用这个函数的html文件里面
