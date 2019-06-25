@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article,  Category, Carousel, Keyword, FriendLink, Category
+from .models import Article,  Category, Carousel, Keyword, FriendLink
 
 
 @admin.register(Article)
@@ -20,6 +20,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
     list_per_page = 50  # 控制每页显示的对象数量，默认是100
 
+    # filter_horizontal = ('tags', 'keywords')  # 给多选增加一个左右添加的框
 
     # 限制用户权限，只能看到自己编辑的文章
     def get_queryset(self, request):
@@ -29,6 +30,9 @@ class ArticleAdmin(admin.ModelAdmin):
         return qs.filter(author=request.user)
 
 
+# @admin.register(Tag)
+# class TagAdmin(admin.ModelAdmin):
+#     list_display = ('name', 'id', 'slug')
 
 
 @admin.register(Category)
@@ -41,9 +45,26 @@ admin.site.site_header = '网站管理'
 admin.site.site_title = '博客后台管理'
 
 
+# @admin.register(Timeline)
+# class TimelineAdmin(admin.ModelAdmin):
+#     list_display = ('title', 'side', 'update_date', 'icon', 'icon_color',)
+#     fieldsets = (
+#         ('图标信息', {'fields': (('icon', 'icon_color'),)}),
+#         ('时间位置', {'fields': (('side', 'update_date', 'star_num'),)}),
+#         ('主要内容', {'fields': ('title', 'content')}),
+#     )
+#     date_hierarchy = 'update_date'
+#     list_filter = ('star_num', 'update_date')
+
+
 @admin.register(Carousel)
 class CarouselAdmin(admin.ModelAdmin):
-    list_display = ('number', 'title', 'content', 'img_url', 'url')
+    list_display = ('number', 'title', 'img', 'url')
+
+
+# @admin.register(Silian)
+# class SilianAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'remark', 'badurl', 'add_date')
 
 
 @admin.register(Keyword)
