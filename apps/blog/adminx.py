@@ -37,9 +37,7 @@ class CategoryAdmin(object):
     list_display = ('name', 'id', 'slug')
 
 xadmin.site.register(Category, CategoryAdmin)
-# 自定义管理站点的名称和URL标题
-xadmin.site.site_header = '网站管理'
-xadmin.site.site_title = '博客后台管理'
+
 
 
 # class TimelineAdmin(object):

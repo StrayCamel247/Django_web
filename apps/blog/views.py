@@ -9,7 +9,21 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Article, Category, Tag
 from markdown.extensions.toc import TocExtension  # 锚点的拓展
 from django.core.cache import cache
+from haystack.generic_views import SearchView  # 导入搜索视图
+from haystack.query import SearchQuerySet
+
+
 # Create your views here.
+# 重写搜索视图，可以增加一些额外的参数，且可以重新定义名称
+class MySearchView(SearchView):
+    # 返回搜索结果集
+    context_object_name = 'search_list'
+    # 设置分页
+    paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
+    paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
+    # 搜索结果以浏览量排序
+    queryset = SearchQuerySet().order_by('-views')
+
 class IndexView(generic.ListView):
     model = Article
     template_name = 'index.html'
@@ -37,16 +51,19 @@ class DetailView(generic.DetailView):
         ses = self.request.session
         the_key = 'is_read_{}'.format(obj.id)
         is_read_time = ses.get(the_key)
-        if u != obj.author:
+        # if u != obj.author:
+        if u != obj.author || u = obj.author :
             if not is_read_time:
                 obj.update_views()
                 ses[the_key] = time.time()
             else:
                 now_time = time.time()
                 t = now_time - is_read_time
-                if t > 60 * 30:
+                if t > 60 * 10:
                     obj.update_views()
                     ses[the_key] = time.time()
+        obj.update_views()
+        ses[the_key] = time.time()
         # 文章可以使用markdown书写，带格式的文章，像csdn写markdown文章一样
         # md = markdown.Markdown(extensions=[
         #     'markdown.extensions.extra',
@@ -90,6 +107,8 @@ def global_setting(request):
         "AUTHOR_DESC" : settings.AUTHOR_DESC,
         "AUTHOR_EMAIL" : settings.AUTHOR_EMAIL,
         "AUTHOR_TITLE" : settings.AUTHOR_TITLE,
+        "SITE_DESCRIPTION" : settings.SITE_DESCRIPTION,
+        "SITE_KEYWORDS" : settings.SITE_KEYWORDS,
     }
 
 

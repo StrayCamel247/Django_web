@@ -13,7 +13,8 @@ class Ouser(AbstractUser):
         upload_to='avatar/%Y/%m/%d',
         default='avatar/default.png',
         verbose_name='头像',
-        processors=[ResizeToFill(80, 80)]
+        processors=[ResizeToFill(80, 80)],
+        blank=True
     )
 
     class Meta:

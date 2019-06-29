@@ -1,64 +1,80 @@
 {% extends "base.html" %}
 {% load static %}
-{% block main_contain %}
-        <div class="markdown-body editormd-preview-container" id="custom-toc-container" ></div>
+{% block head_title %}在线md2html工具 | 娃哈哈'店长'的个人博客{% endblock %}
+{% block metas %}
+    <meta name="description"  content="在线md2html工具" />
+    <meta name="keywords"  content="mdeditor、在线md2html平台、" />
+        {% endblock %}
+        {% block top_file %}
+        <link href="{% static 'mdeditor/css/editormd.css' %}" rel="stylesheet" type="text/css">
+        <style type="text/css">
+            #test-editormd {
+                z-index: 100;
+            }
+        </style>
 
-                <!-- PAGE TITLE -->
-        <script  src="{% static 'mdeditor/js/jquery.min.js' %}"></script>
+        {% endblock %}
+
+        {% block mdeditor_contain %}
+        <div id="layout" style="width: 100%;">
+            <header>
+                <h1>在线md2html工具</h1>   
+                <p>mdeditor、在线md2html平台、</p>
+            </header>
+            <div id="test-editormd" style="width: 100%;">                
+                <textarea style="display:none;"></textarea>
+            </div>
+        </div> 
+        {% endblock %}     
+        {% block end_file %}
+
+
+        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
         <script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>
-            <div id="test-editormd"  style="z-index:999;">                
-            <textarea style="display:none;"></textarea>
-            </div>    
-            <!-- <script src="js/zepto.min.js"></script>
-            <script>        
-                var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以使用Zepto.js时想支持flowChart/sequenceDiagram就得加上这一句
-            </script> -->
-            <script  src="{% static 'mdeditor/js/jquery.min.js' %}"></script>
-            <script src="{% static 'mdeditor/js/editormd.js' %}"></script>
-            <script  src="{% static 'mdeditor/js/jquery.min.js' %}"></script>
-            <script  src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script>
-            <script  src="{% static 'mdeditor/js/lib/prettify.min.js' %}"></script>
-            
-            <script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>，
+        <!-- <script src="{% static 'mdeditor/js/lib/raphael.min.js' %}"></script> -->
+        <!-- 绘制序列图 -->
+        <script src="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
+        <!-- 绘制流程图 -->
+        <script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
+        <script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
+        <!-- <script src="{% static 'mdeditor/js/lib/underscore.min.js' %}"></script> -->
+        <!-- <script src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script> -->
+        <!-- <script src="{% static 'mdeditor/js/lib/prettify.min.js' %}"></script> -->
         <script type="text/javascript">
             var testEditor;
-            
-            $(function() {
-                // You can custom Emoji's graphics files url path
-               
+            $(function() {    
+                // You can custom @link base url.
+                
                 testEditor = editormd("test-editormd", {
-
-                    width     : "100%",
+                    width     : "90%",
+                    path : "{% static 'mdeditor/js/lib/' %}",
                     height    : 720,
                     toc       : true,
-                    emoji : true,       // Support Github emoji, Twitter Emoji(Twemoji), fontAwesome, Editor.md logo emojis.
-                    tex  : true, //tex科学公式
-                    taskList : true, //tasklist todolist
-                    htmlDebode : true,
 
-                    flowChart : true,  // 默认不解析
-                    sequenceDiagram : true,  // 默认不解析
-                    todoList  : true, //tasklist todolist
-                    path      : "{% static 'mdeditor/js/lib/' %}"
-                    // imageUpload : true, 
-                    // imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"], 
-                    // imageUploadURL : "{% static 'uploads' %}"
-                    
-
+                    // //atLink    : false,    // disable @link
+                    // //emailLink : false,    // disable email address auto link
+                    todoList  : true,
+                    // theme : "dark",
+                    // previewTheme : "dark",
+                    // editorTheme : "pastel-on-dark",
+                    // markdown : md,
+                    codeFold : true,
+                    // //syncScrolling : false,
+                    saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+                    searchReplace : true,
+                    // //watch : false,                // 关闭实时预览
+                    // htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
+                    // //toolbar  : false,             //关闭工具栏
+                    // //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+                    emoji : true,
+                    taskList : true,
+                    tocm            : true,         // Using [TOCM]
+                    tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                    flowChart : true,             // 开启流程图支持，默认关闭
+                    sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
                 });
 
-                // $("#disabled-btn").click(function(){
-                //     testEditor.config("pageBreak", false);
-                // });
                 
-                // $("#enabled-btn").click(function(){
-                //     testEditor.config("pageBreak", true);
-                // });
-                // testEditor.config({
-                //     tocContainer : "#custom-toc-container",
-                //     tocDropdown   : false
-                // });
             });
-
         </script>
-{% endblock %}  
+        {% endblock %}

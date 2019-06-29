@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+<!-- 高亮搜索词 -->
+{% load blog_tags %}
+{% block head_title %}文章搜索：{{ query }}{% endblock %}
+{% block metas %}
+<meta name="description" content="文章搜索：{{ query }}，网站全文搜索功能，按照文章标题和内容建立索引，实现整站搜索，django-haystack全文搜索库的使用">
+<meta name="keywords" content="{{ query }},全文搜索,django-haystack">
+{% endblock %}
+{% block content %}
+    <!-- BLOG POSTS -->
+    {% for article in search_list %}
+    <!-- POST -->
+    <div class="card card-horizontal">
+        <div class="card-body">
+            <div class="card-horizontal-left">
+                <div class="card-category">
+                    <span class="badge badge-warning">
+                    <a class="cate" href="/category/{{ article.object.category.slug }}"><i class="fa fa-book mr-1" aria-hidden="true"></i>&nbsp;{{ article.object.category.name }}</a>
+                    </span>
+                </div>
+                <h3 class="card-title"><a href="/article/{{ article.object.slug }}" target="_blank">{% my_highlight article.object.title query %}</a></h3>
+                <div class="card-excerpt">
+                    <p class="d-none d-sm-block mb-2 f-15">{% my_highlight article.object.summary query %}</p>
+                </div>
+                <div class="card-horizontal-meta">
+                    <div class="eskimo-author-meta">
+                        <div style="width: 1.5rem;">
+                        <a href=" " class="author-meta">
+                        {% if article.object.author.socialaccount_set.exists and article.object.author.avatar.url == '/media/avatar/default.png' %}
+                        <img style="border-radius: 100%;" src="{{ article.object.author.socialaccount_set.all.0.get_avatar_url }}" alt="{{ article.object.author }}">
+                        {% else %}
+                        <img style="border-radius: 100%;" src="{{ article.object.author.avatar.url }}" alt="{{ article.object.author }}">
+                        {% endif %}
+                        </a>
+                        </div>
+                        <a class="author-meta" href="author.html">{% my_highlight article.object.author query %}</a>
+                    </div>
+                    <div class="eskimo-date-meta">
+                        <a><i class="fa fa-calendar-times-o ml-2 mr-1"></i> {% my_highlight article.object.create_date|date:'Y-m-d' query %}</a>
+                    </div>
+                    <div class="eskimo-reading-meta"><a><i class="fa fa-eye ml-2 mr-1"> {{ article.object.views }}浏览</i></a><a> <i class="fa fa-comments-o"></i> 
+                    <a target="_blank" href="/article/{{ article.object.slug }}#comments">评论</a></a></div>
+                </div>
+            </div>
+            <div class="card-horizontal-right" >
+                <a style="background-image: url(&quot;{{ article.object.img.url }}&quot;);" class="card-featured-img" href="/article/{{ article.object.slug }}"></a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="no-post">查询失败，没有相关内容</div>
+    {% endfor %}
+<!-- PAGINATION -->
+<div class="eskimo-pager">
+    <ul class='pagination flex-wrap'>
+    {% if page_obj.has_previous %}
+    <li class='page-item'><a class='page-link'  href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-chevron-left"></i></a></li>
+    {% else %}
+    {% endif %}
+    <h4 class="mx-2">第&nbsp;{{ page_obj.number }}&nbsp;/&nbsp;{{ paginator.num_pages }}&nbsp;页</h4>
+    {% if page_obj.has_next %}
+    <li class='page-item'><a class='page-link'  href="?page={{ page_obj.next_page_number }}"><i class="fa fa-chevron-right"></i></a></li>
+    {% else %}
+    <!-- <h4 class="" title="当前页已经是末页">末页</h4> -->
+    {% endif %}
+</div>
+<div class="clearfix"></div>
+<!-- DIVIDER -->
+<hr class="section-divider" />
+
+
+ 
+{% endblock %}   

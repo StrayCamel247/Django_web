@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import IndexView, DetailView, CategoryView
+from .views import IndexView, DetailView, CategoryView, MySearchView
 app_name='blog'
 urlpatterns = [
     # 首页
@@ -17,6 +17,8 @@ urlpatterns = [
     # url(r'^category/project/$', ProjectView, name='project'),
     # 提问交流
     # url(r'^category/question/$', QuestionView, name='question'),
+    # 全文搜索
+    url(r'^search/$', MySearchView.as_view(), name='search'),
     # 分类页面
     url(r'^category/(?P<slug>[\w-]+)/$', CategoryView.as_view(), name='category'),
     url(r'^category/(?P<slug>[\w-]+)/hot/$', CategoryView.as_view(), {'sort': 'v'},

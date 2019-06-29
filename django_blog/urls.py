@@ -29,19 +29,13 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from apps.blog.sitemaps import ArticleSitemap, CategorySitemap
 #网站地图
-
-
 sitemaps = {
     'articles': ArticleSitemap,
     'categories': CategorySitemap
 }
-xadmin.autodiscover()
-
-# version模块自动注册需要版本控制的 Model
-from xadmin.plugins import xversion
-xversion.register_models()
 
 urlpatterns = [
+    path('mdeditor/',include('mdeditor.urls')),
     path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
     path('mdeditor/', include('mdeditor.urls')),  # Django-mdeditor URLS
@@ -59,6 +53,12 @@ urlpatterns = [
     path('sitemap.xml/', sitemap, {'sitemaps':sitemaps}, name = 'django.contrib.sitemaps.views.sitemap'),
 ]
 # tools
+#mdeditor debug
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# if settings.DEBUG:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.API_FLAG:
+#     urlpatterns.append(url(r'^api/v1/',include(router.urls,namespace='api')))    # restframework
+
+if settings.TOOL_FLAG:
+    urlpatterns.append(url(r'^tool/', include('apps.tool.urls',namespace='tool')))    # tool

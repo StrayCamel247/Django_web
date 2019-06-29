@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
+{% block head_title %}{{ search_instance.name }}_{{ search_tag }}{% endblock %}
+{% block metas %}
+    <meta name="description" content="{{ search_instance.description }}">
+    <meta name="keywords" content="{{ search_instance.name }}">
+{% endblock %}
 {% block content %}
 <div class="description bg-white px-3 pt-3 pb-1">
     <p class="float-right mb-0">共<span class="mx-2 text-info">{{ paginator.count }}</span>篇</p>

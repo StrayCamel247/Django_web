@@ -5,336 +5,284 @@
 <html lang="en-US">
 
 <head>
-    <title>{% block title %}{% endblock title %}</title>
-    <meta name="description"  content="{{ SITE_DESCRIPTION }}" />
-
-    <meta name="keywords"  content="{{ SITE_KEYWORDS}}" />
-    <link rel='next' href='http://boywithacoin.cn/'/>
-
+    <title>{% block head_title %}{% endblock %}{{ site_end_title }}</title>
     <!-- META TAGS -->
+    {% block metas %}
+    {% endblock %}
     <meta charset="UTF-8">
     <meta name="msvalidate.01" content="037C463FCD6495301662778FC939CD57" />
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="description" content="">
-    <meta name="keywords" content="">
     <meta name="baidu-site-verification" content="PVrsG5G9a2" />
     <!-- CSS FILES -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <link href="{% static 'comment/css/base_comment.css' %}" rel="stylesheet">
-    <link href="{% static 'comment/css/notification.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'css/fontawesome.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'css/slick.css' %}" rel="stylesheet" type="text/css">
-    <!-- <link href="{% static 'css/rrssb.css' %}" rel="stylesheet" type="text/css"> -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'mdeditor/css/editormd.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'mdeditor/css/editormd.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'mdeditor/css/editormd.preview.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'mdeditor/js/lib/codemirror/codemirror.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'mdeditor/js/lib/codemirror/addon/search/matchesonscrollbar.css' %}" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/x-icon" mce_href="/static/image/favicon.ico" href="/static/image/favicon.ico"  media="screen" />
-   
-    {% block top-file %}
+    
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
+    {% block top_file %}
     {% endblock %}
-</head>
 
 <body>
     <!-- READING POSITION INDICATOR -->
-    <progress value="0" id="eskimo-progress-bar">
+    <progress value="0" id="eskimo-progress-bar" class="eskimo-progress-bar" >
         <span class="eskimo-progress-container">
             <span class="eskimo-progress-bar"></span>
         </span>
     </progress>
-
+   
     <!-- SITE WRAPPER -->
-    <div id="eskimo-site-wrapper">
-
+    <div id="eskimo-site-wrapper" class="eskimo-site-wrapper">
+    
+       
         <!-- MAIN CONTAINER -->
+        {% block mdeditor_contain %}
         <main  class="container-fluid row">
 
-            <div class="col-lg-9">
-            <!-- SLIDER-LSEFT -->
-            <!-- 覆盖轮播图的模块 -->
-            {% block main_contain %} 
-            <div class="eskimo-carousel-container eskimo-bg-loader">
-                    <div id="eskimo-post-slider" class="eskimo-slider">
-                        <!-- SLIDE -->
+            
 
-                    {% get_carousel_index as carousels %}
-                    {% for carousel in carousels %}
-                        <div>
-                            <a class="eskimo-slider-img" href="single-post.html"></a>
-                           <!--  <ul class="eskimo-slider-image-meta eskimo-image-meta-post">
-                                <li><a href="single-post.html"><span class="badge badge-default">May 28, 2018</span></a></li>
-                                <li><a href="category.html"><span class="badge badge-default">Food &amp; Drink</span></a></li>
-                            </ul> -->
-                            <div class="clearfix"></div>
-                            <img src="{{ carousel.img.url }}" alt="{{ carousel.img.url }}" />
-                            <!-- <div class="eskimo-slider-desc">
-                                <div class="eskimo-slider-desc-inner">
-                                    <h2 class="card-title">Ketchup Flavored Ice Cream!</h2>
-                                    <p>Mandaremus illum possumus ullamco e qui de nisi enim anim. Si nulla si nisi, veniam litteris sed excepteur ne ut amet deserunt tempor nam expetendis de enim mandaremus. Ita ea minim esse cillum ut eram arbitror ullamco. Tamen ad expetendis ab ipsum proident</p>
+            <div class="col-lg-9">
+                <!-- SLIDER-LSEFT -->
+                <!-- 覆盖轮播图的模块 -->
+                {% block main_contain %} 
+                    <div class="eskimo-carousel-container eskimo-bg-loader">
+                            <div id="eskimo-post-slider" class="eskimo-slider eskimo-post-slider">
+                                <!-- SLIDE -->
+
+                            {% get_carousel_index as carousels %}
+                            {% for carousel in carousels %}
+                                <div>
+                                    <a class="eskimo-slider-img" href="{{ carousel.url }}"></a>
+                                   
+                                    <div class="clearfix"></div>
+                                    <img src="{{ carousel.img.url }}" alt="{{ carousel.img.url }}" />
+                                    
                             </div>
-                        </div> -->
+                            {% endfor %}  
+                        </div>
+                    </div>   
+                    <hr>
+                    <!-- 不覆盖轮播图的模块 -->
+                    <div class="alert alert-info">
+                        <div class="close" data-dismiss="alert">×</div>
+                        <a>Info</a>
+                        <p>Heads up! This alert needs your attention, but it's not super important. </p>
                     </div>
-                    {% endfor %}  
-                </div>
-            </div>   
-            <hr>
-            <!-- 不覆盖轮播图的模块 -->
-            <div class="alert alert-info">
-                <div class="close" data-dismiss="alert">×</div>
-                <a>Info</a>
-                <p>Heads up! This alert needs your attention, but it's not super important. </p>
-            </div>
-            {% block content %}
-            {% endblock %}
-            {% endblock %}
+                    {% block content %}
+                    {% endblock %}
+                {% endblock %}
             </div>
             <!-- SIDER-RIGHT -->
             <div class="col-lg-3">
                 <!-- AUTHOR BOX -->
-             {% include 'auther_box.html' %}
-            <!-- CATEGORIES -->
-            <div class="eskimo-categories">
-                <p class=""><span><i class="my-fa fa fa-book" aria-hidden="true"></i>&nbsp;分类</span></p>
-                <ul>
-                    {% get_categoty_list as categories %}
-                    {% get_article_num as num%}
-                    {% for each in categories %}
-                            <li><a href="{{ each.get_absolute_url }}"></i>&nbsp;{{ each.name }}
+                {% include 'auther_box.html' %}
+                <!-- 分类 -->
+                <div class="eskimo-categories">
+                    <p class=""><span><i class="my-fa fa fa-book" aria-hidden="true"></i>&nbsp;分类</span></p>
+                    <ul>
+                        {% get_categoty_list as categories %}
+                        {% get_article_num as num%}
+                        {% for each in categories %}
+                        <li>
+                            <a href="{{ each.get_absolute_url }}"></i>&nbsp;{{ each.name }}
                                 <span class="badge badge-pill badge-info">{{each.total_num}}</span>
                              </a>
                             <div class="progress progress-striped active">
 
-                            <a id="get_num" class="progress-bar progress-bar-success" style="width: {%  widthratio  each.total_num num 100 %}%"  ></a>
+                                <a id="category_progress" class="progress-bar progress-bar-success" style="width: {%  widthratio  each.total_num num 100 %}%"  >
+                                </a>
                             </div>
-                            </li>
-                    {% endfor %}
-                    <hr>
-                </ul>
-            </div>
-            <!-- POPULAR POSTS -->
-            <div class="eskimo-post-list-wrapper">
-                <p class=""><span><i class="fa fa-fire mr-1"></i>&nbsp;|热门</span></p>
-                {% get_article_list '-views' 4 as pop_article %}
-                {% for pop in pop_article %}
-                <!-- POST 1 -->
-                <div class="eskimo-post-list">
-                    <div class="eskimo-post-list-left">
-                        <a href="article/{{ pop.slug }}">
-                            <img src="{{ pop.img.url }}" alt="">   
-                        </a>
-                    </div>
-                    <div class="eskimo-post-list-right">
-                        <p class="eskimo-post-list-title">
-                            <a href="/article/{{ pop.slug }}">{{ pop.title }}</a>
-                        </p>
-                        <div class="eskimo-post-list-info">
-                            <i
-    class="fa fa-heart-o"></i>({{ pop.views }}) 阅览
-                        </div>
-                    </div>
+                        </li>
+                        {% endfor %}
+                        <hr>
+                    </ul>
                 </div>
-                {% endfor %}
-
+                <!-- 热门 -->
                 <div class="eskimo-post-list-wrapper">
-                <p class=""><span><i class="fa fa-link mr-2 f-17"></i>&nbsp;|友情链接</span></p>
-                
-                {% get_friends as friends %}
-                {% if friends %}
-                {% for friend in friends %}
-                <!-- POST 1 -->
-                <div class="eskimo-post-list">
-                    <div class="eskimo-post-list-left ">
-                        <a href="{{ friend.link }}">
-                            <img src="{{ friend.logo }}" alt="">   
-                        </a>
-                    </div>
-                    <div class="eskimo-post-list-right">
-                        <p class="eskimo-post-list-title">
-                            <h6 href="{{ friend.link }}">{{ friend.name }}</h6>
-                        </p>
-                       
-                    </div>
-                </div>
-                {% endfor %}
-                {% else %}
-                        &nbsp;&nbsp;暂无友链，欢迎来战
-                {% endif %}
-                
-
-            <!-- BANNER -->
-            <!-- <div class="eskimo-widget">
-                <a href="http://www.bootstrapmb.com/portfolio"> 
-                    <img src="uploads/2018/05/banner.png" alt="banner" class="img-fluid mx-auto d-block">
-                </a>
-            </div> -->
-            <!-- TAGS -->
-            <!-- <div class="eskimo-widget">
-                <h5 class="eskimo-title-with-border"><span>Tags</span></h5>
-                <div class="eskimo-tag-cloud">
-                    {% for tag in tag_list %}
-                    <a href="#">&nbsp;  tag  <span>x</span></a>
-                    {% endfor %}
-                </div>
-            </div> -->
-                </div>
-
-            
-            <hr>
-            <div class="col-lg-3">
-            </div>
-            <!--ESKIMO SIDEBAR -->
-            <div id="eskimo-sidebar">
-                <div id="eskimo-sidebar-wrapper" class="d-flex align-items-start flex-column h-100 w-100">
-                 
-                <!-- AUTHOR BOX -->
-                <div class="eskimo-author-box eskimo-add-border eskimo-widget">
-                    <div href="/" class="" >
-                        {% block login_contain %}
-                        <a href="/">
-                            {% if user.is_authenticated %}
-                                 {% if user.socialaccount_set.exists and user.avatar.url == '/media/avatar/default.png' %}
-                                    <img class="eskimo-author-img" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user }}">
-                                    {% else %}
-                                    <img class="eskimo-author-img" src="{{ user.avatar.url }}" alt="{{ user }}">
-                                    {% endif %}
-    <p class="eskimo-author-subtitle"></p>
-                                    <div class="mp-accordion-item">
-                        <a class="mp-accordion-title collapsed" data-toggle="collapse" data-parent="#mp-accordion-1" href="#mp-accordion-item-3" aria-expanded="false" aria-controls="mp-accordion-item-3">
-                           &nbsp;{{ user.username }}&nbsp;
-                        </a>
-                        <div id="mp-accordion-item-3" class="collapse" role="tabpanel" style="">
-                            <div class="mp-accordion-content">
-                                <p> <i class="fa fa-bell"></i></p>
-                                <a href='/accounts/logout'>退出登陆</a>
+                    <p class=""><span><i class="fa fa-fire mr-1"></i>&nbsp;|热门</span></p>
+                    {% get_article_list '-views' 4 as pop_article %}
+                    {% for pop in pop_article %}
+                    <div class="eskimo-post-list">
+                        <div class="eskimo-post-list-left">
+                            <a href="article/{{ pop.slug }}">
+                                <img src="{{ pop.img.url }}" alt="">   
+                            </a>
+                        </div>
+                        <div class="eskimo-post-list-right">
+                            <p class="eskimo-post-list-title">
+                                <a href="/article/{{ pop.slug }}">{{ pop.title }}</a>
+                            </p>
+                            <div class="eskimo-post-list-info">
+                                <i class="fa fa-heart-o"></i>({{ pop.views }}) 阅览
                             </div>
                         </div>
-                                </div>
+                    </div>
+                    {% endfor %}
+                     <!-- 归档 -->
+                                            
+                    <!-- 友链 -->
+                    <div class="eskimo-post-list">
+                        <p class=""><span><i class="fa fa-link mr-2 f-17"></i>&nbsp;|友情链接</span></p>
+                        
+                        {% get_friends as friends %}
+                        {% if friends %}
+                        {% for friend in friends %}
+                        <div class="eskimo-post-list">
+                            <div class="eskimo-post-list-left ">
+                                <a href="{{ friend.link }}">
+                                    <img src="{{ friend.logo }}" alt="">   
+                                </a>
+                            </div>
+                            <div class="eskimo-post-list-right">
+                                <p class="eskimo-post-list-title">
+                                    <h6 href="{{ friend.link }}">{{ friend.name }}</h6>
+                                </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                                &nbsp;&nbsp;暂无友链，欢迎来战
+                        {% endif %}
+                    </div>
+
+
+                </div>
+            </div>
+        </main>
+        {% endblock %}
+
+        <!--ESKIMO SIDEBAR -->
+        <div id="eskimo-sidebar" class="eskimo-sidebar" >
+            <div id="eskimo-sidebar-wrapper" class="eskimo-sidebar-wrapper d-flex align-items-start flex-column h-100 w-100">
+             
+            <!-- AUTHOR BOX -->
+            <div class="eskimo-author-box eskimo-add-border eskimo-widget">
+                <div href="/" class="" >
+                    {% block login_contain %}
+                    <a href="/">
+                        {% if user.is_authenticated %}
+                             {% if user.socialaccount_set.exists and user.avatar.url == '/media/avatar/default.png' %}
+                                <img class="eskimo-author-img" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user }}">
                                 {% else %}
-                                <img src="{% static 'image/logo.png' %}" alt="JOHN DOE" />
-                                <div class="text-center m-2 m-md-3 f-16" id="no-editor">
-                                    <div href="#eskimo-panel">
-                                        <a class="text-danger" href="/accounts/login">登录</a> 或
-                                        <a class="text-danger" href="/accounts/signup">注册</a> 
-                                    </div>
-                                    <div class="login-link mt-2">
-                                        <a class="mx-3" href="/accounts/github/login/?next={{ request.path }}" title="社交账号登录有点慢，请耐心等候！"><i
-                                                class="fa fa-github fa-2x"></i></a>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            {% endblock %}
-                        </a>
-                    </div>
-                    </div>
-                    
-                    <!-- MENU CONTAINER -->
-                    <div id="eskimo-sidebar-cell" class="w-100">
-                        <!-- MENU -->
-                        <nav id="eskimo-main-menu" class="menu-main-menu-container">    
-                            <ul class="eskimo-menu-ul">
-                                
-                                <li><a href="#" class="eskimo-menu-up">工具</a>
-                                    <ul class="sub-menu" style="display: block;">
-                                        <li><a href="/md2html" title=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;md2html</a></li>
-                                        <li><a href="#" title="">developing . . </a></li>
-                                    </ul>   
-                                </li>
+                                <img class="eskimo-author-img" src="{{ user.avatar.url }}" alt="{{ user }}">
+                                {% endif %}
+                                <p class="eskimo-author-subtitle"></p>
 
-                                {% get_data_date as data_date %}
 
-                                
-                                <li><a href="#">归档</a>
-                                    {% if data_date %}
-                                    <ul class="sub-menu">
-
-                                        {% for date in data_date %}
-                                        <li><a href='{% url 'blog:date' date|date:'Y' date|date:'m' %}'>{{ date|date:'Y-m' }}</a></li>
-                                        
-                                        <ul class="sub-menu">
-                                        <li><a href="">blog_1</a></li>
-                                        {% endfor %}
-                                        {% endif %}
-                                    </ul>
-                                    </ul>
-                                </li>
-                                <li><a href="#">TODO</a>
-                                    <ul class="sub-menu">
-                                            <li><a href="#">评论区界面优化</a></li>
-                                            <hr>
-                                            <li><a href="#">做出todo——model</a></li>
-                                            <hr>
-                                            <li><a href="#">mdeditor在线编辑器bug优化</a></li>
-                                            <hr>
-                                            <li><a href="#">编辑器统一用mdeditor卸载markdown包</a></li>
-                                    </ul>
-                                </li>
-
-                                
-                            </ul>
-                            
-                        </nav>
-                    </div>
-                    <!-- SOCIAL MEDIA ICONS -->
-                    <div id="eskimo-social-cell" class="mt-auto w-100">
-                        <div id="eskimo-social-inner">
-                            <ul class="eskimo-social-icons">
-                                <li><a href="https://github.com/Freen247/django_blog"><i class="fa fa-github"></i></a></li>
-                                <!-- <li><a href="mailto:aboysintky@outlook.com"><i class="fa fa-envelope-o" ></i></a></li> -->
-                                <li><a id ="eskimo-open-search" href="#"><i class="fa fa-search"></i></a></li>
-                                
-                                <li><a href="/xadmin/"><i class="fa fa-wrench"></i></a></li>
-                                
-                            <div class="clearfix"></div>
+                <div class="mp-accordion-item">
+                    <a class="mp-accordion-title collapsed" data-toggle="collapse" data-parent="#mp-accordion-1" href="#mp-accordion-item-3" aria-expanded="false" aria-controls="mp-accordion-item-3">&nbsp;{{ user.username }}&nbsp;</a>
+                    <div id="mp-accordion-item-3" class="collapse" role="tabpanel" style="">
+                        <div class="mp-accordion-content">
+                            <p> <i class="fa fa-bell"></i></p>
+                            <a href='/accounts/logout'>退出登陆</a>
                         </div>
                     </div>
                 </div>
-            </div>
+                {% else %}
+                <img src="{% static 'image/logo.png' %}" alt="JOHN DOE" />
+                <div class="text-center m-2 m-md-3 f-16" id="no-editor">
+                    <div href="#">
+                        <a class="text-danger" href="/accounts/login">登录</a> 或
+                        <a class="text-danger" href="/accounts/signup">注册</a> 
+                    </div>
+                    <div class="login-link mt-2">
+                        <a class="mx-3" href="/accounts/github/login/?next={{ request.path }}" title="社交账号登录有点慢，请耐心等候！"><i class="fa fa-github fa-2x"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+                {% endblock %}
 
-            <!-- NAV-ICON -->
-            <nav id="nav-icon" class="">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-            </nav>
-            
-            <!-- <nav id="menu-overlay" class="">
-              <ul id="menu" class="menu-click list-unstyled">
-                <li><a data-scroll="" href="#profile" class="smooth-scroll">TOP</a></li>
-                <li><a data-scroll="" href="#services" class="smooth-scroll">SERVICES</a></li>
-                <li><a data-scroll="" href="#portfolio" class="smooth-scroll">WORK</a></li>
-                <li><a data-scroll="" href="#resume" class="smooth-scroll">RESUME</a></li>
-                <li><a data-scroll="" href="#contact" class="smooth-scroll">CONTACT</a></li>
-              </ul>
-            </nav> --> 
-        </main>
+                </div>
+            </div>
+                
+                <!-- MENU CONTAINER -->
+                <div id="eskimo-sidebar-cell" class="eskimo-sidebar-cell w-100">
+                    <!-- MENU -->
+                    <nav id="eskimo-main-menu" class="menu-main-menu-container eskimo-main-menu">    
+                        <ul class="eskimo-menu-ul">
+                            
+                            <li><a href="#" >工具</a>
+                                <ul class="sub-menu">
+                                    <li><a href="/md2html" title=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;md2html</a></li>
+                                    <li><a href="/tool" title="">developing . . </a></li>
+                                </ul>   
+                            </li>
+
+                            {% get_data_date as data_date %}
+
+                            
+                            <li><a href="#">归档</a>
+                                {% if data_date %}
+                                <ul class="sub-menu">
+
+                                    {% for date in data_date %}
+                                    <li><a href='{% url 'blog:date' date|date:'Y' date|date:'m' %}'>{{ date|date:'Y-m' }}</a></li>
+                                    
+                                    <ul class="sub-menu">
+                                    <li><a href="">blog_1</a></li>
+                                    {% endfor %}
+                                    {% endif %}
+                                </ul>
+                                </ul>
+                            </li>
+                            <li><a href="#">TODO</a>
+                                <ul class="sub-menu">
+                                        <li><a href="#">评论区界面优化</a></li>
+                                        <hr>
+                                        <li><a href="#">做出todo——model</a></li>
+                                        <hr>
+                                        <li><a href="#">mdeditor在线编辑器bug优化</a></li>
+                                        <hr>
+                                        <li><a href="#">编辑器统一用mdeditor卸载markdown包</a></li>
+                                </ul>
+                            </li>
+
+                            
+                        </ul>
+                        
+                    </nav>
+                </div>
+                <!-- SOCIAL MEDIA ICONS -->
+                <div id="eskimo-social-cell" class="eskimo-social-cell mt-auto w-100">
+                    <div id="eskimo-social-inner" class="eskimo-social-inner">
+                        <ul class="eskimo-social-icons">
+                            <li><a href="https://github.com/Freen247/django_blog"><i class="fa fa-github"></i></a></li>
+                            <li><a href="accounts/login"><i class="fa fa-sign-in"></i></a></li>
+                            <li><a href="mailto:aboysintky@outlook.com"><i class="fa fa-envelope-o" ></i></a></li>
+                            <li><a href="/xadmin/"><i class="fa fa-wrench"></i></a></li>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- FOOTER -->
-        <footer id="eskimo-footer">
+        <footer id="eskimo-footer" class="eskimo-footer">
             <div class="container">
                 <!-- CREDITS -->
-                <div class="eskimo-footer-credits">
+                <div class="eskimo-footer-credits" class="eskimo-footer-credits">
                     <p>
                         CREATED BY  <a href="http://boywithacoin.cn/" target="_blank">{{ AUTHOR_NAME }}  </a>
                     </p>
                     <hr />
                     <p>
                         <a  href="https://www.djangoproject.com/" target="_blank"  ><i class="fa fa-building" aria-hidden="true"></i>Django</a>-<a href="http://www.getbootstrap.com/" target="_blank"><i class="fa fa-book" aria-hidden="true"></i>Bootstrap4</a>-<a href="http://www.fontawesome.com.cn/" target="_blank"><i class="fa fa-flag" aria-hidden="true"></i> Font Awesome 4.7.1</a>-<a href="https://pandao.github.io/editor.md/examples/index.html"><i class="fa fa-pencil-square" aria-hidden="true"></i>Mdeditor</a>-
-        <a href="/sitemap.xml" title="Sitemap" target="_blank">Sitemap</a>
+                        <a href="/sitemap.xml" title="Sitemap" target="_blank">Sitemap</a>
                     </p>
                 </div>
             </div>
         </footer>
+    
     </div>
 
     <!-- GO TO TOP BUTTON -->
-    <a id="eskimo-gototop" href="#"><i class="fa fa-hand-o-up"></i></a>
+    <a id="eskimo-gototop" class="eskimo-gototop" href="#"><i class="fa fa-hand-o-up"></i></a>
     <!-- SLIDE PANEL OVERLAY -->
-    <div id="eskimo-overlay"></div>
+    <div id="eskimo-overlay" class="eskimo-overlay"></div>
     <!-- SLIDE PANEL -->
-    <div id="eskimo-panels">
+    <div id="eskimo-panels" class="eskimo-panels">
         <aside id="eskimo-panel" class="eskimo-panel">
             <div class="eskimo-panel-inner">
                 <!-- CLOSE SLIDE PANEL BUTTON -->
@@ -387,37 +335,38 @@
         </aside>
     </div>
     <!-- FULLSCREEN SEARCH -->
-    <div id="eskimo-fullscreen-search">
-        <div id="eskimo-fullscreen-search-content">
-            <a href="#" id="eskimo-close-search"><i class="fa fa-times"></i></a>
-            <form role="search" method="get" action="search.html" class="eskimo-lg-form">
+    <div id="eskimo-fullscreen-search" class="eskimo-fullscreen-search">
+        <div id="eskimo-fullscreen-search-content" class="eskimo-fullscreen-search-content">
+            <a href="#" id="eskimo-close-search" class="eskimo-close-search"><i class="fa fa-times"></i></a>
+            <form role="search" method="get" action="{% url 'blog:search' %}" class="eskimo-lg-form">
                 <div class="input-group">
-                    <input type="text" class="form-control form-control-lg" placeholder="Enter a keyword..." name="s" />
+                    <input type="search" class="form-control form-control-lg" placeholder="Enter a kword..." name="q" />
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
             </form>
+
+
         </div>
     </div>
 
     <!-- JS FILES -->
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/salvattore.min.js' %}"></script>
-    <script src="{% static 'js/slick.min.js' %}"></script>
+
+    {% block end_file %}
+    {% endblock %}
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://cdn.bootcss.com/salvattore/1.0.9/salvattore.min.js"></script>
     <script src="{% static 'js/panel.js' %}"></script>
     <script src="{% static 'js/reading-position-indicator.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
-    <script src="{% static 'comment/js/notification.js' %}"></script>
-
-    <script src="{% static 'comment/js/editor.js' %}"></script>
-
-    <script src="{% static 'comment/js/activate-power.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+   <!--  <script src="{% static 'js/TweenLite/TweenLite.min.js' %}">"></script>
+   <script src="{% static 'js/TweenLite/EasePack.min.js' %}">"></script> -->
+     <script src="{% static 'js/backcanvas.js' %}">"></script>
     
-    {% block end_file %}
-    {% endblock %}
     <!-- POST SLIDER -->
     <script>
         (function($) {
@@ -468,6 +417,7 @@
             });
         })(jQuery);
     </script>
+
 </body>
 
 </html>

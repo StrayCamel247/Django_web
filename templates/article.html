@@ -1,122 +1,106 @@
 {% extends "base.html" %}
 {% load blog_tags static comment_tags %}
-{% block content %}
- <!-- PAGE TITLE -->
-                <div id="">
-                     <div class="markdown-body editormd-preview-container" id="custom-toc-container" >#custom-toc-container</div>
-                </div>
-                <!-- PAGE TITLE -->
-                <div class="eskimo-page-title mb-4 mt-2 " style=" padding-right: 15px; opacity: 1;">
-                    <h1><span>{{ object.title }}</span></h1>
-                    <div class="eskimo-page-title-meta">
-                        <div class="eskimo-author-meta">
-                            By <a class="author-meta" href="author.html">{{ object.author }}</a>
-                        </div>
-                        <div class="eskimo-cat-meta">
-                            In <a href="category.html">{{ object.category.name }}</a>
-                        </div>
-                        <div class="eskimo-date-meta">{{ object.create_date|date:'y-m-d' }}</div>
-                        <div class="eskimo-reading-meta">{{ object.views }}次浏览</div>
-                    </div>
-                </div>
-                <!-- FEATURED IMAGE -->
-                <!-- POST CONTENT -->
-                <div class="">
-                	<div class="">
-                         
-                        <div id="test-editormd-view">
-                        <textarea id="append-test" style="display:none;">  {{ article.body|safe }}</textarea>     
-                    </div>
-                    <p>转载请注明：
-                    <a href="{% url 'blog:article' object.slug %}">娃哈哈店长</a> &raquo;
-                    <a href="{% url 'blog:article' object.slug %}">{{ object.title }}</a>
-                    </p>
 
-                    <div class="article-social">
-                        <a href="javascript:;" data-action="ding" data-id="{{ object.id }}" id="Addlike" class="action">
-                            <i class="fa fa-heart-o"></i>喜欢 (<span class="count">{{ object.loves }}</span>)
-                        </a>
-
-                        <span class="or">or</span>
-                        <a href="#" class="sinaweibo fa fa-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
-                                        <a href="#" class="bds_qzone fa fa-star" data-cmd="qzone" title="分享到QQ空间"></a>
-                                        <a href="#" class="tencentweibo fa fa-tencent-weibo" data-cmd="tqq" title="分享到腾讯微博"></a>
-                                        <a href="#" class="qq fa fa-qq" data-cmd="sqq" title="分享到QQ好友"></a>
-                                        <a href="#" class="bds_renren fa fa-renren" data-cmd="renren" title="分享到人人网"></a>
-                                        <a href="#" class="bds_weixin fa fa-weixin" data-cmd="weixin" title="分享到微信"></a>
-                                        <a href="#" class="bds_more fa fa-ellipsis-h" data-cmd="more"></a>
-                        <span class="action action-share bdsharebuttonbox"><i class="fa fa-share-alt"></i>分享 (
-                            <span class="bds_count" data-cmd="count" title="累计分享0次">0</span>)
-                        </span>
-                        {% include 'comment/comment_form.html' %}
-                        {% get_parent_comments article as comment_list %}
-                        {% include 'comment/comment_list.html' %}
-                    </div>
-<!-- 采用mdeditor -->
-                    <!-- <script src="js/zepto.min.js"></script>
-                    <script>        
-                        var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以使用Zepto.js时想支持flowChart/sequenceDiagram就得加上这一句
-                    </script> -->
-                    <script  src="{% static 'mdeditor/js/jquery.min.js' %}"></script>
-                    <script  src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script>
-                    <script  src="{% static 'mdeditor/js/lib/prettify.min.js' %}"></script>
-                    
-                    <script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>
-                     
-                    <script type="text/javascript">
-                        $(function() {
-                            var testEditormdView;
-                            
-                                
-                            testEditormdView = editormd.markdownToHTML("test-editormd-view", {
-                                emoji           : true,
-                                taskList        : true,
-                                tex             : true,  // 默认不解析
-                                flowChart       : true,  // 默认不解析
-                                sequenceDiagram : true,  // 默认不解析
-
-                                htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
-                                tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
-                            });
-
-                        });
-                    </script>
-                    <!-- TAGS -->
-                    <div class="eskimo-meta-tags">
-                        {% for tag in tags %}
-                        <span class="badge badge-default"><a href="category.html">  tag  </a></span>
-                        {% endfor %}
-                    </div>
-                    <!-- POST NAVIGATION -->
-                    <div class="eskimo-post-nav-wrapper ">
-                        <!-- PREVIOUS POST -->
-                        <!-- <div class="eskimo-post-nav-left-row ">
-                            <div class="eskimo-post-nav-table ">
-                                {% if prev_post %}
-                                <a class="eskimo-post-nav" >
-                                </a>
-                                <div class="eskimo-post-nav-link">
-                                    <a href="{% url 'detail' id=prev_post.id %}" class="eskimo-post-nav" ><i class="fa fa-hand-o-left" aria-hidden="true"></i>&nbsp;  prev_post.title  </a>
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div> -->
-                        <!-- NEXT POST -->
-                        <!-- <div class="eskimo-post-nav-left-row">
-                            <div class="eskimo-post-nav-table">
-                                {% if next_post %}
-                                <div class="eskimo-post-nav-link">
-                                    <a href="{% url 'detail' id=prev_post.id %}" class="eskimo-post-nav" >  next_post.title  &nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></a>
-                                </div>
-                                <a class="eskimo-post-nav" >
-                                    <i class="fa fa-chevron-right"></i>
-                                </a>
-                                {% endif %}
-                            </div>
-                        </div> -->
-                    </div>
-                </div>
-            </div>
-                <div class="clearfix"></div>
-                <hr />
+{% block head_title %}{{ article.title }}_{{ article.category }}{% endblock %}
+{% block metas %}
+<meta name="description" content="{{ article.summary }}">
+<meta name="keywords" content="{% keywords_to_str article %}">
+{% endblock %}
+{% block top_file %}
+<!-- 评论区 -->
+<link href="{% static 'comment/css/base_comment.css' %}" rel="stylesheet">
+<link href="{% static 'comment/css/notification.css' %}" rel="stylesheet">
+<!-- 文本区 -->
+<link href="{% static 'mdeditor/css/editormd.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block main_contain %}
+ <!-- 文章目录标题 -->
+<div id="">
+     <div class="markdown-body editormd-preview-container" id="custom-toc-container" >文章目录</div>
+</div>
+<!-- 标题 -->
+<div class="eskimo-page-title mb-4 mt-2 " style=" padding-right: 15px; opacity: 1;">
+    <h1><span>{{ object.title }}</span></h1>
+    <div class="eskimo-page-title-meta">
+        <div class="eskimo-author-meta">
+            By <a class="author-meta" href="author.html">{{ object.author }}</a>
+        </div>
+        <div class="eskimo-cat-meta">
+            In <a href="category.html">{{ object.category.name }}</a>
+        </div>
+        <div class="eskimo-date-meta">{{ object.create_date|date:'y-m-d' }}</div>
+        <div class="eskimo-reading-meta">{{ object.views }}次浏览</div>
+    </div>
+</div>
+<!-- 文章内容 -->
+<div class="">
+ <div id="test-editormd-view">
+    <textarea id="append-test" style="display:none;">  {{ article.body|safe }}</textarea>     
+</div>
+<p>转载请注明：
+<a href="{% url 'blog:article' object.slug %}">娃哈哈店长</a> &raquo;
+<a href="{% url 'blog:article' object.slug %}">{{ object.title }}</a>
+</p>
+<div class="article-social">
+<!-- 评论区 -->
+{% include 'comment/comment_form.html' %}
+{% get_parent_comments article as comment_list %}
+{% include 'comment/comment_list.html' %}
+</div>
+<!-- 采用mdeditor来解析文章内容并生成其html样式 -->
+    <!-- <script src="js/zepto.min.js"></script>
+    <script>        
+        var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以使用Zepto.js时想支持flowChart/sequenceDiagram就得加上这一句
+    </script> -->
+    {% block end_file %}
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{% static 'comment/js/notification.js' %}"></script>
+    <script src="{% static 'comment/js/editor.js' %}"></script>
+    <script src="{% static 'comment/js/activate-power.js' %}"></script>
+    <!-- mdeditor -->
+    <script  src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script>
+    
+    <script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>
+    <!-- 绘制序列图 -->
+    <script src="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
+    <!-- 绘制流程图 -->
+    <script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
+    {% endblock %}
+    
+    <script type="text/javascript">
+        $(function() {
+            var testEditor;
+                testEditor = editormd("test-editormd", {
+                    width     : "100%",
+                    path : "{% static 'mdeditor/js/lib/' %}",
+                    height    : 250,
+                    todoList  : true,
+                    codeFold : true,
+                    searchReplace : true,
+                    emoji : true,
+                    taskList : true,
+                    tocm            : true,         // Using [TOCM]
+                    tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                    flowChart : true,             // 开启流程图支持，默认关闭
+                    sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                });
+              var testEditormdView;
+                testEditormdView = editormd.markdownToHTML("test-editormd-view", {
+                    todoList  : true,
+                    codeFold : true,
+                    searchReplace : true,
+                    emoji : true,
+                    taskList : true,
+                    tocm            : true,         // Using [TOCM]
+                    tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                    flowChart : true,             // 开启流程图支持，默认关闭
+                    tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
+                });
+         });
+    </script>
+    
+</div>
+<div class="clearfix"></div>
+<hr/>
 {% endblock %}   
