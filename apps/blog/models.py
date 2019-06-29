@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
+from mdeditor.fields import MDTextField
 from uuslug import slugify
 import markdown
 import re
@@ -47,7 +48,7 @@ class Carousel(models.Model):
     # content = models.CharField('描述', max_length=80)
     # img_url = models.CharField('图片地址', max_length=200)
     url = models.CharField('跳转链接', max_length=200, default='#', help_text='图片跳转的超链接，默认#表示不跳转')
-    img = models.ImageField(upload_to='media',default="/static/images/summary.jpg")
+    img = models.ImageField(upload_to='media',blank=True,null=True,default="/static/images/summary.jpg")
     class Meta:
         verbose_name = '图片轮播'
         verbose_name_plural = verbose_name
@@ -92,16 +93,16 @@ class Article(models.Model):
     # 文章默认缩略图
     IMG_LINK = '/static/images/summary.jpg'
     # 文章作者
-    author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, verbose_name='作者',null=False ,default='root')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, verbose_name='作者',null=False ,default='2')
     title = models.CharField(max_length=150, verbose_name='文章标题')
     summary = models.TextField('文章摘要', max_length=230, default='文章摘要等同于网页description内容，请务必填写...')
     # 文章内容
-    body = models.TextField(verbose_name='文章内容')
+    body = MDTextField(verbose_name='文章内容')
     img_link = models.CharField('图片地址', default=IMG_LINK, max_length=255)
     create_date = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
     update_date = models.DateTimeField(verbose_name='修改时间', auto_now=True)
     views = models.IntegerField('阅览量', default=0)
-    img = models.ImageField(upload_to='media',default="/static/images/summary.jpg")
+    img = models.ImageField(upload_to='media',blank=True,null=True,default="/static/images/summary.jpg")
     # 文章唯一标识符
     slug = models.SlugField(editable=False)
     category = models.ForeignKey(Category,on_delete=models.CASCADE, verbose_name='文章分类', null=False ,default='2')
@@ -122,11 +123,11 @@ class Article(models.Model):
     def get_absolute_url(self):
         return reverse('blog:article', kwargs={'slug': self.slug})
 
-    # def body_to_markdown(self):
-    #     return markdown.markdown(self.body, extensions=[
-    #         'markdown.extensions.extra',
-    #         'markdown.extensions.codehilite',
-    #     ])
+    def body_to_markdown(self):
+        return markdown.markdown(self.body, extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+        ])
 
     def update_views(self):
         self.views += 1

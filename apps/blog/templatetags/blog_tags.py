@@ -40,6 +40,12 @@ def get_data_date():
     return article_dates
 
 
+@register.simple_tag
+def keywords_to_str(art):
+    '''将文章关键词变成字符串'''
+    keys = art.keywords.all()
+    return ','.join([key.name for key in keys])
+
 # 返回标签查询集
 @register.simple_tag
 def get_tag_list():
@@ -157,21 +163,6 @@ def get_article_next(article_id):
         return
 
 
-# 获取文章详情页下方的推荐阅读文章
-@register.simple_tag
-def get_category_article():
-    article_4 = get_article_list('views', 4)
-    article_8 = get_article_list('views', 8)
-    return {'article_4': article_4, 'article_8': article_8}
-
-
-# 获取文章大分类
-# @register.simple_tag
-# def get_title(category):
-#     cat = Category.objects.filter(slug=category)
-#     if cat:
-#         return cat[0]
-
 
 # 获取文章 keywords
 @register.simple_tag
@@ -182,10 +173,7 @@ def get_article_keywords(article):
         keywords.append(key.name)
     return ','.join(keywords)
 
-
-
-
-
+#搜索高亮
 @register.simple_tag
 def my_highlight(text, q):
     """自定义标题搜索词高亮函数，忽略大小写"""

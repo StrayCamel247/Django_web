@@ -1,0 +1,49 @@
+.tool-cate .card-header strong {
+    padding-bottom: 12px;
+    border-bottom: 2px solid #00AAEE;
+}
+.tool-cate .card-header {
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+.tool-header img {
+    max-width: 5rem;
+}
+.tool-des {
+    height: 8rem;
+}
+.tool-des p {
+    line-height: 2;
+}
+.title-info {
+    border-left: 4px solid #17a2b8;
+}
+pre {
+    border: none;
+    background-color: #e4eaef;
+    border-radius: 3px;
+    font-size: 85%;
+    padding: .5rem;
+}
+.re-result pre {
+    margin-bottom: 0;
+}
+.re-result p {
+    margin-bottom:5px;
+}
+.tool-list a:hover {
+    color:#222;
+}
+.tool-link-text {
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.card ul {
+    line-height:2
+}
+@media (min-width: 1200px) {
+.tool-list .card:hover {
+    box-shadow:0 3px 9px rgba(0, 0, 0, 0.275)
+}
+}

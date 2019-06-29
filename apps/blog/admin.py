@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article,  Category, Carousel, Keyword, FriendLink
+from .models import Article, Category, Carousel, Keyword, FriendLink
 
 
 @admin.register(Article)

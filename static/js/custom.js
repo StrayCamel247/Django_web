@@ -1,7 +1,10 @@
 (function ($) {
     "use strict";
 
-
+    // window.onload =function(){
+    //     var progress = document.getElementById("category_progress").style.width; 
+    //     $('#category_progress').val(progress);
+    // }
     /* HORIZONTAL CARD IMAGES */
     var cardImages = function () {
         $('body').find(".card-featured-img").each(function () {
@@ -74,7 +77,7 @@
     });
     /* EVENTS */
     $(document).ready(function () {
-        adjustPageTitle();
+        // adjustPageTitle();
         cardImages();
         $('#eskimo-main-menu').find('.eskimo-menu-ul > li:has(ul) > a').addClass("eskimo-menu-down");
         $('body').find('select').addClass('custom-select');
@@ -82,7 +85,7 @@
     });
     
     $(window).on('resize orientationchange', function () {
-        adjustPageTitle();
+        // adjustPageTitle();
         var ww = document.body.clientWidth;
         if (ww < 1200) {
             $("#eskimo-social-cell,#eskimo-main-menu").hide();

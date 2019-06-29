@@ -23,6 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '1ek)3z+-*)(&1c&3fv=2*=lr_cyst85w&a4y#5!2m*ik@=&!p0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+# 自由选择需要开启的功能
+# 是否开始[在线工具]应用
+TOOL_FLAG = True
+# 是否开启[API]应用
+API_FLAG = False
+# DEBUG模式是否开始的选择
+# 值为0：所有平台关闭DEBUG,值为1:所有平台开启DEBUG,值为其他：根据平台类型判断开启（默认设置的Windows下才开启）
 DEBUG = True
 
 ALLOWED_HOSTS = ['boywithacoin.cn', '127.0.0.1','www.boywithacoin.cn']
@@ -40,12 +48,13 @@ INSTALLED_APPS = [
     'apps.blog',
     'apps.user',
     'apps.comment',
+    'apps.tool',
     #lib
     'mdeditor',#django mdeditor富文本编辑器
     'django.contrib.sitemaps',#网站地图
     'uuslug',#将中文转化成拼音 slug 的插件
-    'markdown',
-    
+    'markdown',#python自带的md翻译工具
+    #xadmin后台需要
     'xadmin',
     'crispy_forms',
     'reversion',  # bootstrap表单样式
@@ -57,8 +66,60 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
      # github 登陆 
     'allauth.socialaccount.providers.github',
-    # auth 身份验证 与 allauth 无关
+    # 搜索
+    'haystack',
+    # rest框架
+    'rest_framework',
 ]
+#mdeditor
+MDEDITOR_CONFIGS = {
+    'default':{
+        'width': '90% ',  # Custom edit box width
+        'heigth': 500,  # Custom edit box height
+        'toolbar': ["undo", "redo", "|",
+                    "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+                    "h1", "h2", "h3", "h5", "h6", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime"
+                    "emoji", "html-entities", "pagebreak", "goto-line", "|",
+                    "help", "info",
+                    "||", "preview", "watch", "fullscreen"],  # custom edit box toolbar 
+        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],  # image upload format type
+        'image_floder': 'editor',  # image save the folder name
+        'theme': 'default',  # edit box theme, dark / default
+        'preview_theme': 'default',  # Preview area theme, dark / default
+        'editor_theme': 'default',  # edit area theme, pastel-on-dark / default
+        'toolbar_autofixed': True,  # Whether the toolbar capitals
+        'search_replace': True,  # Whether to open the search for replacement
+        'emoji': True,  # whether to open the expression function
+        'tex': True,  # whether to open the tex chart function
+        'flow_chart': True,  # whether to open the flow chart function
+        'sequence': True  # Whether to open the sequence diagram function
+    }
+    
+}
+#搜索配置
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        # 选择语言解析器为自己更换的结巴分词
+        'ENGINE': 'apps.blog.whoosh_cn_backend.WhooshEngine',
+        # 保存索引文件的地址，选择主目录下，这个会自动生成
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    },
+}
+#指定什么时候更新索引，这里定义为每当有文章更新时就更新索引。由于博客文章更新不会太频繁，因此实时更新没有问题。
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+#缓存配置
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
 
 AUTHENTICATION_BACKENDS = (
     # auth 身份验证 与 allauth 无关
@@ -69,8 +130,8 @@ AUTHENTICATION_BACKENDS = (
 
 
 # 网站信息设置 用于SEO
-SITE_DESCRIPTION = "娃哈哈店长的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好"
-SITE_KEYWORDS = "娃哈哈店长,静觅,网络,IT,技术,博客,Python"
+SITE_DESCRIPTION = "娃哈哈店长的个人技术博客，django_blog，django2.0+python3技术搭建。"
+SITE_KEYWORDS = "娃哈哈店长,django2.0博客，人工智能,网络,IT,技术,博客,Python"
 AUTHOR_NAME = "娃哈哈店长"
 AUTHOR_DESC = 'early to bed, early to rise.'
 AUTHOR_EMAIL = 'aboyinsky@outlook.com'
@@ -204,5 +265,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
 
 
 # 统一分页设置
-BASE_PAGE_BY = 8
+#指定如何对搜索结果分页，这里设置为每 10 项结果为一页。
+BASE_PAGE_BY = 7
 BASE_ORPHANS = 5
