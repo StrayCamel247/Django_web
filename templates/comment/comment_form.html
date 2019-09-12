@@ -13,17 +13,22 @@
         </div>
     </div> 
     <div class=" border-0 bg-white py-0 px-2 px-md-3" id="editor-footer">
+
+
         <button type="button" class="btn btn-info btn-sm float-right f-16"
                 id="push-test-com" data-csrf="{{ csrf_token }}" data-article-id="{{ article.id }}"
                 data-ajax-url="{% url 'comment:add_comment' %}">提交评论</button>
+                
         <button type="button" class="btn btn-danger btn-sm float-right mr-4 f-16" id="no-rep">取消回复</button>
+
+        
     </div>
 
     {% else %}
     <div class="text-center m-2 m-md-3 f-16" id="no-editor">
         <div>您尚未登录，请
-            <a class="text-danger" href="#">登录</a> 或
-            <a class="text-danger" href="#">注册</a> 后评论
+            <a class="text-danger" href="/accounts/login">登录</a> 或
+            <a class="text-danger" href="/accounts/signup">注册</a> 后评论
         </div>
         <div class="login-link mt-2">
             <a class="mx-3" href="/accounts/github/login/?next={{ request.path }}" title="社交账号登录有点慢，请耐心等候！"><i

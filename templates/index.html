@@ -1,7 +1,7 @@
 ﻿{% extends "base.html" %}
 {% load blog_tags %}
 {% load_article_summary articles %}
-{% block head_title %}娃哈哈'店长'的个人博客{% endblock %}
+{% block head_title %}Stray_Camel(＾Ｕ＾)ノ~ＹＯ{% endblock %}
 {% block metas %}
     <meta name="description"  content="{{ SITE_DESCRIPTION }}" />
     <meta name="keywords"  content="{{ SITE_KEYWORDS}}" />
@@ -12,7 +12,7 @@
         <i class="fa fa-bars mr-1"></i>时间排序</a>
     <a class="pb-2 ml-4 " href="/hot/">
         <i class="fa fa-fire mr-1"></i>热度排序</a>
-    <a class="eskimo-open-search pb-2 ml-4 " href="#" id ="eskimo-open-search">
+    <a class="freen-open-search pb-2 ml-4 " href="#" id ="freen-open-search">
        <i class="fa fa-search mr-1"></i>搜索查询</a>
 </div>
 <!-- 置顶POST -->
@@ -34,7 +34,7 @@
                 <p class="d-none d-sm-block mb-2 f-15">{{ article.summary }} </p>
             </div>
             <div class="card-horizontal-meta">
-                <div class="eskimo-author-meta">
+                <div class="freen-author-meta">
                     <div style="width: 1.5rem;">
                         <a href=" " class="author-meta">
                         {% if article.author.socialaccount_set.exists and article.author.avatar.url == '/media/avatar/default.png' %}
@@ -46,10 +46,10 @@
                     </div> 
                  <a class="author-meta" href="author.html">{{ article.author }}<a style="background-image: url(&quot;{{ article.author.avatar.url }}&quot;);"></a></a>
                 </div>
-                <div class="eskimo-date-meta">
-                    <a><i class="fa fa-calendar-times-o ml-2 mr-1"></i> {{ article.create_date|date:'Y-m-d' }}</a>
+                <div class="freen-date-meta">
+                    <a><i class="fa fa-clock ml-2 mr-1"></i> {{ article.create_date|date:'Y-m-d' }}</a>
                 </div>
-                <div class="eskimo-reading-meta"><a><i class="fa fa-eye ml-2 mr-1"> {{ article.views }}浏览</i></a><a> <i class="fa fa-comments-o"></i> 
+                <div class="freen-reading-meta"><a><i class="fa fa-eye ml-2 mr-1"> {{ article.views }}浏览</i></a><a> <i class="fa fa-comments-o"></i> 
                 <a target="_blank" href="/article/{{ article.slug }}#comments">评论</a></a></div>
             </div>
         </div>

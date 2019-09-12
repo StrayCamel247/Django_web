@@ -18,26 +18,225 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" type="image/x-icon" mce_href="/static/image/favicon.ico" href="/static/image/favicon.ico"  media="screen" />
+    <link rel="shortcut icon" type="image/x-icon" mce_href="{% static 'image/favicon.ico' %}" href="{% static 'image/favicon.ico' %}"  media="screen" />
     
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
     {% block top_file %}
     {% endblock %}
+</head>
+
 
 <body>
     <!-- READING POSITION INDICATOR -->
-    <progress value="0" id="eskimo-progress-bar" class="eskimo-progress-bar" >
-        <span class="eskimo-progress-container">
-            <span class="eskimo-progress-bar"></span>
-        </span>
-    </progress>
-   
+    <!-- 头部菜单 -->
+    <header class="header">
+        <!-- 头部进度条 -->
+          <progress value="0" id="freen-progress-bar" class="freen-progress-bar" >
+            <span class="freen-progress-container">
+                <span class="freen-progress-bar"></span>
+            </span>
+        </progress>
+        <!-- 头部菜单-->
+
+        <div class="top-left">test-left</div>
+        <div class="top-right">
+            <div class="header-menu">
+                <div class="header-left">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item mr-2">
+                            <a class="nav-link py-md-3 " href="/"><i class="fa fa-home mr-1"></i>首页<span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item mr-2">
+                            <a class="freen-open-search nav-link py-md-3 " id="freen-open-search" href="#"><i class="fa fa-search mr-1"></i>搜索查询</a>
+                        <li class="nav-item mr-2">
+                            <a class="nav-link py-md-3 " href="/tool/"><i class="fa fa-filter"></i>在线工具</a>
+                        </li>
+
+                        
+                        <li class="nav-item mr-2 ">
+                    
+                            <a class="nav-link py-md-3 " href="#"><i class="fa fa-anchor mr-1"></i>关于</a>
+                        </li>
+                       
+                    </ul>
+                    <div class="dropdown for-notification">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-bell"></i>
+                            <span class="count bg-danger">3</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="notification">
+                            <p class="red">You have 3 Notification</p>
+                            <a class="dropdown-item media" href="#">
+                                <i class="fa fa-check"></i>
+                                <p>Server #1 overloaded.</p>
+                            </a>
+                            <a class="dropdown-item media" href="#">
+                                <i class="fa fa-info"></i>
+                                <p>Server #2 overloaded.</p>
+                            </a>
+                            <a class="dropdown-item media" href="#">
+                                <i class="fa fa-warning"></i>
+                                <p>Server #3 overloaded.</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown for-message">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-envelope"></i>
+                            <span class="count bg-danger">3</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="message">
+                            <p class="red">You have 3 Mails</p><a class="dropdown-item media" href="#">
+                                <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/1.jpg"></span>
+                                <div class="message media-body">
+                                    <span class="name float-left">Jonathan Smith</span>
+                                    <span class="time float-right">Just now</span>
+                                    <p>Hello, this is an example msg</p>
+                                </div>
+                            </a>
+                            <a class="dropdown-item media" href="#">
+                                <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/2.jpg"></span>
+                                <div class="message media-body">
+                                    <span class="name float-left">Jack Sanders</span>
+                                    <span class="time float-right">5 minutes ago</span>
+                                    <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                </div>
+                            </a>
+                            <a class="dropdown-item media" href="#">
+                                <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/3.jpg"></span>
+                                <div class="message media-body">
+                                    <span class="name float-left">Cheryl Wheeler</span>
+                                    <span class="time float-right">10 minutes ago</span>
+                                    <p>Hello, this is an example msg</p>
+                                </div>
+                            </a>
+                            
+                            </div>
+                    </div>
+                </div>
+                <div class="user-area dropdown float-right">
+                    
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="user-avatar rounded-circle" src="/static/admin/images/admin.jpg" alt="User Avatar">
+                    </a>
+                    <div class="user-menu dropdown-menu">
+                        <a class="nav-link" href="/accounts/profile"><i class="fa fa-user"></i>My Profile</a>
+                        <a class="nav-link" href="/accounts/logout"><i class="fa fa-power-off"></i>Logout</a>
+                    </div>
+                </div>
+            </div>
+    </header>
+    
+
+    <!--freen SIDEBAR -->
+    <aside id="freen-sidebar" class="freen-sidebar" >
+        <div id="freen-sidebar-wrapper" class="freen-sidebar-wrapper d-flex align-items-start flex-column h-100 w-100">
+         
+        <!-- AUTHOR BOX -->
+        <div class="freen-author-box freen-add-border freen-widget">
+            <div class="freen-author-img .active">
+                {% block login_contain %}
+                    {% if user.is_authenticated %}
+                         {% if user.socialaccount_set.exists and user.avatar.url == '/media/avatar/default.png' %}
+                            <a href="/"><img  src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user }}"></a>
+                            {% else %}
+                            <a href="/"><img src="{{ user.avatar.url }}" alt="{{ user }}"></a>
+                            {% endif %}
+                            <p class="freen-author-subtitle"></p>
+                            <h3>  &nbsp;{{ user.username }}<a href="/accounts/logout"><i class="fa ml-1 fa-sign-out" ></i></a></h3>
+                            <!-- <p class="freen-author-description">  early to bed, early to rise.  </p> -->
+                            <!-- <div class="freen-author-box-btn"> 
+                                <a class="btn btn-outline-default btn-sm freen-panel-open" href="#freen-panel">个人简历</a>
+                            </div> -->
+                           
+                            
+            {% else %}
+            <a href="/"><img src="{% static 'image/logo.png' %}" alt="JOHN DOE" /></a>
+            <div class="text-center m-2 m-md-3 f-16" id="no-editor">
+                <div href="#">
+                    <a class="text-danger" href="/accounts/login">登录</a> 或
+                    <a class="text-danger" href="/accounts/signup">注册</a> 
+                </div>
+                <div class="login-link mt-2">
+                    <a class="mx-3" href="/accounts/github/login/?next={{ request.path }}" title="社交账号登录有点慢，请耐心等候！"><i class="fa fa-github fa-2x"></i></a>
+                </div>
+            </div>
+            {% endif %}
+            {% endblock %}
+
+            </div>
+        </div>
+            
+            <!-- MENU CONTAINER -->
+            {% if user.is_authenticated %}
+            <div id="freen-sidebar-cell" class="freen-sidebar-cell w-100">
+                <!-- MENU -->
+                <nav id="freen-main-menu" class="menu-main-menu-container freen-main-menu">    
+                    <ul class="freen-menu-ul">
+
+                         <li><a href="#" ><i class="mr-1 fa fa-bell-o"></i>Notification<span class="count bg-danger">3</span></a>
+                            <ul class="sub-menu">
+                               <li><a href="">功能完善中</a></li>
+                            </ul>   
+                        </li>
+                        <li><a href="#" ><i class="mr-1 fa fa-comments-o"></i>Message<span class="count bg-danger">3</span></a>
+                            <ul class="sub-menu">
+                               <li><a href="">功能完善中</a></li>
+                            </ul>   
+                        </li>
+                        <li><a href="/accounts/profile"><i class="fa fa-user"></i>Information</a>
+                            <ul class="sub-menu">
+                               <li><a href="/accounts/profile">个人信息</a></li>
+                            </ul>   
+                        </li>
+                      
+
+                        {% get_data_date as data_date %}
+
+                        
+                        <li><a href="#"><i class="fa mr-1 fa-calendar" ></i>归档</a>
+                            {% if data_date %}
+                            <ul class="sub-menu">
+
+                                {% for date in data_date %}
+                                <li><a href='{% url 'blog:date' date|date:'Y' date|date:'m' %}'>{{ date|date:'Y-m' }}</a></li>
+                                
+                                <ul class="sub-menu">
+                                <li><a href="">blog_1</a></li>
+                                {% endfor %}
+                                {% endif %}
+                            </ul>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                </nav>
+            </div>
+            {% endif %}
+            <!-- SOCIAL MEDIA ICONS -->
+            <div id="freen-social-cell" class="freen-social-cell mt-auto w-100">
+                <div id="freen-social-inner" class="freen-social-inner">
+                    <ul class="freen-social-icons">
+                        <li><a href="/xadmin"><i class="fa fa-cog"></i></a></li>
+                        <li><a href="/admin"><i class="fa fa-cogs" ></i></a></li>
+                        <li><a href="/md2html" title=""><i class="fa fa-pencil-square-o"></i></a></li>
+                        <li><a href="/accounts/contacts/root" title=""><i class="fa fa-users"></i></a></li>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    
     <!-- SITE WRAPPER -->
-    <div id="eskimo-site-wrapper" class="eskimo-site-wrapper">
+    <section id="freen-site-wrapper" class="freen-site-wrapper">
     
        
         <!-- MAIN CONTAINER -->
+        
         {% block mdeditor_contain %}
         <main  class="container-fluid row">
 
@@ -47,23 +246,8 @@
                 <!-- SLIDER-LSEFT -->
                 <!-- 覆盖轮播图的模块 -->
                 {% block main_contain %} 
-                    <div class="eskimo-carousel-container eskimo-bg-loader">
-                            <div id="eskimo-post-slider" class="eskimo-slider eskimo-post-slider">
-                                <!-- SLIDE -->
-
-                            {% get_carousel_index as carousels %}
-                            {% for carousel in carousels %}
-                                <div>
-                                    <a class="eskimo-slider-img" href="{{ carousel.url }}"></a>
-                                   
-                                    <div class="clearfix"></div>
-                                    <img src="{{ carousel.img.url }}" alt="{{ carousel.img.url }}" />
-                                    
-                            </div>
-                            {% endfor %}  
-                        </div>
-                    </div>   
-                    <hr>
+                    <!-- 轮播图 -->
+                    
                     <!-- 不覆盖轮播图的模块 -->
                     <div class="alert alert-info">
                         <div class="close" data-dismiss="alert">×</div>
@@ -75,11 +259,12 @@
                 {% endblock %}
             </div>
             <!-- SIDER-RIGHT -->
+            
             <div class="col-lg-3">
                 <!-- AUTHOR BOX -->
                 {% include 'auther_box.html' %}
                 <!-- 分类 -->
-                <div class="eskimo-categories">
+                <div class="freen-categories">
                     <p class=""><span><i class="my-fa fa fa-book" aria-hidden="true"></i>&nbsp;分类</span></p>
                     <ul>
                         {% get_categoty_list as categories %}
@@ -100,21 +285,21 @@
                     </ul>
                 </div>
                 <!-- 热门 -->
-                <div class="eskimo-post-list-wrapper">
+                <div class="freen-post-list-wrapper">
                     <p class=""><span><i class="fa fa-fire mr-1"></i>&nbsp;|热门</span></p>
                     {% get_article_list '-views' 4 as pop_article %}
                     {% for pop in pop_article %}
-                    <div class="eskimo-post-list">
-                        <div class="eskimo-post-list-left">
+                    <div class="freen-post-list">
+                        <div class="freen-post-list-left">
                             <a href="article/{{ pop.slug }}">
                                 <img src="{{ pop.img.url }}" alt="">   
                             </a>
                         </div>
-                        <div class="eskimo-post-list-right">
-                            <p class="eskimo-post-list-title">
+                        <div class="freen-post-list-right">
+                            <p class="freen-post-list-title">
                                 <a href="/article/{{ pop.slug }}">{{ pop.title }}</a>
                             </p>
-                            <div class="eskimo-post-list-info">
+                            <div class="freen-post-list-info">
                                 <i class="fa fa-heart-o"></i>({{ pop.views }}) 阅览
                             </div>
                         </div>
@@ -123,20 +308,20 @@
                      <!-- 归档 -->
                                             
                     <!-- 友链 -->
-                    <div class="eskimo-post-list">
+                    <div class="freen-post-list">
                         <p class=""><span><i class="fa fa-link mr-2 f-17"></i>&nbsp;|友情链接</span></p>
                         
                         {% get_friends as friends %}
                         {% if friends %}
                         {% for friend in friends %}
-                        <div class="eskimo-post-list">
-                            <div class="eskimo-post-list-left ">
+                        <div class="freen-post-list">
+                            <div class="freen-post-list-left ">
                                 <a href="{{ friend.link }}">
                                     <img src="{{ friend.logo }}" alt="">   
                                 </a>
                             </div>
-                            <div class="eskimo-post-list-right">
-                                <p class="eskimo-post-list-title">
+                            <div class="freen-post-list-right">
+                                <p class="freen-post-list-title">
                                     <h6 href="{{ friend.link }}">{{ friend.name }}</h6>
                                 </p>
                             </div>
@@ -150,155 +335,58 @@
 
                 </div>
             </div>
+            
         </main>
-        {% endblock %}
+         {% endblock %}
+        
 
-        <!--ESKIMO SIDEBAR -->
-        <div id="eskimo-sidebar" class="eskimo-sidebar" >
-            <div id="eskimo-sidebar-wrapper" class="eskimo-sidebar-wrapper d-flex align-items-start flex-column h-100 w-100">
-             
-            <!-- AUTHOR BOX -->
-            <div class="eskimo-author-box eskimo-add-border eskimo-widget">
-                <div href="/" class="" >
-                    {% block login_contain %}
-                    <a href="/">
-                        {% if user.is_authenticated %}
-                             {% if user.socialaccount_set.exists and user.avatar.url == '/media/avatar/default.png' %}
-                                <img class="eskimo-author-img" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user }}">
-                                {% else %}
-                                <img class="eskimo-author-img" src="{{ user.avatar.url }}" alt="{{ user }}">
-                                {% endif %}
-                                <p class="eskimo-author-subtitle"></p>
-
-
-                <div class="mp-accordion-item">
-                    <a class="mp-accordion-title collapsed" data-toggle="collapse" data-parent="#mp-accordion-1" href="#mp-accordion-item-3" aria-expanded="false" aria-controls="mp-accordion-item-3">&nbsp;{{ user.username }}&nbsp;</a>
-                    <div id="mp-accordion-item-3" class="collapse" role="tabpanel" style="">
-                        <div class="mp-accordion-content">
-                            <p> <i class="fa fa-bell"></i></p>
-                            <a href='/accounts/logout'>退出登陆</a>
-                        </div>
-                    </div>
-                </div>
-                {% else %}
-                <img src="{% static 'image/logo.png' %}" alt="JOHN DOE" />
-                <div class="text-center m-2 m-md-3 f-16" id="no-editor">
-                    <div href="#">
-                        <a class="text-danger" href="/accounts/login">登录</a> 或
-                        <a class="text-danger" href="/accounts/signup">注册</a> 
-                    </div>
-                    <div class="login-link mt-2">
-                        <a class="mx-3" href="/accounts/github/login/?next={{ request.path }}" title="社交账号登录有点慢，请耐心等候！"><i class="fa fa-github fa-2x"></i></a>
-                    </div>
-                </div>
-                {% endif %}
-                {% endblock %}
-
-                </div>
-            </div>
-                
-                <!-- MENU CONTAINER -->
-                <div id="eskimo-sidebar-cell" class="eskimo-sidebar-cell w-100">
-                    <!-- MENU -->
-                    <nav id="eskimo-main-menu" class="menu-main-menu-container eskimo-main-menu">    
-                        <ul class="eskimo-menu-ul">
-                            
-                            <li><a href="#" >工具</a>
-                                <ul class="sub-menu">
-                                    <li><a href="/md2html" title=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;md2html</a></li>
-                                    <li><a href="/tool" title="">developing . . </a></li>
-                                </ul>   
-                            </li>
-
-                            {% get_data_date as data_date %}
-
-                            
-                            <li><a href="#">归档</a>
-                                {% if data_date %}
-                                <ul class="sub-menu">
-
-                                    {% for date in data_date %}
-                                    <li><a href='{% url 'blog:date' date|date:'Y' date|date:'m' %}'>{{ date|date:'Y-m' }}</a></li>
-                                    
-                                    <ul class="sub-menu">
-                                    <li><a href="">blog_1</a></li>
-                                    {% endfor %}
-                                    {% endif %}
-                                </ul>
-                                </ul>
-                            </li>
-                            <li><a href="#">TODO</a>
-                                <ul class="sub-menu">
-                                        <li><a href="#">评论区界面优化</a></li>
-                                        <hr>
-                                        <li><a href="#">做出todo——model</a></li>
-                                        <hr>
-                                        <li><a href="#">mdeditor在线编辑器bug优化</a></li>
-                                        <hr>
-                                        <li><a href="#">编辑器统一用mdeditor卸载markdown包</a></li>
-                                </ul>
-                            </li>
-
-                            
-                        </ul>
-                        
-                    </nav>
-                </div>
-                <!-- SOCIAL MEDIA ICONS -->
-                <div id="eskimo-social-cell" class="eskimo-social-cell mt-auto w-100">
-                    <div id="eskimo-social-inner" class="eskimo-social-inner">
-                        <ul class="eskimo-social-icons">
-                            <li><a href="https://github.com/Freen247/django_blog"><i class="fa fa-github"></i></a></li>
-                            <li><a href="accounts/login"><i class="fa fa-sign-in"></i></a></li>
-                            <li><a href="mailto:aboysintky@outlook.com"><i class="fa fa-envelope-o" ></i></a></li>
-                            <li><a href="/xadmin/"><i class="fa fa-wrench"></i></a></li>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
 
         <!-- FOOTER -->
-        <footer id="eskimo-footer" class="eskimo-footer">
+        <footer id="freen-footer" class="freen-footer col-lg-12">
             <div class="container">
                 <!-- CREDITS -->
-                <div class="eskimo-footer-credits" class="eskimo-footer-credits">
+                <div class="freen-footer-credits" class="freen-footer-credits">
                     <p>
                         CREATED BY  <a href="http://boywithacoin.cn/" target="_blank">{{ AUTHOR_NAME }}  </a>
                     </p>
                     <hr />
                     <p>
-                        <a  href="https://www.djangoproject.com/" target="_blank"  ><i class="fa fa-building" aria-hidden="true"></i>Django</a>-<a href="http://www.getbootstrap.com/" target="_blank"><i class="fa fa-book" aria-hidden="true"></i>Bootstrap4</a>-<a href="http://www.fontawesome.com.cn/" target="_blank"><i class="fa fa-flag" aria-hidden="true"></i> Font Awesome 4.7.1</a>-<a href="https://pandao.github.io/editor.md/examples/index.html"><i class="fa fa-pencil-square" aria-hidden="true"></i>Mdeditor</a>-
-                        <a href="/sitemap.xml" title="Sitemap" target="_blank">Sitemap</a>
+                        <a  href="https://www.djangoproject.com/" target="_blank"  ><i class="fa fa-building" aria-hidden="true"></i>Django2.0.3</a>-<a href="https://django-redis-chs.readthedocs.io/zh_CN/latest/" target="_blank"><i class="fa fa-book" aria-hidden="true"></i>Django-redisCaching</a>-<a href="http://www.fontawesome.com.cn/" target="_blank"><i class="fa fa-flag" aria-hidden="true"></i> Font Awesome 4.7.1</a>-<a href="https://pandao.github.io/editor.md/examples/index.html"><i class="fa fa-pencil-square" aria-hidden="true"></i>Mdeditor</a>-
+                        <a href="https://dash.cloudflare.com/"><i class="fa fa-cloud" aria-hidden="true"></i>CloudFareCDN解析&SSL证书</a>-
+                        <a href="/sitemap.xml" title="Sitemap" target="_blank"><i class="fa fa-globe" aria-hidden="true"></i>Sitemap</a>
                     </p>
                 </div>
             </div>
         </footer>
+    </section>
     
-    </div>
-
     <!-- GO TO TOP BUTTON -->
-    <a id="eskimo-gototop" class="eskimo-gototop" href="#"><i class="fa fa-hand-o-up"></i></a>
+    
+    <a id="freen-gototop" class="freen-gototop" href="#"><i class="fa fa-hand-o-up"></i></a>
+    
     <!-- SLIDE PANEL OVERLAY -->
-    <div id="eskimo-overlay" class="eskimo-overlay"></div>
+    <div id="freen-overlay" class="freen-overlay"></div>
     <!-- SLIDE PANEL -->
-    <div id="eskimo-panels" class="eskimo-panels">
-        <aside id="eskimo-panel" class="eskimo-panel">
-            <div class="eskimo-panel-inner">
+    
+    <div id="freen-panels" class="freen-panels">
+        <aside id="freen-panel" class="freen-panel">
+            <div class="freen-panel-inner">
                 <!-- CLOSE SLIDE PANEL BUTTON -->
-                <a href="#" class="eskimo-panel-close"><i class="fa fa-times"></i></a>
+                <a href="#" class="freen-panel-close"><i class="fa fa-times"></i></a>
                 <!-- AUTHOR BOX -->
-                <div class="eskimo-author-box  eskimo-widget">
-                    <div class="eskimo-author-img">
+                <div class="freen-author-box  freen-widget">
+                    <div class="freen-author-img">
                         <img src="{% static 'image/logo.png' %}" alt="JOHN DOE" />
                     </div>
                     <h3><span>  {{ AUTHOR_NAME }}  </span></h3>
-                    <p class="eskimo-author-subtitle"></p>
-                    <p class="eskimo-author-description">{{AUTHOR_DESC}}</p>
+                    <p class="freen-author-subtitle"></p>
+                    <p class="freen-author-description">{{AUTHOR_DESC}}</p>
+
                 </div>
                 <!-- RECENT POSTS -->
-                <div class="eskimo-recent-entries eskimo-widget">
-                    <h5 class="eskimo-title-with-border"><span>最近文章</span></h5>
+                <div class="freen-recent-entries freen-widget">
+                    <h5 class="freen-title-with-border"><span>最近文章</span></h5>
                     <ul>
                         {% for post in post_list %}
                         <li>
@@ -309,8 +397,8 @@
                     </ul>
                 </div>
                 <!-- CATEGORIES -->
-                <div class="eskimo-categories eskimo-widget">
-                    <h5 class="eskimo-title-with-border"><span>分类</span></h5>
+                <div class="freen-categories freen-widget">
+                    <h5 class="freen-title-with-border"><span>分类</span></h5>
                     <ul>
                         {% for category in category_list %}
                         <li>
@@ -320,8 +408,8 @@
                     </ul>
                 </div>
                   <!-- ARCHIVE -->
-                <div class="eskimo-categories eskimo-widget">
-                    <h5 class="eskimo-title-with-border"><span>归档</span></h5>
+                <div class="freen-categories freen-widget">
+                    <h5 class="freen-title-with-border"><span>归档</span></h5>
                     <ul>
                         {% for m in months %}
                         <li>
@@ -334,11 +422,13 @@
             </div>
         </aside>
     </div>
+    
     <!-- FULLSCREEN SEARCH -->
-    <div id="eskimo-fullscreen-search" class="eskimo-fullscreen-search">
-        <div id="eskimo-fullscreen-search-content" class="eskimo-fullscreen-search-content">
-            <a href="#" id="eskimo-close-search" class="eskimo-close-search"><i class="fa fa-times"></i></a>
-            <form role="search" method="get" action="{% url 'blog:search' %}" class="eskimo-lg-form">
+    
+    <div id="freen-fullscreen-search" class="freen-fullscreen-search">
+        <div id="freen-fullscreen-search-content" class="freen-fullscreen-search-content">
+            <a href="#" id="freen-close-search" class="freen-close-search"><i class="fa fa-times"></i></a>
+            <form role="search" method="get" action="{% url 'blog:search' %}" class="freen-lg-form">
                 <div class="input-group">
                     <input type="search" class="form-control form-control-lg" placeholder="Enter a kword..." name="q" />
                     <div class="input-group-append">
@@ -350,12 +440,15 @@
 
         </div>
     </div>
-
+    
     <!-- JS FILES -->
 
     {% block end_file %}
     {% endblock %}
+    <!-- bootstrap只有引入umd/popper.js才有用 -->
+    <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://cdn.bootcss.com/salvattore/1.0.9/salvattore.min.js"></script>
@@ -372,7 +465,7 @@
         (function($) {
             "use strict";
             $(document).ready(function() {
-                $('#eskimo-post-slider').slick({
+                $('#freen-post-slider').slick({
                     autoplay: true,
                     autoplaySpeed: 5000,
                     slidesToScroll: 1,
@@ -384,8 +477,8 @@
                 });
             });
             $(window).on('load', function() {
-                $('#eskimo-post-slider').css('opacity', '1');
-                $('#eskimo-post-slider').parent().removeClass('eskimo-bg-loader');
+                $('#freen-post-slider').css('opacity', '1');
+                $('#freen-post-slider').parent().removeClass('freen-bg-loader');
             });
         })(jQuery);
     </script>
@@ -394,7 +487,7 @@
         (function($) {
             "use strict";
             $(document).ready(function() {
-                $('#eskimo-post-carousel').slick({
+                $('#freen-post-carousel').slick({
                     infinite: false,
                     slidesToScroll: 1,
                     arrows: true,
@@ -413,11 +506,10 @@
                     }]
 
                 });
-                $('#eskimo-post-carousel').css('opacity', '1');
+                $('#freen-post-carousel').css('opacity', '1');
             });
         })(jQuery);
     </script>
-
 </body>
 
 </html>
