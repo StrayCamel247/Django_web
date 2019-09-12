@@ -56,15 +56,14 @@ def mark_to_read(request):
     return JsonResponse({'msg': 'miss'})
 
 
-@login_required
 @require_POST
 def mark_to_delete(request):
-    '''将一个消息删除'''
+    '''将一个成员删除'''
     if request.is_ajax():
         data = request.POST
-        user = request.user
-        id = data.get('id')
-        info = get_object_or_404(Notification, get_p=user, id=id)
+        contacts = request.user
+        member = data.get('id')
+        info = get_object_or_404(Notification, contacts_p=contacts, member_p=member)
         info.delete()
         return JsonResponse({'msg': 'delete success'})
     return JsonResponse({'msg': 'miss'})

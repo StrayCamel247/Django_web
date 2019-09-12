@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     # 搜索
     'haystack',
     # rest框架
-    'rest_framework',
+    # 'rest_framework',
 ]
 #mdeditor
 MDEDITOR_CONFIGS = {
@@ -94,6 +94,7 @@ MDEDITOR_CONFIGS = {
         'emoji': True,  # whether to open the expression function
         'tex': True,  # whether to open the tex chart function
         'flow_chart': True,  # whether to open the flow chart function
+        'syncScrolling': 'single',
         'sequence': True  # Whether to open the sequence diagram function
     }
     
@@ -109,18 +110,19 @@ HAYSTACK_CONNECTIONS = {
 }
 #指定什么时候更新索引，这里定义为每当有文章更新时就更新索引。由于博客文章更新不会太频繁，因此实时更新没有问题。
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-#缓存配置
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
+# redis缓存配置
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
 
-
+# 登陆成功后的回调路由
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 AUTHENTICATION_BACKENDS = (
     # auth 身份验证 与 allauth 无关
     'django.contrib.auth.backends.ModelBackend',
@@ -130,9 +132,10 @@ AUTHENTICATION_BACKENDS = (
 
 
 # 网站信息设置 用于SEO
-SITE_DESCRIPTION = "娃哈哈店长的个人技术博客，django_blog，django2.0+python3技术搭建。"
-SITE_KEYWORDS = "娃哈哈店长,django2.0博客，人工智能,网络,IT,技术,博客,Python"
-AUTHOR_NAME = "娃哈哈店长"
+SITE_DESCRIPTION = "Stray_Camel的个人技术博客，django_blog，django2.0+python3技术搭建。"
+SITE_KEYWORDS = "Stray_Camel,django2.0博客，人工智能,网络,IT,技术,博客,Python"
+
+AUTHOR_NAME = "Stray_Camel"
 AUTHOR_DESC = 'early to bed, early to rise.'
 AUTHOR_EMAIL = 'aboyinsky@outlook.com'
 AUTHOR_TITLE = '全栈、python'
@@ -164,7 +167,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

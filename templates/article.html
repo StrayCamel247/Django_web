@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load blog_tags static comment_tags %}
 
+
 {% block head_title %}{{ article.title }}_{{ article.category }}{% endblock %}
 {% block metas %}
 <meta name="description" content="{{ article.summary }}">
@@ -13,35 +14,36 @@
 <!-- 文本区 -->
 <link href="{% static 'mdeditor/css/editormd.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
-{% block main_contain %}
- <!-- 文章目录标题 -->
-<div id="">
-     <div class="markdown-body editormd-preview-container" id="custom-toc-container" >文章目录</div>
-</div>
+{% block mdeditor_contain %}
+
 <!-- 标题 -->
-<div class="eskimo-page-title mb-4 mt-2 " style=" padding-right: 15px; opacity: 1;">
+<div class="freen-page-title mb-4 col-lg-10" style=" padding-right: 15px; opacity: 1;">
     <h1><span>{{ object.title }}</span></h1>
-    <div class="eskimo-page-title-meta">
-        <div class="eskimo-author-meta">
+    <div class="freen-page-title-meta">
+        <div class="freen-author-meta">
             By <a class="author-meta" href="author.html">{{ object.author }}</a>
         </div>
-        <div class="eskimo-cat-meta">
+        <div class="freen-cat-meta">
             In <a href="category.html">{{ object.category.name }}</a>
         </div>
-        <div class="eskimo-date-meta">{{ object.create_date|date:'y-m-d' }}</div>
-        <div class="eskimo-reading-meta">{{ object.views }}次浏览</div>
+        <div class="freen-date-meta">{{ object.create_date|date:'y-m-d' }}</div>
+        <div class="freen-reading-meta">{{ object.views }}次浏览</div>
     </div>
+</div>
+ <!-- 文章目录标题 -->
+<div id="">
+     <div class="markdown-body editormd-preview-container" id="custom-toc-container" style="" >文章目录</div>
 </div>
 <!-- 文章内容 -->
 <div class="">
- <div id="test-editormd-view">
+ <div id="test-editormd-view" class="ml-1 col-lg-10">
     <textarea id="append-test" style="display:none;">  {{ article.body|safe }}</textarea>     
 </div>
 <p>转载请注明：
-<a href="{% url 'blog:article' object.slug %}">娃哈哈店长</a> &raquo;
+<a href="{% url 'blog:article' object.slug %}">Stray_Camel</a> &raquo;
 <a href="{% url 'blog:article' object.slug %}">{{ object.title }}</a>
 </p>
-<div class="article-social">
+<div class="article-social col-lg-10">
 <!-- 评论区 -->
 {% include 'comment/comment_form.html' %}
 {% get_parent_comments article as comment_list %}
@@ -52,7 +54,7 @@
     <script>        
         var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以使用Zepto.js时想支持flowChart/sequenceDiagram就得加上这一句
     </script> -->
-    {% block end_file %}
+    
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'comment/js/notification.js' %}"></script>
     <script src="{% static 'comment/js/editor.js' %}"></script>
@@ -66,7 +68,7 @@
     <!-- 绘制流程图 -->
     <script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
     <script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
-    {% endblock %}
+    
     
     <script type="text/javascript">
         $(function() {

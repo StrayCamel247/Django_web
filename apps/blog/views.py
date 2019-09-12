@@ -52,7 +52,7 @@ class DetailView(generic.DetailView):
         the_key = 'is_read_{}'.format(obj.id)
         is_read_time = ses.get(the_key)
         # if u != obj.author:
-        if u != obj.author || u = obj.author :
+        if u != obj.author:
             if not is_read_time:
                 obj.update_views()
                 ses[the_key] = time.time()

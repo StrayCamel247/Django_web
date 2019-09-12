@@ -83,13 +83,13 @@ $(function() {
     });
 
 //    提交评论后定位到新评论处
-    // if(sessionStorage.getItem('new_point')){
-    //     var top = $(sessionStorage.getItem('new_point')).offset().top-100;
-    //     $('body,html').animate({scrollTop:top}, 200);
-    //     window.location.hash = sessionStorage.getItem('new_point');
-    //     sessionStorage.removeItem('new_point');
-    // };
-    // sessionStorage.removeItem('rep_id');
+    if(sessionStorage.getItem('new_point')){
+        var top = $(sessionStorage.getItem('new_point')).offset().top-100;
+        $('body,html').animate({scrollTop:top}, 200);
+        window.location.hash = sessionStorage.getItem('new_point');
+        sessionStorage.removeItem('new_point');
+    };
+    sessionStorage.removeItem('rep_id');
 
-    // $(".comment-body a").attr("target","_blank");
+    $(".comment-body a").attr("target","_blank");
 })

@@ -6,17 +6,17 @@
                      <div class="markdown-body editormd-preview-container" id="custom-toc-container" >#custom-toc-container</div>
                 </div>
                 <!-- PAGE TITLE -->
-                <div class="eskimo-page-title mb-4 mt-2 " style=" padding-right: 15px; opacity: 1;">
+                <div class="freen-page-title mb-4 mt-2 " style=" padding-right: 15px; opacity: 1;">
                     <h1><span>  post.title  </span></h1>
-                    <div class="eskimo-page-title-meta">
-                        <div class="eskimo-author-meta">
-                            By <a class="author-meta" href="author.html">ROOT</a>
+                    <div class="freen-page-title-meta">
+                        <div class="freen-author-meta">
+                            By <a class="author-meta" href="author.html">Stray_Camel</a>
                         </div>
-                        <div class="eskimo-cat-meta">
+                        <div class="freen-cat-meta">
                             In <a href="category.html">  post.category  </a>
                         </div>
-                        <div class="eskimo-date-meta">   post.pub_time|date:'Y-m-d H:i'  </div>
-                        <div class="eskimo-reading-meta">  post.views  次浏览</div>
+                        <div class="freen-date-meta">   post.pub_time|date:'Y-m-d H:i'  </div>
+                        <div class="freen-reading-meta">  post.views  次浏览</div>
                     </div>
                 </div>
                 <!-- FEATURED IMAGE -->
@@ -57,33 +57,33 @@
                         });
                     </script>
                     <!-- TAGS -->
-                    <div class="eskimo-meta-tags">
+                    <div class="freen-meta-tags">
                         {% for tag in tags %}
                         <span class="badge badge-default"><a href="category.html">  tag  </a></span>
                         {% endfor %}
                     </div>
                     <!-- POST NAVIGATION -->
-                    <div class="eskimo-post-nav-wrapper ">
+                    <div class="freen-post-nav-wrapper ">
                         <!-- PREVIOUS POST -->
-                        <!-- <div class="eskimo-post-nav-left-row ">
-                            <div class="eskimo-post-nav-table ">
+                        <!-- <div class="freen-post-nav-left-row ">
+                            <div class="freen-post-nav-table ">
                                 {% if prev_post %}
-                                <a class="eskimo-post-nav" >
+                                <a class="freen-post-nav" >
                                 </a>
-                                <div class="eskimo-post-nav-link">
-                                    <a href="{% url 'detail' id=prev_post.id %}" class="eskimo-post-nav" ><i class="fa fa-hand-o-left" aria-hidden="true"></i>&nbsp;  prev_post.title  </a>
+                                <div class="freen-post-nav-link">
+                                    <a href="{% url 'detail' id=prev_post.id %}" class="freen-post-nav" ><i class="fa fa-hand-o-left" aria-hidden="true"></i>&nbsp;  prev_post.title  </a>
                                 </div>
                                 {% endif %}
                             </div>
                         </div> -->
                         <!-- NEXT POST -->
-                        <!-- <div class="eskimo-post-nav-left-row">
-                            <div class="eskimo-post-nav-table">
+                        <!-- <div class="freen-post-nav-left-row">
+                            <div class="freen-post-nav-table">
                                 {% if next_post %}
-                                <div class="eskimo-post-nav-link">
-                                    <a href="{% url 'detail' id=prev_post.id %}" class="eskimo-post-nav" >  next_post.title  &nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></a>
+                                <div class="freen-post-nav-link">
+                                    <a href="{% url 'detail' id=prev_post.id %}" class="freen-post-nav" >  next_post.title  &nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></a>
                                 </div>
-                                <a class="eskimo-post-nav" >
+                                <a class="freen-post-nav" >
                                     <i class="fa fa-chevron-right"></i>
                                 </a>
                                 {% endif %}
