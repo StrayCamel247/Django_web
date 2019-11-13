@@ -39,137 +39,126 @@
         </progress>
         <!-- 头部菜单-->
 
-        <div class="top-left">test-left</div>
-        <div class="top-right">
-            <div class="header-menu">
-                <div class="header-left">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item mr-2">
-                            <a class="nav-link py-md-3 " href="/"><i class="fa fa-home mr-1"></i>首页<span
-                                    class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item mr-2">
-                            <a class="freen-open-search nav-link py-md-3 " id="freen-open-search" href="#"><i class="fa fa-search mr-1"></i>搜索查询</a>
-                        <li class="nav-item mr-2">
-                            <a class="nav-link py-md-3 " href="/tool/"><i class="fa fa-filter"></i>在线工具</a>
-                        </li>
-
-                        
-                        <li class="nav-item mr-2 ">
-                    
-                            <a class="nav-link py-md-3 " href="#"><i class="fa fa-anchor mr-1"></i>关于</a>
-                        </li>
-                       
-                    </ul>
-                    <div class="dropdown for-notification">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-bell"></i>
-                            <span class="count bg-danger">3</span>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="notification">
-                            <p class="red">You have 3 Notification</p>
-                            <a class="dropdown-item media" href="#">
-                                <i class="fa fa-check"></i>
-                                <p>Server #1 overloaded.</p>
-                            </a>
-                            <a class="dropdown-item media" href="#">
-                                <i class="fa fa-info"></i>
-                                <p>Server #2 overloaded.</p>
-                            </a>
-                            <a class="dropdown-item media" href="#">
-                                <i class="fa fa-warning"></i>
-                                <p>Server #3 overloaded.</p>
-                            </a>
+        <div class="top-left">
+                <div class="header-menu">
+                    {% if user.is_authenticated %}
+                    <div class="user-area dropdown float-left">
+                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src="{{ user.avatar.url }}" alt="{{ user }}">
+                        </a>
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="/accounts/profile"><i class="fa fa-user"></i>My Profile</a>
+                            <a class="nav-link" href="/accounts/logout"><i class="fa fa-power-off"></i>Logout</a>
                         </div>
                     </div>
-                    <div class="dropdown for-message">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-envelope"></i>
-                            <span class="count bg-danger">3</span>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="message">
-                            <p class="red">You have 3 Mails</p><a class="dropdown-item media" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/1.jpg"></span>
-                                <div class="message media-body">
-                                    <span class="name float-left">Jonathan Smith</span>
-                                    <span class="time float-right">Just now</span>
-                                    <p>Hello, this is an example msg</p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item media" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/2.jpg"></span>
-                                <div class="message media-body">
-                                    <span class="name float-left">Jack Sanders</span>
-                                    <span class="time float-right">5 minutes ago</span>
-                                    <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item media" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/3.jpg"></span>
-                                <div class="message media-body">
-                                    <span class="name float-left">Cheryl Wheeler</span>
-                                    <span class="time float-right">10 minutes ago</span>
-                                    <p>Hello, this is an example msg</p>
-                                </div>
-                            </a>
-                            
+                    {% endif %}
+
+
+                    <div class="header-left">
+                        <ul class="navbar-nav ml-auto">
+                            {% if user.is_authenticated %}
+                            {% else %}
+                            <li class="nav-item mr-2">
+                                <a class="nav-link py-md-3 " href="/accounts/login"><i class="fa fa-sign-in mr-1"></i>登陆</a>
+                            </li>
+                            <li class="nav-item mr-2">
+                                <a class="nav-link py-md-3 " href="/accounts/signup"><i class="fa fa-user-plus mr-1"></i>注册</a>
+                            </li>
+                            {% endif %}
+                            <li class="nav-item mr-2">
+                                <a class="nav-link py-md-3 " href="/"><i class="fa fa-home mr-1"></i>首页<span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item mr-2">
+                                <a class="freen-open-search nav-link py-md-3 " id="freen-open-search" href="#"><i
+                                        class="fa fa-search mr-1"></i>搜索查询</a>
+                            </li>
+                            <li class="nav-item mr-2">
+                                <a class="nav-link py-md-3 " href="/tool/"><i class="fa fa-filter"></i>在线工具</a>
+                            </li>
+                
+                
+                            <li class="nav-item mr-2 ">
+                
+                                <a class="nav-link py-md-3 " href="#"><i class="fa fa-anchor mr-1"></i>关于</a>
+                            </li>
+                
+                        </ul>
+                        <div class="dropdown for-notification">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-bell"></i>
+                                <span class="count bg-danger">3</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="notification">
+                                <p class="red">You have 3 Notification</p>
+                                <a class="dropdown-item media" href="#">
+                                    <i class="fa fa-check"></i>
+                                    <p>Server #1 overloaded.</p>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <i class="fa fa-info"></i>
+                                    <p>Server #2 overloaded.</p>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <i class="fa fa-warning"></i>
+                                    <p>Server #3 overloaded.</p>
+                                </a>
                             </div>
+                        </div>
+                        <div class="dropdown for-message">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-envelope"></i>
+                                <span class="count bg-danger">3</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="message">
+                                <p class="red">You have 3 Mails</p><a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/1.jpg"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Jonathan Smith</span>
+                                        <span class="time float-right">Just now</span>
+                                        <p>Hello, this is an example msg</p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/2.jpg"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Jack Sanders</span>
+                                        <span class="time float-right">5 minutes ago</span>
+                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/3.jpg"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Cheryl Wheeler</span>
+                                        <span class="time float-right">10 minutes ago</span>
+                                        <p>Hello, this is an example msg</p>
+                                    </div>
+                                </a>
+                
+                            </div>
+                        </div>
                     </div>
+                   
                 </div>
-                <div class="user-area dropdown float-right">
-                    
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="user-avatar rounded-circle" src="/static/admin/images/admin.jpg" alt="User Avatar">
-                    </a>
-                    <div class="user-menu dropdown-menu">
-                        <a class="nav-link" href="/accounts/profile"><i class="fa fa-user"></i>My Profile</a>
-                        <a class="nav-link" href="/accounts/logout"><i class="fa fa-power-off"></i>Logout</a>
-                    </div>
-                </div>
-            </div>
+
+        </div>
+
+        <div class="top-right">
+        </div>
     </header>
     
 
     <!--freen SIDEBAR -->
     <aside id="freen-sidebar" class="freen-sidebar" >
         <div id="freen-sidebar-wrapper" class="freen-sidebar-wrapper d-flex align-items-start flex-column h-100 w-100">
-         
+         <hr/>
         <!-- AUTHOR BOX -->
-        <div class="freen-author-box freen-add-border freen-widget">
-            <div class="freen-author-img .active">
-                {% block login_contain %}
-                    {% if user.is_authenticated %}
-                         {% if user.socialaccount_set.exists and user.avatar.url == '/media/avatar/default.png' %}
-                            <a href="/"><img  src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user }}"></a>
-                            {% else %}
-                            <a href="/"><img src="{{ user.avatar.url }}" alt="{{ user }}"></a>
-                            {% endif %}
-                            <p class="freen-author-subtitle"></p>
-                            <h3>  &nbsp;{{ user.username }}<a href="/accounts/logout"><i class="fa ml-1 fa-sign-out" ></i></a></h3>
-                            <!-- <p class="freen-author-description">  early to bed, early to rise.  </p> -->
-                            <!-- <div class="freen-author-box-btn"> 
-                                <a class="btn btn-outline-default btn-sm freen-panel-open" href="#freen-panel">个人简历</a>
-                            </div> -->
-                           
-                            
-            {% else %}
-            <a href="/"><img src="{% static 'image/logo.png' %}" alt="JOHN DOE" /></a>
-            <div class="text-center m-2 m-md-3 f-16" id="no-editor">
-                <div href="#">
-                    <a class="text-danger" href="/accounts/login">登录</a> 或
-                    <a class="text-danger" href="/accounts/signup">注册</a> 
-                </div>
-                <div class="login-link mt-2">
-                    <a class="mx-3" href="/accounts/github/login/?next={{ request.path }}" title="社交账号登录有点慢，请耐心等候！"><i class="fa fa-github fa-2x"></i></a>
-                </div>
-            </div>
-            {% endif %}
-            {% endblock %}
+        {% include 'auther_box.html' %}
 
-            </div>
-        </div>
+        
             
             <!-- MENU CONTAINER -->
             {% if user.is_authenticated %}
@@ -261,8 +250,7 @@
             <!-- SIDER-RIGHT -->
             
             <div class="col-lg-3">
-                <!-- AUTHOR BOX -->
-                {% include 'auther_box.html' %}
+                
                 <!-- 分类 -->
                 <div class="freen-categories">
                     <p class=""><span><i class="my-fa fa fa-book" aria-hidden="true"></i>&nbsp;分类</span></p>

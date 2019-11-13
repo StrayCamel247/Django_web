@@ -284,7 +284,7 @@ blockquote {
 }
 
 .freen-add-border {
-    border: 1px solid #e5e5e5;
+    /* border: 1px solid #e5e5e5; */
     padding: 2rem 2rem 2rem 2rem;
 }
 
@@ -2127,7 +2127,7 @@ video {
 }
 
 /* ================= SIDEBAR ================== */
-.freen-sidebar-wrapper .freen-author-box .active:before {
+/* .freen-sidebar-wrapper .freen-author-box .active:before {
     background: #49a342;
 }
 
@@ -2141,7 +2141,7 @@ video {
     height: 15px;
     border-radius: 100%;
     border: 2px solid white;
-}
+} */
 
 .freen-author-box .dropdown .dropdown-menu {
     position: absolute;
@@ -2173,7 +2173,6 @@ video {
 }
 .header .top-left {
     float: left;
-    width: 350px;
     margin-top: 4px;
 }
 .header .top-right {
@@ -2231,17 +2230,25 @@ video {
 }
 .user-area {
     float: right;
-    padding-right: 0;
+    padding-right: 20px;
     position: relative;
-    padding-left: 20px;
+    padding-top: 5px;
+}
+.user-area:hover {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+
 }
 .header-menu .dropdown .dropdown-toggle {
     line-height: 55px;
 }
 .user-area .dropdown-toggle {
-    line-height: 55px;
-    height: 55px;
-    width: 55px;
+    line-height: 45px;
+    height: 45px;
+    width: 45px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -3611,24 +3618,7 @@ p.form-submit {
     display: block;
 }
 
-.freen-author-img  {
-    transition: All 0.4s ease-in-out;
-    -webkit-transition: All 0.4s ease-in-out;
-    -moz-transition: All 0.4s ease-in-out;
-    -o-transition: All 0.4s ease-in-out;
-    width: 100%;
-    height: auto;
-    vertical-align: bottom;
-    border-radius: 100%;
-    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
-}
-.freen-author-img:hover {
-    transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-}
+
 .freen-author-subtitle {
     font-weight: 700;
     margin-bottom: 0.5rem;
