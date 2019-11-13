@@ -44,7 +44,7 @@ def get_notifications(user,f=None):
     return lis
 
 @register.simple_tag
-def get_notifications_count(user,f=None):
+def get_notifications_count(user,f=None):   
     '''获取一个用户的对应条件下的提示信息总数'''
     if f=='true':
         lis = user.notification_get.filter(is_read=True)
