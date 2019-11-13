@@ -123,6 +123,7 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 # 登陆成功后的回调路由
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 AUTHENTICATION_BACKENDS = (
     # auth 身份验证 与 allauth 无关
     'django.contrib.auth.backends.ModelBackend',
@@ -195,6 +196,9 @@ TEMPLATES = [
         },
     },
 ]
+# 位于django.contrib.sites的site。
+# SITE_ID指定与特定配置文件相关联的site对象之数据库的ID。
+# 当出现"SocialApp matching query does not exist"，这种报错的时候就需要更换这个ID
 SITE_ID = 1
 WSGI_APPLICATION = 'django_blog.wsgi.application'
 
