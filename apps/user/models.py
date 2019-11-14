@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from django.conf import settings
+from django.shortcuts import reverse
 from uuslug import slugify
 # 通讯录   category/contacts
 class Contacts(models.Model):

@@ -6,6 +6,11 @@ from ..models import ToolCategory,ToolLink
 register = template.Library()
 
 @register.simple_tag
+def get_tools():
+    '''获取所有工具'''
+    return ToolLink.objects.all()
+
+@register.simple_tag
 def get_toolcates():
     '''获取所有工具分类，只显示有工具的分类'''
     return ToolCategory.objects.annotate(total_num=Count('toollink')).filter(total_num__gt=0)

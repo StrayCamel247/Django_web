@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% load blog_tags %}
+{% load tool_tags %}
+{% block head_title %}
+在线工具，提升工作效率
+{% endblock %}
+{% block metas %}
+<meta name="description" content="在线工具，提供站长工具包括markdown在线编辑、友链检测、正则表达式工具等，方便进行批量操作，提高工作效率，工具持续增加中">
+<meta name="keywords" content="在线工具,SEO工具,站长工具,爬虫工具">
+{% endblock %}
+
+
+{% block top_file %}
+<link href="{% static 'css/tool.css' %}?v=20190107.08" rel="stylesheet">
+{% endblock %}
+
+{% block mdeditor_contain %}
+    {% get_tools as tools %}
+    <div class="container">
+        <div class="row tool-list">
+    {% for t in tools %}
+
+            <div class="col-md-6 col-lg-4 col-xl-3 px-lg-2 mb-3">
+                <div class="card">
+                    <div class="card-header p-2 tool-header" style="background-color: white;">
+                        <a href="{{t.link}}">
+                            <img class="w-25 float-left mr-2" src="{% static '/media/' %}{{ t.img }}" alt="{{t.name}}">
+                            
+                            <h2 class="card-title">{{t.name}}</h2>
+                        </a>
+                        <p class="mb-0">{{t.category}}</p>
+                    </div>
+                    <div class="card-body p-1 tool-des">
+                        <p class="card-text">{{t.description}}</p>
+                    </div>
+                </div>
+            </div>
+
+        
+    {% endfor %}
+        </div>
+    </div>
+{% endblock %}

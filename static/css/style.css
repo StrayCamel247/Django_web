@@ -2189,6 +2189,7 @@ video {
 .header .header-left ul li{
     display: inline-block;
 }
+
 .header .header-menu {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -2196,6 +2197,23 @@ video {
     -webkit-box-pack: end;
     -ms-flex-pack: end;
     justify-content: flex-end;
+}
+.user-avatar img{
+    display: block;
+    transition: All 0.4s ease-in-out;
+    -webkit-transition: All 0.4s ease-in-out;
+    -moz-transition: All 0.4s ease-in-out;
+    -o-transition: All 0.4s ease-in-out;
+
+}
+.user-avatar img:hover{
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+
+
 }
 .header-menu .dropdown {
     line-height: 55px;
@@ -2214,6 +2232,7 @@ video {
     padding-top: 0;
     padding-bottom: 0;
 }
+
 .dropdown-toggle::after{
     display: none;
 }
@@ -2245,6 +2264,7 @@ video {
 .header-menu .dropdown .dropdown-toggle {
     line-height: 55px;
 }
+
 .user-area .dropdown-toggle {
     line-height: 45px;
     height: 45px;
@@ -2999,6 +3019,7 @@ video {
 
 .card-body {
     padding: 2.5rem;
+    cursor: pointer;
 }
 
 .card-body p {
@@ -3072,6 +3093,7 @@ video {
     table-layout: fixed;
     width: 100%;
     padding: 0;
+    cursor: pointer;
 }
 
 
@@ -3358,6 +3380,7 @@ p.form-submit {
     -moz-transition: All 0.4s ease-in-out;
     -o-transition: All 0.4s ease-in-out;
 }
+
 .freen-author-img img:hover {
     transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
@@ -3365,6 +3388,7 @@ p.form-submit {
     -o-transform: rotate(360deg);
     -ms-transform: rotate(360deg);
 }
+
 .freen-widget a:not(.btn) {
     color: inherit;
 }

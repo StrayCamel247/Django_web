@@ -11,16 +11,19 @@
     {% endblock %}
     <meta charset="UTF-8">
     <meta name="msvalidate.01" content="037C463FCD6495301662778FC939CD57" />
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="baidu-site-verification" content="PVrsG5G9a2" />
     <!-- CSS FILES -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" type="image/x-icon" mce_href="{% static 'image/favicon.ico' %}" href="{% static 'image/favicon.ico' %}"  media="screen" />
-    
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link href="{% static 'css/style.css' %}?v=20190107.08" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/x-icon" mce_href="{% static 'image/favicon.ico' %}"
+        href="{% static 'image/favicon.ico' %}" media="screen" />
+
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
     {% block top_file %}
     {% endblock %}
@@ -32,7 +35,7 @@
     <!-- 头部菜单 -->
     <header class="header">
         <!-- 头部进度条 -->
-          <progress value="0" id="freen-progress-bar" class="freen-progress-bar" >
+        <progress value="0" id="freen-progress-bar" class="freen-progress-bar">
             <span class="freen-progress-container">
                 <span class="freen-progress-bar"></span>
             </span>
@@ -40,217 +43,204 @@
         <!-- 头部菜单-->
 
         <div class="top-left">
-                <div class="header-menu">
-                    {% if user.is_authenticated %}
-                    <div class="user-area dropdown float-left">
-                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="{{ user.avatar.url }}" alt="{{ user }}">
-                        </a>
-                        <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="/accounts/profile"><i class="fa fa-user"></i>My Profile</a>
-                            <a class="nav-link" href="/accounts/logout"><i class="fa fa-power-off"></i>Logout</a>
-                        </div>
+            <div class="header-menu">
+                {% if user.is_authenticated %}
+                <div class="user-avatar user-area dropdown float-left">
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <img class=" rounded-circle" src="{{ user.avatar.url }}" alt="{{ user }}">
+                    </a>
+                    <div class="user-menu dropdown-menu">
+                        <a class="nav-link" href="/accounts/profile"><i class="fa fa-user"></i>个人资料</a>
+                        <a class="nav-link" href="/accounts/logout"><i class="fa fa-power-off"></i>退出</a>
                     </div>
-                    {% endif %}
-
-
-                    <div class="header-left">
-                        <ul class="navbar-nav ml-auto">
-                            {% if user.is_authenticated %}
-                            {% else %}
-                            <li class="nav-item mr-2">
-                                <a class="nav-link py-md-3 " href="/accounts/login"><i class="fa fa-sign-in mr-1"></i>登陆</a>
-                            </li>
-                            <li class="nav-item mr-2">
-                                <a class="nav-link py-md-3 " href="/accounts/signup"><i class="fa fa-user-plus mr-1"></i>注册</a>
-                            </li>
-                            {% endif %}
-                            <li class="nav-item mr-2">
-                                <a class="nav-link py-md-3 " href="/"><i class="fa fa-home mr-1"></i>首页<span
-                                        class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item mr-2">
-                                <a class="freen-open-search nav-link py-md-3 " id="freen-open-search" href="#"><i
-                                        class="fa fa-search mr-1"></i>搜索查询</a>
-                            </li>
-                            <li class="nav-item mr-2">
-                                <a class="nav-link py-md-3 " href="/tool/"><i class="fa fa-filter"></i>在线工具</a>
-                            </li>
-                
-                
-                            <li class="nav-item mr-2 ">
-                
-                                <a class="nav-link py-md-3 " href="#"><i class="fa fa-anchor mr-1"></i>关于</a>
-                            </li>
-                
-                        </ul>
-                        <div class="dropdown for-notification">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-bell"></i>
-                                <span class="count bg-danger">3</span>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="notification">
-                                <p class="red">You have 3 Notification</p>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-check"></i>
-                                    <p>Server #1 overloaded.</p>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-info"></i>
-                                    <p>Server #2 overloaded.</p>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-warning"></i>
-                                    <p>Server #3 overloaded.</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="dropdown for-message">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-envelope"></i>
-                                <span class="count bg-danger">3</span>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="message">
-                                <p class="red">You have 3 Mails</p><a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/1.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Jonathan Smith</span>
-                                        <span class="time float-right">Just now</span>
-                                        <p>Hello, this is an example msg</p>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/2.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Jack Sanders</span>
-                                        <span class="time float-right">5 minutes ago</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="/static/admin/images/avatar/3.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Cheryl Wheeler</span>
-                                        <span class="time float-right">10 minutes ago</span>
-                                        <p>Hello, this is an example msg</p>
-                                    </div>
-                                </a>
-                
-                            </div>
-                        </div>
-                    </div>
-                   
                 </div>
+                {% endif %}
+
+
+                <div class="header-left">
+                    <ul class="navbar-nav ml-auto">
+                        {% if user.is_authenticated %}
+                        {% else %}
+                        <ul class="navbar-nav">
+
+                            <li class="nav-item mr-2">
+                                <a class="nav-link py-md-3 " href="/accounts/login/">登录</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-md-3 mr-2" href="/accounts/signup/">注册</a>
+                            </li>
+
+                        </ul>
+                        {% endif %}
+                        <li class="nav-item mr-2">
+                            <a class="nav-link py-md-3 " href="/"><i class="fa fa-home mr-1"></i>首页<span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item mr-2">
+                            <a class="freen-open-search nav-link py-md-3 " id="freen-open-search" href="#"><i
+                                    class="fa fa-search mr-1"></i>搜索查询</a>
+                        </li>
+                        <li class="nav-item mr-2">
+                            <a class="nav-link py-md-3 " href="/tool/"><i class="fa fa-filter"></i>在线工具</a>
+                        </li>
+
+
+                        <li class="nav-item mr-2 ">
+
+                            <a class="nav-link py-md-3 " href="/timeline"><i class="fa fa-anchor mr-1"></i>blog开发日志</a>
+                        </li>
+
+                    </ul>
+                    <div class="dropdown for-notification">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="notification"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-bell"></i>
+                            <span class="count bg-danger">3</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="notification">
+                            <p class="red">You have 3 Notification</p>
+                            <a class="dropdown-item media" href="#">
+                                <i class="fa fa-check"></i>
+                                <p>Server #1 overloaded.</p>
+                            </a>
+                            <a class="dropdown-item media" href="#">
+                                <i class="fa fa-info"></i>
+                                <p>Server #2 overloaded.</p>
+                            </a>
+                            <a class="dropdown-item media" href="#">
+                                <i class="fa fa-warning"></i>
+                                <p>Server #3 overloaded.</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown for-message">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="message"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-envelope"></i>
+                            <span class="count bg-danger">3</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="message">
+                            <p class="red">You have 3 Mails</p><a class="dropdown-item media" href="#">
+                                <span class="photo media-left"><img alt="avatar"
+                                        src="/static/admin/images/avatar/1.jpg"></span>
+                                <div class="message media-body">
+                                    <span class="name float-left">Jonathan Smith</span>
+                                    <span class="time float-right">Just now</span>
+                                    <p>Hello, this is an example msg</p>
+                                </div>
+                            </a>
+                            <a class="dropdown-item media" href="#">
+                                <span class="photo media-left"><img alt="avatar"
+                                        src="/static/admin/images/avatar/2.jpg"></span>
+                                <div class="message media-body">
+                                    <span class="name float-left">Jack Sanders</span>
+                                    <span class="time float-right">5 minutes ago</span>
+                                    <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                </div>
+                            </a>
+                            <a class="dropdown-item media" href="#">
+                                <span class="photo media-left"><img alt="avatar"
+                                        src="/static/admin/images/avatar/3.jpg"></span>
+                                <div class="message media-body">
+                                    <span class="name float-left">Cheryl Wheeler</span>
+                                    <span class="time float-right">10 minutes ago</span>
+                                    <p>Hello, this is an example msg</p>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
         </div>
 
         <div class="top-right">
         </div>
     </header>
-    
+
 
     <!--freen SIDEBAR -->
-    <aside id="freen-sidebar" class="freen-sidebar" >
+    <aside id="freen-sidebar" class="freen-sidebar">
         <div id="freen-sidebar-wrapper" class="freen-sidebar-wrapper d-flex align-items-start flex-column h-100 w-100">
-         <hr/>
-        <!-- AUTHOR BOX -->
-        {% include 'auther_box.html' %}
+            <hr />
+            <!-- AUTHOR BOX -->
+            {% include 'auther_box.html' %}
 
-        
-            
+
+
             <!-- MENU CONTAINER -->
-            {% if user.is_authenticated %}
             <div id="freen-sidebar-cell" class="freen-sidebar-cell w-100">
                 <!-- MENU -->
-                <nav id="freen-main-menu" class="menu-main-menu-container freen-main-menu">    
+                <nav id="freen-main-menu" class="menu-main-menu-container freen-main-menu">
                     <ul class="freen-menu-ul">
 
-                         <li><a href="#" ><i class="mr-1 fa fa-bell-o"></i>Notification<span class="count bg-danger">3</span></a>
+                        <li><a href="#"><i class="mr-1 fa fa-bell-o"></i>test<span class="count bg-danger">3</span></a>
                             <ul class="sub-menu">
-                               <li><a href="">功能完善中</a></li>
-                            </ul>   
-                        </li>
-                        <li><a href="#" ><i class="mr-1 fa fa-comments-o"></i>Message<span class="count bg-danger">3</span></a>
-                            <ul class="sub-menu">
-                               <li><a href="">功能完善中</a></li>
-                            </ul>   
-                        </li>
-                        <li><a href="/accounts/profile"><i class="fa fa-user"></i>Information</a>
-                            <ul class="sub-menu">
-                               <li><a href="/accounts/profile">个人信息</a></li>
-                            </ul>   
-                        </li>
-                      
-
-                        {% get_data_date as data_date %}
-
-                        
-                        <li><a href="#"><i class="fa mr-1 fa-calendar" ></i>归档</a>
-                            {% if data_date %}
-                            <ul class="sub-menu">
-
-                                {% for date in data_date %}
-                                <li><a href='{% url 'blog:date' date|date:'Y' date|date:'m' %}'>{{ date|date:'Y-m' }}</a></li>
-                                
-                                <ul class="sub-menu">
-                                <li><a href="">blog_1</a></li>
-                                {% endfor %}
-                                {% endif %}
-                            </ul>
+                                <li><a href="">test</a></li>
                             </ul>
                         </li>
+
                     </ul>
-                    
+
                 </nav>
             </div>
-            {% endif %}
             <!-- SOCIAL MEDIA ICONS -->
             <div id="freen-social-cell" class="freen-social-cell mt-auto w-100">
                 <div id="freen-social-inner" class="freen-social-inner">
                     <ul class="freen-social-icons">
                         <li><a href="/xadmin"><i class="fa fa-cog"></i></a></li>
-                        <li><a href="/admin"><i class="fa fa-cogs" ></i></a></li>
+                        <li><a href="/admin"><i class="fa fa-cogs"></i></a></li>
                         <li><a href="/md2html" title=""><i class="fa fa-pencil-square-o"></i></a></li>
                         <li><a href="/accounts/contacts/root" title=""><i class="fa fa-users"></i></a></li>
-                    <div class="clearfix"></div>
+                        <div class="clearfix"></div>
                 </div>
             </div>
         </div>
     </aside>
-    
+
     <!-- SITE WRAPPER -->
     <section id="freen-site-wrapper" class="freen-site-wrapper">
-    
-       
-        <!-- MAIN CONTAINER -->
-        
-        {% block mdeditor_contain %}
-        <main  class="container-fluid row">
 
-            
+
+        <!-- MAIN CONTAINER -->
+
+        {% block mdeditor_contain %}
+        <main class="container-fluid row">
+
+
 
             <div class="col-lg-9">
                 <!-- SLIDER-LSEFT -->
                 <!-- 覆盖轮播图的模块 -->
-                {% block main_contain %} 
-                    <!-- 轮播图 -->
-                    
-                    <!-- 不覆盖轮播图的模块 -->
-                    <div class="alert alert-info">
-                        <div class="close" data-dismiss="alert">×</div>
-                        <a>Info</a>
-                        <p>Heads up! This alert needs your attention, but it's not super important. </p>
+                {% block main_contain %}
+                <!-- 轮播图 -->
+                <!-- 不覆盖轮播图的模块 -->
+                <!--消息块-->
+                {% if messages %}
+                <div class="container">
+                    {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-secondary{% endif %} alert-dismissible rounded-0 fade show"
+                        role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    {% block content %}
-                    {% endblock %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% block content %}
+                {% endblock %}
                 {% endblock %}
             </div>
             <!-- SIDER-RIGHT -->
-            
+
             <div class="col-lg-3">
-                
+
                 <!-- 分类 -->
                 <div class="freen-categories">
                     <p class=""><span><i class="my-fa fa fa-book" aria-hidden="true"></i>&nbsp;分类</span></p>
@@ -261,10 +251,11 @@
                         <li>
                             <a href="{{ each.get_absolute_url }}"></i>&nbsp;{{ each.name }}
                                 <span class="badge badge-pill badge-info">{{each.total_num}}</span>
-                             </a>
+                            </a>
                             <div class="progress progress-striped active">
 
-                                <a id="category_progress" class="progress-bar progress-bar-success" style="width: {%  widthratio  each.total_num num 100 %}%"  >
+                                <a id="category_progress" class="progress-bar progress-bar-success"
+                                    style="width: {%  widthratio  each.total_num num 100 %}%">
                                 </a>
                             </div>
                         </li>
@@ -280,7 +271,7 @@
                     <div class="freen-post-list">
                         <div class="freen-post-list-left">
                             <a href="article/{{ pop.slug }}">
-                                <img src="{{ pop.img.url }}" alt="">   
+                                <img src="{{ pop.img.url }}" alt="">
                             </a>
                         </div>
                         <div class="freen-post-list-right">
@@ -293,19 +284,19 @@
                         </div>
                     </div>
                     {% endfor %}
-                     <!-- 归档 -->
-                                            
+                    <!-- 归档 -->
+
                     <!-- 友链 -->
                     <div class="freen-post-list">
                         <p class=""><span><i class="fa fa-link mr-2 f-17"></i>&nbsp;|友情链接</span></p>
-                        
+
                         {% get_friends as friends %}
                         {% if friends %}
                         {% for friend in friends %}
                         <div class="freen-post-list">
                             <div class="freen-post-list-left ">
                                 <a href="{{ friend.link }}">
-                                    <img src="{{ friend.logo }}" alt="">   
+                                    <img src="{{ friend.logo }}" alt="">
                                 </a>
                             </div>
                             <div class="freen-post-list-right">
@@ -316,19 +307,19 @@
                         </div>
                         {% endfor %}
                         {% else %}
-                                &nbsp;&nbsp;暂无友链，欢迎来战
+                        &nbsp;&nbsp;暂无友链，欢迎来战
                         {% endif %}
                     </div>
 
 
                 </div>
             </div>
-            
-        </main>
-         {% endblock %}
-        
 
-        
+        </main>
+        {% endblock %}
+
+
+
 
         <!-- FOOTER -->
         <footer id="freen-footer" class="freen-footer col-lg-12">
@@ -336,83 +327,40 @@
                 <!-- CREDITS -->
                 <div class="freen-footer-credits" class="freen-footer-credits">
                     <p>
-                        CREATED BY  <a href="http://boywithacoin.cn/" target="_blank">{{ AUTHOR_NAME }}  </a>
+                        CREATED BY <a href="http://boywithacoin.cn/" target="_blank">{{ AUTHOR_NAME }} </a>
                     </p>
                     <hr />
                     <p>
-                        <a  href="https://www.djangoproject.com/" target="_blank"  ><i class="fa fa-building" aria-hidden="true"></i>Django2.0.3</a>-<a href="https://django-redis-chs.readthedocs.io/zh_CN/latest/" target="_blank"><i class="fa fa-book" aria-hidden="true"></i>Django-redisCaching</a>-<a href="http://www.fontawesome.com.cn/" target="_blank"><i class="fa fa-flag" aria-hidden="true"></i> Font Awesome 4.7.1</a>-<a href="https://pandao.github.io/editor.md/examples/index.html"><i class="fa fa-pencil-square" aria-hidden="true"></i>Mdeditor</a>-
-                        <a href="https://dash.cloudflare.com/"><i class="fa fa-cloud" aria-hidden="true"></i>CloudFareCDN解析&SSL证书</a>-
-                        <a href="/sitemap.xml" title="Sitemap" target="_blank"><i class="fa fa-globe" aria-hidden="true"></i>Sitemap</a>
+                        <a href="https://www.djangoproject.com/" target="_blank"><i class="fa fa-building"
+                                aria-hidden="true"></i>Django2.0.3</a>-<a
+                            href="https://django-redis-chs.readthedocs.io/zh_CN/latest/" target="_blank"><i
+                                class="fa fa-book" aria-hidden="true"></i>Django-redisCaching</a>-<a
+                            href="http://www.fontawesome.com.cn/" target="_blank"><i class="fa fa-flag"
+                                aria-hidden="true"></i> Font Awesome 4.7.1</a>-<a
+                            href="https://pandao.github.io/editor.md/examples/index.html"><i class="fa fa-pencil-square"
+                                aria-hidden="true"></i>Mdeditor</a>-
+                        <a href="https://dash.cloudflare.com/"><i class="fa fa-cloud"
+                                aria-hidden="true"></i>CloudFareCDN解析&SSL证书</a>-
+                        <a href="/sitemap.xml" title="Sitemap" target="_blank"><i class="fa fa-globe"
+                                aria-hidden="true"></i>Sitemap</a>
                     </p>
                 </div>
             </div>
         </footer>
     </section>
-    
+
     <!-- GO TO TOP BUTTON -->
-    
+
     <a id="freen-gototop" class="freen-gototop" href="#"><i class="fa fa-hand-o-up"></i></a>
-    
+
     <!-- SLIDE PANEL OVERLAY -->
     <div id="freen-overlay" class="freen-overlay"></div>
     <!-- SLIDE PANEL -->
-    
-    <div id="freen-panels" class="freen-panels">
-        <aside id="freen-panel" class="freen-panel">
-            <div class="freen-panel-inner">
-                <!-- CLOSE SLIDE PANEL BUTTON -->
-                <a href="#" class="freen-panel-close"><i class="fa fa-times"></i></a>
-                <!-- AUTHOR BOX -->
-                <div class="freen-author-box  freen-widget">
-                    <div class="freen-author-img">
-                        <img src="{% static 'image/logo.png' %}" alt="JOHN DOE" />
-                    </div>
-                    <h3><span>  {{ AUTHOR_NAME }}  </span></h3>
-                    <p class="freen-author-subtitle"></p>
-                    <p class="freen-author-description">{{AUTHOR_DESC}}</p>
+    {% include 'slide_panel.html' %}
 
-                </div>
-                <!-- RECENT POSTS -->
-                <div class="freen-recent-entries freen-widget">
-                    <h5 class="freen-title-with-border"><span>最近文章</span></h5>
-                    <ul>
-                        {% for post in post_list %}
-                        <li>
-                            <a href="">  post.title  </a>
-                            <span class="post-date">  post.pub_time |date:'Y-m-d'  </span>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <!-- CATEGORIES -->
-                <div class="freen-categories freen-widget">
-                    <h5 class="freen-title-with-border"><span>分类</span></h5>
-                    <ul>
-                        {% for category in category_list %}
-                        <li>
-                            <a href="#" title="">  category  </a> <span class="badge badge-pill badge-default">n</span>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                  <!-- ARCHIVE -->
-                <div class="freen-categories freen-widget">
-                    <h5 class="freen-title-with-border"><span>归档</span></h5>
-                    <ul>
-                        {% for m in months %}
-                        <li>
-                            <a href="{% url 'archives' year=m.year month=m.month %}" title="">  m | date:'Y年m月'  </a> <span class="badge badge-pill badge-default">n</span>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <!-- TAGS -->
-            </div>
-        </aside>
-    </div>
-    
+
     <!-- FULLSCREEN SEARCH -->
-    
+
     <div id="freen-fullscreen-search" class="freen-fullscreen-search">
         <div id="freen-fullscreen-search-content" class="freen-fullscreen-search-content">
             <a href="#" id="freen-close-search" class="freen-close-search"><i class="fa fa-times"></i></a>
@@ -428,7 +376,7 @@
 
         </div>
     </div>
-    
+
     <!-- JS FILES -->
 
     {% block end_file %}
@@ -437,22 +385,24 @@
     <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://cdn.bootcss.com/salvattore/1.0.9/salvattore.min.js"></script>
     <script src="{% static 'js/panel.js' %}"></script>
     <script src="{% static 'js/reading-position-indicator.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-   <!--  <script src="{% static 'js/TweenLite/TweenLite.min.js' %}">"></script>
+    <!--  <script src="{% static 'js/TweenLite/TweenLite.min.js' %}">"></script>
    <script src="{% static 'js/TweenLite/EasePack.min.js' %}">"></script> -->
-     <script src="{% static 'js/backcanvas.js' %}">"></script>
-    
+
+
     <!-- POST SLIDER -->
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#freen-post-slider').slick({
                     autoplay: true,
                     autoplaySpeed: 5000,
@@ -464,7 +414,7 @@
                     fade: true
                 });
             });
-            $(window).on('load', function() {
+            $(window).on('load', function () {
                 $('#freen-post-slider').css('opacity', '1');
                 $('#freen-post-slider').parent().removeClass('freen-bg-loader');
             });
@@ -472,9 +422,9 @@
     </script>
     <!-- POST CAROUSEL -->
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#freen-post-carousel').slick({
                     infinite: false,
                     slidesToScroll: 1,
