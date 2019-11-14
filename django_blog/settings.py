@@ -35,11 +35,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['boywithacoin.cn', '127.0.0.1','www.boywithacoin.cn']
 
-
+SYSTEM_HOST = '127.0.0.1'
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
-    
+    'crispy_forms',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -50,14 +50,12 @@ INSTALLED_APPS = [
     'apps.comment',
     'apps.tool',
     #lib
+    'imagekit',  # 注册 imagekit处理压缩图片
     'mdeditor',#django mdeditor富文本编辑器
     'django.contrib.sitemaps',#网站地图
     'uuslug',#将中文转化成拼音 slug 的插件
     'markdown',#python自带的md翻译工具
-    #xadmin后台需要
-    'xadmin',
-    'crispy_forms',
-    'reversion',  # bootstrap表单样式
+    
     # allauth需要注册的应用    
     'django.contrib.auth',
     'django.contrib.sites',
@@ -155,11 +153,31 @@ DEFAULT_FROM_EMAIL = 'aboyinsky@outlook.com'
 
 
 # 这里是随便写的一个 也可以是 /accounts/logout/ 测试比较随便
-LOGIN_REDIRECT_URL = '/accounts/profile/'
+LOGIN_REDIRECT_URL = '/'
+# 要求用户注册时必须填写email
+ACCOUNT_EMAIL_REQUIRED = True
 # 注册中邮件验证方法:“强制（mandatory）”,“可选（optional）【默认】”或“否（none）”之一。
 # 开启邮箱验证的话，如果邮箱配置不可用会报错，所以默认关闭，根据需要自行开启
-# ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_EMAIL_VERIFICATION = os.getenv('IZONE_ACCOUNT_EMAIL_VERIFICATION', 'optional')
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# 作用于第三方账号的注册
+# SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional' | 'mandatory' | 'none'
+# 邮件发送后的冷却时间(以秒为单位)
+ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN = 10
+# # 邮箱确认邮件的截止日期(天数)
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+
+# # 指定要使用的登录方法(用户名、电子邮件地址或两者之一)"username" | "email" | "username_email"
+ACCOUNT_AUTHENTICATION_METHOD="username_email"
+# # 登录尝试失败的次数
+# ACCOUNT_LOGIN_ATTEMPTS_LIMIT(=5)
+# # 从上次失败的登录尝试，用户被禁止尝试登录的持续时间
+# ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT(=300)
+# # 更改为True，用户一旦确认他们的电子邮件地址，就会自动登录
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
+# # 更改或设置密码后是否自动退出
+# ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE(=False)
+# 更改为True，用户将在重置密码后自动登录
 ROOT_URLCONF = 'blog.urls'
 
 AUTH_USER_MODEL = 'user.Ouser'
@@ -276,4 +294,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
 # 统一分页设置
 #指定如何对搜索结果分页，这里设置为每 10 项结果为一页。
 BASE_PAGE_BY = 7
-BASE_ORPHANS = 5
+BASE_ORPHANS = 4

@@ -21,7 +21,6 @@ from django.conf.urls import url
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
-import xadmin
 
 from django.contrib import admin
 
@@ -35,9 +34,7 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('mdeditor/',include('mdeditor.urls')),
     path('admin/', admin.site.urls),
-    path('xadmin/', xadmin.site.urls),
     path('mdeditor/', include('mdeditor.urls')),  # Django-mdeditor URLS
      # index
     path('', include('apps.blog.urls'), name='blog'),
@@ -47,8 +44,7 @@ urlpatterns = [
     path('accounts/', include('apps.user.urls'), name='accounts'),
     #评论
     path('comment/', include('apps.comment.urls'), name = 'comment'),
-    #工具
-    path('md2html/', blog_views.md2html, name='markdown'),
+    
     #网站地图
     path('sitemap.xml/', sitemap, {'sitemaps':sitemaps}, name = 'django.contrib.sitemaps.views.sitemap'),
 ]

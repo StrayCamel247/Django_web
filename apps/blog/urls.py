@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import IndexView, DetailView, CategoryView, MySearchView
+from .views import IndexView, DetailView, CategoryView, MySearchView, TimelineView
 app_name='blog'
 urlpatterns = [
     # 首页
@@ -29,4 +29,6 @@ urlpatterns = [
     url(r'^tag/(?P<tag>.*?)/$', IndexView.as_view(template_name='category.html'), name='tag'),
     # 文章详情页面
     url(r'^article/(?P<slug>.*?)/$', DetailView.as_view(), name='article'),
+    # timeline页面
+    url(r'^timeline/$', TimelineView.as_view(), name='timeline'),  
 ]

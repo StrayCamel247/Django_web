@@ -8,6 +8,11 @@
 <meta name="keywords" content="{{ query }},全文搜索,django-haystack">
 {% endblock %}
 {% block content %}
+<div class="description bg-white px-3 pt-3 pb-1">
+    <p class="float-right mb-0">共<span class="mx-2 text-info">{{ paginator.count }}</span>篇</p>
+    <h5 class="f-17">搜索内容：<strong>{{ query }}</strong></h5>
+    <p class="f-16">搜索内容若在标题和介绍则已高亮，若是文章内容则请点击查看</p>
+</div>
     <!-- BLOG POSTS -->
     {% for article in search_list %}
     <!-- POST -->

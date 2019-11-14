@@ -1,4 +1,4 @@
-import markdown
+# import markdown
 import time
 from django.views import generic
 from django.conf import settings
@@ -6,14 +6,19 @@ from django.utils.text import slugify
 from django.shortcuts import render, HttpResponse, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .models import Article, Category, Tag
-from markdown.extensions.toc import TocExtension  # 锚点的拓展
+from .models import Article, Category, Tag, Timeline
+# from markdown.extensions.toc import TocExtension  # 锚点的拓展
 from django.core.cache import cache
 from haystack.generic_views import SearchView  # 导入搜索视图
 from haystack.query import SearchQuerySet
 
 
 # Create your views here.
+class TimelineView(generic.ListView):
+    model = Timeline
+    template_name = 'timeline.html'
+    context_object_name = 'timeline_list'
+
 # 重写搜索视图，可以增加一些额外的参数，且可以重新定义名称
 class MySearchView(SearchView):
     # 返回搜索结果集
@@ -113,10 +118,3 @@ def global_setting(request):
 
 
 
-def md2html(request):   #md2html工具页
-
-    return render(request, 'tools_html/md2html.html', 
-        { 
-        }
-        
-    )

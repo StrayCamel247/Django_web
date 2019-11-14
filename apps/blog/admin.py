@@ -1,6 +1,17 @@
 from django.contrib import admin
-from .models import Article, Category, Carousel, Keyword, FriendLink
+from .models import Article, Category, Carousel, Keyword, FriendLink, Timeline
 
+
+@admin.register(Timeline)
+class TimelineAdmin(admin.ModelAdmin):
+    # list_display = ('title', 'side', 'update_date')
+    fieldsets = (
+        # ('图标信息', {'fields': (('icon', 'icon_color'),)}),
+        ('时间位置', {'fields': (('side'),)}),
+        ('主要内容', {'fields': ('title', 'content')}),
+    )
+    # date_hierarchy = 'update_date'
+    # list_filter = ('update_date')
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
