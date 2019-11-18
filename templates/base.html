@@ -23,7 +23,7 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'md_css/monokai.css' %}" rel="stylesheet" type="text/css">
+    <!-- <link href="{% static 'md_css/monokai.css' %}" rel="stylesheet" type="text/css"> -->
     <link rel="shortcut icon" type="image/x-icon" mce_href="{% static 'image/favicon.ico' %}"
         href="{% static 'image/favicon.ico' %}" media="screen" />
 
@@ -46,7 +46,6 @@
     <header mdui-headroom="options" class="header">
         
         <!-- 头部菜单-->
-
         <div class="top-left ">
             <div class="header-menu">
                 {% if user.is_authenticated %}
@@ -97,7 +96,6 @@
                         {% endcache %}
 
                     </ul>
-                    {% if user.is_authenticated %}
                     {% get_notifications user is_read as notifications %}
                     <div class="dropdown for-notification">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="notification"
@@ -168,7 +166,6 @@
 
                         </div>
                     </div>
-                    {% endif %}
                 </div>
 
             </div>
@@ -176,7 +173,13 @@
         </div>
 
         <div class="top-right">
-            
+            <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform" action="{% url 'blog:search' %}">
+                
+                    <input type="search" name="q" class="form-control rounded-0" placeholder="站内搜索" autocomplete="off"
+                        required="True">
+                    
+                </div><!-- /input-group -->
+            </form>
         </div>
     </header>
 
@@ -222,7 +225,7 @@
     </aside>
     {% endcache %}
     <!-- SITE WRAPPER -->
-    <section id="freen-site-wrapper" class="freen-site-wrapper">
+    <section id="freen-site-wrapper" class="freen-site-wrapper" >
 
 
         <!-- MAIN CONTAINER -->
@@ -256,11 +259,11 @@
                 {% endblock %}
             </div>
             <!-- SIDER-RIGHT -->
-            {% cache 7200 'sider_right' %}
             <div class="col-lg-3">
 
                 <!-- 分类 -->
-                <div class="freen-categories">
+                <div class="freen-categories freen-widget">
+                    <div class="freen-widget-body">
                     <p class=""><span><i class="my-fa fa fa-book" aria-hidden="true"></i>&nbsp;分类</span></p>
                     <ul>
                         {% get_categoty_list as categories %}
@@ -278,11 +281,12 @@
                             </div>
                         </li>
                         {% endfor %}
-                        <hr>
                     </ul>
+                    </div>
                 </div>
                 <!-- 热门 -->
-                <div class="freen-post-list-wrapper">
+                <div class="freen-post-list-wrapper freen-widget">
+                    <div class="freen-widget-body">
                     <p class=""><span><i class="fa fa-fire mr-1"></i>&nbsp;|热门</span></p>
                     {% get_article_list '-views' 4 as pop_article %}
                     {% for pop in pop_article %}
@@ -302,9 +306,11 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <!-- 归档 -->
-
+                    </div>
+                </div>
                     <!-- 友链 -->
+                <div class="freen-post-list-wrapper freen-widget">
+                    <div class="freen-widget-body">
                     <div class="freen-post-list">
                         <p class=""><span><i class="fa fa-link mr-2 f-17"></i>&nbsp;|友情链接</span></p>
 
@@ -328,44 +334,44 @@
                         &nbsp;&nbsp;暂无友链，欢迎来战
                         {% endif %}
                     </div>
+                </div>
 
 
                 </div>
             </div>
-            {% endcache %}
         </main>
         {% endblock %}
-
-
-
-
         <!-- FOOTER -->
-        <footer id="freen-footer" class="freen-footer col-lg-12">
-            <div class="container">
-                <!-- CREDITS -->
-                <div class="freen-footer-credits" class="freen-footer-credits">
-                    <p>
-                        CREATED BY <a href="http://boywithacoin.cn/" target="_blank">{{ AUTHOR_NAME }} </a>
-                    </p>
-                    <hr />
-                    <p>
-                        <a href="https://www.djangoproject.com/" target="_blank"><i class="fa fa-building"
-                                aria-hidden="true"></i>Django2.0.3</a>-<a
-                            href="https://django-redis-chs.readthedocs.io/zh_CN/latest/" target="_blank"><i
-                                class="fa fa-book" aria-hidden="true"></i>Django-redisCaching</a>-<a
-                            href="http://www.fontawesome.com.cn/" target="_blank"><i class="fa fa-flag"
-                                aria-hidden="true"></i> Font Awesome 4.7.1</a>-<a
-                            href="https://pandao.github.io/editor.md/examples/index.html"><i class="fa fa-pencil-square"
-                                aria-hidden="true"></i>Mdeditor</a>-
-                        <a href="https://dash.cloudflare.com/"><i class="fa fa-cloud"
-                                aria-hidden="true"></i>CloudFareCDN解析&SSL证书</a>-
-                        <a href="/sitemap.xml" title="Sitemap" target="_blank"><i class="fa fa-globe"
-                                aria-hidden="true"></i>Sitemap</a>
-                    </p>
-                </div>
+        <footer id="freen-footer" class="container-fluid mt-4 py-0">
+        
+            <!-- CREDITS -->
+            <div class="freen-footer-credits" class="freen-footer-credits">
+                <p>
+                    CREATED BY <a href="http://boywithacoin.cn/" target="_blank">{{ AUTHOR_NAME }} </a>
+                </p>
+                <hr />
+                <p>
+                    <a href="https://www.djangoproject.com/" target="_blank"><i class="fa fa-building"
+                            aria-hidden="true"></i>Django2.0.3</a>-<a
+                        href="https://django-redis-chs.readthedocs.io/zh_CN/latest/" target="_blank"><i class="fa fa-book"
+                            aria-hidden="true"></i>Django-redisCaching</a>-<a href="http://www.fontawesome.com.cn/"
+                        target="_blank"><i class="fa fa-flag" aria-hidden="true"></i> Font Awesome 4.7.1</a>-<a
+                        href="https://pandao.github.io/editor.md/examples/index.html"><i class="fa fa-pencil-square"
+                            aria-hidden="true"></i>Mdeditor</a>-
+                    <a href="https://dash.cloudflare.com/"><i class="fa fa-cloud"
+                            aria-hidden="true"></i>CloudFareCDN解析&SSL证书</a>-
+                    <a href="/sitemap.xml" title="Sitemap" target="_blank"><i class="fa fa-globe"
+                            aria-hidden="true"></i>Sitemap</a>
+                </p>
             </div>
+        
         </footer>
+
+
+
+        
     </section>
+     
     <!-- modals -->
     <div class="modal fade" id="wechat" tabindex="-1" role="dialog" aria-labelledby="QRTitle" style="display: none;"
         aria-hidden="true">
