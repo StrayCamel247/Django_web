@@ -1,4 +1,7 @@
 {% load static %}
+
+{% load cache %}
+{% cache 7200 'slide_panel' %}
 <div id="freen-panels" class="freen-panels">
     <aside id="freen-panel" class="freen-panel">
         <div class="freen-panel-inner">
@@ -19,19 +22,19 @@
                 <ul>
                     
                     <li>
-                        <a href="single-post.html">django框架的个人博客网站</a>
+                        <a href="#">django框架的个人博客网站</a>
                         <span class="post-date">2017.11 - 至今</span>
                     </li>
                     <li>
-                        <a href="single-post.html">dcg武汉理工数传实习</a>
+                        <a href="#">dcg武汉理工数传实习</a>
                         <span class="post-date">2019.07 - 2019.08</span>
                     </li>
                     <li>
-                        <a href="single-post.html">express框架的相亲网站</a>
+                        <a href="#">express框架的相亲网站</a>
                         <span class="post-date">2017.09 - 2017.12</span>
                     </li>
                     <li>
-                        <a href="single-post.html">武汉理工大学-信息安全实验室</a>
+                        <a href="#">武汉理工大学-信息安全实验室</a>
                         <span class="post-date">2017.07 - 2017.08</span>
                     </li>
                 </ul>
@@ -88,3 +91,4 @@
         </div>
     </aside>
 </div>
+{% endcache %}

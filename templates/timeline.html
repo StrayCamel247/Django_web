@@ -18,7 +18,7 @@
 {% cache 7200 'cache_timeline_tag' %}
 <div class="container">
     <div class="page-header mt-0">
-        <h1 id="timeline"><i class="fa fa-hourglass-half mr-2"></i>建站日志</h1>
+        <h1 id="timeline">建站日志</h1>
     </div>
     <ul class="timeline" id="timeline">
         {% for timeline in timeline_list %}
@@ -31,13 +31,12 @@
             <div  class="timeline-badge {{ timeline.icon_color }}"><a href="/article/{{ timeline.slug }}"><img style="border-radius:50%" src="/static/media/{{ timeline.icon }} "></a></div>
             <div class="timeline-panel">
                 <div class="timeline-heading">
-                    <a href="/article/{{ timeline.slug }}"></a>
-                    <h2  class="timeline-title text-info">{{ timeline.title_to_emoji }}</h2>
+                    
+                    <h2  class="timeline-title text-info"><a href="/article/{{ timeline.slug }}">{{ timeline.title_to_emoji }}</a></h2>
                     
                     <p class="mb-1">
                         <span class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ timeline.update_date|date:'Y-m-d'  }}</span>
                     </p>
-                    </a>
                 </div>
                 <div class="timeline-body">
                     {{ timeline.content_to_markdown|safe }}

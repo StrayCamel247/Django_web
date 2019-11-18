@@ -6,6 +6,7 @@
 #emoji-btns,
 .editor-btns .btn {
     background: #fff;
+    color: #000;
 }
 #emoji-btns:hover,
 .editor-btns .btn:hover {

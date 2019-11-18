@@ -32,7 +32,11 @@ class ArticleAdmin(admin.ModelAdmin):
     list_per_page = 50  # 控制每页显示的对象数量，默认是100
 
     # filter_horizontal = ('tags', 'keywords')  # 给多选增加一个左右添加的框
-
+    # fieldsets = (
+    #     #         ('图标信息', {'fields': (('icon', 'icon_color'),)}),
+    #     #         ('时间位置', {'fields': (('side', 'update_date', 'star_num'),)}),
+    #     #         ('主要内容', {'fields': ('title', 'content')}),
+    #     #     )
     # 限制用户权限，只能看到自己编辑的文章
     def get_queryset(self, request):
         qs = super(ArticleAdmin, self).get_queryset(request)

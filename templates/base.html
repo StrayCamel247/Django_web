@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 {% load static %}
 {% load blog_tags %}
-
+{% load cache %}
+{% load comment_tags %}
 <html lang="en-US">
 
 <head>
@@ -15,11 +16,14 @@
         content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="baidu-site-verification" content="PVrsG5G9a2" />
     <!-- CSS FILES -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <!-- mdui-headroom -->
+    <link rel="stylesheet" href="//www.mdui.org/source/dist/css/mdui.min.css" />
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css"> -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="{% static 'css/style.css' %}?v=20190107.08" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'md_css/monokai.css' %}" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/x-icon" mce_href="{% static 'image/favicon.ico' %}"
         href="{% static 'image/favicon.ico' %}" media="screen" />
 
@@ -32,17 +36,18 @@
 
 <body>
     <!-- READING POSITION INDICATOR -->
+    <!-- 头部进度条 -->
+    <progress value="0" id="freen-progress-bar" class="freen-progress-bar">
+        <span class="freen-progress-container">
+            <span class="freen-progress-bar"></span>
+        </span>
+    </progress>
     <!-- 头部菜单 -->
-    <header class="header">
-        <!-- 头部进度条 -->
-        <progress value="0" id="freen-progress-bar" class="freen-progress-bar">
-            <span class="freen-progress-container">
-                <span class="freen-progress-bar"></span>
-            </span>
-        </progress>
+    <header mdui-headroom="options" class="header">
+        
         <!-- 头部菜单-->
 
-        <div class="top-left">
+        <div class="top-left ">
             <div class="header-menu">
                 {% if user.is_authenticated %}
                 <div class="user-avatar user-area dropdown float-left">
@@ -73,6 +78,7 @@
 
                         </ul>
                         {% endif %}
+                        {% cache 7200 'nav' %}
                         <li class="nav-item mr-2">
                             <a class="nav-link py-md-3 " href="/"><i class="fa fa-home mr-1"></i>首页<span
                                     class="sr-only">(current)</span></a>
@@ -84,34 +90,45 @@
                         <li class="nav-item mr-2">
                             <a class="nav-link py-md-3 " href="/tool/"><i class="fa fa-filter"></i>在线工具</a>
                         </li>
-
-
                         <li class="nav-item mr-2 ">
 
                             <a class="nav-link py-md-3 " href="/timeline"><i class="fa fa-anchor mr-1"></i>blog开发日志</a>
                         </li>
+                        {% endcache %}
 
                     </ul>
+                    {% if user.is_authenticated %}
+                    {% get_notifications user is_read as notifications %}
                     <div class="dropdown for-notification">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="notification"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell"></i>
-                            <span class="count bg-danger">3</span>
+                            <span class="count bg-danger">{% get_notifications_count user 'false' %}</span>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="notification">
-                            <p class="red">You have 3 Notification</p>
-                            <a class="dropdown-item media" href="#">
+                            <a class="dropdown-item media" href="{% url 'comment:notification' %}">
+                                <i class="fa fa-bullhorn mx-1"></i>
+                                <p>{% get_notifications_count user 'false' %}未读消息|管理消息</p>
+                            </a>
+                            {% for each in notifications %}
+                            {% if not each.is_read %}
+                            <a class="dropdown-item media" href="{{ each.comment.belong.get_absolute_url }}#com-{{ each.comment.id }}">
+                                <i class="fa fa-warning"></i>
+                                <p >{{ each.create_p }}回复你：{{ each.comment.content|truncatechars:15|safe }}
+                                </p>
+                            </a>
+                            
+                            
+                            {% endif %}
+                            {% endfor %}
+                            <!-- <a class="dropdown-item media" href="#">
                                 <i class="fa fa-check"></i>
                                 <p>Server #1 overloaded.</p>
                             </a>
                             <a class="dropdown-item media" href="#">
                                 <i class="fa fa-info"></i>
                                 <p>Server #2 overloaded.</p>
-                            </a>
-                            <a class="dropdown-item media" href="#">
-                                <i class="fa fa-warning"></i>
-                                <p>Server #3 overloaded.</p>
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                     <div class="dropdown for-message">
@@ -123,7 +140,7 @@
                         <div class="dropdown-menu" aria-labelledby="message">
                             <p class="red">You have 3 Mails</p><a class="dropdown-item media" href="#">
                                 <span class="photo media-left"><img alt="avatar"
-                                        src="/static/admin/images/avatar/1.jpg"></span>
+                                        src="#" alt="。"></span>
                                 <div class="message media-body">
                                     <span class="name float-left">Jonathan Smith</span>
                                     <span class="time float-right">Just now</span>
@@ -141,7 +158,7 @@
                             </a>
                             <a class="dropdown-item media" href="#">
                                 <span class="photo media-left"><img alt="avatar"
-                                        src="/static/admin/images/avatar/3.jpg"></span>
+                                        src="/static/admin/images/avatar/3.jpg" alt="。"></span>
                                 <div class="message media-body">
                                     <span class="name float-left">Cheryl Wheeler</span>
                                     <span class="time float-right">10 minutes ago</span>
@@ -151,6 +168,7 @@
 
                         </div>
                     </div>
+                    {% endif %}
                 </div>
 
             </div>
@@ -158,11 +176,13 @@
         </div>
 
         <div class="top-right">
+            
         </div>
     </header>
 
-
+    {% block main_contain %}
     <!--freen SIDEBAR -->
+    {% cache 7200 'freen-sidebar' %}
     <aside id="freen-sidebar" class="freen-sidebar">
         <div id="freen-sidebar-wrapper" class="freen-sidebar-wrapper d-flex align-items-start flex-column h-100 w-100">
             <hr />
@@ -200,7 +220,7 @@
             </div>
         </div>
     </aside>
-
+    {% endcache %}
     <!-- SITE WRAPPER -->
     <section id="freen-site-wrapper" class="freen-site-wrapper">
 
@@ -215,7 +235,6 @@
             <div class="col-lg-9">
                 <!-- SLIDER-LSEFT -->
                 <!-- 覆盖轮播图的模块 -->
-                {% block main_contain %}
                 <!-- 轮播图 -->
                 <!-- 不覆盖轮播图的模块 -->
                 <!--消息块-->
@@ -235,10 +254,9 @@
                 
                 {% block content %}
                 {% endblock %}
-                {% endblock %}
             </div>
             <!-- SIDER-RIGHT -->
-
+            {% cache 7200 'sider_right' %}
             <div class="col-lg-3">
 
                 <!-- 分类 -->
@@ -249,7 +267,7 @@
                         {% get_article_num as num%}
                         {% for each in categories %}
                         <li>
-                            <a href="{{ each.get_absolute_url }}"></i>&nbsp;{{ each.name }}
+                            <a href="/{{ each.get_absolute_url }}"></i>&nbsp;{{ each.name }}
                                 <span class="badge badge-pill badge-info">{{each.total_num}}</span>
                             </a>
                             <div class="progress progress-striped active">
@@ -270,8 +288,8 @@
                     {% for pop in pop_article %}
                     <div class="freen-post-list">
                         <div class="freen-post-list-left">
-                            <a href="article/{{ pop.slug }}">
-                                <img src="{{ pop.img.url }}" alt="">
+                            <a href="/article/{{ pop.slug }}">
+                                <img src="{{ pop.img.url }}" alt="。">
                             </a>
                         </div>
                         <div class="freen-post-list-right">
@@ -314,7 +332,7 @@
 
                 </div>
             </div>
-
+            {% endcache %}
         </main>
         {% endblock %}
 
@@ -348,19 +366,34 @@
             </div>
         </footer>
     </section>
-
-    <!-- GO TO TOP BUTTON -->
-
-    <a id="freen-gototop" class="freen-gototop" href="#"><i class="fa fa-hand-o-up"></i></a>
-
+    <!-- modals -->
+    <div class="modal fade" id="wechat" tabindex="-1" role="dialog" aria-labelledby="QRTitle" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="/static/image/wechat.png" style="max-width: 100%" alt="img">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="modal fade" id="qq" tabindex="-1" role="dialog" aria-labelledby="QRTitle" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="/static/image/qq.png" style="max-width: 100%" alt="img">
+                </div>
+            </div>
+        </div>
+    </div> -->
+    
     <!-- SLIDE PANEL OVERLAY -->
     <div id="freen-overlay" class="freen-overlay"></div>
     <!-- SLIDE PANEL -->
     {% include 'slide_panel.html' %}
-
-
+    {% endblock %}
     <!-- FULLSCREEN SEARCH -->
-
     <div id="freen-fullscreen-search" class="freen-fullscreen-search">
         <div id="freen-fullscreen-search-content" class="freen-fullscreen-search-content">
             <a href="#" id="freen-close-search" class="freen-close-search"><i class="fa fa-times"></i></a>
@@ -372,16 +405,19 @@
                     </div>
                 </div>
             </form>
-
-
+    
+    
         </div>
     </div>
-
+    <!-- GO TO TOP BUTTON -->
+    <a id="freen-gototop" class="freen-gototop" href="#"><i class="fa fa-hand-o-up"></i></a>
     <!-- JS FILES -->
 
     {% block end_file %}
     {% endblock %}
     <!-- bootstrap只有引入umd/popper.js才有用 -->
+    <!-- 头部菜单自动下滑mdui-headroomjs -->
+    <script src="//www.mdui.org/source/dist/js/mdui.min.js"></script>
     <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
@@ -447,6 +483,20 @@
                 $('#freen-post-carousel').css('opacity', '1');
             });
         })(jQuery);
+    </script>
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
     </script>
 </body>
 

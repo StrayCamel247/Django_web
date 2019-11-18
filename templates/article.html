@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load blog_tags static comment_tags %}
-
+{% load cache %}
 
 {% block head_title %}{{ article.title }}_{{ article.category }}{% endblock %}
 {% block metas %}
-<meta name="description" content="{{ article.summary }}">
+<meta name="description" content="{{ article.summary_to_markdown }}">
 <meta name="keywords" content="{% keywords_to_str article %}">
 {% endblock %}
 {% block top_file %}
@@ -14,10 +14,10 @@
 <!-- 文本区 -->
 <link href="{% static 'mdeditor/css/editormd.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
-{% block mdeditor_contain %}
+{% block main_contain %}
 
 <!-- 标题 -->
-<div class="freen-page-title mb-4 col-lg-10" style=" padding-right: 15px; opacity: 1;">
+<!-- <div class="freen-page-title mb-4 col-lg-10" style=" padding-right: 15px; opacity: 1;">
     <h1><span>{{ object.title }}</span></h1>
     <div class="freen-page-title-meta">
         <div class="freen-author-meta">
@@ -29,36 +29,102 @@
         <div class="freen-date-meta">{{ object.create_date|date:'y-m-d' }}</div>
         <div class="freen-reading-meta">{{ object.views }}次浏览</div>
     </div>
-</div>
+</div> -->
  <!-- 文章目录标题 -->
 <!-- <div >
      <div class="markdown-body editormd-preview-container" id="custom-toc-container" style="" >文章目录</div>
 </div> -->
 <!-- 文章内容 -->
-<div class="">
- <div id="test-editormd-view" class="ml-1 col-lg-10">
-    <textarea id="append-test" style="display:none;">  {{ article.body|safe }}</textarea>     
-</div>
-<p>转载请注明：
-<a href="{% url 'blog:article' object.slug %}">Stray_Camel</a> &raquo;
-<a href="{% url 'blog:article' object.slug %}">{{ object.title }}</a>
-</p>
+<div class="article-cointain" >
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white border-0 rounded-0 mb-2 py-2 f-15">
+            <li class="breadcrumb-item">
+                <i class="fa fa-home mr-1"></i><a href="{% url 'blog:index' %}">首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ article.category.get_absolute_url }}">{{ article.category}}</a>
+            </li>
+            <li class="breadcrumb-item active d-none d-md-block" aria-current="page">{{ article.title }}</li>
+            <li class="breadcrumb-item active d-md-none" aria-current="page">当前位置</li>
+        </ol>
+    </nav>
+    <div class="rounded-0 border-0" id="article">
+        <div class="px-2 px-md-3 pb-0">
+            <h1 class="text-center font-weight-bold text-info">{{ article.title }}</h1>
+            <hr>
+            <div class="text-center f-13">
+                <span class="mx-2" data-toggle="tooltip" data-placement="bottom"
+                    title="最后编辑于{{ article.update_date|date:'Y年m月d日' }}">{{ article.create_date }}</span>
+                <span class="mx-2">阅读 {{ article.views }}</span>
+                <a class="mx-2 to-com" href="#comment-block">评论 {% get_comment_count article %}</a>
+            </div>
+            <div class="article-body mt-4 f-17" style="line-height:1.8">
+                {{ article.body_to_markdown|safe }}
+                <p class="font-weight-bold text-info">
+                    <i class="fa fa-bullhorn mx-1"></i>
+                    原创文章，转载请注明出处：{{ request.build_absolute_uri }}
+                </p>
+            </div>
+            <div class="tag-cloud my-4">
+                {% for tag in article.tags.all %}
+                <a class="tags f-16" href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
+            <nav class="more-page f-16">
+                <ul class="pagination justify-content-between">
+                    <li class="page-item">
+                        {% if article.get_pre %}
+                        <a class="d-none d-md-block" href="{{ article.get_pre.get_absolute_url }}"
+                            title="上一篇：{{ article.get_pre.title }}">
+                            <i class="fa fa-chevron-left mr-1"></i>
+                            {{ article.get_pre.title|truncatechars:18 }}
+                        </a>
+                        <a class="d-md-none" href="{{ article.get_pre.get_absolute_url }}">
+                            <i class="fa fa-chevron-left mr-1"></i>上一篇</a>
+                        {% endif %}
+                    </li>
+                    <li class="page-item">
+                        {% if article.get_next %}
+                        <a class="d-none d-md-block" href="{{ article.get_next.get_absolute_url }}"
+                            title="下一篇：{{ article.get_next.title }}">
+                            {{ article.get_next.title|truncatechars:18 }}
+                            <i class="fa fa-chevron-right ml-1"></i>
+                        </a>
+                        <a class="d-md-none" href="{{ article.get_next.get_absolute_url }}">
+                            下一篇<i class="fa fa-chevron-right ml-1"></i>
+                        </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <blockquote class="p-1 f-14" style="border-left: 4px solid #dc3545;">
+        <p class="m-1"><strong>版权声明：</strong><a href="{% url 'blog:article' object.slug %}">Stray_Camel</a> &raquo;
+        <a href="{% url 'blog:article' object.slug %}">{{ object.title }}</a></p>
+        <p class="m-1"><strong>本文链接：</strong>boywithacoin.cn{% url 'blog:article' object.slug %}</p>
+    </blockquote>
 
-</div>
-<div class="clearfix"></div>
-<div class="article-social col-lg-10" >
+
+    <div class="clearfix"></div>
     <!-- 评论区 -->
-    {% include 'comment/comment_form.html' %}
-    {% get_parent_comments article as comment_list %}
-    {% include 'comment/comment_list.html' %}
+    <div class="article-social col-lg-12" >
+        {% include 'comment/comment_form.html' %}
+        {% get_parent_comments article as comment_list %}
+        {% include 'comment/comment_list.html' %}
+    </div>
 </div>
 <!-- 采用mdeditor来解析文章内容并生成其html样式 -->
 <!-- <script src="js/zepto.min.js"></script>
     <script>        
         var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以使用Zepto.js时想支持flowChart/sequenceDiagram就得加上这一句
     </script> -->
-
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $('div#article table').addClass('table table-bordered');
+    $('div#article thead').addClass('thead-light');
+    $('div#article pre').addClass('n');
+</script>
 <script src="{% static 'comment/js/notification.js' %}"></script>
 <script src="{% static 'comment/js/editor.js' %}"></script>
 <script src="{% static 'comment/js/activate-power.js' %}"></script>
@@ -69,9 +135,8 @@
 <!-- 绘制序列图 -->
 <script src="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
 <!-- 绘制流程图 -->
-<script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
-<script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
-
+<!-- <script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script> -->
+<!-- <script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script> -->
 <script type="text/javascript">
     $(function () {
         var testEditor;
@@ -79,6 +144,7 @@
             width: "100%",
             path: "{% static 'mdeditor/js/lib/' %}",
             height: 250,
+            watch:false,
             todoList: true,
             codeFold: true,
             searchReplace: true,
@@ -92,40 +158,65 @@
             toolbarIcons: function () {
                 // Or return editormd.toolbarModes[name]; // full, simple, mini
                 // Using "||" set icons align right.
-                return ["undo", "redo","del", "bold", "hr", "italic", "quote", "list-ul", "list-ol","|", "link","reference-link","image","code","preformatted-text","|", "emoji", "info", "html-entities","table","datetime", "||", "watch","preview"]
+                return ["del", "bold","emoji", "hr", "italic", "quote", "list-ul", "list-ol","|", "link","reference-link","image","code","preformatted-text","|","table","datetime","watch"]
             },
+            lang: {
+                toolbar: {
+                    // file: "上传文件",
+                    testIcon: "自定义按钮testIcon",  // 自定义按钮的提示文本，即title属性
+                    // testIcon2: "自定义按钮testIcon2",
+                    undo: "撤销 (Ctrl+Z)"
+                }
+            },
+            // toolbarIconTexts: {
+            //     testIcon: "测试按钮"  // 如果没有图标，则可以这样直接插入内容，可以是字符串或HTML标签
+            // },
              onload: function () {
                 // alert("onload");
                 // this.setMarkdown("### onloaded");
                 // console.log("onload =>", this, this.id, this.settings);
                 //    提交评论后定位到新评论处
+                
                  if (sessionStorage.getItem('new_point')) 
                  {
                      var top = $(sessionStorage.getItem('new_point')).offset().top - 100;
                      $('body,html').animate({ scrollTop: top }, 200);
-                     window.location.hash = sessionStorage.getItem('new_point');
+                    //  alert('1')
+                    //  window.location.hash = sessionStorage.getItem('new_point');
+                    //  alert('1')
                      sessionStorage.removeItem('new_point');
+                    //  alert('1')
+                 }
+                 else if(window.location.hash){
+                    //  获取url中#后的部分
+                    var test = window.location.hash;
+                    $("html,body").animate({ scrollTop: $(test).offset().top-100 }, 200);
+                    //  $('body,html').animate({ scrollTop: 0 }, 200);
                  }
                  else{
                      $('body,html').animate({ scrollTop: 0 }, 200);
                  };
                 
             }
-            
         });
-        
-        var testEditormdView;
-        testEditormdView = editormd.markdownToHTML("test-editormd-view", {
-            todoList: true,
-            codeFold: true,
-            searchReplace: true,
-            emoji: true,
-            taskList: true,
-            tocm: true,         // Using [TOCM]
-            tex: true,                   // 开启科学公式TeX语言支持，默认关闭
-            flowChart: true,             // 开启流程图支持，默认关闭
-            // tocContainer: "#custom-toc-container", // 自定义 ToC 容器层
+        var emoji_tag = $("#emoji-list img");
+        emoji_tag.click(function () {
+            var e = $(this).data('emoji');
+            testEditor.insertValue(e);
         });
+        // 试用mdeditor处理后端md数据，进行前端js包处理
+        // var testEditormdView;
+        // testEditormdView = editormd.markdownToHTML("test-editormd-view", {
+        //     todoList: true,
+        //     codeFold: true,
+        //     searchReplace: true,
+        //     emoji: true,
+        //     taskList: true,
+        //     tocm: true,         // Using [TOCM]
+        //     tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+        //     flowChart: true,             // 开启流程图支持，默认关闭
+        //     // tocContainer: "#custom-toc-container", // 自定义 ToC 容器层
+        // });
     });
 </script>
 {% endblock %}   
