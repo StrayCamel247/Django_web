@@ -29,10 +29,7 @@
             </li>
             <div class="comment-body">{{ comment.content_to_markdown|safe }}</div>
         </div>
-
-
         {% get_child_comments comment as child_comments %}
-
         {% if child_comments %}
         <ul class="list-unstyled ml-4">
             {% for each in child_comments %}
@@ -60,7 +57,6 @@
             </div>
             {% endfor %}
         </ul>
-
         {% endif %}
         {% empty %}
         暂时没有评论，欢迎来尬聊！

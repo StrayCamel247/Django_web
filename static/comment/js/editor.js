@@ -27,11 +27,15 @@ $(function() {
 
 //    点击提交评论
     $("#push-test-com").click(function(e) {
-    	// 获取评论的内容
-    	var content_all = document.getElementById("test-editormd").getElementsByTagName("pre");
+        // 获取评论的内容
+        // 获取评论被编译成html格式的内容
+        // var content_all = document.getElementById("test-editormd").getElementsByTagName("pre");
+        // 获取评论被编译前md格式的内容
+        var content_all = document.getElementsByTagName("textarea")
 		for(var i=0; i<content_all.length;i++){
 			var x =content_all[i].innerText;
-			text = x+"<br/>" +text;
+            // text = x+"<brx/>" +text;
+            text = x+ text;
 		}
         var content = text;
         if (content.length == 0) {
@@ -81,7 +85,7 @@ $(function() {
             }
         });
     });
-
+    
     // //    提交评论后定位到新评论处
     // if (sessionStorage.getItem('new_point')) {
     //     var top = $(sessionStorage.getItem('new_point')).offset().top - 100;

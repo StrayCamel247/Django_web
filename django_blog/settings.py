@@ -31,7 +31,7 @@ TOOL_FLAG = True
 API_FLAG = False
 # DEBUG模式是否开始的选择
 # 值为0：所有平台关闭DEBUG,值为1:所有平台开启DEBUG,值为其他：根据平台类型判断开启（默认设置的Windows下才开启）
-DEBUG = True
+DEBUG = 3
 
 ALLOWED_HOSTS = ['boywithacoin.cn', '127.0.0.1','www.boywithacoin.cn']
 
@@ -137,7 +137,7 @@ SITE_KEYWORDS = "Stray_Camel,django2.0博客，人工智能,网络,IT,技术,博
 AUTHOR_NAME = "Stray_Camel"
 AUTHOR_DESC = 'early to bed, early to rise.'
 AUTHOR_EMAIL = 'aboyinsky@outlook.com'
-AUTHOR_TITLE = '全栈、python'
+AUTHOR_TITLE = '后端、大数据、爬虫'
 
 # Email setting
 # SMTP服务器，我使用的是sendclound的服务
@@ -275,17 +275,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
+# 静态文件收集
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, '/static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static/'),
-    '/home/django_blog/env/lib/python3.6/site-packages/django/contrib/admin/static'
+    os.path.join(BASE_DIR, 'static'),
+    #debug模式服务器解决后端admin界面css样式缺失
+    # '/home/django_blog/env/lib/python3.6/site-packages/django/contrib/admin/static'
 ]
-
-
-
-STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
+#媒体文件
 MEDIA_URL = '/static/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
 

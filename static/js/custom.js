@@ -24,6 +24,14 @@
             $(this).addClass("open");
         }
     });
+    /* header */ 
+    $(window).on('scroll', function () {
+        if ($(this).scrollTop() > 60) {
+            $("#freen-gototop").css('bottom', '40px');
+        } else {
+            $("#freen-gototop").css('bottom', '-40px');
+        }
+    });
     /* GO TO TOP BUTTON */
     $(window).on('scroll', function () {
         if ($(this).scrollTop() > 300) {

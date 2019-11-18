@@ -166,38 +166,24 @@ class FriendLink(models.Model):
 
 
 class Timeline(models.Model):
-    # COLOR_CHOICE = (
-    #     ('primary', '基本-蓝色'),
-    #     ('success', '成功-绿色'),
-    #     ('info', '信息-天蓝色'),
-    #     ('warning', '警告-橙色'),
-    #     ('danger', '危险-红色')
-    # )
+    #选择在左边显示还是右边
     SIDE_CHOICE = (
         ('L', '左边'),
         ('R', '右边'),
     )
-    # STAR_NUM = (
-    #     (1, '1颗星'),
-    #     (2, '2颗星'),
-    #     (3, '3颗星'),
-    #     (4, '4颗星'),
-    #     (5, '5颗星'),
-    # )
+   
     side = models.CharField(
         '位置', max_length=1, choices=SIDE_CHOICE, default='L')
-    # star_num = models.IntegerField('星星个数', choices=STAR_NUM, default=3)
     icon = models.CharField('图标', max_length=50, default='fa fa-pencil')
-    # icon_color = models.CharField(
-    #     '图标颜色', max_length=20, choices=COLOR_CHOICE, default='info')
     title = models.CharField('标题', max_length=100)
     update_date = models.DateTimeField('更新时间')
     content = models.TextField('主要内容')
+    #唯一标识符
     slug = models.SlugField(editable=False,null=True, unique=True)
     class Meta:
         verbose_name = '博客升级时间线'
         verbose_name_plural = verbose_name
-        ordering = ['update_date']
+        ordering = ['-update_date']
 
     def __str__(self):
         return self.title[:20]
@@ -213,7 +199,9 @@ class Timeline(models.Model):
         # 先转换成emoji然后转换成markdown
         to_emoji_content = emoji.emojize(self.content, use_aliases=True)
         return markdown.markdown(to_emoji_content,
-                                 extensions=['markdown.extensions.extra', ]
+                                 extensions=['markdown.extensions.extra',
+                                 'markdown.extensions.codehilite'
+                                  ]
                                  )
 
     def save(self, *args, **kwargs):
@@ -230,12 +218,12 @@ class Article(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='作者', null=False, default='2')
     title = models.CharField(max_length=150, verbose_name='文章标题')
-    summary = models.TextField(
+    summary = MDTextField(
         '文章摘要', max_length=230, default='文章摘要等同于网页description内容，请务必填写...')
     # 文章内容
     body = MDTextField(verbose_name='文章内容')
     img_link = models.CharField('图片地址', default=IMG_LINK, max_length=255)
-    create_date = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
+    create_date = models.DateTimeField(verbose_name='创建时间')
     update_date = models.DateTimeField(verbose_name='修改时间', auto_now=True)
     views = models.IntegerField('阅览量', default=0)
     img = models.ImageField(upload_to='media/article',
@@ -269,7 +257,14 @@ class Article(models.Model):
         return reverse('blog:article', kwargs={'slug': self.slug})
 
     def body_to_markdown(self):
-        return markdown.markdown(self.body, extensions=[
+        to_emoji_content = emoji.emojize(self.body, use_aliases=True)
+        return markdown.markdown(to_emoji_content, extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+        ])
+
+    def summary_to_markdown(self):
+        return markdown.markdown(self.summary, extensions=[
             'markdown.extensions.extra',
             'markdown.extensions.codehilite',
         ])
@@ -298,12 +293,21 @@ class Article(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)  # 讲中文title变成拼音。
+        #在添加文章时手动选择是否添加到开发日志
         if(self.is_addtimeline):
             try:
+                #如何只是对文章进行修改，说明已经添加过
                 if(Timeline.objects.get(slug=self.slug)):
-                    pass
+                    #则只对日志中的内容和图片和时间进行修改。
+                    old = Timeline.objects.get(slug=self.slug)
+                    old.content = self.summary
+                    old.icon = self.img
+                    old.update_date = self.create_date
+                    old.save(update_fields=['content', 'icon','update_date'])
                 else:
+                    #如果没有添加过则就直接创建日志再发布
                     self.add_time()
+                    #objects.get可能的报错
             except Timeline.DoesNotExist:
                 self.add_time()
             except Timeline.MultipleObjectsReturned:

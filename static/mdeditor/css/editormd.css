@@ -678,7 +678,6 @@
 }
 
 .editormd .CodeMirror {
-  width: 50%!important;
   z-index: 10;
   float: left;
   border-right: 1px solid #ddd;

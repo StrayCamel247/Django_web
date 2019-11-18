@@ -3,7 +3,7 @@
 
 from oauth.models import Ouser
 from blog.models import Article, Tag, Category, Timeline
-from tool.models import ToolLink
+# from tool.models import ToolLink
 from .serializers import (UserSerializer, ArticleSerializer,
                           TimelineSerializer,TagSerializer,CategorySerializer,ToolLinkSerializer)
 from rest_framework import viewsets, permissions

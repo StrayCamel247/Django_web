@@ -11,7 +11,7 @@
                 </div>
                 <h3 class="card-title"><a href="/article/{{ article.slug }}" target="_blank">{{ article.title }}</a></h3>
                 <div class="card-excerpt">
-                    <p class="d-none d-sm-block mb-2 f-15">{{ article.summary }} </p>
+                    <p class="d-none d-sm-block mb-2 f-15">{{ article.summary_to_markdown|safe }} </p>
                 </div>
                 <div class="card-horizontal-meta">
                     <div class="freen-author-meta">

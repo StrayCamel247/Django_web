@@ -6,7 +6,7 @@ from .views import (md_html,Toolview, BD_pushview, bd_api_view, BD_pushview_site
 app_name = "tool"
 urlpatterns = [
     url(r'^$', Toolview, name='total'),  # 工具汇总页
-    url(r'^$', md_html, name='md2html'),  # 在线编辑
+    url(r'^md2html/$', md_html, name='md2html'),  # 在线编辑
     # url(r'^baidu-linksubmit/$', BD_pushview, name='baidu_push'),  # 百度主动推送
     # url(r'^baidu-linksubmit/ajax/$', bd_api_view, name='baidu_push_api'),  # 百度推送ajax
     # url(r'^baidu-linksubmit-for-sitemap/$', BD_pushview_site, name='baidu_push_site'),  # 百度主动推送sitemap

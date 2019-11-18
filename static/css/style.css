@@ -252,13 +252,12 @@ table:not([class]) td {
 }
 
 blockquote {
-    font-style: italic;
     border-left: 4px solid #000;
     padding-left: 1.5rem;
-    margin-left: -1.5rem;
+    margin-left: 1rem;
     font-size: 120%;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .fa {
@@ -666,7 +665,7 @@ input[type="button"]:not(.btn):not(.slick-arrow),
     cursor: pointer;
     
     background-color: #333;
-    border: 2px solid #333;
+    /* border: 2px solid #333; */
     color: #FFFFFF;
     opacity: 1;
     -webkit-transition: all 150ms linear;
@@ -2374,10 +2373,9 @@ video {
 .freen-sidebar {
     /* 侧边栏宽度固定 */
     width: 300px;
-
     /* 100% -- 父容器(#page-body)的高度 */
     /* 56px -- 上方 header 的高度*/
-    height: calc(100% - 60px);
+    /* height: calc(100% - 60px); */
 
     /* 侧边栏最小高度取决于其中的两个定高区域的高度和 */
     /* 在用户不会无聊到将窗口缩很扁的情况下，这一限制可有可无*/
@@ -2394,7 +2392,7 @@ video {
     /*position: absolute; top: 56px; left: 0;*/
 
     /* 3. 固定定位。 推荐程度 ★☆☆ */
-    position: fixed; top: 56px; left: 0;
+    position: fixed; top: 0; left: 0;bottom: 0;
 
     /* （注：相对定位不可以） */
 
@@ -4388,6 +4386,9 @@ p.form-submit {
         padding: 0px 20px;
         margin-bottom: 40px;
     }
+    .article-cointain {
+        max-width: 1140px;
+    }
 }
 
 @media only screen and (max-height: 700px) {
@@ -4444,6 +4445,11 @@ p.form-submit {
         padding:2.5rem !important;
         margin-left:0px !important;
         margin-right:0px !important;
+    }
+.article-cointain {
+        max-width: 970px;
+        padding-right: 15px;
+        padding-left: 15px;
     }
 }
 
@@ -4525,6 +4531,11 @@ p.form-submit {
     .freen-slider {
         margin-bottom:60px
     }
+.article-cointain {
+        max-width: 750px;
+        padding-right: 12px;
+        padding-left: 12px;
+    }
 }
 
 
@@ -4541,6 +4552,15 @@ p.form-submit {
     hr.section-divider {
         margin-top:60px;
         margin-bottom: 60px
+    }
+    .article-cointain {
+        max-width: none;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    .article-cointain {
+        padding-right: 5px;
+        padding-left: 5px;
     }
 }
 
@@ -4684,6 +4704,17 @@ p.form-submit {
 
 
 /*mdeditor-article*/
+
+.article-cointain {
+    max-width: 1140px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-top: 60px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
 .editormd-toolbar-container{
     margin-top: 17px;
 }
@@ -4703,3 +4734,4 @@ p.form-submit {
     text-decoration: none!important;
     border-right: 2px solid transparent;
 }
+
