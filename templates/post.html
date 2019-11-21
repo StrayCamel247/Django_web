@@ -34,7 +34,9 @@
                 </div>
             </div>
             <div class="card-horizontal-right" >
-                <a style="background-image: url(&quot;{{ article.img.url }}&quot;);" class="card-featured-img" href="/article/{{ article.slug }}"></a>
+                <a class="card-featured-img" href="/article/{{ article.slug }}">
+                <img style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;margin: auto;" class="w-100" src="{{ article.img.url }}">
+                </a>
             </div>
         </div>
     </div>

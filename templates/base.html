@@ -3,6 +3,7 @@
 {% load blog_tags %}
 {% load cache %}
 {% load comment_tags %}
+{% load tool_tags %}
 <html lang="en-US">
 
 <head>
@@ -16,12 +17,12 @@
         content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="baidu-site-verification" content="PVrsG5G9a2" />
     <!-- CSS FILES -->
-    <!-- mdui-headroom -->
+    <!-- mdui-headroom 头部菜单滑动css-->
     <link rel="stylesheet" href="//www.mdui.org/source/dist/css/mdui.min.css" />
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css"> -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
     <!-- <link href="{% static 'md_css/monokai.css' %}" rel="stylesheet" type="text/css"> -->
     <link rel="shortcut icon" type="image/x-icon" mce_href="{% static 'image/favicon.ico' %}"
@@ -43,169 +44,174 @@
         </span>
     </progress>
     <!-- 头部菜单 -->
-    <header mdui-headroom="options" class="header">
+    <header   mdui-headroom="options" class="header navbar navbar-expand-md bg-white fixed-top blog-navbar py-md-0 headroom headroom--top">
+        <!-- logo -->
+        <!-- <a class="navbar-brand d-md-none d-lg-block" href="/">
+            <img src="/static/image/logo.png" alt="TendCode">
+        </a> -->
+        <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform"
+            action="{% url 'blog:search' %}">
         
-        <!-- 头部菜单-->
-        <div class="top-left ">
-            <div class="header-menu">
-                {% if user.is_authenticated %}
-                <div class="user-avatar user-area dropdown float-left">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                        <img class=" rounded-circle" src="{{ user.avatar.url }}" alt="{{ user }}">
-                    </a>
-                    <div class="user-menu dropdown-menu">
-                        <a class="nav-link" href="/accounts/profile"><i class="fa fa-user"></i>个人资料</a>
-                        <a class="nav-link" href="/accounts/logout"><i class="fa fa-power-off"></i>退出</a>
-                    </div>
-                </div>
-                {% endif %}
-
-
-                <div class="header-left">
-                    <ul class="navbar-nav ml-auto">
-                        {% if user.is_authenticated %}
-                        {% else %}
-                        <ul class="navbar-nav">
-
-                            <li class="nav-item mr-2">
-                                <a class="nav-link py-md-3 " href="/accounts/login/">登录</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link py-md-3 mr-2" href="/accounts/signup/">注册</a>
-                            </li>
-
-                        </ul>
-                        {% endif %}
-                        {% cache 7200 'nav' %}
-                        <li class="nav-item mr-2">
-                            <a class="nav-link py-md-3 " href="/"><i class="fa fa-home mr-1"></i>首页<span
-                                    class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item mr-2">
-                            <a class="freen-open-search nav-link py-md-3 " id="freen-open-search" href="#"><i
-                                    class="fa fa-search mr-1"></i>搜索查询</a>
-                        </li>
-                        <li class="nav-item mr-2">
-                            <a class="nav-link py-md-3 " href="/tool/"><i class="fa fa-filter"></i>在线工具</a>
-                        </li>
-                        <li class="nav-item mr-2 ">
-
-                            <a class="nav-link py-md-3 " href="/timeline"><i class="fa fa-anchor mr-1"></i>blog开发日志</a>
-                        </li>
-                        {% endcache %}
-
-                    </ul>
-                    {% get_notifications user is_read as notifications %}
-                    <div class="dropdown for-notification">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="notification"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-bell"></i>
-                            <span class="count bg-danger">{% get_notifications_count user 'false' %}</span>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="notification">
-                            <a class="dropdown-item media" href="{% url 'comment:notification' %}">
-                                <i class="fa fa-bullhorn mx-1"></i>
-                                <p>{% get_notifications_count user 'false' %}未读消息|管理消息</p>
-                            </a>
-                            {% for each in notifications %}
-                            {% if not each.is_read %}
-                            <a class="dropdown-item media" href="{{ each.comment.belong.get_absolute_url }}#com-{{ each.comment.id }}">
-                                <i class="fa fa-warning"></i>
-                                <p >{{ each.create_p }}回复你：{{ each.comment.content|truncatechars:15|safe }}
-                                </p>
-                            </a>
-                            
-                            
-                            {% endif %}
-                            {% endfor %}
-                            <!-- <a class="dropdown-item media" href="#">
-                                <i class="fa fa-check"></i>
-                                <p>Server #1 overloaded.</p>
-                            </a>
-                            <a class="dropdown-item media" href="#">
-                                <i class="fa fa-info"></i>
-                                <p>Server #2 overloaded.</p>
-                            </a> -->
-                        </div>
-                    </div>
-                    <div class="dropdown for-message">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="message"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-envelope"></i>
-                            <span class="count bg-danger">3</span>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="message">
-                            <p class="red">You have 3 Mails</p><a class="dropdown-item media" href="#">
-                                <span class="photo media-left"><img alt="avatar"
-                                        src="#" alt="。"></span>
-                                <div class="message media-body">
-                                    <span class="name float-left">Jonathan Smith</span>
-                                    <span class="time float-right">Just now</span>
-                                    <p>Hello, this is an example msg</p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item media" href="#">
-                                <span class="photo media-left"><img alt="avatar"
-                                        src="/static/admin/images/avatar/2.jpg"></span>
-                                <div class="message media-body">
-                                    <span class="name float-left">Jack Sanders</span>
-                                    <span class="time float-right">5 minutes ago</span>
-                                    <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item media" href="#">
-                                <span class="photo media-left"><img alt="avatar"
-                                        src="/static/admin/images/avatar/3.jpg" alt="。"></span>
-                                <div class="message media-body">
-                                    <span class="name float-left">Cheryl Wheeler</span>
-                                    <span class="time float-right">10 minutes ago</span>
-                                    <p>Hello, this is an example msg</p>
-                                </div>
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="top-right">
-            <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform" action="{% url 'blog:search' %}">
+            <input type="search" name="q" class="form-control rounded-0" placeholder="站内搜索" autocomplete="off" required="True">
+        
+        </form>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div  class="collapse navbar-collapse" id="navbarSupportedContent" >
+            <ul class="navbar-nav ml-auto">
+                {% cache 7200 'nav' %}
                 
-                    <input type="search" name="q" class="form-control rounded-0" placeholder="站内搜索" autocomplete="off"
-                        required="True">
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="/"><i class="fa fa-home mr-1"></i>首页<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="freen-open-search nav-link py-md-3 " id="freen-open-search" href="#"><i
+                            class="fa fa-search mr-1"></i>搜索查询</a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3 " href="/tool/"><i class="fa fa-filter"></i>所有工具</a>
+                </li>
+                <li class="nav-item mr-2 ">
+                
+                    <a class="nav-link py-md-3 " href="/timeline"><i class="fa fa-anchor mr-1"></i>blog开发日志</a>
+                </li>
+                {% endcache %}
+
+                
+            </ul>
+            {% if user.is_authenticated %}
+            <ul class="navbar-nav">
+                {% get_notifications user is_read as notifications %}
+                <div class="dropdown for-notification">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bell"></i>
+                        <span class="count bg-danger">{% get_notifications_count user 'false' %}</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right mt-0 rounded-0 border-0" aria-labelledby="notification">
+                        <a class="dropdown-item media" href="{% url 'comment:notification' %}">
+                            <i class="fa fa-bullhorn mx-1"></i>
+                            <p>{% get_notifications_count user 'false' %}未读消息|管理消息</p>
+                        </a>
+                        {% for each in notifications %}
+                        {% if not each.is_read %}
+                        <a class="dropdown-item media" href="{{ each.comment.belong.get_absolute_url }}#com-{{ each.comment.id }}">
+                            <i class="fa fa-warning"></i>
+                            <p>{{ each.create_p }}回复你：{{ each.comment.content|truncatechars:15|safe }}
+                            </p>
+                        </a>
+                
+                
+                        {% endif %}
+                        {% endfor %}
+                        <!-- <a class="dropdown-item media" href="#">
+                                                                        <i class="fa fa-check"></i>
+                                                                        <p>Server #1 overloaded.</p>
+                                                                    </a>
+                                                                    <a class="dropdown-item media" href="#">
+                                                                        <i class="fa fa-info"></i>
+                                                                        <p>Server #2 overloaded.</p>
+                                                                    </a> -->
+                    </div>
+                </div>
+                <div class="dropdown for-message">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-envelope"></i>
+                        <span class="count bg-danger">3</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right mt-0 rounded-0 border-0" aria-labelledby="message">
+                        <p class="red">You have 3 Mails</p><a class="dropdown-item media" href="#">
+                            <span class="photo media-left"><img alt="avatar" src="#" alt="。"></span>
+                            <div class="message media-body">
+                                <span class="name float-left">Jonathan Smith</span>
+                                <span class="time float-right">Just now</span>
+                                <p>Hello, this is an example msg</p>
+                            </div>
+                        </a>
+                        <a class="dropdown-item media" href="#">
+                            <span class="photo media-left"><img alt="avatar" src="#"></span>
+                            <div class="message media-body">
+                                <span class="name float-left">Jack Sanders</span>
+                                <span class="time float-right">5 minutes ago</span>
+                                <p>Lorem ipsum dolor sit amet, consectetur</p>
+                            </div>
+                        </a>
+                        <a class="dropdown-item media" href="#">
+                            <span class="photo media-left"><img alt="avatar" src="#" alt="。"></span>
+                            <div class="message media-body">
+                                <span class="name float-left">Cheryl Wheeler</span>
+                                <span class="time float-right">10 minutes ago</span>
+                                <p>Hello, this is an example msg</p>
+                            </div>
+                        </a>
+                
+                    </div>
+                </div>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" title="{{ user }，欢迎回来！">
+                        <img class="avatar" src="{{ user.avatar.url }}" alt="Freen247">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right mt-0 rounded-0 border-0" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item pl-3" href="/accounts/profile/"><i
+                                class="fa fa-fw fa-user text-info mr-2"></i>个人资料</a>
+                        <a class="dropdown-item pl-3" href="/accounts/logout/"><i
+                                class="fa fa-fw fa-sign-out text-info mr-2"></i>退出</a>
+                    </div>
                     
-                </div><!-- /input-group -->
-            </form>
+                    
+                </li>
+    
+            </ul>
+            
+            {% else %}
+            <ul class="navbar-nav">
+            
+                <li class="nav-item mr-2">
+                    <a class="nav-link py-md-3" href="/accounts/login/?next=/">登录</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-md-3" href="/accounts/signup/?next=/">注册</a>
+                </li>
+            
+            </ul>
+            {% endif %}
         </div>
     </header>
 
+
+    
+
     {% block main_contain %}
     <!--freen SIDEBAR -->
-    {% cache 7200 'freen-sidebar' %}
+    
     <aside id="freen-sidebar" class="freen-sidebar">
         <div id="freen-sidebar-wrapper" class="freen-sidebar-wrapper d-flex align-items-start flex-column h-100 w-100">
             <hr />
             <!-- AUTHOR BOX -->
             {% include 'auther_box.html' %}
-
-
-
             <!-- MENU CONTAINER -->
+            
             <div id="freen-sidebar-cell" class="freen-sidebar-cell w-100">
                 <!-- MENU -->
+                
                 <nav id="freen-main-menu" class="menu-main-menu-container freen-main-menu">
+                    {% get_toolcates as tool_cates %}
                     <ul class="freen-menu-ul">
-
-                        <li><a href="#"><i class="mr-1 fa fa-bell-o"></i>test<span class="count bg-danger">3</span></a>
+                        {% for cate in tool_cates %}
+                        <li><a href="#"><i class="mr-1 fa fa-toolbox"></i>{{cate}}</a>
                             <ul class="sub-menu">
-                                <li><a href="">test</a></li>
+                                {% get_toollinks cate as tools %}
+                                {% for tool in tools %}
+                                <li><a href="{{ tool.link }}" >{{ tool.name }}</a></li>
+                                {% endfor %}
                             </ul>
                         </li>
-
+                        {% endfor %}
                     </ul>
 
                 </nav>
@@ -214,16 +220,15 @@
             <div id="freen-social-cell" class="freen-social-cell mt-auto w-100">
                 <div id="freen-social-inner" class="freen-social-inner">
                     <ul class="freen-social-icons">
-                        <li><a href="/xadmin"><i class="fa fa-cog"></i></a></li>
-                        <li><a href="/admin"><i class="fa fa-cogs"></i></a></li>
+                        <li><a href="/admin"><i class="fa fa-cog"></i></a></li>
                         <li><a href="/md2html" title=""><i class="fa fa-pencil-square-o"></i></a></li>
                         <li><a href="/accounts/contacts/root" title=""><i class="fa fa-users"></i></a></li>
                         <div class="clearfix"></div>
                 </div>
             </div>
+            
         </div>
     </aside>
-    {% endcache %}
     <!-- SITE WRAPPER -->
     <section id="freen-site-wrapper" class="freen-site-wrapper" >
 

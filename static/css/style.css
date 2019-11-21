@@ -2167,33 +2167,20 @@ video {
     -webkit-box-shadow: none;
     box-shadow: none;
     clear: both;
-    padding: 0 30px;
-    height: 60px;
+    /* height: 60px; */
     position: fixed;
     left: 0;
     right: 0;
     top: 0;
-    z-index: 999;
+    z-index: 99;
 }
-.header .top-left {
-    float: left;
-    margin-top: 4px;
+.header .nav-item a.active {
+    color: #ea6f5a;
 }
-.header .top-right {
-    float: right;
-    margin-top: 4px;
+.header #navbarDropdown .avatar{
+    border-radius: 50%;
+    width: 40px;
 }
-.header .header-left {
-    display: inline-block;
-    width: 100%;
-}
-.header .header-left ul {
-    display: inline-block;
-}
-.header .header-left ul li{
-    display: inline-block;
-}
-
 .header .header-menu {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -2224,10 +2211,10 @@ video {
     margin-top: 0 !important;
 }
 
-.header-left .dropdown {
+.navbar-collapse .dropdown {
     display: inline-block;
 }
-.header-left .dropdown .dropdown-toggle {
+.navbar-collapse .dropdown .dropdown-toggle {
     background: transparent;
     border: none;
     color: #99abb4;
@@ -2240,14 +2227,14 @@ video {
 .dropdown-toggle::after{
     display: none;
 }
-.header-left .dropdown .dropdown-toggle .count {
+.navbar-collapse .dropdown .dropdown-toggle .count {
     border-radius: 50%;
     color: #fff;
     font-size: 11px;
     height: 15px;
     width: 15px;
     line-height: 15px;
-    right: 0;
+    /* right: 0; */
     top: 12px;
     position: absolute;
 }
@@ -2287,12 +2274,12 @@ video {
     position: relative;
     z-index: 0;
 }
-.header-left .dropdown .dropdown-menu p {
+.navbar-collapse .dropdown .dropdown-menu p {
     font-size: 15px;
     margin: 0;
     padding: 5px 15px;
 }
-.header-left .dropdown .dropdown-menu .dropdown-item {
+.navbar-collapse .dropdown .dropdown-menu .dropdown-item {
     color: #99abb4;
     font-size: 13px;
     padding: 10px 15px 3px;
@@ -2315,20 +2302,20 @@ video {
     text-align: left;
     width: 20px;
 }
-.header-left .dropdown .dropdown-menu .dropdown-item .photo {
+.navbar-collapse .dropdown .dropdown-menu .dropdown-item .photo {
     float: left;
     margin-right: 15px;
     width: 25px;
 }
-.header-left .dropdown .dropdown-menu .dropdown-item .message .name {
+.navbar-collapse .dropdown .dropdown-menu .dropdown-item .message .name {
     margin-top: -5px;
     line-height: 24px;
 }
-.header-left .dropdown .dropdown-menu .dropdown-item .message .time {
+.navbar-collapse .dropdown .dropdown-menu .dropdown-item .message .time {
     font-size: 11px;
     line-height: 24px;
 }
-.header-left .dropdown .dropdown-menu .dropdown-item .message p {
+.navbar-collapse .dropdown .dropdown-menu .dropdown-item .message p {
     clear: both;
     font-size: 14px;
     margin: 0;
@@ -2424,7 +2411,7 @@ video {
     left: 0;
     bottom: 0;
     /* top: 55px; */
-    z-index: 99;
+    z-index: 90;
 }
 
 .freen-sidebar .freen-logo-link {
@@ -2623,17 +2610,7 @@ video {
 }
 
 
-.freen-main-menu .freen-menu-down .count {
-    border-radius: 50%;
-    color: #fff;
-    font-size: 11px;
-    height: 15px;
-    width: 15px;
-    text-align: center;
-    line-height: 15px;
-   
-    position: absolute;
-}
+
 /* ================= SLIDING PANEL ================== */
 
 .overflow-hidden {
@@ -3109,7 +3086,7 @@ video {
 
 .card-horizontal .card-body {
     display: table;
-    table-layout: fixed;
+    /* table-layout: fixed; */
     width: 100%;
     padding: 0;
     cursor: pointer;
@@ -3151,7 +3128,7 @@ video {
     background-repeat: no-repeat;
     background-position: center center;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.02);
+    /* background-color: rgba(0, 0, 0, 0.02); */
     margin:1.3rem 1rem;
     cursor: pointer;
     transition: all 0.7s;
@@ -3374,6 +3351,7 @@ p.form-submit {
     position: relative;
     display: inline-block;
     width: 100%;
+    cursor: pointer;
     vertical-align: bottom;
     /* text-align: center; */
     margin-bottom: 1.875em;
@@ -4450,7 +4428,7 @@ p.form-submit {
     }
     .freen-site-wrapper {
         padding-left: 0px;
-        padding-top: 30px;
+        /* padding-top: 30px; */
     }
     .freen-menu-toggle {
         display: block;
@@ -4495,24 +4473,25 @@ p.form-submit {
     .h2 {
         font-size: 1.9rem;
     }
+    
     .freen-main-container {
         padding: 0px 0px;
     }
     .card-horizontal .card-body {
         display: flex;
-        flex-direction: column-reverse;
+        /* flex-direction: column-reverse; */
     }
 
     .card-horizontal-left,
     .card-horizontal-right {
         display: block;
-        width: 100%;
+        /* width: 100%; */
     }
     .card-horizontal-left {
-        border: 1px solid rgba(0, 0, 0, 0.1);
+        /* border: 1px solid rgba(0, 0, 0, 0.1); */
     }
     .card-horizontal-right {
-        height: 400px
+        /* height: 400px */
     }
     .freen-page-title.freen-author-title span {
         padding-left: 75px
@@ -4573,7 +4552,7 @@ p.form-submit {
 
 @media only screen and (max-width: 767px) {
     .card-horizontal-right {
-        height: 300px;
+        /* height: 300px; */
     }
     .freen-post-nav-link {
         padding: 20px;
@@ -4604,10 +4583,11 @@ p.form-submit {
         margin: 2rem 0;
         font-size: 100%;
     }
+    
     .freen-sidebar {
     }
     .card-horizontal-right {
-        height: 250px
+        /* height: 250px */
     }
     .freen-main-container {
         padding: 40px 0px;
@@ -4744,7 +4724,7 @@ p.form-submit {
     /* margin-top: 60px; */
     /* margin-right: auto;
     margin-left: auto; */
-    margin: 0 auto;
+    margin: 60px auto;
 }
 
 
