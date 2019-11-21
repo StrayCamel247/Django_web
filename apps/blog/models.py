@@ -163,8 +163,6 @@ class FriendLink(models.Model):
         self.save(update_fields=['is_show'])
 
 # 时间线
-
-
 class Timeline(models.Model):
     #选择在左边显示还是右边
     SIDE_CHOICE = (

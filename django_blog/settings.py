@@ -93,7 +93,8 @@ MDEDITOR_CONFIGS = {
         'tex': True,  # whether to open the tex chart function
         'flow_chart': True,  # whether to open the flow chart function
         'syncScrolling': 'single',
-        'sequence': True  # Whether to open the sequence diagram function
+        'sequence': True,  # Whether to open the sequence diagram function
+        
     }
     
 }
@@ -137,7 +138,7 @@ SITE_KEYWORDS = "Stray_Camel,django2.0博客，人工智能,网络,IT,技术,博
 AUTHOR_NAME = "Stray_Camel"
 AUTHOR_DESC = 'early to bed, early to rise.'
 AUTHOR_EMAIL = 'aboyinsky@outlook.com'
-AUTHOR_TITLE = '后端、大数据、爬虫'
+AUTHOR_TITLE = 'rookie'
 
 # Email setting
 # SMTP服务器，我使用的是sendclound的服务
