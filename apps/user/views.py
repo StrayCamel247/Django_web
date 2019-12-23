@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 def profile_view(request):
-    return render(request,'account/profile.html')
+    return render(request,'user/account/profile.html')
 
 @login_required
 def change_profile_view(request):
@@ -28,7 +28,7 @@ def change_profile_view(request):
     else:
         # 不是POST请求就返回空表单
         form = ProfileForm(instance=request.user)
-    return render(request,'account/change_profile.html',context={'form':form})
+    return render(request,'user/account/change_profile.html',context={'form':form})
 
 @login_required
 def AdminView(request):
@@ -43,7 +43,7 @@ def AdminView(request):
     # else:
     #     # 不是POST请求就返回空表单
     #     form = ProfileForm(instance=request.user)
-    return render(request,'account/admin.html')
+    return render(request,'user/account/admin.html')
 
 
 # @csrf_exempt

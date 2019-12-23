@@ -2,16 +2,11 @@
 <div class="border-0 rounded-0 f-16" id="editor-block">
     {% if user.is_authenticated %}
     
-    
     <div id="layout" style="width: 100%;">
-        <!-- <header>
-            <h1>在线md2html工具</h1>   
-            <p>mdeditor编辑器</p>
-        </header> -->
         <div id="test-editormd" style="width: 100%;">                
-            <textarea id="md_contain" style="display:none;"></textarea>
+            <textarea  class="form-control rounded-0" id="md_contain" placeholder="评论请使用 markdown 语法..." rows="5"></textarea>
         </div>
-    </div> 
+    </div>
     <div class=" border-0 bg-white py-0 px-2 px-md-3" id="editor-footer">
 
 

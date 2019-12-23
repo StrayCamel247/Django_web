@@ -1,6 +1,69 @@
 $(function() {
-	var text = "";
-	 
+    var simplemde = new SimpleMDE({
+		element: document.getElementById("md_contain"),
+		autoDownloadFontAwesome:false,
+		insertTexts: {
+		horizontalRule: ["", "\n\n-----\n\n"],
+		image: ["![图片Alt](http://", ")"],
+		link: ["[链接描述](http://", ")"],
+		table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
+	    },
+		toolbar: [{
+			name: "bold",
+			action: SimpleMDE.toggleBold,
+			className: "fa fa-bold",
+			title: "粗体",
+			"default": !0
+		}, {
+			name: "italic",
+			action: SimpleMDE.toggleItalic,
+			className: "fa fa-italic",
+			title: "斜体",
+			"default": !0
+		}, {
+			name: "quote",
+			action: SimpleMDE.toggleBlockquote,
+			className: "fa fa-quote-left",
+			title: "引用",
+			"default": !0
+		}, {
+			name: "code",
+			action: SimpleMDE.toggleCodeBlock,
+			className: "fa fa-code",
+			title: "代码"
+		}, {
+			name: "link",
+			action: SimpleMDE.drawLink,
+			className: "fa fa-link",
+			title: "插入链接",
+			"default": !0
+		}, {
+			name: "image",
+			action: SimpleMDE.drawImage,
+			className: "fa fa-picture-o",
+			title: "插入图片",
+			"default": !0
+		}, {
+			name: "table",
+			action: SimpleMDE.drawTable,
+			className: "fa fa-table",
+			title: "插入表格"
+		}, {
+			name: "preview",
+			action: SimpleMDE.togglePreview,
+			className: "fa fa-eye no-disable",
+			title: "预览",
+			"default": !0
+		}],
+	});
+	$(".editor-statusbar").append("<span class='float-left text-info ml-0 hidden' id='rep-to'></span>");
+	$("#editor-footer").append("<button type='button' class='btn btn-danger btn-sm float-right mr-4 f-16 hidden' id='no-rep'>取消回复</button>");
+
+	var emoji_tag = $("#emoji-list img");
+	emoji_tag.click(function() {
+		var e = $(this).data('emoji');
+		simplemde.value(simplemde.value()+e);
+	});
 //    点击回复
 	$(".rep-btn").click(function(){
 	    
@@ -28,16 +91,9 @@ $(function() {
 //    点击提交评论
     $("#push-test-com").click(function(e) {
         // 获取评论的内容
-        // 获取评论被编译成html格式的内容
-        // var content_all = document.getElementById("test-editormd").getElementsByTagName("pre");
-        // 获取评论被编译前md格式的内容
-        var content_all = document.getElementsByTagName("textarea")
-		for(var i=0; i<content_all.length;i++){
-			var x =content_all[i].innerText;
-            // text = x+"<brx/>" +text;
-            text = x+ text;
-		}
-        var content = text;
+        var content = simplemde.value();
+
+        
         if (content.length == 0) {
             alert("评论内容不能为空！");
             return;
@@ -70,7 +126,7 @@ $(function() {
             url: URL,
             data: {
                 'rep_id': rep_id,
-                'content': text,
+                'content': content,
                 'article_id': article_id
             },
 

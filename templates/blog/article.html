@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load blog_tags static comment_tags %}
+{% load cache %}
+
+{% block head_title %}{{ article.title }}_{{ article.category }}{% endblock %}
+{% block metas %}
+<meta name="description" content="{{ article.summary_to_markdown }}">
+<meta name="keywords" content="{% keywords_to_str article %}">
+{% endblock %}
+{% block top_file %}
+
+<!-- 评论区 -->
+{% if user.is_authenticated %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+{% endif %}
+<link href="{% static 'comment/css/base_comment.css' %}" rel="stylesheet">
+<link href="{% static 'comment/css/notification.css' %}" rel="stylesheet">
+<!-- 文本区 -->
+<link rel="stylesheet" href="{% static 'css/monokai.css' %}">
+<style type="text/css">
+.markdown-body img {
+    max-width: 90% !important;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding: 10px 0px 10px 0px;
+}</style>
+{% endblock %}
+{% block mdeditor_contain %}
+<!-- 文章内容 -->
+<div class="article-cointain" >
+    
+    <div class="rounded-0 border-0" id="article" >
+        <nav aria-label="breadcrumb" >
+            <ol class="breadcrumb bg-white border-0 rounded-0 mb-0 p-2">
+                <li class="breadcrumb-item">
+                    <i class="fa fa-home mr-1"></i><a href="{% url 'blog:index' %}">首页</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ article.category.get_absolute_url }}">{{ article.category}}</a>
+                </li>
+                <li class="breadcrumb-item active d-none d-md-block" aria-current="page">{{ article.title }}</li>
+                
+            </ol>
+            
+        </nav>
+        <div class="" style="font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+    font-size: 16px;
+    line-height: 1.5;
+    word-wrap: break-word;     padding:40px 48px 40px 48px;    background-color: #fff;
+    " >
+            <h1 class="text-center font-weight-bold text-info">{{ article.title }}</h1>
+            <hr>
+            <div class="text-center f-13">
+                <span class="mx-2" data-toggle="tooltip" data-placement="bottom"
+                    title="最后编辑于{{ article.update_date|date:'Y年m月d日' }}">{{ article.create_date }}</span>
+                <span class="mx-2">阅读 {{ article.views }}</span>
+                <a class="mx-2 to-com" href="#comment-block">评论 {% get_comment_count article %}</a>
+                <a href="#" class="mx-2">COPY(markdown内容)</a>
+                
+            </div>
+            
+            <!-- 文章内容 -->
+            <div class="article-bodycd  f-17" >
+                {{ article.body_to_markdown|safe }}
+                <p class="font-weight-bold text-info">
+                    <i class="fa fa-bullhorn mx-1"></i>
+                    原创文章，转载请注明出处：{{ request.build_absolute_uri }}
+                </p>
+            </div>
+            <div class="tag-cloud my-4">
+                {% for tag in article.tags.all %}
+                <a class="tags f-16" href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
+            
+        </div>
+    </div>
+    <!-- <nav class="more-page f-16">
+        <ul class="pagination justify-content-between">
+            <li class="page-item">
+                {% if article.get_pre %}
+                <a class="d-none d-md-block" href="{{ article.get_pre.get_absolute_url }}"
+                    title="上一篇：{{ article.get_pre.title }}">
+                    <i class="fa fa-chevron-left mr-1"></i>
+                    {{ article.get_pre.title|truncatechars:18 }}
+                </a>
+                <a class="d-md-none" href="{{ article.get_pre.get_absolute_url }}">
+                    <i class="fa fa-chevron-left mr-1"></i>上一篇</a>
+                {% endif %}
+            </li>
+            <li class="page-item">
+                {% if article.get_next %}
+                <a class="d-none d-md-block" href="{{ article.get_next.get_absolute_url }}"
+                    title="下一篇：{{ article.get_next.title }}">
+                    {{ article.get_next.title|truncatechars:18 }}
+                    <i class="fa fa-chevron-right ml-1"></i>
+                </a>
+                <a class="d-md-none" href="{{ article.get_next.get_absolute_url }}">
+                    下一篇<i class="fa fa-chevron-right ml-1"></i>
+                </a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav> -->
+    <!-- <blockquote class="p-1 f-14" style="border-left: 4px solid #dc3545;">
+        <p class="m-1"><strong>版权声明：</strong><a href="{% url 'blog:article' object.slug %}">Stray_Camel</a> &raquo;
+        <a href="{% url 'blog:article' object.slug %}">{{ object.title }}</a></p>
+        <p class="m-1"><strong>本文链接：</strong>boywithacoin.cn{% url 'blog:article' object.slug %}</p>
+    </blockquote> -->
+
+    <hr>
+    <div class="clearfix"></div>
+    <!-- 评论区 -->
+    <div class="article-social col-lg-12" >
+        {% include 'comment/comment_form.html' %}
+        {% get_parent_comments article as comment_list %}
+        {% include 'comment/comment_list.html' %}
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $('div#article table').addClass('table table-bordered');
+    $('div#article thead').addClass('thead-light');
+</script>
+<script src="{% static 'comment/js/notification.js' %}"></script>
+<script src="{% static 'comment/js/editor.js' %}"></script>
+<script src="{% static 'comment/js/activate-power.js' %}"></script>
+<!-- mdeditor -->
+{% endblock %}   

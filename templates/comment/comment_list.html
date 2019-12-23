@@ -5,8 +5,6 @@
         <div class="mb-3">
             <strong>{% get_comment_user_count article %}&nbsp;人参与&nbsp;|&nbsp;{% get_comment_count article %}&nbsp;条评论</strong>
         </div>
-
-
         {% for comment in comment_list %}
         <div class="comment-parent pt-2" id="com-{{ comment.id }}">
             <li class="media">

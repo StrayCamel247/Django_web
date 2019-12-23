@@ -4,6 +4,7 @@
 {% load cache %}
 {% load comment_tags %}
 {% load tool_tags %}
+{% load compress %}
 <html lang="en-US">
 
 <head>
@@ -12,29 +13,30 @@
     {% block metas %}
     {% endblock %}
     <meta charset="UTF-8">
+    <meta name="360-site-verification" content="2ad1609205bc036d353436a24bf05a62" />
     <meta name="msvalidate.01" content="037C463FCD6495301662778FC939CD57" />
     <meta name="viewport"
         content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="baidu-site-verification" content="PVrsG5G9a2" />
     <!-- CSS FILES -->
     <!-- mdui-headroom 头部菜单滑动css-->
-    <link rel="stylesheet" href="//www.mdui.org/source/dist/css/mdui.min.css" />
+    <link rel="stylesheet" href="https://www.mdui.org/source/dist/css/mdui.min.css" />
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css"> -->
     <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+    {% compress css %}
+    <link href="{% static 'css/style.css' %}?v=20171223.09" rel="stylesheet" type="text/css">
+    {% endcompress %}
     <!-- <link href="{% static 'md_css/monokai.css' %}" rel="stylesheet" type="text/css"> -->
     <link rel="shortcut icon" type="image/x-icon" mce_href="{% static 'image/favicon.ico' %}"
         href="{% static 'image/favicon.ico' %}" media="screen" />
 
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
     {% block top_file %}
     {% endblock %}
 </head>
-
-
 <body>
     <!-- READING POSITION INDICATOR -->
     <!-- 头部进度条 -->
@@ -45,15 +47,9 @@
     </progress>
     <!-- 头部菜单 -->
     <header   mdui-headroom="options" class="header navbar navbar-expand-md bg-white fixed-top blog-navbar py-md-0 headroom headroom--top">
-        <!-- logo -->
-        <!-- <a class="navbar-brand d-md-none d-lg-block" href="/">
-            <img src="/static/image/logo.png" alt="TendCode">
-        </a> -->
         <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform"
             action="{% url 'blog:search' %}">
-        
             <input type="search" name="q" class="form-control rounded-0" placeholder="站内搜索" autocomplete="off" required="True">
-        
         </form>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -108,13 +104,13 @@
                         {% endif %}
                         {% endfor %}
                         <!-- <a class="dropdown-item media" href="#">
-                                                                        <i class="fa fa-check"></i>
-                                                                        <p>Server #1 overloaded.</p>
-                                                                    </a>
-                                                                    <a class="dropdown-item media" href="#">
-                                                                        <i class="fa fa-info"></i>
-                                                                        <p>Server #2 overloaded.</p>
-                                                                    </a> -->
+                                <i class="fa fa-check"></i>
+                                <p>Server #1 overloaded.</p>
+                            </a>
+                            <a class="dropdown-item media" href="#">
+                                <i class="fa fa-info"></i>
+                                <p>Server #2 overloaded.</p>
+                            </a> -->
                     </div>
                 </div>
                 <div class="dropdown for-message">
@@ -153,8 +149,8 @@
                 </div>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false" title="{{ user }，欢迎回来！">
-                        <img class="avatar" src="{{ user.avatar.url }}" alt="Freen247">
+                        aria-haspopup="true" aria-expanded="false" title="{{ user }}，欢迎回来！">
+                        <img class="avatar" src="{{ user.avatar.url }}" alt="{{ user }}">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right mt-0 rounded-0 border-0" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item pl-3" href="/accounts/profile/"><i
@@ -182,18 +178,14 @@
             {% endif %}
         </div>
     </header>
-
-
-    
-
     {% block main_contain %}
-    <!--freen SIDEBAR -->
-    
+    <!--freen sidebar -->
+    {% cache 7200 'sidebar' %}
     <aside id="freen-sidebar" class="freen-sidebar">
         <div id="freen-sidebar-wrapper" class="freen-sidebar-wrapper d-flex align-items-start flex-column h-100 w-100">
             <hr />
             <!-- AUTHOR BOX -->
-            {% include 'auther_box.html' %}
+            {% include 'blog/auther_box.html' %}
             <!-- MENU CONTAINER -->
             
             <div id="freen-sidebar-cell" class="freen-sidebar-cell w-100">
@@ -229,17 +221,12 @@
             
         </div>
     </aside>
-    <!-- SITE WRAPPER -->
+    {% endcache %}
+    <!-- site wrapper -->
     <section id="freen-site-wrapper" class="freen-site-wrapper" >
-
-
         <!-- MAIN CONTAINER -->
-
         {% block mdeditor_contain %}
         <main class="container-fluid row">
-
-
-
             <div class="col-lg-9">
                 <!-- SLIDER-LSEFT -->
                 <!-- 覆盖轮播图的模块 -->
@@ -264,18 +251,19 @@
                 {% endblock %}
             </div>
             <!-- SIDER-RIGHT -->
+            {% cache 7200 'sider_right' %}
             <div class="col-lg-3">
 
                 <!-- 分类 -->
                 <div class="freen-categories freen-widget">
-                    <div class="freen-widget-body">
+                    <div class="freen-widget-body card">
                     <p class=""><span><i class="my-fa fa fa-book" aria-hidden="true"></i>&nbsp;分类</span></p>
                     <ul>
                         {% get_categoty_list as categories %}
                         {% get_article_num as num%}
                         {% for each in categories %}
                         <li>
-                            <a href="/{{ each.get_absolute_url }}"></i>&nbsp;{{ each.name }}
+                            <a href="{{ each.get_absolute_url }}"></i>&nbsp;{{ each.name }}
                                 <span class="badge badge-pill badge-info">{{each.total_num}}</span>
                             </a>
                             <div class="progress progress-striped active">
@@ -291,13 +279,13 @@
                 </div>
                 <!-- 热门 -->
                 <div class="freen-post-list-wrapper freen-widget">
-                    <div class="freen-widget-body">
+                    <div class="freen-widget-body card">
                     <p class=""><span><i class="fa fa-fire mr-1"></i>&nbsp;|热门</span></p>
                     {% get_article_list '-views' 4 as pop_article %}
                     {% for pop in pop_article %}
                     <div class="freen-post-list">
                         <div class="freen-post-list-left">
-                            <a href="/article/{{ pop.slug }}">
+                            <a href="/article{{ pop.slug }}">
                                 <img src="{{ pop.img.url }}" alt="。">
                             </a>
                         </div>
@@ -313,9 +301,9 @@
                     {% endfor %}
                     </div>
                 </div>
-                    <!-- 友链 -->
+                <!-- 友链 -->
                 <div class="freen-post-list-wrapper freen-widget">
-                    <div class="freen-widget-body">
+                    <div class="freen-widget-body card">
                     <div class="freen-post-list">
                         <p class=""><span><i class="fa fa-link mr-2 f-17"></i>&nbsp;|友情链接</span></p>
 
@@ -344,9 +332,11 @@
 
                 </div>
             </div>
+            {% endcache %}
         </main>
         {% endblock %}
         <!-- FOOTER -->
+        {% cache 7200 'footer' %}
         <footer id="freen-footer" class="container-fluid mt-4 py-0">
         
             <!-- CREDITS -->
@@ -371,12 +361,12 @@
             </div>
         
         </footer>
+        {% endcache %}
 
 
 
         
     </section>
-     
     <!-- modals -->
     <div class="modal fade" id="wechat" tabindex="-1" role="dialog" aria-labelledby="QRTitle" style="display: none;"
         aria-hidden="true">
@@ -387,7 +377,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
     <!-- <div class="modal fade" id="qq" tabindex="-1" role="dialog" aria-labelledby="QRTitle" style="display: none;"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -399,12 +389,12 @@
         </div>
     </div> -->
     
-    <!-- SLIDE PANEL OVERLAY -->
-    <div id="freen-overlay" class="freen-overlay"></div>
-    <!-- SLIDE PANEL -->
-    {% include 'slide_panel.html' %}
+    <!-- slide panel overlay -->
+    {% comment %} <div id="freen-overlay" class="freen-overlay"></div> {% endcomment %}
+    <!-- slide panel -->
+    {% include 'blog/slide_panel.html' %}
     {% endblock %}
-    <!-- FULLSCREEN SEARCH -->
+    <!-- fullscreen search -->
     <div id="freen-fullscreen-search" class="freen-fullscreen-search">
         <div id="freen-fullscreen-search-content" class="freen-fullscreen-search-content">
             <a href="#" id="freen-close-search" class="freen-close-search"><i class="fa fa-times"></i></a>
@@ -420,7 +410,7 @@
     
         </div>
     </div>
-    <!-- GO TO TOP BUTTON -->
+    <!-- go to top button -->
     <a id="freen-gototop" class="freen-gototop" href="#"><i class="fa fa-hand-o-up"></i></a>
     <!-- JS FILES -->
 
@@ -428,24 +418,22 @@
     {% endblock %}
     <!-- bootstrap只有引入umd/popper.js才有用 -->
     <!-- 头部菜单自动下滑mdui-headroomjs -->
-    <script src="//www.mdui.org/source/dist/js/mdui.min.js"></script>
+    <script src="https://www.mdui.org/source/dist/js/mdui.min.js"></script>
     <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://cdn.bootcss.com/salvattore/1.0.9/salvattore.min.js"></script>
     <script src="{% static 'js/panel.js' %}"></script>
     <script src="{% static 'js/reading-position-indicator.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-    <!--  <script src="{% static 'js/TweenLite/TweenLite.min.js' %}">"></script>
-   <script src="{% static 'js/TweenLite/EasePack.min.js' %}">"></script> -->
 
 
-    <!-- POST SLIDER -->
+    <!-- post slider -->
     <script>
         (function ($) {
             "use strict";
@@ -467,7 +455,7 @@
             });
         })(jQuery);
     </script>
-    <!-- POST CAROUSEL -->
+    <!-- post carousel -->
     <script>
         (function ($) {
             "use strict";
@@ -508,6 +496,12 @@
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(bp, s);
         })();
+    </script>
+    <script>
+    (function(){
+    var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+    document.write('<script src="' + src + '" id="sozz"><\/script>');
+    })();
     </script>
 </body>
 

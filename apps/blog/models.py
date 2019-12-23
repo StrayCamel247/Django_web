@@ -10,17 +10,12 @@ from django.http import HttpResponse
 from uuslug import slugify
 from django_blog.settings import MEDIA_ROOT
 import markdown
-import emoji
-import re
-import time
-import string
-import os
+import emoji, re, time, string, os
 # Create your models here.
 #自定义自动修改上传的图片的图片名，并修改图片形式为png
 
 
 class ImageStorage(FileSystemStorage):
-
     def __init__(self, location=settings.MEDIA_ROOT, base_url=settings.MEDIA_URL):
         #初始化
         super(ImageStorage, self).__init__(location, base_url)
@@ -38,7 +33,6 @@ class ImageStorage(FileSystemStorage):
         # fn = hashlib.md5(time.strftime(
         #     '%Y%m%d%H%M%S').encode('utf-8')).hexdigest()
         name = os.path.join(d, fn+ext)
-
         #调用父类方法
         return super(ImageStorage, self)._save(name, content)
 
@@ -93,27 +87,6 @@ class Carousel(models.Model):
         # 编号越小越靠前，添加的时间约晚约靠前
         ordering = ['number', '-id']
 
-# 文章标签
-class Tag(models.Model):
-    name = models.CharField('文章标签', max_length=20)
-    description = models.TextField('描述', max_length=240, default=settings.SITE_DESCRIPTION,
-                                 help_text='用来作为SEO中description,长度参考SEO标准')
-
-    class Meta:
-        verbose_name = '标签'
-        verbose_name_plural = verbose_name
-        ordering = ['id']
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('blog:tag', kwargs={'tag': self.name})
-
-    def get_article_list(self):
-        """返回当前标签下所有发表的文章列表"""
-        return Article.objects.filter(tags=self)
-
 # 文章关键词，用来作为 SEO 中 keywords
 class Keyword(models.Model):
     name = models.CharField('文章关键词', max_length=20)
@@ -125,10 +98,6 @@ class Keyword(models.Model):
 
     def __str__(self):
         return self.name
-
-
-
-
 
 # 友情链接表
 class FriendLink(models.Model):
@@ -207,11 +176,7 @@ class Timeline(models.Model):
             super(Timeline, self).save(*args, **kwargs)
 
 # 文章
-
-
 class Article(models.Model):
-    # 文章默认缩略图
-    IMG_LINK = '/static/images/summary.jpg'
     # 文章作者
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='作者', null=False, default='2')
@@ -220,18 +185,12 @@ class Article(models.Model):
         '文章摘要', max_length=230, default='文章摘要等同于网页description内容，请务必填写...')
     # 文章内容
     body = MDTextField(verbose_name='文章内容')
-    img_link = models.CharField('图片地址', default=IMG_LINK, max_length=255)
     create_date = models.DateTimeField(verbose_name='创建时间')
     update_date = models.DateTimeField(verbose_name='修改时间', auto_now=True)
     views = models.IntegerField('阅览量', default=0)
-    img = models.ImageField(upload_to='media/article',
-                            default='media/artile/default.png', storage=ImageStorage())
-    # img_bmp= ImageSpecField(
-    #     source="img",
-    #     # processors=[ResizeToFill(240,130)],  # 处理后的图像大小
-    #     format='png',  # 处理后的图片格式
-    #     options={'quality': 80}  # 处理后的图片质量
-    # )
+
+    img = models.ImageField(upload_to='article/%Y%m%d',
+                            default='artile/default.png', storage=ImageStorage())
     # 文章唯一标识符
     slug = models.SlugField(editable=False)
     category = models.ForeignKey(
@@ -255,11 +214,12 @@ class Article(models.Model):
         return reverse('blog:article', kwargs={'slug': self.slug})
 
     def body_to_markdown(self):
-        to_emoji_content = emoji.emojize(self.body, use_aliases=True)
-        return markdown.markdown(to_emoji_content, extensions=[
+        md_content = emoji.emojize(self.body, use_aliases=True)
+        return markdown.markdown(md_content, extensions=[
             'markdown.extensions.extra',
             'markdown.extensions.codehilite',
         ])
+        
 
     def summary_to_markdown(self):
         return markdown.markdown(self.summary, extensions=[
