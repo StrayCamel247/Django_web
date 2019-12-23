@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.urls import path
 
-from apps.blog import views as blog_views
 from django.conf.urls import include
 from django.conf.urls import url
 from django.conf import settings
@@ -36,7 +35,7 @@ sitemaps = {
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('mdeditor/', include('mdeditor.urls')),  # Django-mdeditor URLS
-     # index
+    # index
     path('', include('apps.blog.urls'), name='blog'),
     #用户
 
@@ -50,11 +49,9 @@ urlpatterns = [
 ]
 # tools
 #mdeditor debug
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # if settings.API_FLAG:
 #     urlpatterns.append(url(r'^api/v1/',include(router.urls,namespace='api')))    # restframework
 
-if settings.TOOL_FLAG:
-    urlpatterns.append(url(r'^tool/', include('apps.tool.urls',namespace='tool')))    # tool
+urlpatterns.append(url(r'^tool/', include('apps.tool.urls',namespace='tool')))    # tool

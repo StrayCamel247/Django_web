@@ -1,5 +1,5 @@
 ﻿{% extends "base.html" %}
-{% load blog_tags %}
+{% load blog_tags comment_tags %}
 {% load_article_summary articles %}
 {% block head_title %}Stray_Camel(＾Ｕ＾)ノ~ＹＯ{% endblock %}
 {% block metas %}
@@ -61,5 +61,5 @@
 </div>
 {% endif %}
 {% endfor %}
-{% include "post.html" %}
+{% include "blog/post.html" %}
 {% endblock %}   

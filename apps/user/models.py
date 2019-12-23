@@ -46,7 +46,7 @@ class Ouser(AbstractUser):
     contact = models.ManyToManyField(Contacts, verbose_name='通讯录',default='1')
     # 扩展用户头像字段
     avatar = ProcessedImageField(
-        upload_to='avatar/%Y/%m/%d',
+        upload_to='avatar/%Y%m%d',
         default='avatar/default.png',
         verbose_name='头像',
         processors=[ResizeToFill(80, 80)],

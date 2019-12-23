@@ -6,9 +6,8 @@ from django.utils.text import slugify
 from django.shortcuts import render, HttpResponse, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .models import Article, Category, Tag, Timeline
+from .models import Article, Category,Timeline
 # from markdown.extensions.toc import TocExtension  # 锚点的拓展
-from django.core.cache import cache
 from haystack.generic_views import SearchView  # 导入搜索视图
 from haystack.query import SearchQuerySet
 
@@ -16,7 +15,7 @@ from haystack.query import SearchQuerySet
 # Create your views here.
 class TimelineView(generic.ListView):
     model = Timeline
-    template_name = 'timeline.html'
+    template_name = 'blog/timeline.html'
     context_object_name = 'timeline_list'
 
 # 重写搜索视图，可以增加一些额外的参数，且可以重新定义名称
@@ -46,7 +45,7 @@ class IndexView(generic.ListView):
   
 class DetailView(generic.DetailView):
     model = Article
-    template_name = 'article.html'
+    template_name = 'blog/article.html'
     context_object_name = 'article'
 
     def get_object(self):
@@ -81,7 +80,7 @@ class DetailView(generic.DetailView):
 
 class CategoryView(generic.ListView):
     model = Article
-    template_name = 'category.html'
+    template_name = 'blog/category.html'
     context_object_name = 'articles'
     paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
     paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)

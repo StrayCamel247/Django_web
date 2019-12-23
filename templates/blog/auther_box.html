@@ -1,0 +1,49 @@
+{% if user.is_authenticated %}
+<div class="freen-author-box freen-add-border">
+    <div class="freen-author-img">
+        <a href="/"><img src="{{ user.avatar.url }}" alt="  {{ user }}  "></a>
+    </div>
+    <h4>  {{ user.username }}  </h4>
+    <p class="freen-author-subtitle">{{ user.email }} </p>
+    <p class="freen-author-description">网址：{{ user.link }}</p>
+    <div class="freen-author-box-btn"> 
+        <a class="btn btn-outline-default btn-sm freen-panel-open" href="#freen-panel">个人中心</a>
+    </div>
+    <hr>
+       <div class="card-text text-sm-center" style="font-size: 1.5rem;">
+            <a href="https://github.com/Freen247/django_blog"><i class="fa fa-github pr-1"></i></a>
+            
+                <a href="javascript:void(0);" data-toggle="modal" data-target="#wechat">
+                    <i class="fa fa-wechat pr-1"></i>
+                </a>
+                <!-- <a href="javascript:void(0);" data-toggle="modal" data-target="#qq">
+                    <i class="fa fa-qq pr-1"></i>
+                </a> -->
+            <a href="mailto:aboysintky@outlook.com"><i class="fa fa-envelope pr-1"></i></a>
+        </div>
+</div>
+{% else %}
+<div class="freen-author-box freen-add-border">
+    <div class="freen-author-img">
+        <a href="/"><img src="/static/image/logo.png" alt="  {{ AUTHOR_NAME }}  "></a>
+    </div>
+    <h4>  {{ AUTHOR_NAME }}  </h4>
+    <p class="freen-author-subtitle"> {{ AUTHOR_TITLE }} </p>
+    <p class="freen-author-description">  {{AUTHOR_DESC}}  </p>
+    <div class="freen-author-box-btn"> 
+        <a class="btn btn-outline-default btn-sm freen-panel-open" href="#freen-panel">关于作者</a>
+    </div>
+    <hr>
+       <div class="card-text text-sm-center" style="font-size: 1.5rem;">
+            <a href="https://github.com/Freen247/django_blog"><i class="fa fa-github pr-1"></i></a>
+            
+                <a href="javascript:void(0);" data-toggle="modal" data-target="#wechat">
+                    <i class="fa fa-wechat pr-1"></i>
+                </a>
+                <!-- <a href="javascript:void(0);" data-toggle="modal" data-target="#qq">
+                    <i class="fa fa-qq pr-1"></i>
+                </a> -->
+            <a href="mailto:aboysintky@outlook.com"><i class="fa fa-envelope pr-1"></i></a>
+        </div>
+</div>
+{% endif %}

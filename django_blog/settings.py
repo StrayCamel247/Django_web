@@ -31,7 +31,15 @@ TOOL_FLAG = True
 API_FLAG = False
 # DEBUG模式是否开始的选择
 # 值为0：所有平台关闭DEBUG,值为1:所有平台开启DEBUG,值为其他：根据平台类型判断开启（默认设置的Windows下才开启）
-DEBUG = 3
+DEBUG = 1
+# 默认状态 COMPRESS_ENABLED=False，因为生产环境 DEBUG=False
+# 只有在生产环境才有压缩静态资源的需求
+# 如果是开发环境就主动开启压缩功能、开启手动压缩功能
+if DEBUG:
+    COMPRESS_ENABLED = True # 开启压缩功能
+    COMPRESS_OFFLINE = True # 开启手动压缩
+else:
+    DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ALLOWED_HOSTS = ['boywithacoin.cn', '127.0.0.1','www.boywithacoin.cn']
 
@@ -55,7 +63,6 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',#网站地图
     'uuslug',#将中文转化成拼音 slug 的插件
     'markdown',#python自带的md翻译工具
-    
     # allauth需要注册的应用    
     'django.contrib.auth',
     'django.contrib.sites',
@@ -66,9 +73,13 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     # 搜索
     'haystack',
+    # 压缩
+    'compressor',
     # rest框架
     # 'rest_framework',
 ]
+# 如果需要在本地压缩，需要在settings.py中添加 COMPRESS_OFFLINE=True才能执行下边命令手动压缩
+COMPRESS_OFFLINE=True
 #mdeditor
 MDEDITOR_CONFIGS = {
     'default':{
@@ -94,7 +105,6 @@ MDEDITOR_CONFIGS = {
         'flow_chart': True,  # whether to open the flow chart function
         'syncScrolling': 'single',
         'sequence': True,  # Whether to open the sequence diagram function
-        
     }
     
 }
@@ -198,8 +208,7 @@ ROOT_URLCONF = 'django_blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -276,11 +285,16 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'compressor.finders.CompressorFinder',)
 # 静态文件收集
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '/static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    # os.path.join(BASE_DIR, 'static'),
+    # 'static/',
     #debug模式服务器解决后端admin界面css样式缺失
     # '/home/django_blog/env/lib/python3.6/site-packages/django/contrib/admin/static'
 ]
@@ -294,3 +308,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
 #指定如何对搜索结果分页，这里设置为每 10 项结果为一页。
 BASE_PAGE_BY = 7
 BASE_ORPHANS = 4
+

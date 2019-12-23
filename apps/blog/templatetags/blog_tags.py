@@ -2,7 +2,7 @@
 # 创建了新的tags标签文件后必须重启服务器
 
 from django import template
-from ..models import Article,  Tag, Carousel, FriendLink, Category, Activate, Keyword
+from ..models import Article,Carousel, FriendLink, Category, Activate, Keyword
 from django.db.models.aggregates import Count
 from django.utils.html import mark_safe
 import re
@@ -45,12 +45,6 @@ def keywords_to_str(art):
     '''将文章关键词变成字符串'''
     keys = art.keywords.all()
     return ','.join([key.name for key in keys])
-
-# 返回标签查询集
-@register.simple_tag
-def get_tag_list():
-    """返回标签列表"""
-    return Tag.objects.annotate(total_num=Count('article')).filter(total_num__gt=0)
 
 
 # 返回活跃的友情链接查询集
@@ -105,11 +99,6 @@ def load_article_summary(articles):
     """返回文章列表模板"""
     return {'articles': articles}
 
-
-# 获取文章标签信息，参数文章ID
-@register.simple_tag
-def get_article_tag(article_id):
-    return Tag.objects.filter(article=article_id)
 
 
 # 返回分页信息
