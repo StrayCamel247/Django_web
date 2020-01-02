@@ -21,14 +21,11 @@
     <!-- CSS FILES -->
     <!-- mdui-headroom 头部菜单滑动css-->
     <link rel="stylesheet" href="https://www.mdui.org/source/dist/css/mdui.min.css" />
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css"> -->
-    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     {% compress css %}
-    <link href="{% static 'css/style.css' %}?v=20171223.09" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/style.css' %}?v=20201223.09" rel="stylesheet" type="text/css">
     {% endcompress %}
-    <!-- <link href="{% static 'md_css/monokai.css' %}" rel="stylesheet" type="text/css"> -->
     <link rel="shortcut icon" type="image/x-icon" mce_href="{% static 'image/favicon.ico' %}"
         href="{% static 'image/favicon.ico' %}" media="screen" />
 
@@ -368,6 +365,8 @@
         
     </section>
     <!-- modals -->
+    {% block modals %}
+    {% endblock %}
     <div class="modal fade" id="wechat" tabindex="-1" role="dialog" aria-labelledby="QRTitle" style="display: none;"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
