@@ -1,6 +1,6 @@
 ﻿📚 Django 开发的个人网站
 
-🐒 coders：[🐫Stray_camel](https://github.com/Freen247)、[👦kdsgd](https://github.com/kdsgd)。
+🐒 coders：[🐫Stray_camel](https://github.com/Freen247)。
 🐾 希望大家一起来合作contribute👍！
 
 **☎ contact me**：
@@ -53,7 +53,7 @@
     - [django博客开发blog开发日志系统](https://boywithacoin.cn/article/djangobo-ke-kai-fa-blogkai-fa-ri-zhi-xi-tong/)
     - [利用mdeitor配置评论功能、后端利用markdown处理md数据](https://boywithacoin.cn/article/li-yong-mdeitorpei-zhi-ping-lun-gong-neng-hou-duan-li-yong-markdownchu-li-mdshu-ju/)，曾经使用过一段时间，后来改为使用 simplemde 包。
     - [article中上传静态图片时重命名](https://boywithacoin.cn/article/articlezhong-shang-chuan-jing-tai-tu-pian-shi-zhong-ming-ming/)
-
+    - [django开发网站-迁移sqlite3数据库到postgresql数据库](https://boywithacoin.cn/article/djangokai-fa-wang-zhan-qian-yi-sqlite3shu-ju-ku-dao-postgresqlshu-ju-ku/)
 ## 🤹‍♀️FAQ
 1. 为何不适用其他的 xadmin 等后台管理系统？
     - 🐫：因为自带的 admin 包已经完全满足了我的需求、而且我个人是准备来开发一个个人主页的（可以 curd 文章和其他信息之类的）
