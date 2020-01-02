@@ -60,7 +60,25 @@
 2. 博主的网站建设是完全自己写出来的吗？文章之类的也是完全自己想出来的吗？
     - 🐫：并不是！这些全部的知识我都是从别人那里偷过来的，我只是把这些过程记录成笔记而已。反而我更希望大家都来偷我的东西，更好的我们可以一起偷知识来建设这种django开发的网站！
 
-## 网站实际效果预览
+## 🙃常见安装项目 bug
+- `ImportError: PILKit was unable to import the Python Imaging Library. Please confirm it`s installe...`
+    - 安装pillow库：`pip install pillow`
+
+- `ModuleNotFoundError: No module named 'compressor'`
+    - 原因是安装django_compressor时的依赖包rcssm出了问题，重新安装rcssm包
+    - `pip install rcssmin --install-option="--without-c-extensions"`
+
+- `ImportError: cannot import name 'connections' from 'haystack' `
+    - 常见处理方法；写在自动安装的依赖包`pip uninstall haystack`，如果还不能解决，重新卸载并安装djang-haystack。
+
+- `ImportError: cannot import name 'ChineseAnalyzer' from 'jieba.analyse' (F:\workspac' `
+    - 安装依赖包`whoosh`，其实在requirement里面已经有了，但是估计时没安装成功吧。再安装一次就好了
+
+- `ModuleNotFoundError: No module named 'user_agent'`
+    - 这个包直接安装就好，` pip install user_agent`
+
+    
+## 🐒网站实际效果预览
 ![Python](https://camo.githubusercontent.com/42a16d3ced93f9da9842bd59c778c4cffca16e11/68747470733a2f2f63646e2e6c6561726e6b752e636f6d2f75706c6f6164732f696d616765732f3230323030312f30322f32323839332f52564a46524d4f5135432e706e67216c61726765)
 
 ![](https://camo.githubusercontent.com/9f3fbd8ada0611b65b6edda1bfb3e4851e7e9a30/68747470733a2f2f626f797769746861636f696e2e636e2f7374617469632f6d656469612f656469746f722f54494d25453625383825414125453525394225424532303230303130313232333632315f32303230303130313232333730353239303239362e706e67)

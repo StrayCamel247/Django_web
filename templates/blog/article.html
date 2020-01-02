@@ -13,6 +13,7 @@
 {% if user.is_authenticated %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 {% endif %}
+<link href="https://cdn.bootcss.com/github-markdown-css/3.0.1/github-markdown.min.css" rel="stylesheet">
 <link href="{% static 'comment/css/base_comment.css' %}" rel="stylesheet">
 <link href="{% static 'comment/css/notification.css' %}" rel="stylesheet">
 <!-- 文本区 -->
@@ -20,11 +21,20 @@
 <style type="text/css">
 .markdown-body img {
     max-width: 90% !important;
+    width: auto;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     display: block;
     padding: 10px 0px 10px 0px;
+}
+.codehilite  pre{ color: #f8f8f2 }
+.codehilite .err {
+    color: #f8f8f2;
+    background: #272822;
+}
+.markdown-body .highlight pre, .markdown-body pre {
+    background: #272822;
 }</style>
 {% endblock %}
 {% block mdeditor_contain %}
@@ -45,24 +55,23 @@
             </ol>
             
         </nav>
-        <div class="" style="font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-    font-size: 16px;
-    line-height: 1.5;
-    word-wrap: break-word;     padding:40px 48px 40px 48px;    background-color: #fff;
+        <div class="markdown-body" style="padding:40px 48px 40px 48px; background-color: #fff;
     " >
-            <h1 class="text-center font-weight-bold text-info">{{ article.title }}</h1>
-            <hr>
+            <h1 class="text-center">{{ article.title }}</h1>
             <div class="text-center f-13">
                 <span class="mx-2" data-toggle="tooltip" data-placement="bottom"
                     title="最后编辑于{{ article.update_date|date:'Y年m月d日' }}">{{ article.create_date }}</span>
                 <span class="mx-2">阅读 {{ article.views }}</span>
                 <a class="mx-2 to-com" href="#comment-block">评论 {% get_comment_count article %}</a>
-                <a href="#" class="mx-2">COPY(markdown内容)</a>
-                
+                {% if user.is_authenticated %}
+                {% if user == article.author %}
+                <a href="javascript:void(0);" data-toggle="modal" data-target="#article-md">COPY(markdown内容)</a>
+                {% endif %}
+                {% endif %}
             </div>
             
             <!-- 文章内容 -->
-            <div class="article-bodycd  f-17" >
+            <div class=" f-17" >
                 {{ article.body_to_markdown|safe }}
                 <p class="font-weight-bold text-info">
                     <i class="fa fa-bullhorn mx-1"></i>
@@ -77,6 +86,18 @@
             
         </div>
     </div>
+    {% block modals %}
+    <div class="modal fade" id="article-md" tabindex="-1" role="dialog" aria-labelledby="QRTitle" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <textarea>{{article.body}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div> 
+    {% endblock %}
     <!-- <nav class="more-page f-16">
         <ul class="pagination justify-content-between">
             <li class="page-item">
@@ -104,11 +125,6 @@
             </li>
         </ul>
     </nav> -->
-    <!-- <blockquote class="p-1 f-14" style="border-left: 4px solid #dc3545;">
-        <p class="m-1"><strong>版权声明：</strong><a href="{% url 'blog:article' object.slug %}">Stray_Camel</a> &raquo;
-        <a href="{% url 'blog:article' object.slug %}">{{ object.title }}</a></p>
-        <p class="m-1"><strong>本文链接：</strong>boywithacoin.cn{% url 'blog:article' object.slug %}</p>
-    </blockquote> -->
 
     <hr>
     <div class="clearfix"></div>
