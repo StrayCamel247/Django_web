@@ -1,9 +1,9 @@
-﻿Django 📚开发的个人网站
+﻿📚 Django 开发的个人网站
 
-开发coders：[🐫Stray_camel](https://github.com/Freen247)、[👦kdsgd](https://github.com/kdsgd)。
-希望大家一起来合作contribute👍！
+🐒 coders：[🐫Stray_camel](https://github.com/Freen247)、[👦kdsgd](https://github.com/kdsgd)。
+🐾 希望大家一起来合作contribute👍！
 
-**contact me**🧐：
+**☎ contact me**：
 - qq/wechat：1351975058
 - email：aboyinsky@outlook.com
 
