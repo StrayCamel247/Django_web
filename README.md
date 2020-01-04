@@ -1,9 +1,10 @@
 ﻿📚 Django 开发的个人网站
 
 🐒 coders：[🐫Stray_camel](https://github.com/Freen247)。
-🐾 希望大家一起来合作contribute👍！
+🐾 希望大家一起来contribute or fork👍！
 
 **☎ contact me**：
+- issue
 - qq/wechat：1351975058
 - email：aboyinsky@outlook.com
 
@@ -79,6 +80,5 @@
 
     
 ## 🐒网站实际效果预览
-![Python](https://camo.githubusercontent.com/42a16d3ced93f9da9842bd59c778c4cffca16e11/68747470733a2f2f63646e2e6c6561726e6b752e636f6d2f75706c6f6164732f696d616765732f3230323030312f30322f32323839332f52564a46524d4f5135432e706e67216c61726765)
+![Python](https://boywithacoin.cn/static/media/editor/TIM%E5%9B%BE%E7%89%872020010122455_20200101225818752500.png)
 
-![](https://camo.githubusercontent.com/9f3fbd8ada0611b65b6edda1bfb3e4851e7e9a30/68747470733a2f2f626f797769746861636f696e2e636e2f7374617469632f6d656469612f656469746f722f54494d25453625383825414125453525394225424532303230303130313232333632315f32303230303130313232333730353239303239362e706e67)
