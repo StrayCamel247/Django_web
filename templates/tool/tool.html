@@ -16,29 +16,28 @@
 {% endblock %}
 
 {% block mdeditor_contain %}
-    {% get_tools as tools %}
+    
     <div class="container">
         <div class="row tool-list">
-    {% for t in tools %}
+        {% get_tools as tools %}
+            {% for t in tools %}
 
             <div class="col-md-6 col-lg-4 col-xl-3 px-lg-2 mb-3">
                 <div class="card">
                     <div class="card-header p-2 tool-header" style="background-color: white;">
                         <a href="{{t.link}}">
-                            <img class="w-25 float-left mr-2" src="{% static '/media/' %}{{ t.img }}" alt="{{t.name}}">
-                            
-                            <h2 class="card-title">{{t.name}}</h2>
+                            <img class="w-50 float-left mr-2" src="{% static '/media/' %}{{ t.img }}" alt="{{t.name}}">
+                            <h4 class="card-title">{{t.name}}</h4>
                         </a>
-                        <p class="mb-0">{{t.category}}</p>
+                        <p class="mb-0">[{{t.category}}]</p>
                     </div>
                     <div class="card-body p-1 tool-des">
                         <p class="card-text">{{t.description}}</p>
                     </div>
                 </div>
             </div>
-
         
-    {% endfor %}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

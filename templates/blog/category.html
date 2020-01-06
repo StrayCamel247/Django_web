@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% load static %}
 {% block head_title %}{{ search_instance.name }}_{{ search_tag }}{% endblock %}
 {% block metas %}
@@ -19,6 +19,6 @@
     <a class="pb-2 ml-4 {% if request.path == hot_category %}active{% endif %}" href="{{ hot_category }}">
         <i class="fa fa-fire mr-1"></i>热度排序</a>
 </div>
-{% include "post.html" %}
+{% include "blog/post.html" %}
  
 {% endblock %}   

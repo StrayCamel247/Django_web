@@ -2,7 +2,7 @@
 # 创建了新的tags标签文件后必须重启服务器
 
 from django import template
-from ..models import Article,Carousel, FriendLink, Category, Activate, Keyword
+from ..models import Article,FriendLink, Category,  Keyword
 from django.db.models.aggregates import Count
 from django.utils.html import mark_safe
 import re
@@ -20,16 +20,6 @@ def get_categoty_list():
 
 # 返回文章分类查询集
 
-# 返回公告查询集
-@register.simple_tag
-def get_active():
-    """"获取活跃的友情链接"""
-    text = Activate.objects.filter(is_active=True)
-    if text:
-        text = text[0].text
-    else:
-        text = ''
-    return mark_safe(text)
 
 
 # 获取归档文章查询集
@@ -54,23 +44,6 @@ def get_friends():
     return FriendLink.objects.filter(is_show=True, is_active=True)
 
 
-# 获取幻灯片查询集
-@register.simple_tag
-def get_carousel_list():
-    """获取轮播图片列表"""
-    return Carousel.objects.all()
-
-
-# 获取滚动的大幻灯片查询集
-@register.simple_tag
-def get_carousel_index():
-    return Carousel.objects.filter(number__lte=5)
-
-
-# 获取右侧栏热门专题幻灯片查询集
-@register.simple_tag
-def get_carousel_right():
-    return Carousel.objects.filter(number__gt=5, number__lte=10)
 
 
 # 获取热门排行数据查询集，参数：sort 文章类型， num 数量

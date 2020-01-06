@@ -6,7 +6,7 @@
 
 **☎ contact me**：
 - issue
-- qq/wechat：1351975058
+- wechat：1351975058
 - email：aboyinsky@outlook.com
 
 ## ✨网站功能/计划（Features/future）
@@ -55,7 +55,7 @@
     - [django博客开发blog开发日志系统](https://boywithacoin.cn/article/djangobo-ke-kai-fa-blogkai-fa-ri-zhi-xi-tong/)
     - [利用mdeitor配置评论功能、后端利用markdown处理md数据](https://boywithacoin.cn/article/li-yong-mdeitorpei-zhi-ping-lun-gong-neng-hou-duan-li-yong-markdownchu-li-mdshu-ju/)，曾经使用过一段时间，后来改为使用 simplemde 包。
     - [article中上传静态图片时重命名](https://boywithacoin.cn/article/articlezhong-shang-chuan-jing-tai-tu-pian-shi-zhong-ming-ming/)
-    - [django开发网站-迁移sqlite3数据库到postgresql数据库](https://boywithacoin.cn/article/djangokai-fa-wang-zhan-qian-yi-sqlite3shu-ju-ku-dao-postgresqlshu-ju-ku/)
+    - [迁移sqlite3到postgresql数据库](https://boywithacoin.cn/article/qian-yi-sqlite3dao-postgresqlshu-ju-ku)
 ## 🤹‍♀️FAQ
 1. 为何不适用其他的 xadmin 等后台管理系统？
     - 🐫：因为自带的 admin 包已经完全满足了我的需求、而且我个人是准备来开发一个个人主页的（可以 curd 文章和其他信息之类的）
@@ -79,7 +79,8 @@
 - `ModuleNotFoundError: No module named 'user_agent'`
     - 这个包直接安装就好，` pip install user_agent`
 
-    
+- 数据库迁移/项目运行bug：`ValueError : unsupported pickle protocol: 5`
+    - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`django_blog\whoosh_index`文件夹中的所有文件。
 ## 🐒网站实际效果预览
 ![Python](https://boywithacoin.cn/static/media/editor/TIM%E5%9B%BE%E7%89%872020010122455_20200101225818752500.png)
 
