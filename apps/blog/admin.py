@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, Category, Carousel, Keyword, FriendLink, Timeline
+from .models import Article,  Keyword, FriendLink, Timeline
 
 
 @admin.register(Timeline)
@@ -50,10 +50,6 @@ class ArticleAdmin(admin.ModelAdmin):
 #     list_display = ('name', 'id', 'slug')
 
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'id', 'slug')
-
 
 # 自定义管理站点的名称和URL标题
 admin.site.site_header = '网站管理'
@@ -70,11 +66,6 @@ admin.site.site_title = '博客后台管理'
 #     )
 #     date_hierarchy = 'update_date'
 #     list_filter = ('star_num', 'update_date')
-
-
-@admin.register(Carousel)
-class CarouselAdmin(admin.ModelAdmin):
-    list_display = ('number', 'title', 'img', 'url')
 
 
 # @admin.register(Silian)
