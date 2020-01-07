@@ -55,7 +55,7 @@
     - [article中上传静态图片时重命名](https://boywithacoin.cn/article/articlezhong-shang-chuan-jing-tai-tu-pian-shi-zhong-ming-ming/)
     - [迁移sqlite3到postgresql数据库](https://boywithacoin.cn/article/qian-yi-sqlite3dao-postgresqlshu-ju-ku)
 
-## 源码分支管理：
+## 🤹‍源码分支管理：
 - [webiste_files](https://github.com/Freen247/django_blog/tree/website_files)：当前目录为网站前端样式的初始化文件。利用框架有bootstrap，fontawsome。
 - [0x00](https://github.com/Freen247/django_blog/tree/0x00)：此分支为初始分支，创建django初始化项目，创建主要app到apps文件夹。添加静态资源到文件夹templates（原资源为打包好的zip文件）、导入static静态文件，更改所需文件为cdn服务器，加快访问速度
 - [0x01](https://github.com/Freen247/django_blog/tree/0x01):
