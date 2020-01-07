@@ -2,6 +2,8 @@
 
 此分支为初始分支，创建django初始化项目，创建主要app到apps文件夹。添加静态资源到文件夹templates（原资源为打包好的zip文件）、导入static静态文件，更改所需文件为cdn服务器，加快访问速度。
 
+刚刚载入静态资源，访问界面的图片还没有更改代码，但是已经引入了css代码。
+
 🐒 coders：[🐫Stray_camel](https://github.com/Freen247)。
 
 🐾 希望大家一起来contribute or fork👍！
