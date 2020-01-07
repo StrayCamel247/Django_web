@@ -1,4 +1,4 @@
-﻿📚 Django 开发的个人网站
+📚 Django 开发的个人网站
 
 🐒 coders：[🐫Stray_camel](https://github.com/Freen247)。
 
@@ -37,14 +37,7 @@
 
 3. 利用django开发网站日志
     >类似于开发手册/教程，希望可以一起来contribute，支持更多的功能或框架！
-	
-    - [django开发网站-创建django项目](https://boywithacoin.cn/article/djangokai-fa-wang-zhan-chuang-jian-djangoxiang-mu/)
-    - [django开发网站-准备并加载静态资源](https://boywithacoin.cn/article/djangokai-fa-wang-zhan-zhun-bei-bing-jia-zai-jing-tai-zi-yuan/)
-    - [django开发网站-修改静态资源成博客样式](https://boywithacoin.cn/article/djangokai-fa-wang-zhan-xiu-gai-jing-tai-zi-yuan-cheng-bo-ke-yang-shi/)
-    - [django开发网站-（app）user使用第三方登陆](https://boywithacoin.cn/article/djangokai-fa-wang-zhan-app-usershi-yong-di-san-fang-deng-lu/)
-    - [django开发网站-添加博客系统(app)](https://boywithacoin.cn/article/djangokai-fa-wang-zhan-tian-jia-bo-ke-xi-tong-app/)
-    - [django开发网站-评论系统](https://boywithacoin.cn/article/djangokai-fa-wang-zhan-ping-lun-xi-tong/)
-    - ...文章编写中ing
+
     - [django2.0+python3博客基础搭建完成](https://boywithacoin.cn/article/django2-0-python3bo-ke-ji-chu-da-jian-wan-cheng/)
     - [Nginx + Gunicorn 服务器配置 Django](https://boywithacoin.cn/article/nginx-gunicorn-fu-wu-qi-pei-zhi-django/)
     - [django-mdeditor后台内嵌md文章编辑+Editor.md开源项目](https://boywithacoin.cn/article/django-mdeditorhou-tai-nei-qian-mdwen-zhang-bian-ji-editor-mdkai-yuan-xiang-mu/)
@@ -57,8 +50,7 @@
 
 ## 🌲源码分支管理：
 - [webiste_files](https://github.com/Freen247/django_blog/tree/website_files)：当前目录为网站前端样式的初始化文件。利用框架有bootstrap，fontawsome。
-- [0x00](https://github.com/Freen247/django_blog/tree/0x00)：此分支为初始分支，创建django初始化项目，创建主要app到apps文件夹。添加静态资源到文件夹templates（原资源为打包好的zip文件）、导入static静态文件，更改所需文件为cdn服务器，加快访问速度
-- [0x01](https://github.com/Freen247/django_blog/tree/0x01):
+
 ## 🤹‍♀️FAQ
 1. 为何不适用其他的 xadmin 等后台管理系统？
     - 🐫：因为自带的 admin 包已经完全满足了我的需求、而且我个人是准备来开发一个个人主页的（可以 curd 文章和其他信息之类的）
