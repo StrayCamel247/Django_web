@@ -9,4 +9,6 @@
 
 使用`python manage.py runserver`访问127.0.0.1:8000，查看效果
 
+![](https://boywithacoin.cn/static/media/editor/TIM截图20191223084017_20191223084045686778.png)
+
 如有问题请issue提问，ty！
