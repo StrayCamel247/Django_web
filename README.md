@@ -5,12 +5,11 @@
 🐾 希望大家一起来contribute or fork👍！
 
 **☎ contact me**：
-- issue
-- wechat：1351975058
-- email：aboyinsky@outlook.com
+- [prefer：github/issue](https://github.com/Freen247/django_blog/issues)
+- email：aboyinsky@outlook.com/wechat：1351975058
 
 ## ✨网站功能/计划（Features/future）
-> 网站是基于博客系统建立起来的，但是绝对不仅仅局限于这个功能。在这个层面上会更加扩展地开发更多的功能。
+> 网站是基于博客系统建立起来的，不仅仅局限于这个功能。在这个层面上会更加扩展地开发更多的功能。
 
 - [x] 使用 Django 自带的后台管理系统，方便对于文章、用户及其他动态内容的管理
 - [x] App（index）网站主要系统，basic 功能和界面展示
@@ -30,15 +29,14 @@
 > 不愿意将这系列的文章叫做教程，感觉这些东西真的网上百度一大堆，希望看到这里的小伙伴们能够意识到合作一起contribute的意识，一起来共同打造更好的项目，👨‍👨‍👦‍👦多人的智慧往往会迸发出更多的火花。
 
 1. 学习使用 markdown 语言来编写文章（basic）
-    > md一直是我们程序员常用的记录语言，一般使用这种类型的文档来记录或者交流。
-	
     - [markdown基本语法](https://boywithacoin.cn/article/markdownji-ben-yu-fa/)
-2. 克隆 clone 项目后让项目在服务器或者本地运行（basic）
+2. 克隆 clone 项目后让项目在服务器运行（basic）
     > 大家有问题可以在[网站评论](https://boywithacoin.cn/)或者[github issue](https://github.com/Freen247/django_blog/issues)戳我!
 	
     - [Nginx + Gunicorn 服务器配置 Django](https://boywithacoin.cn/article/nginx-gunicorn-fu-wu-qi-pei-zhi-django/)
-3. 开发网站项目前的准备
-    >基础创建django项目和获取/修改前端静态资源的过程。希望可以一起来contribute，支持更多的框架！
+
+3. 利用django开发网站日志
+    >类似于开发手册/教程，希望可以一起来contribute，支持更多的功能或框架！
 	
     - [django开发网站-创建django项目](https://boywithacoin.cn/article/djangokai-fa-wang-zhan-chuang-jian-djangoxiang-mu/)
     - [django开发网站-准备并加载静态资源](https://boywithacoin.cn/article/djangokai-fa-wang-zhan-zhun-bei-bing-jia-zai-jing-tai-zi-yuan/)
@@ -56,6 +54,11 @@
     - [利用mdeitor配置评论功能、后端利用markdown处理md数据](https://boywithacoin.cn/article/li-yong-mdeitorpei-zhi-ping-lun-gong-neng-hou-duan-li-yong-markdownchu-li-mdshu-ju/)，曾经使用过一段时间，后来改为使用 simplemde 包。
     - [article中上传静态图片时重命名](https://boywithacoin.cn/article/articlezhong-shang-chuan-jing-tai-tu-pian-shi-zhong-ming-ming/)
     - [迁移sqlite3到postgresql数据库](https://boywithacoin.cn/article/qian-yi-sqlite3dao-postgresqlshu-ju-ku)
+
+## 源码分支管理：
+- [webiste_files](https://github.com/Freen247/django_blog/tree/website_files)：当前目录为网站前端样式的初始化文件。利用框架有bootstrap，fontawsome。
+- [0x00](https://github.com/Freen247/django_blog/tree/0x00)：此分支为初始分支，创建django初始化项目，创建主要app到apps文件夹。添加静态资源到文件夹templates（原资源为打包好的zip文件）、导入static静态文件，更改所需文件为cdn服务器，加快访问速度
+- [0x01](https://github.com/Freen247/django_blog/tree/0x01):
 ## 🤹‍♀️FAQ
 1. 为何不适用其他的 xadmin 等后台管理系统？
     - 🐫：因为自带的 admin 包已经完全满足了我的需求、而且我个人是准备来开发一个个人主页的（可以 curd 文章和其他信息之类的）
@@ -81,6 +84,7 @@
 
 - 数据库迁移/项目运行bug：`ValueError : unsupported pickle protocol: 5`
     - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`django_blog\whoosh_index`文件夹中的所有文件。
+
 ## 🐒网站实际效果预览
 ![Python](https://boywithacoin.cn/static/media/editor/TIM%E5%9B%BE%E7%89%872020010122455_20200101225818752500.png)
 
