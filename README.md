@@ -6,8 +6,4 @@
 
 🐾 希望大家一起来contribute or fork👍！
 
-使用`pip install -r requirements`下载依赖包
-
-使用`python manage.py runserver`访问127.0.0.1:8000，查看效果
-
 如有问题请issue提问，ty！
