@@ -1,0 +1,513 @@
+﻿<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Eskimo - HTML Template</title>
+    <!-- META TAGS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!-- CSS FILES -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/fontawesome.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <!-- READING POSITION INDICATOR -->
+    <progress value="0" id="eskimo-progress-bar">
+        <span class="eskimo-progress-container">
+            <span class="eskimo-progress-bar"></span>
+        </span>
+    </progress>
+    <!-- SITE WRAPPER -->
+    <div id="eskimo-site-wrapper">
+        <!-- MAIN CONTAINER -->
+        <main id="eskimo-main-container">
+            <div class="container">
+                <!-- SIDEBAR -->
+                <div id="eskimo-sidebar">
+                    <div id="eskimo-sidebar-wrapper" class="d-flex align-items-start flex-column h-100 w-100">
+                        <!-- LOGO -->
+                        <div id="eskimo-logo-cell" class="w-100">
+                            <a class="eskimo-logo-link" href="index.html">
+                                <img src="images/logo.png" class="eskimo-logo" alt="eskimo" />
+                            </a>
+                        </div>
+                        <!-- MENU CONTAINER -->
+                        <div id="eskimo-sidebar-cell" class="w-100">
+                            <!-- MOBILE MENU BUTTON -->
+                            <div id="eskimo-menu-toggle">MENU</div>
+                            <!-- MENU -->
+                            <nav id="eskimo-main-menu" class="menu-main-menu-container">
+                                <ul class="eskimo-menu-ul">
+                                    <li><a href="#">Home</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="index.html">Demo 1</a></li>
+                                            <li><a href="index2.html">Demo 2</a></li>
+                                            <li><a href="index3.html">Demo 3</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">About Me</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="about.html">Demo 1</a></li>
+                                            <li><a href="about-2.html">Demo 2</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Blog</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="blog.html">Full Width</a></li>
+                                            <li><a href="blog-2-column.html">2 Column</a></li>
+                                            <li><a href="blog-3-column.html">3 Column</a></li>
+                                            <li><a href="single-post.html">Single Post</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="galleries.html">Galleries</a></li>
+                                    <li><a href="other-features.html">Other Features</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- SOCIAL MEDIA ICONS -->
+                        <div id="eskimo-social-cell" class="mt-auto w-100">
+                            <div id="eskimo-social-inner">
+                                <ul class="eskimo-social-icons">
+                                    <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-vimeo"></i></a></li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- TOP ICONS -->
+                <ul class="eskimo-top-icons">
+                    <li id="eskimo-panel-icon">
+                        <a href="#eskimo-panel" class="eskimo-panel-open"><i class="fa fa-bars"></i></a>
+                    </li>
+                    <li id="eskimo-search-icon">
+                        <a id="eskimo-open-search" href="#"><i class="fa fa-search"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+                <!-- PAGE TITLE -->
+                <div class="eskimo-page-title">
+                    <h1><span>Other Features</span></h1>
+                    <p class="eskimo-page-subtitle">This is a subtitle !</p>
+                </div>
+                <!-- ACCORDION -->
+                <div id="mp-accordion-1" data-children=".mp-accordion-item" class="mp-accordion">
+                    <!-- ACCORDION ITEM 1 -->
+                    <div class="mp-accordion-item">
+                        <a class="mp-accordion-title " data-toggle="collapse" data-parent="#mp-accordion-1" href="#mp-accordion-item-1" aria-expanded="false" aria-controls="mp-accordion-item-1">
+                            <i class="fa fa-home"></i> ITEM 1
+                        </a>
+                        <div id="mp-accordion-item-1" class="collapse show" role="tabpanel">
+                            <div class="mp-accordion-content">
+                                <h3>ACCORDION</h3>
+                                <p>Duis instituendarum quamquam illum proident. Te an exercitation eu multos incididunt tempor, nescius in quem te an iis fugiat dolor quid, ne sed voluptatibus hic o ea eruditionem, a cernantur est quibusdam, dolor nostrud consectetur. Doctrina multos eiusmod, ubi possumus in pariatur.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ACCORDION ITEM 2 -->
+                    <div class="mp-accordion-item">
+                        <a class="mp-accordion-title collapsed" data-toggle="collapse" data-parent="#mp-accordion-1" href="#mp-accordion-item-2" aria-expanded="false" aria-controls="mp-accordion-item-2">
+                            <i class="fa fa-bullhorn"></i> ITEM 2
+                        </a>
+                        <div id="mp-accordion-item-2" class="collapse" role="tabpanel">
+                            <div class="mp-accordion-content">
+                                <h3>LOREM IPSUM</h3>
+                                <p>Duis instituendarum quamquam illum proident. Te an exercitation eu multos incididunt tempor, nescius in quem te an iis fugiat dolor quid, ne sed voluptatibus hic o ea eruditionem, a cernantur est quibusdam, dolor nostrud consectetur. Doctrina multos eiusmod, ubi possumus in pariatur.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ACCORDION ITEM 3 -->
+                    <div class="mp-accordion-item">
+                        <a class="mp-accordion-title collapsed" data-toggle="collapse" data-parent="#mp-accordion-1" href="#mp-accordion-item-3" aria-expanded="false" aria-controls="mp-accordion-item-3">
+                            <i class="fa fa-bell"></i> ITEM 3
+                        </a>
+                        <div id="mp-accordion-item-3" class="collapse" role="tabpanel">
+                            <div class="mp-accordion-content">
+                                <h3>COMMODO AUTE</h3>
+                                <p>Duis instituendarum quamquam illum proident. Te an exercitation eu multos incididunt tempor, nescius in quem te an iis fugiat dolor quid, ne sed voluptatibus hic o ea eruditionem, a cernantur est quibusdam, dolor nostrud consectetur. Doctrina multos eiusmod, ubi possumus in pariatur.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- DIVIDER -->
+                <hr />
+                <!-- TABS -->
+                <!-- TABS NAVIGATION -->
+                <ul class="nav nav-tabs">
+                    <!-- TAB 1 -->
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#mp-tab-1" aria-expanded="true">
+                            <i class="fa fa-microphone"></i> TAB 1
+                        </a>
+                    </li>
+                    <!-- TAB 2 -->
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#mp-tab-2" aria-expanded="false">
+                            <i class="fa fa-rocket"></i> TAB 2
+                        </a>
+                    </li>
+                    <!-- TAB 3 -->
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#mp-tab-3" aria-expanded="false">
+                            <i class="fa fa-android"></i> TAB 3
+                        </a>
+                    </li>
+                </ul>
+                <!-- TABS CONTENT -->
+                <div class="eskimo-tabs-content tab-content">
+                    <!-- TAB 1 -->
+                    <div class="tab-pane fade active show" id="mp-tab-1" role="button" aria-expanded="true">
+                        <h3>TABS</h3>
+                        <p>Duis instituendarum quamquam illum proident. Te an exercitation eu multos incididunt tempor, nescius in quem te an iis fugiat dolor quid, ne sed voluptatibus hic o ea eruditionem, a cernantur est quibusdam, dolor nostrud consectetur. Doctrina multos eiusmod, ubi possumus in pariatur.</p>
+                        <p>Cernantur cillum tamen cupidatat fore, iis tempor hic commodo et sed irure commodo adipisicing, commodo si amet singulis. Ingeniis dolore in litteris domesticarum hic voluptate quem excepteur tempor. Sed aute admodum expetendis, ubi quae sed noster ita lorem do incurreret, commodo tamen aliquip occaecat se fugiat deserunt. Et multos quamquam ingeniis, nulla vidisse an litteris. Deserunt sed elit, tamen coniunctione officia lorem cupidatat se offendit id duis officia, illum incurreret expetendis.</p>
+                    </div>
+                    <!-- TAB 2 -->
+                    <div class="tab-pane fade " id="mp-tab-2" role="button" aria-expanded="false">
+                        <h3>LOREM IPSUM</h3>
+                        <p>Duis instituendarum quamquam illum proident. Te an exercitation eu multos incididunt tempor, nescius in quem te an iis fugiat dolor quid, ne sed voluptatibus hic o ea eruditionem, a cernantur est quibusdam, dolor nostrud consectetur. Doctrina multos eiusmod, ubi possumus in pariatur.</p>
+                        <p>Cernantur cillum tamen cupidatat fore, iis tempor hic commodo et sed irure commodo adipisicing, commodo si amet singulis. Ingeniis dolore in litteris domesticarum hic voluptate quem excepteur tempor. Sed aute admodum expetendis, ubi quae sed noster ita lorem do incurreret, commodo tamen aliquip occaecat se fugiat deserunt. Et multos quamquam ingeniis, nulla vidisse an litteris. Deserunt sed elit, tamen coniunctione officia lorem cupidatat se offendit id duis officia, illum incurreret expetendis.</p>
+                    </div>
+                    <!-- TAB 3 -->
+                    <div class="tab-pane fade " id="mp-tab-3" role="button" aria-expanded="false">
+                        <h3>COMMODO AUTE</h3>
+                        <p>Duis instituendarum quamquam illum proident. Te an exercitation eu multos incididunt tempor, nescius in quem te an iis fugiat dolor quid, ne sed voluptatibus hic o ea eruditionem, a cernantur est quibusdam, dolor nostrud consectetur. Doctrina multos eiusmod, ubi possumus in pariatur.</p>
+                        <p>Cernantur cillum tamen cupidatat fore, iis tempor hic commodo et sed irure commodo adipisicing, commodo si amet singulis. Ingeniis dolore in litteris domesticarum hic voluptate quem excepteur tempor. Sed aute admodum expetendis, ubi quae sed noster ita lorem do incurreret, commodo tamen aliquip occaecat se fugiat deserunt. Et multos quamquam ingeniis, nulla vidisse an litteris. Deserunt sed elit, tamen coniunctione officia lorem cupidatat se offendit id duis officia, illum incurreret expetendis.</p>
+                    </div>
+                </div>
+                <!-- DIVIDER -->
+                <hr />
+                <div class="row">
+                    <!-- ALERTS -->
+                    <div class="col-12 col-lg-6">
+                        <h5 class="eskimo-title-with-border"><span>ALERTS</span></h5>
+                        <!-- ALERT INFO -->
+                        <div class="alert alert-info">
+                            <div class="close" data-dismiss="alert">&times;</div>
+                            <h6>Info</h6>
+                            <p>Heads up! This alert needs your attention, but it's not super important. </p>
+                        </div>
+                        <!-- ALERT SUCCESS -->
+                        <div class="alert alert-success">
+                            <div class="close" data-dismiss="alert">&times;</div>
+                            <h6>Success</h6>
+                            <p>Well done! You successfully read this important alert message. </p>
+                        </div>
+                        <!-- ALERT WARNING -->
+                        <div class="alert alert-warning">
+                            <div class="close" data-dismiss="alert">&times;</div>
+                            <h6>Warning</h6>
+                            <p>Best check yo self, you're not looking too good. </p>
+                        </div>
+                        <!-- ALERT DANGER -->
+                        <div class="alert alert-danger">
+                            <div class="close" data-dismiss="alert">&times;</div>
+                            <h6>Danger</h6>
+                            <p>Oh snap! Change a few things up and try submitting again. </p>
+                        </div>
+                    </div>
+                    <!-- PROGRESS BARS -->
+                    <div class="col-12 col-lg-6">
+                        <h5 class="eskimo-title-with-border"><span>PROGRESS BARS</span></h5>
+                        <!-- PROGRESS BAR SUCCESS -->
+                        <div class="progress">
+                            <div class="progress-bar bg-success" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><span></span>100%</div>
+                        </div>
+                        <!-- PROGRESS BAR INFO -->
+                        <div class="progress">
+                            <div class="progress-bar bg-info" style="width: 80%" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><span></span>80%</div>
+                        </div>
+                        <!-- PROGRESS BAR WARNING -->
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" style="width: 60%" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><span></span>60%</div>
+                        </div>
+                        <!-- PROGRESS BAR DANGER -->
+                        <div class="progress">
+                            <div class="progress-bar bg-danger" style="width: 40%" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"><span></span>40%</div>
+                        </div>
+                        <!-- ANIMATED PROGRESS BAR SUCCESS -->
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><span></span>100%</div>
+                        </div>
+                        <!-- ANIMATED PROGRESS BAR INFO -->
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" style="width: 80%" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><span></span>80%</div>
+                        </div>
+                        <!-- ANIMATED PROGRESS BAR WARNING -->
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" style="width: 60%" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><span></span>60%</div>
+                        </div>
+                        <!-- ANIMATED PROGRESS BAR DANGER -->
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" style="width: 40%" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"><span></span>40%</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- DIVIDER -->
+                <hr />
+                <!-- LARGE BUTTONS -->
+                <h5 class="eskimo-title-with-border"><span>LARGE BUTTONS</span></h5>
+                <p>
+                    <a href="#" class="btn btn-primary btn-lg">Primary</a>
+                    <a href="#" class="btn btn-default btn-lg">Default</a>
+                    <a href="#" class="btn btn-success btn-lg">Success</a>
+                    <a href="#" class="btn btn-info btn-lg">Info</a>
+                    <a href="#" class="btn btn-warning btn-lg">Warning</a>
+                    <a href="#" class="btn btn-danger btn-lg">Danger</a>
+                </p>
+                <p>
+                    <a href="#" class="btn btn-outline-primary btn-lg">Primary</a>
+                    <a href="#" class="btn btn-outline-default btn-lg">Default</a>
+                    <a href="#" class="btn btn-outline-success btn-lg">Success</a>
+                    <a href="#" class="btn btn-outline-info btn-lg">Info</a>
+                    <a href="#" class="btn btn-outline-warning btn-lg">Warning</a>
+                    <a href="#" class="btn btn-outline-danger btn-lg">Danger</a>
+                </p>
+                <!-- DIVIDER -->
+                <hr />
+                <!-- MEDIUM BUTTONS -->
+                <h5 class="eskimo-title-with-border"><span>MEDIUM BUTTONS</span></h5>
+                <p>
+                    <a href="#" class="btn btn-primary">Primary</a>
+                    <a href="#" class="btn btn-default">Default</a>
+                    <a href="#" class="btn btn-success">Success</a>
+                    <a href="#" class="btn btn-info">Info</a>
+                    <a href="#" class="btn btn-warning">Warning</a>
+                    <a href="#" class="btn btn-danger">Danger</a>
+                </p>
+                <p>
+                    <a href="#" class="btn btn-outline-primary">Primary</a>
+                    <a href="#" class="btn btn-outline-default">Default</a>
+                    <a href="#" class="btn btn-outline-success">Success</a>
+                    <a href="#" class="btn btn-outline-info">Info</a>
+                    <a href="#" class="btn btn-outline-warning">Warning</a>
+                    <a href="#" class="btn btn-outline-danger">Danger</a>
+                </p>
+                <!-- DIVIDER -->
+                <hr />
+                <!-- SMALL BUTTONS -->
+                <h5 class="eskimo-title-with-border"><span>SMALL BUTTONS</span></h5>
+                <p>
+                    <a href="#" class="btn btn-primary btn-sm">Primary</a>
+                    <a href="#" class="btn btn-default btn-sm">Default</a>
+                    <a href="#" class="btn btn-success btn-sm">Success</a>
+                    <a href="#" class="btn btn-info btn-sm">Info</a>
+                    <a href="#" class="btn btn-warning btn-sm">Warning</a>
+                    <a href="#" class="btn btn-danger btn-sm">Danger</a>
+                </p>
+                <p>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Primary</a>
+                    <a href="#" class="btn btn-outline-default btn-sm">Default</a>
+                    <a href="#" class="btn btn-outline-success btn-sm">Success</a>
+                    <a href="#" class="btn btn-outline-info btn-sm">Info</a>
+                    <a href="#" class="btn btn-outline-warning btn-sm">Warning</a>
+                    <a href="#" class="btn btn-outline-danger btn-sm">Danger</a>
+                </p>
+                <!-- DIVIDER -->
+                <hr />
+                <div class="row">
+                    <!-- MODAL -->
+                    <div class="col-12 col-lg-6">
+                        <h5 class="eskimo-title-with-border"><span>MODAL</span></h5>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Launch demo modal
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Est noster commodo est appellat iis doctrina. Quo summis eu nulla do ex irure 
+                                        tempor praetermissum. Laborum qui commodo et probant dolor anim ab nulla iis 
+                                        doctrina consectetur hic incurreret, est eram enim enim cernantur, ingeniis ea 
+                                        quorum, o malis consequat domesticarum ne do amet commodo pariatur, tamen do 
+                                        expetendis ut sint. Sed summis transferrem.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BADGES -->
+                    <div class="col-12 col-lg-6">
+                        <h5 class="eskimo-title-with-border"><span>BADGES</span></h5>
+                        <p>
+                            <span class="badge badge-primary">Primary</span>
+                            <span class="badge badge-default">Default</span>
+                            <span class="badge badge-secondary">Secondary</span>
+                            <span class="badge badge-success">Success</span>
+                            <span class="badge badge-danger">Danger</span>
+                            <span class="badge badge-warning">Warning</span>
+                            <span class="badge badge-info">Info</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- FOOTER -->
+        <footer id="eskimo-footer">
+            <div class="container">
+                <div class="row eskimo-footer-wrapper">
+                    <!-- FOOTER WIDGET 1 -->
+                    <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                        <h5 class="eskimo-title-with-border"><span>About Me</span></h5>
+                        <p>Trusted by thousands of customers, my unique themes and plugins help you make beautiful responsive web sites with ease.</p>
+                        <p><a href="about.html" class="btn btn-default">Read More</a></p>
+                    </div>
+                    <!-- FOOTER WIDGET 2 -->
+                    <div class="col-12 col-lg-6">
+                        <h5 class="eskimo-title-with-border"><span>Newsletter</span></h5>
+                        <form method="post" action="index.html">
+                            <label>Subscribe to our mailing list!</label>
+                            <div class="input-group">
+                                <input type="email" class="form-control" name="EMAIL" placeholder="Your email address" required />
+                                <div class="input-group-append">
+                                    <input type="submit" value="Sign up" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- CREDITS -->
+                <div class="eskimo-footer-credits">
+                    <p>
+                        Made with love by <a href="http://www.bootstrapmb.com" target="_blank">Egemenerd</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- GO TO TOP BUTTON -->
+    <a id="eskimo-gototop" href="#"><i class="fa fa-chevron-up"></i></a>
+    <!-- SLIDE PANEL OVERLAY -->
+    <div id="eskimo-overlay"></div>
+    <!-- SLIDE PANEL -->
+    <div id="eskimo-panels">
+        <aside id="eskimo-panel" class="eskimo-panel">
+            <div class="eskimo-panel-inner">
+                <!-- CLOSE SLIDE PANEL BUTTON -->
+                <a href="#" class="eskimo-panel-close"><i class="fa fa-times"></i></a>
+                <!-- AUTHOR BOX -->
+                <div class="eskimo-author-box eskimo-widget">
+                    <div class="eskimo-author-img">
+                        <img src="uploads/2018/05/img.jpg" alt="JOHN DOE" />
+                    </div>
+                    <h3><span>JOHN DOE</span></h3>
+                    <p class="eskimo-author-subtitle">WEB DESIGNER &amp; DEVELOPER</p>
+                    <p class="eskimo-author-description">I'm a Web Developer and Designer with a strong passion for UX/UI design. I have experience building websites, web applications, and brand assets. Contact me if you have any questions!</p>
+                    <div class="eskimo-author-box-btn">
+                        <a class="btn btn-default" href="about.html">CONTACT ME</a>
+                    </div>
+                </div>
+                <!-- RECENT POSTS -->
+                <div class="eskimo-recent-entries eskimo-widget">
+                    <h5 class="eskimo-title-with-border"><span>Recent Posts</span></h5>
+                    <ul>
+                        <li>
+                            <a href="single-post.html">Ketchup Flavored Ice Cream!</a>
+                            <span class="post-date">May 28, 2018</span>
+                        </li>
+                        <li>
+                            <a href="single-post.html">Hair You've Always Dreamed Of</a>
+                            <span class="post-date">May 27, 2018</span>
+                        </li>
+                        <li>
+                            <a href="single-post.html">15 Of The World's Best Carnivals</a>
+                            <span class="post-date">May 25, 2018</span>
+                        </li>
+                        <li>
+                            <a href="single-post.html">5 Ways to a Healthy Lifestyle</a>
+                            <span class="post-date">May 25, 2018</span>
+                        </li>
+                        <li>
+                            <a href="single-post.html">Best Breakfast In The World</a>
+                            <span class="post-date">May 23, 2018</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- CATEGORIES -->
+                <div class="eskimo-categories eskimo-widget">
+                    <h5 class="eskimo-title-with-border"><span>Categories</span></h5>
+                    <ul>
+                        <li>
+                            <a href="category.html" title="The best restaurants, cafes, bars and shops in town.">Food &amp; Drink</a> <span class="badge badge-pill badge-default">5</span>
+                        </li>
+                        <li>
+                            <a href="category.html" title="An up-to-date, personal urban guide.">Lifestyle</a> <span class="badge badge-pill badge-default">5</span>
+                        </li>
+                        <li>
+                            <a href="category.html" title="Latest technology news and updates.">Technology</a> <span class="badge badge-pill badge-default">4</span>
+                        </li>
+                        <li>
+                            <a href="category.html" title="Travel advice, information and inspiration.">Travel</a> <span class="badge badge-pill badge-default">5</span>
+                        </li>
+                        <li>
+                            <a href="category.html" title="The latest news about movies and TV shows.">TV &amp; Movies</a> <span class="badge badge-pill badge-default">4</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- TAGS -->
+                <div class="eskimo-widget">
+                    <h5 class="eskimo-title-with-border"><span>Tags</span></h5>
+                    <div class="eskimo-tag-cloud">
+                        <a href="category.html">aute<span>7</span></a>
+                        <a href="category.html">enim<span>7</span></a>
+                        <a href="category.html">commodo<span>7</span></a>
+                        <a href="category.html">voluptatibus<span>7</span></a>
+                        <a href="category.html">culpa<span>7</span></a>
+                        <a href="category.html">offendit<span>7</span></a>
+                        <a href="category.html">magna<span>7</span></a>
+                        <a href="category.html">quorum<span>7</span></a>
+                        <a href="category.html">mandaremus<span>7</span></a>
+                        <a href="category.html">ingeniis<span>7</span></a>
+                        <a href="category.html">tempor<span>7</span></a>
+                        <a href="category.html">summis<span>7</span></a>
+                        <a href="category.html">consequat<span>6</span></a>
+                        <a href="category.html">iudicem<span>6</span></a>
+                        <a href="category.html">expetendis<span>6</span></a>
+                        <a href="category.html">deserunt<span>6</span></a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <!-- FULLSCREEN SEARCH -->
+    <div id="eskimo-fullscreen-search">
+        <div id="eskimo-fullscreen-search-content">
+            <a href="#" id="eskimo-close-search"><i class="fa fa-times"></i></a>
+            <form role="search" method="get" action="search.html" class="eskimo-lg-form">
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-lg" placeholder="Enter a keyword..." name="s" />
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- JS FILES -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/panel.js"></script>
+    <script src="js/reading-position-indicator.js"></script>
+    <script src="js/custom.js"></script>
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 ﻿## 📚 Django 开发的个人网站分支0x00
 
-此分支为初始分支，创建django初始化项目，创建主要app到apps文件夹。添加静态资源到文件夹templates（原资源为打包好的zip文件）、导入static静态文件，更改所需文件为cdn服务器，加快访问速度。
+当前目录为网站前端样式的初始化文件。利用框架有bootstrap，fontawsome。
+
 🐒 coders：[🐫Stray_camel](https://github.com/Freen247)。
 
 🐾 希望大家一起来contribute or fork👍！
