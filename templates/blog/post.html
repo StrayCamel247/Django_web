@@ -45,19 +45,8 @@
     <div class="no-post">暂时还没有发布的文章！</div>
     {% endfor %}
 <!-- PAGINATION -->
-<div class="freen-pager">
-    <ul class='pagination flex-wrap'>
-    {% if page_obj.has_previous %}
-    <li class='page-item'><a class='page-link'  href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-chevron-left"></i></a></li>
-    {% else %}
-    {% endif %}
-    <h4 class="mx-2">第&nbsp;{{ page_obj.number }}&nbsp;/&nbsp;{{ paginator.num_pages }}&nbsp;页</h4>
-    {% if page_obj.has_next %}
-    <li class='page-item'><a class='page-link'  href="?page={{ page_obj.next_page_number }}"><i class="fa fa-chevron-right"></i></a></li>
-    {% else %}
-    <!-- <h4 class="" title="当前页已经是末页">末页</h4> -->
-    {% endif %}
-</div>
+{# The following renders the pagination html #}
+{% include "blog/_pagination.html" %}
 <div class="clearfix"></div>
 <!-- DIVIDER -->
 <hr class="section-divider" />

@@ -10,8 +10,10 @@ from .models import Article, Category,Timeline
 # from markdown.extensions.toc import TocExtension  # 锚点的拓展
 from haystack.generic_views import SearchView  # 导入搜索视图
 from haystack.query import SearchQuerySet
-
-
+import markdown,emoji,re
+from markdown.extensions.toc import TocExtension
+# 分页
+from pure_pagination.mixins import PaginationMixin
 # Create your views here.
 class TimelineView(generic.ListView):
     model = Timeline
@@ -28,7 +30,7 @@ class MySearchView(SearchView):
     # 搜索结果以浏览量排序
     queryset = SearchQuerySet().order_by('-views')
 
-class IndexView(generic.ListView):
+class IndexView(PaginationMixin, generic.ListView):
     model = Article
     template_name = 'index.html'
     context_object_name = 'articles'
@@ -69,13 +71,16 @@ class DetailView(generic.DetailView):
         obj.update_views()
         ses[the_key] = time.time()
         # 文章可以使用markdown书写，带格式的文章，像csdn写markdown文章一样
-        # md = markdown.Markdown(extensions=[
-        #     'markdown.extensions.extra',
-        #     'markdown.extensions.codehilite',
-        #     TocExtension(slugify=slugify),
-        # ])
-        # obj.body = md.convert(obj.body)
-        # obj.toc = md.toc
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            TocExtension(slugify=slugify),
+        ])
+        obj.body = md.convert(obj.body)
+        obj.toc = md.toc
+        m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
+        obj.toc = m.group(1) if m is not None else ''
+    
         return obj
 
 class CategoryView(generic.ListView):

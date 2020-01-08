@@ -19,28 +19,39 @@
 <!-- 文本区 -->
 <link rel="stylesheet" href="{% static 'css/monokai.css' %}">
 <style type="text/css">
-.markdown-body img {
-    max-width: 90% !important;
-    width: auto;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    padding: 10px 0px 10px 0px;
-}
-.codehilite  pre{ color: #f8f8f2 }
-.codehilite .err {
-    color: #f8f8f2;
-    background: #272822;
-}
-.markdown-body .highlight pre, .markdown-body pre {
-    background: #272822;
-}</style>
+    .markdown-body img {
+        max-width: 90% !important;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        padding: 10px 0px 10px 0px;
+    }
+    .codehilite  pre{ color: #f8f8f2 }
+    .codehilite .err {
+        color: #f8f8f2;
+        background: #272822;
+    }
+    .markdown-body .highlight pre, .markdown-body pre {
+        background: #272822;
+    }
+</style>
+{% endblock %}
+{% block md_toc %}
+<div id="freen-sidebar-cell" class="freen-sidebar-cell w-100">
+<!-- MENU -->
+<nav id="freen-main-menu" class="menu-main-menu-container freen-main-menu">
+    <ul class="freen-menu-ul">
+        <li><a href="#">⛳文章目录</a>
+        {{ article.toc |safe }}
+        </li>
+    </ul>
+</nav>
+</div>
 {% endblock %}
 {% block mdeditor_contain %}
 <!-- 文章内容 -->
 <div class="article-cointain" >
-    
     <div class="rounded-0 border-0" id="article" >
         <nav aria-label="breadcrumb" >
             <ol class="breadcrumb bg-white border-0 rounded-0 mb-0 p-2">
@@ -72,7 +83,7 @@
             
             <!-- 文章内容 -->
             <div class=" f-17" >
-                {{ article.body_to_markdown|safe }}
+                {{ article.body|safe }}
                 <p class="font-weight-bold text-info">
                     <i class="fa fa-bullhorn mx-1"></i>
                     原创文章，转载请注明出处：{{ request.build_absolute_uri }}
@@ -143,5 +154,11 @@
 <script src="{% static 'comment/js/notification.js' %}"></script>
 <script src="{% static 'comment/js/editor.js' %}"></script>
 <script src="{% static 'comment/js/activate-power.js' %}"></script>
-<!-- mdeditor -->
+<!-- highlight -->
+<script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlightjs-line-numbers.js/2.7.0/highlightjs-line-numbers.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+  </script>
 {% endblock %}   

@@ -33,6 +33,17 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
     {% block top_file %}
     {% endblock %}
+    <style type="text/css">
+    .markdown-body .highlight pre, .markdown-body pre {
+        background: #272822;
+    }
+    .freen-sidebar-wrapper div:first-child{
+        margin-top: 60px;
+    }
+    .freen-menu-ul > li > ul > li a {
+        padding-right: 1rem;
+    }
+</style>
 </head>
 <body>
     <!-- READING POSITION INDICATOR -->
@@ -155,8 +166,6 @@
                         <a class="dropdown-item pl-3" href="/accounts/logout/"><i
                                 class="fa fa-fw fa-sign-out text-info mr-2"></i>退出</a>
                     </div>
-                    
-                    
                 </li>
     
             </ul>
@@ -177,10 +186,10 @@
     </header>
     {% block main_contain %}
     <!--freen sidebar -->
-    {% cache 7200 'sidebar' %}
+    {% comment %} {% cache 7200 'sidebar' %} {% endcomment %}
     <aside id="freen-sidebar" class="freen-sidebar">
         <div id="freen-sidebar-wrapper" class="freen-sidebar-wrapper d-flex align-items-start flex-column h-100 w-100">
-            <hr />
+            {% block md_toc %}
             <!-- AUTHOR BOX -->
             {% include 'blog/auther_box.html' %}
             <!-- MENU CONTAINER -->
@@ -205,6 +214,7 @@
 
                 </nav>
             </div>
+            {% endblock %}
             <!-- SOCIAL MEDIA ICONS -->
             <div id="freen-social-cell" class="freen-social-cell mt-auto w-100">
                 <div id="freen-social-inner" class="freen-social-inner">
@@ -218,7 +228,7 @@
             
         </div>
     </aside>
-    {% endcache %}
+    {% comment %} {% endcache %} {% endcomment %}
     <!-- site wrapper -->
     <section id="freen-site-wrapper" class="freen-site-wrapper" >
         <!-- MAIN CONTAINER -->
@@ -502,6 +512,7 @@
     document.write('<script src="' + src + '" id="sozz"><\/script>');
     })();
     </script>
+
 </body>
 
 </html>

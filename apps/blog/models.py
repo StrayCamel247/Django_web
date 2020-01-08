@@ -8,8 +8,10 @@ from mdeditor.fields import MDTextField
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from uuslug import slugify
+from django.utils.text import slugify as sfy
 from django_blog.settings import MEDIA_ROOT
 import markdown
+from markdown.extensions.toc import TocExtension
 import emoji, re, time, string, os
 # Create your models here.
 #自定义自动修改上传的图片的图片名，并修改图片形式为png
@@ -155,7 +157,7 @@ class Article(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='作者', null=False, default='2')
     title = models.CharField(max_length=150, verbose_name='文章标题')
-    summary = MDTextField(
+    summary = models.TextField(
         '文章摘要', max_length=230, default='文章摘要等同于网页description内容，请务必填写...')
     # 文章内容
     body = MDTextField(verbose_name='文章内容')
@@ -182,18 +184,10 @@ class Article(models.Model):
         ordering = ['-create_date']
 
     def __str__(self):
-        return self.title[:20]
+        return self.title
 
     def get_absolute_url(self):
         return reverse('blog:article', kwargs={'slug': self.slug})
-
-    def body_to_markdown(self):
-        md_content = emoji.emojize(self.body, use_aliases=True)
-        return markdown.markdown(md_content, extensions=[
-            'markdown.extensions.extra',
-            'markdown.extensions.codehilite',
-        ])
-        
 
     def summary_to_markdown(self):
         return markdown.markdown(self.summary, extensions=[
