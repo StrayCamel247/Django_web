@@ -12,6 +12,11 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 @login_required
+def users_view(request):
+    return render(request,'user/users.html')
+
+
+@login_required
 def profile_view(request):
     return render(request,'user/account/profile.html')
 

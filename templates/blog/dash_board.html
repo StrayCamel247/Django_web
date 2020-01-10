@@ -1,0 +1,64 @@
+{% load blog_tags %}
+{% block top_file %}
+<style type="text/css">
+.tab-content{
+    padding:1rem;
+}
+.tab-content {
+    border:0px;
+}
+.nav-tabs .nav-link {
+    border:0px;
+}
+.tab-pane a{
+    text-decoration: none;
+}
+</style>
+{% endblock %}
+<div class="freen-dash-board freen-widget">
+    <div class="freen-widget-body">
+        <h5 class="freen-title-with-border"><span><i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;|工作台</span></h5>
+        <ul class="nav nav-tabs">
+            <!-- Github -->
+            <li class="col-4 nav-item">
+                <a style="padding:0;" class="nav-link active show" aria-expanded="true"  
+                href="#mp-tab-1"
+                data-toggle="tab">
+                    <i class="fa fa-github-alt fa-2x"></i>
+                </a>
+            </li>
+            <!-- Contact -->
+            <li class="col-4 nav-item">
+                <a style="padding:0;" class="nav-link" aria-expanded="false" href="#mp-tab-2" data-toggle="tab">
+                    <i class="fa fa-rocket fa-2x"></i>
+                </a>
+            </li>
+            <!-- Timeline -->
+            <li class="col-4 nav-item">
+                <a style="padding:0;" class="nav-link" aria-expanded="false" href="#mp-tab-3" data-toggle="tab">
+                    <i class="fa fa-code fa-2x"></i>
+                </a>
+            </li>
+        </ul>
+        <div class="eskimo-tabs-content tab-content">
+            <!-- GitHub -->
+            <div  class="tab-pane fade active show" id="mp-tab-1" role="button" aria-expanded="true">
+                <h3 href="https://github.com/Freen247/django_blog/issues">GitHub</h3>
+                <p><a href="https://github.com/Freen247/django_blog">👨‍💻-<strong>网站源码</strong></a></p>
+                <p><a href="https://github.com/Freen247/django_blog/issues">👨‍🔬-<strong>issue报错</strong></a></p>
+                
+            </div>
+            <!-- Contact -->
+            <div class="tab-pane fade" id="mp-tab-2" role="button" aria-expanded="false">
+                <h3>合作/沟通</h3>
+                <p><a href="mailto:aboysintky@outlook.com">📧-<strong>Mail</strong></a></p>
+                <p><a href="javascript:void(0);" data-toggle="modal" data-target="#wechat"><i class="fa fa-wechat pr-1"></i>-<strong>Wechat</strong></a></p>
+            </div>
+            <!-- Timeline -->
+            <div class="tab-pane fade" id="mp-tab-3" role="button" aria-expanded="false">
+                <h3>建站日志</h3>
+                <p><a href="/timeline">🤸‍♀️-<strong>记录建站历程</strong></p>
+            </div>
+        </div>
+    </div>
+</div>

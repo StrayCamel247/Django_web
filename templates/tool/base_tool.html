@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block top-file %}
-<link href="{% static 'tool/css/tool.css' %}?v=20180107.074679" rel="stylesheet">
+<link href="{% static 'tool/css/tool.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block mdeditor_contain %}
@@ -20,7 +20,7 @@
                     <li class="breadcrumb-item active" aria-current="page">{% block tool_name %}{% endblock %}</li>
                 </ol>
             </nav>
-            <div class="card rounded-0 border-0 p-2 p-lg-3">
+            <div class="rounded-0 border-0 p-2 p-lg-3">
                 {% block left_content %}{% endblock %}
             </div>
         </div>
@@ -32,6 +32,6 @@
 {% endblock %}
 
 {% block end_file %}
-<script src="{% static 'js/tool.js'%}?v=20180105.40757678897"></script>
+<script src="{% static 'js/tool.js'%}"></script>
 {% block end_f %}{% endblock %}
 {% endblock %}

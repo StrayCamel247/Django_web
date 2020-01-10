@@ -6,6 +6,7 @@ function push_spider(CSRF, URL) {
 		alert('接口地址和网址链接内容都不能为空！');
 		return false
 	};
+	
 	$.ajaxSetup({
 		data: {
 			csrfmiddlewaretoken: CSRF

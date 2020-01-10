@@ -13,6 +13,7 @@
     {% block metas %}
     {% endblock %}
     <meta charset="UTF-8">
+    <meta name="shenma-site-verification" content="dd5bd5a8456d9969c839b9187526bd0f_1578623833"/>
     <meta name="360-site-verification" content="2ad1609205bc036d353436a24bf05a62" />
     <meta name="msvalidate.01" content="037C463FCD6495301662778FC939CD57" />
     <meta name="viewport"
@@ -37,13 +38,13 @@
     .markdown-body .highlight pre, .markdown-body pre {
         background: #272822;
     }
-    .freen-sidebar-wrapper div:first-child{
-        margin-top: 60px;
+    .freen-sidebar-wrapper:first-child{
+        padding-top: 60px;
     }
     .freen-menu-ul > li > ul > li a {
         padding-right: 1rem;
     }
-</style>
+    </style>
 </head>
 <body>
     <!-- READING POSITION INDICATOR -->
@@ -53,7 +54,7 @@
             <span class="freen-progress-bar"></span>
         </span>
     </progress>
-    <!-- 头部菜单 -->
+    <!-- header_tools_bar -->
     <header   mdui-headroom="options" class="header navbar navbar-expand-md bg-white fixed-top blog-navbar py-md-0 headroom headroom--top">
         <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform"
             action="{% url 'blog:search' %}">
@@ -184,36 +185,17 @@
             {% endif %}
         </div>
     </header>
+
+
     {% block main_contain %}
+    
     <!--freen sidebar -->
-    {% comment %} {% cache 7200 'sidebar' %} {% endcomment %}
     <aside id="freen-sidebar" class="freen-sidebar">
         <div id="freen-sidebar-wrapper" class="freen-sidebar-wrapper d-flex align-items-start flex-column h-100 w-100">
             {% block md_toc %}
             <!-- AUTHOR BOX -->
-            {% include 'blog/auther_box.html' %}
-            <!-- MENU CONTAINER -->
+            {% include 'blog/user_box.html' %}
             
-            <div id="freen-sidebar-cell" class="freen-sidebar-cell w-100">
-                <!-- MENU -->
-                
-                <nav id="freen-main-menu" class="menu-main-menu-container freen-main-menu">
-                    {% get_toolcates as tool_cates %}
-                    <ul class="freen-menu-ul">
-                        {% for cate in tool_cates %}
-                        <li><a href="#"><i class="mr-1 fa fa-toolbox"></i>{{cate}}</a>
-                            <ul class="sub-menu">
-                                {% get_toollinks cate as tools %}
-                                {% for tool in tools %}
-                                <li><a href="{{ tool.link }}" >{{ tool.name }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        {% endfor %}
-                    </ul>
-
-                </nav>
-            </div>
             {% endblock %}
             <!-- SOCIAL MEDIA ICONS -->
             <div id="freen-social-cell" class="freen-social-cell mt-auto w-100">
@@ -228,118 +210,46 @@
             
         </div>
     </aside>
-    {% comment %} {% endcache %} {% endcomment %}
     <!-- site wrapper -->
+
+    <!-- section -->
     <section id="freen-site-wrapper" class="freen-site-wrapper" >
-        <!-- MAIN CONTAINER -->
+        <!-- mdeditor_contain -->
         {% block mdeditor_contain %}
         <main class="container-fluid row">
             <div class="col-lg-9">
-                <!-- SLIDER-LSEFT -->
-                <!-- 覆盖轮播图的模块 -->
-                <!-- 轮播图 -->
-                <!-- 不覆盖轮播图的模块 -->
-                <!--消息块-->
-                {% if messages %}
-                <div class="container">
-                    {% for message in messages %}
-                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-secondary{% endif %} alert-dismissible rounded-0 fade show"
-                        role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% endfor %}
+            <!--messages-->
+            {% if messages %}
+            <div class="container">
+                {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-secondary{% endif %} alert-dismissible rounded-0 fade show"
+                    role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                {% endif %}
-                
-                {% block content %}
-                {% endblock %}
+                {% endfor %}
             </div>
-            <!-- SIDER-RIGHT -->
-            {% cache 7200 'sider_right' %}
+            {% endif %}
+            {% block content %}
+            {% endblock %}
+            </div>
+            {% comment %} {% cache 7200 'sider_right' %} {% endcomment %}
             <div class="col-lg-3">
-
-                <!-- 分类 -->
-                <div class="freen-categories freen-widget">
-                    <div class="freen-widget-body card">
-                    <p class=""><span><i class="my-fa fa fa-book" aria-hidden="true"></i>&nbsp;分类</span></p>
-                    <ul>
-                        {% get_categoty_list as categories %}
-                        {% get_article_num as num%}
-                        {% for each in categories %}
-                        <li>
-                            <a href="{{ each.get_absolute_url }}"></i>&nbsp;{{ each.name }}
-                                <span class="badge badge-pill badge-info">{{each.total_num}}</span>
-                            </a>
-                            <div class="progress progress-striped active">
-
-                                <a id="category_progress" class="progress-bar progress-bar-success"
-                                    style="width: {%  widthratio  each.total_num num 100 %}%">
-                                </a>
-                            </div>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    </div>
-                </div>
-                <!-- 热门 -->
-                <div class="freen-post-list-wrapper freen-widget">
-                    <div class="freen-widget-body card">
-                    <p class=""><span><i class="fa fa-fire mr-1"></i>&nbsp;|热门</span></p>
-                    {% get_article_list '-views' 4 as pop_article %}
-                    {% for pop in pop_article %}
-                    <div class="freen-post-list">
-                        <div class="freen-post-list-left">
-                            <a href="/article{{ pop.slug }}">
-                                <img src="{{ pop.img.url }}" alt="。">
-                            </a>
-                        </div>
-                        <div class="freen-post-list-right">
-                            <p class="freen-post-list-title">
-                                <a href="/article/{{ pop.slug }}">{{ pop.title }}</a>
-                            </p>
-                            <div class="freen-post-list-info">
-                                <i class="fa fa-heart-o"></i>({{ pop.views }}) 阅览
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    </div>
-                </div>
-                <!-- 友链 -->
-                <div class="freen-post-list-wrapper freen-widget">
-                    <div class="freen-widget-body card">
-                    <div class="freen-post-list">
-                        <p class=""><span><i class="fa fa-link mr-2 f-17"></i>&nbsp;|友情链接</span></p>
-
-                        {% get_friends as friends %}
-                        {% if friends %}
-                        {% for friend in friends %}
-                        <div class="freen-post-list">
-                            <div class="freen-post-list-left ">
-                                <a href="{{ friend.link }}">
-                                    <img src="{{ friend.logo }}" alt="">
-                                </a>
-                            </div>
-                            <div class="freen-post-list-right">
-                                <p class="freen-post-list-title">
-                                    <h6 href="{{ friend.link }}">{{ friend.name }}</h6>
-                                </p>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        {% else %}
-                        &nbsp;&nbsp;暂无友链，欢迎来战
-                        {% endif %}
-                    </div>
-                </div>
-
-
-                </div>
+            {% block sider_right %}
+            <!-- SIDER-RIGHT -->
+                <!--dash board-->
+                {% include 'blog/dash_board.html' %}
+                <!-- categories -->
+                {% include 'blog/category_list.html' %}
+                <!-- hot_articles -->
+                {% include 'blog/hot_articles_list.html' %}
+                <!-- friend_links -->
+                {% include 'blog/friend_links.html' %}
+            {% endblock %}
             </div>
-            {% endcache %}
+            {% comment %} {% endcache %} {% endcomment %}
         </main>
         {% endblock %}
         <!-- FOOTER -->
@@ -374,35 +284,19 @@
 
         
     </section>
+
     <!-- modals -->
     {% block modals %}
     {% endblock %}
-    <div class="modal fade" id="wechat" tabindex="-1" role="dialog" aria-labelledby="QRTitle" style="display: none;"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <img src="/static/image/wechat.png" style="max-width: 100%" alt="img">
-                </div>
-            </div>
-        </div>
-    </div> 
-    <!-- <div class="modal fade" id="qq" tabindex="-1" role="dialog" aria-labelledby="QRTitle" style="display: none;"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <img src="/static/image/qq.png" style="max-width: 100%" alt="img">
-                </div>
-            </div>
-        </div>
-    </div> -->
+    {% include "blog/modals.html" %}
     
     <!-- slide panel overlay -->
     {% comment %} <div id="freen-overlay" class="freen-overlay"></div> {% endcomment %}
+    
     <!-- slide panel -->
     {% include 'blog/slide_panel.html' %}
     {% endblock %}
+
     <!-- fullscreen search -->
     <div id="freen-fullscreen-search" class="freen-fullscreen-search">
         <div id="freen-fullscreen-search-content" class="freen-fullscreen-search-content">
@@ -419,12 +313,12 @@
     
         </div>
     </div>
+
     <!-- go to top button -->
     <a id="freen-gototop" class="freen-gototop" href="#"><i class="fa fa-hand-o-up"></i></a>
-    <!-- JS FILES -->
 
-    {% block end_file %}
-    {% endblock %}
+    <!-- JS FILES -->
+    
     <!-- bootstrap只有引入umd/popper.js才有用 -->
     <!-- 头部菜单自动下滑mdui-headroomjs -->
     <script src="https://www.mdui.org/source/dist/js/mdui.min.js"></script>
@@ -440,7 +334,8 @@
     <script src="{% static 'js/reading-position-indicator.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-
+    {% block end_file %}
+    {% endblock %}
 
     <!-- post slider -->
     <script>

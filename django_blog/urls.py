@@ -38,7 +38,6 @@ urlpatterns = [
     # index
     path('', include('apps.blog.urls'), name='blog'),
     #用户
-
     path('accounts/', include('allauth.urls'), name='accounts'),
     path('accounts/', include('apps.user.urls'), name='accounts'),
     #评论

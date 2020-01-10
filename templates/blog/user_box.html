@@ -1,0 +1,114 @@
+{% if user.is_authenticated %}
+{% load comment_tags %}
+{% block top_file %}
+<style type="text/css">
+.twt-category ul li {
+    color: #bdbdbd;
+    font-size: 13px;
+}
+.weather-category ul li {
+    width: 32%;
+    text-align: center;
+    border-right: 1px solid #e6e6e6;
+    display: inline-block;
+}
+.weather-category ul li:first-child {
+    width: 32%;
+    text-align: center;
+    border-left: 1px solid #e6e6e6;
+    display: inline-block;
+}
+.twt-category {
+    display: inline-block;
+    margin-bottom: 11px;
+    margin-top: 10px;
+    width: 100%;
+}
+.weather-category {
+    padding: 5px 0;
+    color: #74829C;
+}
+.weather-category ul, ol {
+    padding-left: 0;
+}
+.weather-category dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.twt-footer, .twt-footer a {
+    color: #d2d2d2;
+}
+.twt-footer {
+    padding: 2px 15px;
+    text-align: left;
+}
+
+}
+</style>
+{% endblock %}
+<div class="freen-author-box freen-add-border">
+<aside class="profile-nav alt">
+    <section>
+    <div class="card-header user-header alt bg-dark">
+        <div class="media" width="width:25%">
+            <div class="freen-author-img">
+                <a href="/"><img src="{{ user.avatar.url }}" alt="  {{ user }}  "></a>
+            </div>
+            <div class="media-body" style="width:75%;">
+                <h2 class="text-light display-6">{{ user.username }}</h2>
+                <p class="text-light display-6">开发中ing...</p>  
+            </div>
+
+        </div>
+    </div>
+    <ul class="list-group list-group-flush" style="text-align: left;">
+        <li class="list-group-item">
+            <a href="/accounts/profile/"> <i class="fa fa-user-o"></i> 个人中心 <span class="badge badge-primary pull-right">🖖</span></a>
+        </li>
+        <li class="list-group-item">
+            <a href="#"> <i class="fa fa-tasks"></i> 开发中.. <span class="badge badge-danger pull-right">x</span></a>
+        </li>
+        <li class="list-group-item">
+            <a href="#"> <i class="fa fa-bell-o"></i> 消息 <span class="badge badge-success pull-right">{% get_notifications_count user 'false' %}</span></a>
+        </li>
+        <li class="list-group-item">
+            <a href="#"> <i class="fa fa-comments-o"></i> 开发中.. <span class="badge badge-warning pull-right r-activity">x</span></a>
+        </li>
+    </ul>
+    <div class="weather-category twt-category">
+        <ul>
+            <li class="active">
+                <h5>x</h5>
+                评论
+            </li>
+            <li>
+                <h5>x</h5>
+                获赞
+            </li>
+            <li>
+                <h5>x</h5>
+                好友
+            </li>
+        </ul>
+    </div>
+    <section>
+</aside>
+<footer class="twt-footer">
+    <a href="#"><i class="fa fa-map-marker"></i></a>
+    显示地址-开发中ing
+    <span class="pull-right">
+        xx
+    </span>
+</footer>
+</div>
+{% else %}
+<div class="freen-author-box freen-add-border">
+    <div class="freen-author-img">
+        <a href="/"><img src="/static/image/logo.png" alt="  {{ AUTHOR_NAME }}  "></a>
+    </div>
+    <p class="freen-author-subtitle"> 您还未登陆..  </p>
+    <div class="freen-author-box-btn"> 
+        <a class="btn btn-outline-default btn-sm freen-panel-open" href="/accounts/login/?next=/">登陆</a>
+    </div>
+</div>
+{% endif %}
