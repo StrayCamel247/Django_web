@@ -25,7 +25,7 @@
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     {% compress css %}
-    <link href="{% static 'css/style.css' %}?v=20201223.09" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/style.css' %}?v=20201223.12" rel="stylesheet" type="text/css">
     {% endcompress %}
     <link rel="shortcut icon" type="image/x-icon" mce_href="{% static 'image/favicon.ico' %}"
         href="{% static 'image/favicon.ico' %}" media="screen" />
@@ -35,15 +35,15 @@
     {% block top_file %}
     {% endblock %}
     <style type="text/css">
-    .markdown-body .highlight pre, .markdown-body pre {
-        background: #272822;
-    }
-    .freen-sidebar-wrapper:first-child{
-        padding-top: 60px;
-    }
-    .freen-menu-ul > li > ul > li a {
-        padding-right: 1rem;
-    }
+        .markdown-body .highlight pre, .markdown-body pre {
+            background: #272822;
+        }
+        .freen-sidebar-wrapper:first-child{
+            padding-top: 60px;
+        }
+        .freen-menu-ul > li > ul > li a {
+            padding-right: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -235,7 +235,7 @@
             {% block content %}
             {% endblock %}
             </div>
-            {% comment %} {% cache 7200 'sider_right' %} {% endcomment %}
+            {% cache 7200 'sider_right' %}
             <div class="col-lg-3">
             {% block sider_right %}
             <!-- SIDER-RIGHT -->
@@ -249,7 +249,7 @@
                 {% include 'blog/friend_links.html' %}
             {% endblock %}
             </div>
-            {% comment %} {% endcache %} {% endcomment %}
+            {% endcache %}
         </main>
         {% endblock %}
         <!-- FOOTER -->

@@ -16,7 +16,8 @@
 
 {% block head_title%}个人资料{% endblock%}
 
-{% block mdeditor_contain %}
+{% block content %}
+
 {% if user.is_authenticated %}
      <div class="freen-author-img" style="width: 80px">
             {% if user.socialaccount_set.exists and user.avatar.url == '/media/avatar/default.png' %}

@@ -1,27 +1,29 @@
-{% if user.is_authenticated %}
+
+{% load oauth_tags %}
 {% load comment_tags %}
 {% block top_file %}
 <style type="text/css">
+.card-header{
+    padding:0 30px!important;
+}
+
 .twt-category ul li {
     color: #bdbdbd;
     font-size: 13px;
 }
 .weather-category ul li {
-    width: 32%;
+    width: 30%;
     text-align: center;
     border-right: 1px solid #e6e6e6;
     display: inline-block;
 }
 .weather-category ul li:first-child {
-    width: 32%;
     text-align: center;
     border-left: 1px solid #e6e6e6;
     display: inline-block;
 }
 .twt-category {
     display: inline-block;
-    margin-bottom: 11px;
-    margin-top: 10px;
     width: 100%;
 }
 .weather-category {
@@ -39,76 +41,121 @@
     color: #d2d2d2;
 }
 .twt-footer {
-    padding: 2px 15px;
+    padding: 2rem 15px;
     text-align: left;
 }
 
 }
 </style>
 {% endblock %}
-<div class="freen-author-box freen-add-border">
-<aside class="profile-nav alt">
-    <section>
-    <div class="card-header user-header alt bg-dark">
-        <div class="media" width="width:25%">
-            <div class="freen-author-img">
-                <a href="/"><img src="{{ user.avatar.url }}" alt="  {{ user }}  "></a>
-            </div>
-            <div class="media-body" style="width:75%;">
-                <h2 class="text-light display-6">{{ user.username }}</h2>
-                <p class="text-light display-6">开发中ing...</p>  
-            </div>
+{% if user.is_authenticated %}
+<div class="freen-author-box">
+    <aside class="profile-nav alt">
+        <section>
+        <div class="card-header user-header alt " style="background:#fff;">
+            <div class="media">
+                <div class="freen-author-img">
+                    <a href="/"><img src="{{ user.avatar.url }}" alt="  {{ user }}  "></a>
+                </div>
+                <div class="media-body" style="width:75%;color:#000">
+                    <h2 class="text-dark display-6">{{ user.username }}</h2>
+                    <p class="text-dark display-6">开发中ing...</p>  
+                </div>
 
+            </div>
+            <div class="weather-category twt-category">
+            <ul>
+                <li class="active">
+                    <h5>x</h5>
+                    评论
+                </li>
+                <li>
+                    <h5>x</h5>
+                    获赞
+                </li>
+                <li>
+                    <h5>x</h5>
+                    好友
+                </li>
+            </ul>
         </div>
-    </div>
-    <ul class="list-group list-group-flush" style="text-align: left;">
-        <li class="list-group-item">
-            <a href="/accounts/profile/"> <i class="fa fa-user-o"></i> 个人中心 <span class="badge badge-primary pull-right">🖖</span></a>
-        </li>
-        <li class="list-group-item">
-            <a href="#"> <i class="fa fa-tasks"></i> 开发中.. <span class="badge badge-danger pull-right">x</span></a>
-        </li>
-        <li class="list-group-item">
-            <a href="#"> <i class="fa fa-bell-o"></i> 消息 <span class="badge badge-success pull-right">{% get_notifications_count user 'false' %}</span></a>
-        </li>
-        <li class="list-group-item">
-            <a href="#"> <i class="fa fa-comments-o"></i> 开发中.. <span class="badge badge-warning pull-right r-activity">x</span></a>
-        </li>
-    </ul>
-    <div class="weather-category twt-category">
-        <ul>
-            <li class="active">
-                <h5>x</h5>
-                评论
+        </div>
+        <ul class="list-group list-group-flush" style="text-align: left;">
+            <li class="list-group-item">
+                <a href="/accounts/profile/"> <i class="fa fa-user-o"></i> 个人中心 <span class="badge badge-primary pull-right">🖖</span></a>
             </li>
-            <li>
-                <h5>x</h5>
-                获赞
+            <li class="list-group-item">
+                <a href="#"> <i class="fa fa-tasks"></i> 我的文章<span class="badge badge-danger pull-right">xx</span></a>
             </li>
-            <li>
-                <h5>x</h5>
-                好友
+            <li class="list-group-item">
+                <a href="https://github.com/Freen247/django_blog/issues/new"> <i class="fa fa-bell-o"></i> 网站评价 <span class="badge badge-success pull-right">xx</span></a>
             </li>
+            {% comment %} <li class="list-group-item">
+                <a href="/accounts"> <i class="fa fa-comments-o"></i> 所有用户 <span class="badge badge-warning pull-right r-activity">{% get_users_num as users_total %}{{users_total}}</span></a>
+            </li> {% endcomment %}
         </ul>
-    </div>
-    <section>
-</aside>
-<footer class="twt-footer">
-    <a href="#"><i class="fa fa-map-marker"></i></a>
-    显示地址-开发中ing
-    <span class="pull-right">
-        xx
-    </span>
-</footer>
+        <section>
+    </aside>
+    <footer class="twt-footer">
+        <a href="#"><i class="fa fa-map-marker"></i></a>
+        显示地址-开发中ing
+        <span class="pull-right">
+            xx
+        </span>
+    </footer>
 </div>
 {% else %}
-<div class="freen-author-box freen-add-border">
-    <div class="freen-author-img">
-        <a href="/"><img src="/static/image/logo.png" alt="  {{ AUTHOR_NAME }}  "></a>
-    </div>
-    <p class="freen-author-subtitle"> 您还未登陆..  </p>
-    <div class="freen-author-box-btn"> 
-        <a class="btn btn-outline-default btn-sm freen-panel-open" href="/accounts/login/?next=/">登陆</a>
-    </div>
+<div class="freen-author-box">
+    <aside class="card profile-nav alt">
+        <section>
+        <div class="card-header user-header alt " style="background:#fff;">
+            <div class="media">
+                
+                <div class="media-body" style="width:75%;color:#000">
+                    <h2 class="text-dark display-6">您还登陆</h2>
+                    <p class="text-dark display-6">开发中ing...</p>  
+                </div>
+
+            </div>
+            <div class="weather-category twt-category">
+            <ul>
+                <li class="active">
+                    <h5>x</h5>
+                    评论
+                </li>
+                <li>
+                    <h5>x</h5>
+                    获赞
+                </li>
+                <li>
+                    <h5>x</h5>
+                    好友
+                </li>
+            </ul>
+        </div>
+        </div>
+        <ul class="list-group list-group-flush" style="text-align: left;">
+            <li class="list-group-item">
+                <a href="/accounts/profile/"> <i class="fa fa-user-o"></i> 个人中心 <span class="badge badge-primary pull-right">🖖</span></a>
+            </li>
+            <li class="list-group-item">
+                <a href="#"> <i class="fa fa-tasks"></i> 我的文章<span class="badge badge-danger pull-right">xx</span></a>
+            </li>
+            <li class="list-group-item">
+                <a href="#"> <i class="fa fa-bell-o"></i> 给站长留言 <span class="badge badge-success pull-right">xx</span></a>
+            </li>
+            {% comment %} <li class="list-group-item">
+                <a href="/accounts"> <i class="fa fa-comments-o"></i> 所有用户 <span class="badge badge-warning pull-right r-activity">{% get_users_num as users_total %}{{users_total}}</span></a>
+            </li> {% endcomment %}
+        </ul>
+        <section>
+    </aside>
+    <footer class="twt-footer">
+        <a href="#"><i class="fa fa-map-marker"></i></a>
+        显示地址-开发中ing
+        <span class="pull-right">
+            xx
+        </span>
+    </footer>
 </div>
 {% endif %}

@@ -1,10 +1,11 @@
 {% load cache %}
 {% load tool_tags %}
 
-{% cache 3600 'cache_tools_html_tag' %}
+{% comment %} {% cache 3600 'cache_tools_html_tag' %} {% endcomment %}
 {% get_toolcates as cates %}
 {% for each_cate in cates %}
-<div class="card border-0 rounded-0 px-3 mb-2 mb-md-3 tool-cate">
+开发中...
+{% comment %} <div class="card border-0 rounded-0 px-3 mb-2 mb-md-3 tool-cate">
     <div class="card-header bg-white px-0">
         <strong><i class="fa fa-link mr-2 f-17"></i>{{ each_cate.name }}</strong>
     </div>
@@ -20,6 +21,6 @@
             {% endfor %}
         </div>
     </div>
-</div>
+</div> {% endcomment %}
 {% endfor %}
-{% endcache %}
+{% comment %} {% endcache %} {% endcomment %}

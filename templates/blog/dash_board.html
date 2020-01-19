@@ -1,4 +1,5 @@
 {% load blog_tags %}
+{% load tool_tags %}
 {% block top_file %}
 <style type="text/css">
 .tab-content{
@@ -27,7 +28,7 @@
                     <i class="fa fa-github-alt fa-2x"></i>
                 </a>
             </li>
-            <!-- Contact -->
+            <!-- Tools -->
             <li class="col-4 nav-item">
                 <a style="padding:0;" class="nav-link" aria-expanded="false" href="#mp-tab-2" data-toggle="tab">
                     <i class="fa fa-rocket fa-2x"></i>
@@ -46,13 +47,18 @@
                 <h3 href="https://github.com/Freen247/django_blog/issues">GitHub</h3>
                 <p><a href="https://github.com/Freen247/django_blog">👨‍💻-<strong>网站源码</strong></a></p>
                 <p><a href="https://github.com/Freen247/django_blog/issues">👨‍🔬-<strong>issue报错</strong></a></p>
-                
-            </div>
-            <!-- Contact -->
-            <div class="tab-pane fade" id="mp-tab-2" role="button" aria-expanded="false">
-                <h3>合作/沟通</h3>
                 <p><a href="mailto:aboysintky@outlook.com">📧-<strong>Mail</strong></a></p>
                 <p><a href="javascript:void(0);" data-toggle="modal" data-target="#wechat"><i class="fa fa-wechat pr-1"></i>-<strong>Wechat</strong></a></p>
+            </div>
+            <!-- Tools -->
+            <div class="tab-pane fade" id="mp-tab-2" role="button" aria-expanded="false">
+            {% get_tools as tools %}
+            <h3>工具箱</h3>
+            {% for t in tools %}
+                
+                <p><a href="{{t.link}}">🔨-<strong>{{t.name}}</strong></a></p>
+                
+            {% endfor %}
             </div>
             <!-- Timeline -->
             <div class="tab-pane fade" id="mp-tab-3" role="button" aria-expanded="false">

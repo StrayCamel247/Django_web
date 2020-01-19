@@ -15,10 +15,11 @@ import markdown
 def Toolview(request):
     return render(request, 'tool/tool.html')
 
-
 #在线md编辑
 def md_html(request):
     return render(request, 'tool/md2html.html')
+
+    
 # 百度主动推送
 def BD_pushview(request):
     return render(request, 'tool/bd_push.html')

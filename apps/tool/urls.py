@@ -15,8 +15,6 @@ urlpatterns = [
     url(r'^baidu-linksubmit-for-sitemap/$', BD_pushview_site, name='baidu_push_site'),  # 百度主动推送sitemap
     url(r'^baidu-linksubmit-for-sitemap/ajax/$', bd_api_site, name='baidu_push_api_site'),
     
-    
-    
     url(r'^link-test/$', Link_testview, name='link_test'),  # 友链检测
     url(r'^link-test/ajax/$', Link_test_api, name='link_test_api'),
     url(r'^regex/$', regexview, name='regex'),  # 正则表达式在线
