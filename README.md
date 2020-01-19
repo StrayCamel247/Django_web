@@ -8,23 +8,30 @@
 - [prefer：github/issue](https://github.com/Freen247/django_blog/issues)
 - email：aboyinsky@outlook.com/wechat：1351975058
 
-## ✨网站功能/计划（Features/future）
+## ✨网站/规划功能/计划（Features/future）-持续更新...
 > 网站是基于博客系统建立起来的，不仅仅局限于这个功能。在这个层面上会更加扩展地开发更多的功能。
 
 - [x] 使用 Django 自带的后台管理系统，方便对于文章、用户及其他动态内容的管理
-- [x] App（index）网站主要系统，basic 功能和界面展示
+- [x] App（blog）：网站主要系统，basic 功能和界面展示、博客系统的文章分类（categories）、关键词（keywords）、浏览量统计以及规范的 SEO 设置
+    - [x] 强大的全文搜索功能，只需要输入关键词就能展现全站与之关联的文章
     - [x] 缓存系统、cdn加速、django（cache）缓存html界面、django-compress 压缩文件
     - [x] 规范的 Sitemap 网站地图、友情链接
-    - [x] 常见的RESTful API 风格的 API 接口
-- [x] App（blog）：博客系统的文章分类（categories）、关键词（keywords）、浏览量统计以及规范的 SEO 设置
-    - [x] 强大的全文搜索功能，只需要输入关键词就能展现全站与之关联的文章
+    - [ ] 常见的RESTful API 风格的 API 接口-开发中...
 - [x] App（user）用户认证系统，在 Django 自带的用户系统i的基础上扩展 Oauth 认证，支持微博、Github 等第三方认证
-    - [ ] 扩展个人中心界面，设置二级权限，让认证的人能够发送文章。
-    - [ ] 支持订阅其他网站的文章信息，统一使用restful api风格。
+    - [ ] 扩展个人中心界面，设置二级权限，让认证的人能够发送文章。-开发中..
+    - [ ] 支持订阅其他网站的文章信息，统一使用restful api风格。-开发中..
 - [x] App（comment）评论系统，炫酷的输入框特效，支持 markdown 语法，二级评论结构和回复功能
-    - [ ] 支持表情包功能，已经增加特效
+    - [x] 支持表情包功能，已经增加特效
     - [x] 信息提醒功能，登录和退出提醒，收到评论和回复提醒，信息管理
-
+- [x] App（tool）工具合集，扩展网站子工具，比如站内百度推送，爬虫，代码转化等
+    - [x] 百度sitemap/单链接站长推送工具
+    - [x] markdown在线编辑器
+    - [x] User-Agent生成器
+    - [x] html特殊字符对照表
+    - [x] 友链测试工具
+    - [ ] 豆瓣电影爬虫工具-开发中..
+    - [ ] 添加图床服务器、编辑文章可以粘贴图片上传等-开发中..
+ 
 ## 🐾网站开发日志（How to contribute this webproject？）
 > 不愿意将这系列的文章叫做教程，感觉这些东西真的网上百度一大堆，希望看到这里的小伙伴们能够意识到合作一起contribute的意识，一起来共同打造更好的项目，👨‍👨‍👦‍👦多人的智慧往往会迸发出更多的火花。
 
