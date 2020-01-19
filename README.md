@@ -37,17 +37,8 @@
 
 3. 利用django开发网站日志
     >类似于开发手册/教程，希望可以一起来contribute，支持更多的功能或框架！
-
-    - [django2.0+python3博客基础搭建完成](https://boywithacoin.cn/article/django2-0-python3bo-ke-ji-chu-da-jian-wan-cheng/)
-    - [Nginx + Gunicorn 服务器配置 Django](https://boywithacoin.cn/article/nginx-gunicorn-fu-wu-qi-pei-zhi-django/)
-    - [django-mdeditor后台内嵌md文章编辑+Editor.md开源项目](https://boywithacoin.cn/article/django-mdeditorhou-tai-nei-qian-mdwen-zhang-bian-ji-editor-mdkai-yuan-xiang-mu/)
-    - [django 网站地图 sitemap](https://boywithacoin.cn/article/django-wang-zhan-di-tu-sitemap/)
-    - [django的类视图和函数视图](https://boywithacoin.cn/article/djangode-lei-shi-tu-he-han-shu-shi-tu/)，在刚开始建设网站使用的函数视图，后续编写手册时已全部更改为类视图。
-    - [django博客开发blog开发日志系统](https://boywithacoin.cn/article/djangobo-ke-kai-fa-blogkai-fa-ri-zhi-xi-tong/)
-    - [利用mdeitor配置评论功能、后端利用markdown处理md数据](https://boywithacoin.cn/article/li-yong-mdeitorpei-zhi-ping-lun-gong-neng-hou-duan-li-yong-markdownchu-li-mdshu-ju/)，曾经使用过一段时间，后来改为使用 simplemde 包。
-    - [article中上传静态图片时重命名](https://boywithacoin.cn/article/articlezhong-shang-chuan-jing-tai-tu-pian-shi-zhong-ming-ming/)
-    - [迁移sqlite3到postgresql数据库](https://boywithacoin.cn/article/qian-yi-sqlite3dao-postgresqlshu-ju-ku)
-
+    - [网站开发日志/教程](https://boywithacoin.cn/timeline)
+    
 ## 🌲源码分支管理：
 - [webiste_files](https://github.com/Freen247/django_blog/tree/website_files)：当前目录为网站前端样式的初始化文件。利用框架有bootstrap，fontawsome。
 
