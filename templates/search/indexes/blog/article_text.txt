@@ -1,5 +1,0 @@
-# 文章标题
-{{ object.title }}
-# 文章内容
-{{ object.body_to_markdown }}
-{{ object.author }}
