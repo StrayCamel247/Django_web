@@ -1,0 +1,451 @@
+{% load static %}
+{% load oauth_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ search_instance.name }}__{{search_contacts}}</title>
+    <meta name="description" content="娃哈哈店长的个人技术博客，django_blog，django2.0+python3技术搭建。">
+    <meta name="keywords" content="娃哈哈店长,django2.0博客，人工智能,网络,IT,技术,博客,Python">
+    <link rel="shortcut icon" type="image/x-icon" mce_href="{% static 'blog_blog_admin/images/favicon.png' %}" href="{% static 'blog_admin/images/favicon.png' %}" media="screen">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'blog_admin/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'blog_admin/css/pe-icon-7-filled.css' %}">
+    <link rel="stylesheet" href="{% static 'blog_admin/css/flag-icon.min.css' %}">
+    <link rel="stylesheet" href="{% static 'blog_admin/css/cs-skin-elastic.css' %}">
+    <link rel="stylesheet" href="{% static 'blog_admin/css/style.css' %}">
+</head>
+    <style type="text/css">
+        .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto  {
+            z-index: 99;
+        }
+    </style>
+
+<body>
+    <!-- Left Panel -->
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+            <div id="main-menu" class="main-menu collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
+                    </li>
+                    <li class="menu-title">demo</li><!-- /.menu-title -->
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>demo</a>
+                        <ul class="sub-menu children dropdown-menu">                            
+                            <li><i class="fa fa-puzzle-piece"></i><a href="#">test</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>demo</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-table"></i><a href="#">demo</a></li>
+                            <li><i class="fa fa-table"></i><a href="#">demo</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </aside>
+    <!-- /#left-panel -->
+    <!-- Right Panel -->
+    <section id="right-panel" class="right-panel">
+        <!-- Header-->
+        <header id="header" class="header">
+            <div class="top-left">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="./"><img src="{% static 'blog_admin/images/logo.png' %}" alt="Logo"></a>
+                    <a class="navbar-brand hidden" href="./"><img src="{% static 'blog_admin/images/logo2.png' %}" alt="Logo"></a>
+                    <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+            <div class="top-right">
+                <div class="header-menu">
+                    <div class="header-left">
+                        <button class="search-trigger"><i class="fa fa-search"></i></button>
+                        <div class="form-inline">
+                            <form class="search-form">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
+                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+                            </form>
+                        </div>
+
+                        <div class="dropdown for-notification">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-bell"></i>
+                                <span class="count bg-danger">3</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="notification">
+                                <p class="red">You have 3 Notification</p>
+                                <a class="dropdown-item media" href="#">
+                                    <i class="fa fa-check"></i>
+                                    <p>Server #1 overloaded.</p>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <i class="fa fa-info"></i>
+                                    <p>Server #2 overloaded.</p>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <i class="fa fa-warning"></i>
+                                    <p>Server #3 overloaded.</p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown for-message">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-envelope"></i>
+                                <span class="count bg-primary">4</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="message">
+                                <p class="red">You have 4 Mails</p>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="{% static 'blog_admin/images/avatar/1.jpg' %}"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Jonathan Smith</span>
+                                        <span class="time float-right">Just now</span>
+                                        <p>Hello, this is an example msg</p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="{% static 'blog_admin/images/avatar/2.jpg' %}"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Jack Sanders</span>
+                                        <span class="time float-right">5 minutes ago</span>
+                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="{% static 'blog_admin/images/avatar/3.jpg' %}"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Cheryl Wheeler</span>
+                                        <span class="time float-right">10 minutes ago</span>
+                                        <p>Hello, this is an example msg</p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="{% static 'blog_admin/images/avatar/4.jpg' %}"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Rachel Santos</span>
+                                        <span class="time float-right">15 minutes ago</span>
+                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="user-area dropdown float-right">
+                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src="{% static 'blog_admin/images/blog_admin.jpg' %}" alt="User Avatar">
+                        </a>
+
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
+
+                            <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
+
+                            <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
+
+                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+        <!-- /#header -->
+        <!-- Content -->
+        
+        {% get_users_num as users_total %}
+
+        <div class="content">
+
+            <div class="col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-four">
+                            <div class="stat-icon dib">
+                                <i class="ti-user text-muted"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="text-left dib">
+                                    <div class="stat-heading">总用户</div>
+                                    <div class="stat-text">Total:<a class="count">{{users_total}}00</a>/<a class="count">100</a>个</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Orders -->
+             <div class="card col-lg-12">
+                <div class="card-header">
+                    <strong>Search_user</strong> Form
+                </div>
+                <div class="card-body card-block">
+                    <form action="#"  method="post" class="form-inline">
+                        <div class="form-group">
+                            <label for="exampleInputName2" class="pr-1  form-control-label">Name</label>
+                            <input type="text" id="search_member_name" placeholder="娃哈哈店长" required="" class="form-control"></div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail2" class="px-1  form-control-label">ID</label>
+                            <input type="text" id="search_member_id" placeholder="xxxxx" required="" class="form-control"></div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button type="submit"  data-csrf="{{ csrf_token }} " data-ajax-url="{% url 'accounts:search_member' %}"  id="search_member_submit"  class="btn btn-primary btn-sm">
+                        <i class="fa fa-dot-circle-o"></i> Submit
+                    </button>
+                    <!-- <button type="reset" class="btn btn-danger btn-sm">
+                        <i class="fa fa-ban"></i> Reset
+                    </button> -->
+                </div>
+
+            </div>
+            <div id="danger_info" class="col-lg-12 sufee-alert alert with-close alert-danger alert-dismissible fade show" style="display: none;">
+                <span class="badge badge-pill badge-danger">开水！开水！</span>
+                <span></span> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div id="success_info" class="col-lg-12 sufee-alert alert with-close alert-success alert-dismissible fade show" style="display: none;">
+                <span class="badge badge-pill badge-success">往下看！</span>
+                <span></span> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="orders">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="box-title">所有用户  </h4>
+                            </div>
+                            <div class="card-body--">
+                                <div class="table-stats order-table ov-h">
+
+
+                                    <table class="table ">
+                                        <thead>
+                                            <tr>
+                                                <th class="serial">#</th>
+                                                <th class="avatar">Avatar</th>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Last_login_time</th>
+                                                <th>numbers</th>
+                                                <th>function</th>
+                                            </tr>
+                                        </thead>    
+                                        <tbody id="all_user">
+
+
+                                            {% get_users_list as user_all %}
+                                            {% for user in user_all %}
+                                            <tr>
+                                                <td class="serial">-</td>
+                                                <td class="avatar">
+                                                    <div class="round-img">
+                                                        <a href="#"><img class="rounded-circle" src="{{user.avatar.url}}" alt=""></a>
+                                                    </div>
+                                                </td>
+                                                <td class="id">{{user.id}}</td>
+                                                <td>  <span class="name">{{user}}</span> </td>
+                                                <td> <span >{{user.last_login}}</span></td>
+                                                <td><span class="count">231</span></td>
+                                                <td>
+                                                    <span class="btn btn-outline-primary btn-sm"><a href="{% url 'accounts:profile' %}">修改个人信息</a></span>
+                                                    <span  class="btn btn-outline-danger btn-sm" id="add_member" data-csrf="{{ csrf_token }} " data-contact-id="{{search_instance.id}}" data-member-id="{{ user.id }}" data-ajax-url="{% url 'accounts:add_member' %}">增加到{{search_instance.name}}通讯录</span>
+                                                    <script type="text/javascript">
+                                                        
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                                
+
+                                                
+                                            {% empty %}
+                                            <tr>
+                                                <td class="serial">-</td>
+                                                <td class="avatar">
+                                                    <div class="round-img">
+                                                        <a href="#"><img class="rounded-circle" src="#" alt=""></a>
+                                                    </div>
+                                                </td>
+                                                <td class="id"> 
+                                                    #
+                                                </td>
+                                                <td>  <span class="name">#</span> </td>
+                                                <td> <span >#</span></td>
+                                                <td><span class="count">231</span></td>
+                                               
+                                            </tr>
+                                             {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div> <!-- /.table-stats -->
+                            </div>
+                        </div> <!-- /.card -->
+                        
+                    </div>  <!-- /.col-lg-12 -->
+
+                </div>
+            </div>
+           
+            <!-- /.orders -->
+            <!-- Orders -->
+            <div class="orders">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="box-title">当前{{search_instance.name}}通讯录的用户  </h4>
+                            </div>
+                            <div class="card-body--">
+                                <div class="table-stats order-table ov-h">
+                                    <table class="table ">
+                                        <thead>
+                                            <tr>
+                                                <th class="serial">#</th>
+                                                <th class="avatar">Avatar</th>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Last_login_time</th>
+                                                <th>numbers</th>
+                                                <th>function</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for member in members %}
+                                            {% get_contacts_list as contacts %}
+                                            <tr>
+                                                <td class="serial">-</td>
+                                                <td class="avatar">
+                                                    <div class="round-img">
+                                                        <a href="#"><img class="rounded-circle" src="{{member.avatar.url}}" alt=""></a>
+                                                    </div>
+                                                </td>
+                                                <td class="id"> 
+                                                    {{member.id}}
+                                                </td>
+                                                
+                                                <td>  <span class="name">{{member}}</span> </td>
+                                                <td> <span >{{member.last_login}}</span></td>
+                                                <td><span class="count">231</span></td>
+                                                <td>
+                                                    <span  class="btn btn-outline-danger btn-sm" id="del_member"  data-csrf="{{ csrf_token }} " data-contact-id="{{search_instance.id}}" data-member-id="{{ member.id }}" data-ajax-url="{% url 'accounts:del_member' %}">从当前{{search_instance.name}}通讯录删除</span>
+                                                    
+                                            {% empty %}
+                                             {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div> <!-- /.table-stats -->
+                            </div>
+                        </div> <!-- /.card -->
+                        
+                    </div>  <!-- /.col-lg-12 -->
+                </div>
+            </div>
+            <!-- /.orders -->
+            <!--  聊天室 -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title box-title">聊天室</h4>
+                            <div class="card-content">
+                                <div class="messenger-box">
+                                    <ul>
+                                        <li>
+                                            <div class="msg-received msg-container">
+                                                <div class="avatar">
+                                                   <img src="{% static 'blog_admin/images/avatar/1.jpg' %}" alt="">
+                                                   <div class="send-time">11.11 am</div>
+                                                </div>
+                                                <div class="msg-box">
+                                                    <div class="inner-box">
+                                                        <div class="name">
+                                                            John Doe
+                                                        </div>
+                                                        <div class="meg">
+                                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis sunt placeat velit ad reiciendis ipsam
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- /.msg-received -->
+                                        </li>
+                                        <li>
+                                            <div class="msg-sent msg-container">
+                                                <div class="avatar">
+                                                   <img src="{% static 'blog_admin/images/avatar/2.jpg' %}" alt="">
+                                                   <div class="send-time">11.11 am</div>
+                                                </div>
+                                                <div class="msg-box">
+                                                    <div class="inner-box">
+                                                        <div class="name">
+                                                            John Doe
+                                                        </div>
+                                                        <div class="meg">
+                                                            Hay how are you doing?
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- /.msg-sent -->
+                                        </li>
+                                    </ul>
+                                    <div class="send-mgs">
+                                        <div class="yourmsg">
+                                            <input class="form-control" type="text">
+                                        </div>
+                                        <button class="btn msg-send-btn">
+                                            <i class="pe-7s-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div><!-- /.messenger-box -->
+                            </div>
+                        </div> <!-- /.card-body -->
+                    </div><!-- /.card -->
+                </div>
+            </div>
+            <!-- / 聊天室 -->
+        </div>
+        <!-- /.content -->
+        <div class="clearfix"></div>
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-inner bg-white">
+                <div class="row">
+                    <div class="col-sm-6">
+                       xxxxxxxxxxxxx<a href="http://www.boywithacoin.cn/" target="_blank" title="test">xxxxxx</a> - Collect from <a href="http://www.boywithacoin.cn/" title="test" target="_blank">test</a>
+                    </div>
+                    <div class="col-sm-6 text-right"> Designed by Freen
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- /.site-footer -->
+    </section>
+    <!-- /#right-panel -->
+    <canvas id="c_n9" style="position: fixed; top: 0px; left: 0px; z-index: 0; opacity: 0.5;" width="1418" height="330"></canvas>
+    <!-- js/jq -->
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{% static 'blog_admin/js/contacts.js' %}"></script>
+    <!-- 用户通知栏js -->
+    <script src="{% static 'blog_admin/js/popper.min.js' %}"></script>
+    <!-- canvas -->
+    <script src="{% static 'blog_admin/js/canvas.js' %}"></script>
+    <script src="{% static 'blog_admin/js/plugins.js' %}"></script>
+    <!--  -->
+    
+    <script src="{% static 'blog_admin/js/main.js' %}"></script>
+    <!--内嵌js-->
+
+</body>
+</html>

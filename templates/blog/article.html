@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load blog_tags static comment_tags %}
+{% load cache %}
+
+{% block head_title %}{{ article.title }}_{{ article.category }}{% endblock %}
+{% block metas %}
+<meta name="description" content="{{ article.summary_to_markdown }}">
+<meta name="keywords" content="{% keywords_to_str article %}">
+{% endblock %}
+{% block top_file %}
+
+<!-- 评论区 -->
+{% if user.is_authenticated %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+{% endif %}
+<link href="https://cdn.bootcss.com/github-markdown-css/3.0.1/github-markdown.min.css" rel="stylesheet">
+<link href="{% static 'comment/css/base_comment.css' %}" rel="stylesheet">
+<link href="{% static 'comment/css/notification.css' %}" rel="stylesheet">
+<!-- 文本区 -->
+<link rel="stylesheet" href="{% static 'css/monokai.css' %}">
+<style type="text/css">
+    .markdown-body img {
+        max-width: 90% !important;
+        width:auto;
+        height:auto;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        padding: 10px 0px 10px 0px;
+    }
+    .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+        color: #f00;
+    }
+    .codehilite  pre{ color: #f8f8f2 }
+    .codehilite .err {
+        color: #f8f8f2;
+        background: #272822;
+    }
+    .markdown-body .highlight pre, .markdown-body pre {
+        background: #272822;
+    }
+</style>
+{% endblock %}
+{% block md_toc %}
+<div id="freen-sidebar-cell" class="freen-sidebar-cell w-100">
+<!-- MENU -->
+<nav id="freen-main-menu" class="menu-main-menu-container freen-main-menu">
+    <ul class="freen-menu-ul">
+        <li><a href="#">⛳文章目录</a>
+        {{ article.toc |safe }}
+        </li>
+    </ul>
+</nav>
+</div>
+{% endblock %}
+{% block mdeditor_contain %}
+<!-- 文章内容 -->
+<div class="article-cointain" >
+    <div class="rounded-0 border-0" id="article" >
+        <nav aria-label="breadcrumb" >
+            <ol class="breadcrumb bg-white border-0 rounded-0 mb-0 p-2">
+                <li class="breadcrumb-item">
+                    <i class="fa fa-home mr-1"></i><a href="{% url 'blog:index' %}">首页</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ article.category.get_absolute_url }}">{{ article.category}}</a>
+                </li>
+                <li class="breadcrumb-item active d-none d-md-block" aria-current="page">{{ article.title }}</li>
+                
+            </ol>
+            
+        </nav>
+        <div class="markdown-body" style="padding:40px 48px 40px 48px; background-color: #fff;
+    " >
+            <h1 class="text-center">{{ article.title }}</h1>
+            <div class="text-center f-13">
+                <span class="mx-2" data-toggle="tooltip" data-placement="bottom"
+                    title="最后编辑于{{ article.update_date|date:'Y年m月d日' }}">{{ article.create_date }}</span>
+                <span class="mx-2">阅读 {{ article.views }}</span>
+                <a class="mx-2 to-com" href="#comment-block">评论 {% get_comment_count article %}</a>
+                {% if user.is_authenticated %}
+                {% if user == article.author %}
+                <a href="javascript:void(0);" data-toggle="modal" data-target="#article-md">COPY(markdown内容)</a>
+                {% endif %}
+                {% endif %}
+            </div>
+            
+            <!-- 文章内容 -->
+            <div class=" f-17" >
+                {{ article.body|safe }}
+                <p class="font-weight-bold text-info">
+                    <i class="fa fa-bullhorn mx-1"></i>
+                    原创文章，转载请注明出处：{{ request.build_absolute_uri }}
+                </p>
+            </div>
+            <div class="tag-cloud my-4">
+                {% for tag in article.tags.all %}
+                <a class="tags f-16" href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
+            
+        </div>
+    </div>
+    {% block modals %}
+    <div class="modal fade" id="article-md" tabindex="-1" role="dialog" aria-labelledby="QRTitle" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <textarea>{{article.body}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div> 
+    {% endblock %}
+    <!-- <nav class="more-page f-16">
+        <ul class="pagination justify-content-between">
+            <li class="page-item">
+                {% if article.get_pre %}
+                <a class="d-none d-md-block" href="{{ article.get_pre.get_absolute_url }}"
+                    title="上一篇：{{ article.get_pre.title }}">
+                    <i class="fa fa-chevron-left mr-1"></i>
+                    {{ article.get_pre.title|truncatechars:18 }}
+                </a>
+                <a class="d-md-none" href="{{ article.get_pre.get_absolute_url }}">
+                    <i class="fa fa-chevron-left mr-1"></i>上一篇</a>
+                {% endif %}
+            </li>
+            <li class="page-item">
+                {% if article.get_next %}
+                <a class="d-none d-md-block" href="{{ article.get_next.get_absolute_url }}"
+                    title="下一篇：{{ article.get_next.title }}">
+                    {{ article.get_next.title|truncatechars:18 }}
+                    <i class="fa fa-chevron-right ml-1"></i>
+                </a>
+                <a class="d-md-none" href="{{ article.get_next.get_absolute_url }}">
+                    下一篇<i class="fa fa-chevron-right ml-1"></i>
+                </a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav> -->
+
+    <hr>
+    <div class="clearfix"></div>
+    <!-- 评论区 -->
+    <div class="article-social col-lg-12" >
+        {% include 'comment/comment_form.html' %}
+        {% get_parent_comments article as comment_list %}
+        {% include 'comment/comment_list.html' %}
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $('div#article table').addClass('table table-bordered');
+    $('div#article thead').addClass('thead-light');
+</script>
+<script src="{% static 'comment/js/notification.js' %}"></script>
+<script src="{% static 'comment/js/editor.js' %}"></script>
+<script src="{% static 'comment/js/activate-power.js' %}"></script>
+<!-- highlight -->
+<script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlightjs-line-numbers.js/2.7.0/highlightjs-line-numbers.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+  </script>
+{% endblock %}   
