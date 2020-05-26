@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class MlRecConfig(AppConfig):
-    name = 'ml_rec'
+    name = 'apps.ml_rec'

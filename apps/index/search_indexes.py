@@ -1,10 +1,10 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-# @Author: freen
-# @Date:   2019-06-28 12:19:23
-# @Last Modified by:   freen
-# @Last Modified time: 2019-06-28 12:20:33
+# __author__ : stray_camel
+# __date__: 2020/05/25 16:39:11
+
 from haystack import indexes
-from .models import Article
+from apps.blog.models import Article
 
 #文件名称必须是 search_indexes.py
 class ArticleIndex(indexes.SearchIndex, indexes.Indexable):

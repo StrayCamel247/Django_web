@@ -6,45 +6,24 @@ from django.utils.text import slugify
 from django.shortcuts import render, HttpResponse, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .models import Article, Category,Timeline
-# from markdown.extensions.toc import TocExtension  # 锚点的拓展
-from haystack.generic_views import SearchView  # 导入搜索视图
-from haystack.query import SearchQuerySet
-import markdown,emoji,re
+
+from django.contrib.syndication.views import Feed
+from .models import Article, Category, Timeline
+import markdown
+import emoji
+import re
 from markdown.extensions.toc import TocExtension
-# 分页
-from pure_pagination.mixins import PaginationMixin
 # Create your views here.
+
+
 class TimelineView(generic.ListView):
     model = Timeline
     template_name = 'blog/timeline.html'
     context_object_name = 'timeline_list'
 
-# 重写搜索视图，可以增加一些额外的参数，且可以重新定义名称
-class MySearchView(SearchView):
-    # 返回搜索结果集
-    context_object_name = 'search_list'
-    # 设置分页
-    paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
-    paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
-    # 搜索结果以浏览量排序
-    queryset = SearchQuerySet().order_by('-views')
 
-class IndexView(PaginationMixin, generic.ListView):
-    model = Article
-    template_name = 'index.html'
-    context_object_name = 'articles'
-    paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
-    paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
 
-    def get_ordering(self):
-        ordering = super(IndexView, self).get_ordering()
-        sort = self.kwargs.get('sort')
-        if sort == 'v':
-            return ('-views', '-update_date', '-id')
-        return ordering
 
-  
 class DetailView(generic.DetailView):
     model = Article
     template_name = 'blog/article.html'
@@ -78,10 +57,12 @@ class DetailView(generic.DetailView):
         ])
         obj.body = md.convert(obj.body)
         obj.toc = md.toc
-        m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
+        m = re.search(
+            r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
         obj.toc = m.group(1) if m is not None else ''
-    
+
         return obj
+
 
 class CategoryView(generic.ListView):
     model = Article
@@ -110,15 +91,22 @@ class CategoryView(generic.ListView):
         return context_data
 
 
-def global_setting(request):
-    return{
-        "AUTHOR_NAME" : settings.AUTHOR_NAME,
-        "AUTHOR_DESC" : settings.AUTHOR_DESC,
-        "AUTHOR_EMAIL" : settings.AUTHOR_EMAIL,
-        "AUTHOR_TITLE" : settings.AUTHOR_TITLE,
-        "SITE_DESCRIPTION" : settings.SITE_DESCRIPTION,
-        "SITE_KEYWORDS" : settings.SITE_KEYWORDS,
-    }
+class AllArticleRssFeed(Feed):
+    # 显示在聚会阅读器上的标题
+    title = 'Stray_Camel'
+    # 跳转网址，为主页
+    link = "/"
+    # 描述内容
+    description = 'Django个人博客类型网站'
+    # 需要显示的内容条目，这个可以自己挑选一些热门或者最新的博客
 
+    def items(self):
+        return Article.objects.all()[:100]
 
+    # 显示的内容的标题,这个才是最主要的东西
+    def item_title(self, item):
+        return "【{}】{}".format(item.category, item.title)
 
+    # 显示的内容的描述
+    def item_description(self, item):
+        return item.body

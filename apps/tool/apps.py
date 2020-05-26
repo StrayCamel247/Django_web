@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class ToolConfig(AppConfig):
-    name = 'tool'
+    name = 'apps.tool'

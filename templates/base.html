@@ -57,7 +57,7 @@
     <!-- header_tools_bar -->
     <header   mdui-headroom="options" class="header navbar navbar-expand-md bg-white fixed-top blog-navbar py-md-0 headroom headroom--top">
         <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform"
-            action="{% url 'blog:search' %}">
+            action="{% url 'index:search' %}">
             <input type="search" name="q" class="form-control rounded-0" placeholder="站内搜索" autocomplete="off" required="True">
         </form>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -259,7 +259,7 @@
             <!-- CREDITS -->
             <div class="freen-footer-credits" class="freen-footer-credits">
                 <p>
-                    CREATED BY <a href="http://boywithacoin.cn/" target="_blank">{{ AUTHOR_NAME }} </a>
+                    CREATED BY <a href="http://boywithacoin.cn/" target="_blank">{{ AUTHOR_NAME }} </a>&nbsp;|&nbsp;网站运行时间: {{ ONLINE_TIME_DAYS }}天
                 </p>
                 <hr />
                 <p>
@@ -301,7 +301,7 @@
     <div id="freen-fullscreen-search" class="freen-fullscreen-search">
         <div id="freen-fullscreen-search-content" class="freen-fullscreen-search-content">
             <a href="#" id="freen-close-search" class="freen-close-search"><i class="fa fa-times"></i></a>
-            <form role="search" method="get" action="{% url 'blog:search' %}" class="freen-lg-form">
+            <form role="search" method="get" action="{% url 'index:search' %}" class="freen-lg-form">
                 <div class="input-group">
                     <input type="search" class="form-control form-control-lg" placeholder="Enter a kword..." name="q" />
                     <div class="input-group-append">
