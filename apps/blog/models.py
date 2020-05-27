@@ -5,7 +5,6 @@ from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
 from mdeditor.fields import MDTextField
-from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from uuslug import slugify
 from django.utils.text import slugify as sfy
@@ -13,30 +12,12 @@ from django_blog.settings import MEDIA_ROOT
 import markdown
 from markdown.extensions.toc import TocExtension
 import emoji, re, time, string, os
+from apps.utils.handler import ImageStorage
 # Create your models here.
 #自定义自动修改上传的图片的图片名，并修改图片形式为png
 
 
-class ImageStorage(FileSystemStorage):
-    def __init__(self, location=settings.MEDIA_ROOT, base_url=settings.MEDIA_URL):
-        #初始化
-        super(ImageStorage, self).__init__(location, base_url)
 
-    def _save(self, name, content):
-        #重新文件上传
-        import hashlib
-        #获取文件后缀
-        ext = '.bmp'
-        #文件目录
-        d = os.path.dirname(name)
-        #定义文件夹名称
-        fn = time.strftime(
-            '%Y%m%d%H%M%S')
-        # fn = hashlib.md5(time.strftime(
-        #     '%Y%m%d%H%M%S').encode('utf-8')).hexdigest()
-        name = os.path.join(d, fn+ext)
-        #调用父类方法
-        return super(ImageStorage, self)._save(name, content)
 
 
 

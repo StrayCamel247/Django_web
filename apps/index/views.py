@@ -78,4 +78,5 @@ def global_setting(request):
         "SITE_DESCRIPTION": settings.SITE_DESCRIPTION,
         "SITE_KEYWORDS": settings.SITE_KEYWORDS,
         "ONLINE_TIME_DAYS": settings.ONLINE_TIME_DAYS,
+        "DOMAIN_NAME": settings.DOMAIN_NAME,
     }
