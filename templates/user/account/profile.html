@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load blog_tags oauth_tags %}
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+{% block metas %}
+    <meta name="description" content="用户账号管理，使用django-allauth社交用户系统，支持微博、Github等社交账号登录，加入{{ site_end_title }}，查看更多信息。">
+    <meta name="keywords" content="django-allauth,社交用户系统,OAuth 2.0">
+{% endblock %}
+
+{% block top_file %}
+<link href="{% static 'blog/css/account.css' %}?v=20171229.01966" rel="stylesheet">
+{% endblock %}
+
+{% block head_title%}个人资料{% endblock%}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+     <div class="freen-author-img" style="width: 80px">
+            {% if user.socialaccount_set.exists and user.avatar.url == '/media/avatar/default.png' %}
+            <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user }}">
+            {% else %}
+            <img src="{{ user.avatar.url }}" alt="{{ user }}">
+            {% endif %}
+     </div>
+    <h3><span class="font-weight-bold">个人资料</span></h3>
+    <p class="freen-author-subtitle">用户名：{{ user.username }}</p>
+    <p class="freen-author-description">邮箱：{{ user.email }}</p>
+    <p class="freen-author-description">网址：{{ user.link }}</p>
+
+    <div class="freen-author-box-btn">
+    <a class="btn btn-outline-default btn-sm col-lg-3" href="{% url 'accounts:change_profile' %}">修改资料</a>
+    <a class="btn btn-outline-default btn-sm col-lg-3" href="/">返回</a>
+    <a class="btn btn-outline-danger btn-sm col-lg-3" href="/accounts/logout">退出登陆</a>
+    </div>
+
+{% endif %}
+{% endblock %}
+
+
