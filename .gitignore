@@ -16,5 +16,19 @@ logs/*.log
 data/BX-CSV-Dump
 # python环境
 env/
+# 索引文件
 whoosh_index/*.seg
 whoosh_index/*.toc
+# 不上传admin静态文件
+static/admin
+# 不上传mdeditor静态文件，但是保留插件
+static/mdeditor
+!static/mdeditor/js/plugins/image-handle-paste
+# 不上传rest_framework静态文件
+static/rest_framework
+# 不上传网站的静态资源，用户头像
+static/media/avatar
+# 不上传网站的静态资源，文章图片
+static/media/article
+# 不上传网站的静态资源，缓存文件
+static/media/CACHE
