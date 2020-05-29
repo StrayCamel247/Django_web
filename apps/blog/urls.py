@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import DetailView, CategoryView, TimelineView, AllArticleRssFeed
+from .views import DetailView, CategoryView, TimelineView
 app_name = 'blog'
 urlpatterns = [
     # 文章详情页面
@@ -11,6 +11,4 @@ urlpatterns = [
         name='category_hot'),
     # timeline页面
     url(r'^timeline/$', TimelineView.as_view(), name='timeline'),
-    # rss订阅
-    url(r'rss/$', AllArticleRssFeed(), name='rss'),
 ]

@@ -1,7 +1,8 @@
 
 from django.urls import path
+from django.conf.urls import url
 from rest_framework import routers
-from .views import UserViewSet, GroupViewSet, ArticleListSet, CategoryListSet, TimelineListSet, ToolLinkListSet
+from .views import UserViewSet, GroupViewSet, ArticleListSet, CategoryListSet, TimelineListSet, ToolLinkListSet, AllArticleRssFeed
 from django.conf.urls import include
 router = routers.DefaultRouter()
 router.register(r'all_users', UserViewSet)
@@ -15,4 +16,6 @@ urlpatterns = [
     # rest_framework
     path('v1/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # rss订阅
+    url(r'rss/$', AllArticleRssFeed(), name='rss'),
 ]

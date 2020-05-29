@@ -113,7 +113,7 @@ def SearchmemberView(request):
 
 class ContactsView(generic.ListView):
     model = Ouser
-    template_name = 'contacts.html'
+    template_name = 'user/contacts.html'
     context_object_name = 'members'
     paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
     paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)

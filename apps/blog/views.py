@@ -7,7 +7,6 @@ from django.shortcuts import render, HttpResponse, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404, get_list_or_404
 
-from django.contrib.syndication.views import Feed
 from .models import Article, Category, Timeline
 import markdown
 import emoji
@@ -36,7 +35,6 @@ class DetailView(generic.DetailView):
         ses = self.request.session
         the_key = 'is_read_{}'.format(obj.id)
         is_read_time = ses.get(the_key)
-        # if u != obj.author:
         if u != obj.author:
             if not is_read_time:
                 obj.update_views()
@@ -91,22 +89,3 @@ class CategoryView(generic.ListView):
         return context_data
 
 
-class AllArticleRssFeed(Feed):
-    # 显示在聚会阅读器上的标题
-    title = 'Stray_Camel'
-    # 跳转网址，为主页
-    link = "/"
-    # 描述内容
-    description = 'Django个人博客类型网站'
-    # 需要显示的内容条目，这个可以自己挑选一些热门或者最新的博客
-
-    def items(self):
-        return Article.objects.all()[:100]
-
-    # 显示的内容的标题,这个才是最主要的东西
-    def item_title(self, item):
-        return "【{}】{}".format(item.category, item.title)
-
-    # 显示的内容的描述
-    def item_description(self, item):
-        return item.body

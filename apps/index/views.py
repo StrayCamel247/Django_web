@@ -34,12 +34,15 @@ class IndexView(PaginationMixin, generic.ListView):
     context_object_name = 'articles'
     paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
     paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
-
     def get_ordering(self):
         ordering = super(IndexView, self).get_ordering()
         sort = self.kwargs.get('sort')
-        if sort == 'v':
-            return ('-views', '-update_date', '-id')
+        if sort == 'views':
+            return ('-views')
+        if sort == 'create_date':
+            return ('-create_date')
+        if sort == 'update_date':
+            return ('-update_date')
         return ordering
 # 文章聚类
 

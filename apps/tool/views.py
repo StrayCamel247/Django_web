@@ -25,7 +25,21 @@ from mdeditor.views import UploadView
 
 def Toolview(request):
     return render(request, 'tool/tool.html')
+def game(request):
+    return render(request, "tool/game/game_dir.html")
 
+
+def snake(request):
+    return render(request, "tool/game/snake.html")
+
+
+def street_fighter(request):
+    return render(request, "tool/game/StreetFighter.html")
+
+
+def minesweeper(request):
+    return render(request, "tool/game/Minesweeper.html")
+    
 # 在线md编辑
 
 
@@ -153,7 +167,6 @@ class admin_upload(UploadView):
     def post(self, request, *args, **kwargs):
         upload_image = request.FILES.get("editormd-image-file", None)
         media_root = settings.MEDIA_ROOT
-
         # image none check
         if not upload_image:
             return HttpResponse(json.dumps({
@@ -219,7 +232,6 @@ class default_upload(UploadView):
     def post(self, request, *args, **kwargs):
         upload_image = request.FILES.get("editormd-image-file", None)
         media_root = settings.MEDIA_ROOT
-
         # image none check
         if not upload_image:
             return HttpResponse(json.dumps({

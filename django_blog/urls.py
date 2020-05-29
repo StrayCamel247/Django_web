@@ -51,8 +51,6 @@ urlpatterns = [
             {'document_root': settings.STATIC_ROOT}),
     # rest_framework
     path('api/', include('apps.api.urls'), name='api'),
-    # ganme
-    path('game/', include('apps.game.urls'), name='game'),
     # tool
     path('tool/', include('apps.tool.urls'), name='tool'),
 ]

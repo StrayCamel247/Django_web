@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
 from .views import (md_html, Toolview, BD_pushview, bd_api_view, BD_pushview_site, bd_api_site, Link_testview,
-                    Link_test_api, regexview, regex_api, useragent_view, useragent_api, html_characters, default_upload, admin_upload,
+                    Link_test_api, regexview, regex_api, useragent_view, useragent_api, html_characters, default_upload, admin_upload, game, snake, minesweeper,
                     )
 # from .views import (md_html, Toolview, BD_pushview, bd_api_view, BD_pushview_site, bd_api_site, Link_testview,
 #                     Link_test_api, regexview, regex_api, useragent_view, useragent_api, html_characters, mdeditor_upload,
 #                     )
 app_name = "tool"
 
-
+from django.urls import path
 urlpatterns = [
     # 工具汇总页
     url(r'^$', Toolview, name='total'),
@@ -37,4 +37,8 @@ urlpatterns = [
     url(r'^user-agent/ajax/$', useragent_api, name='useragent_api'),
     # HTML特殊字符查询
     url(r'^html-special-characters/$', html_characters, name='html_characters'),
+    # 游戏世界
+    url(r'^game/$', game, name='game'),
+    url(r'^game/Snake/$', snake, name='snake'),
+    url(r'^game/Minesweeper/$', minesweeper, name='minesweeper'),
 ]
