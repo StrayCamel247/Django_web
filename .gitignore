@@ -36,4 +36,5 @@ static/media/CACHE
 # 不上传settings.py配置文件，防止敏感信息泄露
 django_blog/settings.py
 # 不上传tmp缓存pickle文件
-tmp/*.p
+tmp/*
+!tmp/*.MD
