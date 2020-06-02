@@ -169,7 +169,9 @@ h6,
 p {
     margin-top: 0;
 }
-
+.hidden {
+    display: none!important;
+}
 .widget {
     font-size: 1rem;
 }
@@ -214,8 +216,8 @@ hr.section-divider {
 }
 
 img {
-    /* width: 100%;
-    height: 100%; */
+    width: 100%;
+    height: 100%;
     color: transparent;
 }
 
@@ -284,7 +286,7 @@ blockquote {
 
 .freen-add-border {
     /* border: 1px solid #e5e5e5; */
-    padding: 2rem 2rem 2rem 2rem;
+    padding: 0rem 2rem 2rem 2rem;
 }
 
 .freen-title-with-border {
@@ -2736,7 +2738,7 @@ video {
     padding-left: 300px;
     /* padding: 0; */
     background-color: #f6f8fa;
-    padding-top: 80px;
+    padding-top: 60px;
 }
 
 .freen-page-title {
@@ -2973,7 +2975,8 @@ video {
 
 .card {
     border-radius: 2px;
-    box-shadow: none;
+    -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
     background-color: #fff;
     margin: 0px;
     position: relative;
@@ -2987,13 +2990,13 @@ video {
 
 }
 
-.card:hover {
+/* .card:hover {
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.20);
     transform: translateY(-10px);
     -webkit-transform: translateY(-0.5px);
     -ms-transform: translateY(-0.5px);
     -moz-transform: translateY(-0.5px);
-}
+} */
 
 .card.no-transition:hover {
     box-shadow: none;
@@ -3012,7 +3015,12 @@ video {
     height: auto;
     background-color: rgba(0, 0, 0, 0.1);
 }
-
+.card-header {
+    padding: .75rem 1.25rem!important;
+    margin-bottom: 0;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
 .card-body {
     padding: 2.5rem;
     cursor: pointer;
@@ -3088,8 +3096,11 @@ video {
     display: table;
     /* table-layout: fixed; */
     width: 100%;
-    padding: 0;
+    /* padding: 0; */
     cursor: pointer;
+    float: left;
+    padding: 1.25em;
+    position: relative;
 }
 
 
@@ -3102,7 +3113,7 @@ video {
 
 .card-horizontal-left {
     width: 75%;
-    padding: 2rem;
+    /* padding: 2rem; */
 }
 
 .card:hover .card-horizontal-left {
@@ -3129,7 +3140,7 @@ video {
     background-position: center center;
     overflow: hidden;
     /* background-color: rgba(0, 0, 0, 0.02); */
-    margin:1.3rem 1rem;
+    /* margin:1.3rem 1rem; */
     cursor: pointer;
     transition: all 0.7s;
 }
@@ -3193,6 +3204,88 @@ video {
 .card-small .card-footer {
     padding: 1.5rem;
 }
+
+
+.messenger-box {
+    padding-top: 15px; }
+    .messenger-box ul {
+      padding-left: 0;
+      display: inline-block;
+      width: 100%;
+      padding-bottom: 15px; }
+    .messenger-box li {
+      list-style: none;
+      padding-bottom: 20px; }
+    .messenger-box .avatar {
+      width: 64px;
+      float: left; }
+      .messenger-box .avatar img {
+        border-radius: 100%; }
+      .messenger-box .avatar .send-time {
+        font-size: 11px;
+        text-align: center;
+        padding-top: 5px; }
+    .messenger-box .msg-box {
+      margin-left: 84px; }
+    .messenger-box .inner-box {
+      position: relative;
+      border-radius: 10px;
+      background-color: #f1f2f7;
+      font-size: 14px;
+      color: #9aa0a4;
+      padding: 14px 20px;
+      display: table; }
+      .messenger-box .inner-box .name {
+        font-size: 16px;
+        padding-bottom: 10px; }
+      .messenger-box .inner-box:after {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: -18px;
+        width: 18px;
+        height: 18px;
+        border-style: solid;
+        border-width: 9px;
+        border-color: transparent #f1f2f7 transparent transparent; }
+    .messenger-box .msg-sent{
+        overflow: hidden
+    }
+    .messenger-box .msg-sent .avatar, .messenger-box .msg-sent .msg-box {
+      float: right; }
+    .messenger-box .msg-sent .msg-box {
+      margin-left: 0;
+      margin-right: 20px; }
+    .messenger-box .msg-sent .inner-box:after {
+      left: inherit;
+      right: -18px;
+      border-color: transparent transparent transparent #f1f2f7; }
+    .messenger-box .send-mgs {
+      margin-top: 20px;
+      margin-bottom: 9px;
+      position: relative; }
+      .messenger-box .send-mgs .yourmsg {
+        margin-right: 55px; }
+        .messenger-box .send-mgs .yourmsg textarea {
+          border: 1px solid #eceff1;
+          height: 100px;
+          /* line-height: 40px; */
+          /* font-size: 14px; */
+          border-radius: 7px; }
+      
+        .messenger-box .send-mgs .msg-send-btn {
+        background: #03a9f3;
+        color: #fff;
+        font-size: 28px;
+        border-radius: 7px;
+        padding: 0;
+        text-align: center;
+        height: 40px;
+        width: 40px;
+        position: relative;
+        left: 30px;
+        top: 0; }
+  
 
 /* ================= COMMENTS ================== */
 
@@ -3352,6 +3445,7 @@ p.form-submit {
     display: inline-block;
     width: 100%;
     cursor: pointer;
+    background-color: #fff;
     vertical-align: bottom;
     /* text-align: center; */
     margin-bottom: 1.875em;
@@ -3378,7 +3472,7 @@ p.form-submit {
 
 .freen-author-img img {
     height: auto;
-    width: 80px;
+    width: 60px;
     margin: 0 auto 0.8rem auto;
     display: block;
     border-radius: 100%;
@@ -4724,7 +4818,6 @@ p.form-submit {
     /* margin-top: 60px; */
     /* margin-right: auto;
     margin-left: auto; */
-    margin: 60px auto;
 }
 
 

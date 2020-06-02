@@ -35,7 +35,7 @@ media/mdeditor/uploads
 # 不上传网站的静态资源，缓存文件
 media/CACHE
 # 不上传settings.py配置文件，防止敏感信息泄露
-# django_blog/settings.py
+django_blog/settings.py
 # 不上传tmp缓存pickle文件
 tmp/*
 !**/*.md

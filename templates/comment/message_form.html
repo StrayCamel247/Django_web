@@ -1,13 +1,14 @@
 {% load static %}
 {% if user.is_authenticated %}
 {% block top_file %}
-    <link href="{% static 'mdeditor/css/editormd.css' %}" rel="stylesheet" type="text/css">
     <style type="text/css">
         #message-meditor {
             z-index: 100;
         }
     </style>
 {% endblock %}
+
+<link href="{% static 'mdeditor/css/editormd.min.css' %}" rel="stylesheet" type="text/css">
 <div class="send-mgs">
     <div id="message-meditor" class="yourmsg">        
                 <textarea id="mdeditor" class="form-control rounded-0" id="md_contain" placeholder="评论请使用 markdown 语法..." rows="5"></textarea>
