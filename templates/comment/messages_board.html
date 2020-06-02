@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load comment_tags %}
+{% block head_title %}留言板，欢迎捉虫、讨论技术、Stray_Camel(＾Ｕ＾)ノ~ＹＯ{% endblock %}
+{% block metas %}
+    <meta name="description"  content="留言板，欢迎捉虫、讨论技术、Stray_Camel(＾Ｕ＾)ノ~ＹＯ" />
+    <meta name="keywords"  content="{{ SITE_KEYWORDS}}" />
+{% endblock %}
+{% load static %}
+{% block content %}
+<div class="card card-horizontal">
+    <div class="card-body">
+            <h3 class="card-title"><a href="/article/article.slug" target="_blank">留言板</a></h3>
+            <div class="messenger-box">
+                {% include "comment/message_form.html" %}
+                <ul>
+                    {% for message in leaved_messages %}
+                    <li>
+                        {% if user == message.author %}
+                        <div id="mes-{{message.id}}" class="msg-sent msg-container">
+                        {% else %}
+                        <div id="mes-{{message.id}}" class="msg-received msg-container">
+                        {% endif %}
+                            <div class="avatar">
+                               <img src="{{message.author.avatar.url}}" alt="">
+                               <div class="send-time">{{ message.create_date}}</div>
+                            </div>
+                            <div class="msg-box">
+                                <div class="inner-box">
+                                    <div class="name">
+                                        {{ forloop.counter }}楼&nbsp;-&nbsp;
+                                        {% if message.author.is_superuser %}
+                                        <small class="text-danger">[博主]</small>
+                                        {% else %}
+                                        <small class="text-info">[作者]</small>
+                                        {% endif %}{{message.author}}
+                                        <a class="mr-2 rep-btn float-right"  href="#message-meditor"
+                           data-repid="{{ message.id }}" data-repuser="{{ message.author.username }}">回复</a>
+                                    </div>
+                                    <div class="meg">
+                                        {{ message.content_to_markdown|safe}}
+                                    </div>
+                                    {% if message.rep_to %}
+                                    <div  style="background-color:rgba(0, 0, 0, 0.1);">
+                                        @<a>{{ message.rep_to.author.username }}</a><i class="fa fa-share"></i><a href="#mes-{{message.rep_to.id}}">{{message.rep_to}}</a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <div class="no-post">暂时还没有留言！</div>
+                    {% endfor %}
+                    
+                    <!-- PAGINATION -->
+                    {# The following renders the pagination html #}
+                    {% include "blog/_pagination.html" %}
+                </ul>
+            </div><!-- /.messenger-box -->
+    </div>
+</div>
+<div class="clearfix"></div>
+<!-- DIVIDER -->
+<hr class="section-divider" />
+{% endblock %}

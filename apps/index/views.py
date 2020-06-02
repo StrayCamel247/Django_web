@@ -3,6 +3,9 @@
 # __author__ : stray_camel
 # __date__: 2020/05/26 12:40:21
 
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.shortcuts import render
 from django.views import generic
 from django.contrib.sitemaps import Sitemap
@@ -34,6 +37,7 @@ class IndexView(PaginationMixin, generic.ListView):
     context_object_name = 'articles'
     paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
     paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
+
     def get_ordering(self):
         ordering = super(IndexView, self).get_ordering()
         sort = self.kwargs.get('sort')
@@ -83,3 +87,43 @@ def global_setting(request):
         "ONLINE_TIME_DAYS": settings.ONLINE_TIME_DAYS,
         "DOMAIN_NAME": settings.DOMAIN_NAME,
     }
+
+
+@login_required
+@require_POST
+def AddmessageView(request):
+    if request.is_ajax():
+        data = request.POST
+        new_user = request.user
+        new_content = data.get('content')
+        rep_id = data.get('rep_id')
+        if not rep_id:
+            new_message = Message(author=new_user, content=new_content, parent=None,
+                                  rep_to=None)
+        else:
+            new_rep_to = Message.objects.get(id=rep_id)
+            new_parent = new_rep_to.parent if new_rep_to.parent else new_rep_to
+            new_comment = Message(author=new_user, content=new_content, parent=new_parent,
+                                  rep_to=new_rep_to)
+        new_comment.save()
+        new_point = '#com-' + str(new_comment.id)
+        return JsonResponse({'msg': '留言提交成功！', 'new_point': new_point})
+    return JsonResponse({'msg': '留言失败！'})
+
+
+@require_POST
+def mark_to_delete(request):
+    '''将一个成员删除'''
+    if request.is_ajax():
+        data = request.POST
+        contacts = request.user
+        member = data.get('id')
+        info = get_object_or_404(
+            Notification, contacts_p=contacts, member_p=member)
+        info.delete()
+        return JsonResponse({'msg': 'delete success'})
+    return JsonResponse({'msg': 'miss'})
+
+
+
+

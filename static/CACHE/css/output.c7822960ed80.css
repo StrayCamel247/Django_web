@@ -169,9 +169,7 @@ h6,
 p {
     margin-top: 0;
 }
-.hidden {
-    display: none!important;
-}
+
 .widget {
     font-size: 1rem;
 }
@@ -3113,7 +3111,7 @@ video {
 
 .card-horizontal-left {
     width: 75%;
-    /* padding: 2rem; */
+    padding: 2rem;
 }
 
 .card:hover .card-horizontal-left {
@@ -3140,7 +3138,7 @@ video {
     background-position: center center;
     overflow: hidden;
     /* background-color: rgba(0, 0, 0, 0.02); */
-    /* margin:1.3rem 1rem; */
+    margin:1.3rem 1rem;
     cursor: pointer;
     transition: all 0.7s;
 }
@@ -3204,88 +3202,6 @@ video {
 .card-small .card-footer {
     padding: 1.5rem;
 }
-
-
-.messenger-box {
-    padding-top: 15px; }
-    .messenger-box ul {
-      padding-left: 0;
-      display: inline-block;
-      width: 100%;
-      padding-bottom: 15px; }
-    .messenger-box li {
-      list-style: none;
-      padding-bottom: 20px; }
-    .messenger-box .avatar {
-      width: 64px;
-      float: left; }
-      .messenger-box .avatar img {
-        border-radius: 100%; }
-      .messenger-box .avatar .send-time {
-        font-size: 11px;
-        text-align: center;
-        padding-top: 5px; }
-    .messenger-box .msg-box {
-      margin-left: 84px; }
-    .messenger-box .inner-box {
-      position: relative;
-      border-radius: 10px;
-      background-color: #f1f2f7;
-      font-size: 14px;
-      color: #9aa0a4;
-      padding: 14px 20px;
-      display: table; }
-      .messenger-box .inner-box .name {
-        font-size: 16px;
-        padding-bottom: 10px; }
-      .messenger-box .inner-box:after {
-        content: "";
-        position: absolute;
-        top: 10px;
-        left: -18px;
-        width: 18px;
-        height: 18px;
-        border-style: solid;
-        border-width: 9px;
-        border-color: transparent #f1f2f7 transparent transparent; }
-    .messenger-box .msg-sent{
-        overflow: hidden
-    }
-    .messenger-box .msg-sent .avatar, .messenger-box .msg-sent .msg-box {
-      float: right; }
-    .messenger-box .msg-sent .msg-box {
-      margin-left: 0;
-      margin-right: 20px; }
-    .messenger-box .msg-sent .inner-box:after {
-      left: inherit;
-      right: -18px;
-      border-color: transparent transparent transparent #f1f2f7; }
-    .messenger-box .send-mgs {
-      margin-top: 20px;
-      margin-bottom: 9px;
-      position: relative; }
-      .messenger-box .send-mgs .yourmsg {
-        margin-right: 55px; }
-        .messenger-box .send-mgs .yourmsg textarea {
-          border: 1px solid #eceff1;
-          height: 100px;
-          /* line-height: 40px; */
-          /* font-size: 14px; */
-          border-radius: 7px; }
-      
-        .messenger-box .send-mgs .msg-send-btn {
-        background: #03a9f3;
-        color: #fff;
-        font-size: 28px;
-        border-radius: 7px;
-        padding: 0;
-        text-align: center;
-        height: 40px;
-        width: 40px;
-        position: relative;
-        left: 30px;
-        top: 0; }
-  
 
 /* ================= COMMENTS ================== */
 

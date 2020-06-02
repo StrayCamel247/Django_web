@@ -3268,12 +3268,11 @@ video {
         margin-right: 55px; }
         .messenger-box .send-mgs .yourmsg textarea {
           border: 1px solid #eceff1;
-          height: 100px;
+          /* height: 100px; */
           /* line-height: 40px; */
           /* font-size: 14px; */
           border-radius: 7px; }
-      
-        .messenger-box .send-mgs .msg-send-btn {
+      .messenger-box .send-mgs .msg-send-btn {
         background: #03a9f3;
         color: #fff;
         font-size: 28px;

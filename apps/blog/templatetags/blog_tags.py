@@ -61,8 +61,7 @@ def get_article_list(sort=None, num=None):
 
 @register.simple_tag
 def get_article_num():
-    """获取指定排序方式和指定数量的文章"""
-
+    """获取文章的数量"""
     return Article.objects.all().count()
 
 # 返回文章列表模板

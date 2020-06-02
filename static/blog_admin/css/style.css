@@ -512,6 +512,9 @@ canvas {
       border-style: solid;
       border-width: 9px;
       border-color: transparent #f1f2f7 transparent transparent; }
+  .messenger-box .msg-sent{
+    overflow: hidden
+  }
   .messenger-box .msg-sent .avatar, .messenger-box .msg-sent .msg-box {
     float: right; }
   .messenger-box .msg-sent .msg-box {

@@ -1,8 +1,10 @@
 # 创建了新的tags标签文件后必须重启服务器
 
 from django import template
+from ..models import Message
 
 register = template.Library()
+
 
 @register.simple_tag
 def get_comment_count(entry):
@@ -53,3 +55,38 @@ def get_notifications_count(user,f=None):
     else:
         lis = user.notification_get.all()
     return lis.count()
+
+
+# 留言板
+@register.simple_tag
+def get_message_num():
+    """获取网站留言的总数"""
+    return Message.objects.all().count()
+
+@register.simple_tag
+def get_message_date():
+    """获取不同月份留言"""
+    message_dates = Message.objects.datetimes('create_date', 'month', order='DESC')
+    return article_dates
+
+@register.simple_tag
+def get_parent_message():
+    '''父留言列表'''
+    lis = Message.objects.filter(parent=None)
+    return lis
+
+@register.simple_tag
+def get_child_messages(com):
+    '''获取一个父留言的子平路列表'''
+    lis = com.child_messages.all()
+    return lis
+
+@register.simple_tag
+def get_message_user_count(entry):
+    '''获取留言人总数'''
+    p = []
+    lis = Message.objects.all()
+    for each in lis:
+        if each.author not in p:
+            p.append(each.author)
+    return len(p)

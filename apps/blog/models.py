@@ -140,8 +140,8 @@ class Article(models.Model):
     update_date = models.DateTimeField(verbose_name='修改时间', auto_now=True)
     views = models.IntegerField('阅览量', default=0)
 
-    img = models.ImageField(upload_to='article/%Y%m%d',
-                            default='artile/default.png', storage=ImageStorage())
+    img = models.ImageField(upload_to='mdeditor/article/%Y%m%d',
+                            default='default.png', storage=ImageStorage())
     # 文章唯一标识符
     slug = models.SlugField(editable=False)
     category = models.ForeignKey(

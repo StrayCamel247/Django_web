@@ -24,8 +24,8 @@ class ImageStorage(FileSystemStorage):
         # 定义文件夹名称
         fn = time.strftime(
             '%Y%m%d%H%M%S')
-        # fn = hashlib.md5(time.strftime(
-        #     '%Y%m%d%H%M%S').encode('utf-8')).hexdigest()
+        fn = hashlib.md5(time.strftime(
+            '%Y%m%d%H%M%S').encode('utf-8')).hexdigest()
         name = os.path.join(d, fn+ext)
         # 调用父类方法
         return super(ImageStorage, self)._save(name, content)

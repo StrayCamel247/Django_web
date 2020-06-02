@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from apps.blog.models import Article
+from mdeditor.fields import MDTextField
 
 import markdown
 import emoji
@@ -9,7 +10,7 @@ import emoji
 class Comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='%(class)s_related', verbose_name='评论人',null=False, default='2')
     create_date = models.DateTimeField('创建时间', auto_now_add=True)
-    content = models.TextField('评论内容')
+    content = MDTextField('评论内容')
     parent = models.ForeignKey('self', verbose_name='父评论',on_delete=models.CASCADE, related_name='%(class)s_child_comments', blank=True,
                                null=True)
     rep_to = models.ForeignKey('self', verbose_name='回复',on_delete=models.CASCADE, related_name='%(class)s_rep_comments', blank=True, null=True)
@@ -31,6 +32,20 @@ class Comment(models.Model):
                                       'markdown.extensions.codehilite',
                                   ])
         return to_md
+
+
+# 留言板
+class Message(Comment):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='related', verbose_name='评论人',null=False, default='2')
+    parent = models.ForeignKey('self', verbose_name='父评论',on_delete=models.CASCADE, related_name='child_messages', blank=True,
+                               null=True)
+
+    rep_to = models.ForeignKey('self', verbose_name='回复',on_delete=models.CASCADE, related_name='rep_messages', blank=True, null=True)
+    class Meta:
+        verbose_name = '网站留言'
+        verbose_name_plural = verbose_name
+        ordering = ['create_date']
+
 
 class ArticleComment(Comment):
     belong = models.ForeignKey(Article,on_delete=models.CASCADE, related_name='article_comments', verbose_name='所属文章',null=False, default='4')

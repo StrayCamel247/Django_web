@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from apps.blog.models import Article
-from .models import ArticleComment, Notification
+from .models import ArticleComment, Notification, Message
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
@@ -49,29 +49,41 @@ def AddcommentView(request):
         data = request.POST
         new_user = request.user
         new_content = data.get('content')
-        article_id = data.get('article_id')
         rep_id = data.get('rep_id')
-        the_article = Article.objects.get(id=article_id)
-        if not rep_id:
-            new_comment = ArticleComment(author=new_user, content=new_content, belong=the_article, parent=None,
-                                         rep_to=None)
-        else:
-            new_rep_to = ArticleComment.objects.get(id=rep_id)
-            new_parent = new_rep_to.parent if new_rep_to.parent else new_rep_to
-            new_comment = ArticleComment(author=new_user, content=new_content, belong=the_article, parent=new_parent,
-                                         rep_to=new_rep_to)
-        new_comment.save()
-        new_point = '#com-' + str(new_comment.id)
+        try:
+            # 如果能获得article_id，则添加文章评论
+            article_id = data.get('article_id')
+            the_article = Article.objects.get(id=article_id)
+            if not rep_id:
+                new_message = ArticleComment(author=new_user, content=new_content, belong=the_article, parent=None,
+                                            rep_to=None)
+            else:
+                new_rep_to = ArticleComment.objects.get(id=rep_id)
+                new_parent = new_rep_to.parent if new_rep_to.parent else new_rep_to
+                new_message = ArticleComment(author=new_user, content=new_content, belong=the_article, parent=new_parent,
+                                            rep_to=new_rep_to)
+            new_message.save()
+        except :
+            # 如果不获得article_id，则添加留言板信息
+            if not rep_id:
+                new_message = Message(author=new_user, content=new_content, parent=None,
+                                            rep_to=None)
+            else:
+                new_rep_to = Message.objects.get(id=rep_id)
+                new_parent = new_rep_to.parent if new_rep_to.parent else new_rep_to
+                new_message = Message(author=new_user, content=new_content, parent=new_parent, rep_to=new_rep_to)
+            new_message.save()
+            print(11111)
+        
+        new_point = '#mes-' + str(new_message.id)
         return JsonResponse({'msg': '评论提交成功！', 'new_point': new_point})
     return JsonResponse({'msg': '评论失败！'})
-
 
 @login_required
 def NotificationView(request, is_read=None):
     '''展示提示消息列表'''
     now_date = datetime.now()
     return render(request, 'comment/notification.html', context={'is_read': is_read, 'now_date': now_date})
-
 
 @login_required
 @require_POST
@@ -98,3 +110,19 @@ def mark_to_delete(request):
         info.delete()
         return JsonResponse({'msg': 'delete success'})
     return JsonResponse({'msg': 'miss'})
+
+from django.views import generic
+
+class MessageView(generic.ListView):
+    model = Message
+    template_name = 'comment/messages_board.html'
+    context_object_name = 'leaved_messages'
+    paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
+    paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
+
+    def get_ordering(self):
+        ordering = super(MessageView, self).get_ordering()
+        sort = self.kwargs.get('sort')
+        if sort == 'v':
+            return ('-update_date', '-id')
+        return ordering

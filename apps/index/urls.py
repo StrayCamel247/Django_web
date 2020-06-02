@@ -1,5 +1,6 @@
 from django.conf.urls import url
-from .views import IndexView, MySearchView
+from .views import IndexView, MySearchView, AddmessageView
+from apps.comment.views import MessageView
 app_name = 'index'
 urlpatterns = [
     # 首页，自然排序
@@ -15,8 +16,8 @@ urlpatterns = [
         IndexView.as_view(template_name='archive.html'), name='date'),
     # 全文搜索
     url(r'^search/$', MySearchView.as_view(), name='search'),
-    # 给我留言
-    # url(r'^category/message/$', MessageView, name='message'),
+    # 留言板
+    url(r'^message_board/$', MessageView.as_view(), name='message'),
     # 关于自己
     # url(r'^category/about/$', AboutView, name='about'),
     # 赞助作者

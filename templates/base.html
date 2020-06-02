@@ -194,7 +194,7 @@
         <div id="freen-sidebar-wrapper" class="freen-sidebar-wrapper d-flex align-items-start flex-column h-100 w-100">
             {% block md_toc %}
             <!-- AUTHOR BOX -->
-            {% include 'blog/user_box.html' %}
+            {% include 'index/user_box.html' %}
             
             {% endblock %}
             <!-- SOCIAL MEDIA ICONS -->
@@ -232,7 +232,17 @@
                 {% endfor %}
             </div>
             {% endif %}
+            <div class="text-secondary font-weight-bold py-2 f-15 choice">
+                <a class="pb-2 ml-4 " href="u/">
+                    <i class="fa fa-bars mr-1"></i>最近更新</a>
+                <a class="pb-2 ml-4 " href="c/">
+                    <i class="fa fa-bars mr-1"></i>最早创建</a>
+                <a class="pb-2 ml-4 " href="hot/">
+                    <i class="fa fa-fire mr-1"></i>热度最高</a>
+            </div>
             {% block content %}
+            
+
             {% endblock %}
             </div>
             {% cache 7200 'sider_right' %}
@@ -240,13 +250,13 @@
             {% block sider_right %}
             <!-- SIDER-RIGHT -->
                 <!--dash board-->
-                {% include 'blog/dash_board.html' %}
+                {% include 'blog/sider_right/dash_board.html' %}
                 <!-- categories -->
-                {% include 'blog/category_list.html' %}
+                {% include 'blog/sider_right/category_list.html' %}
                 <!-- hot_articles -->
-                {% include 'blog/hot_articles_list.html' %}
+                {% include 'blog/sider_right/hot_articles_list.html' %}
                 <!-- friend_links -->
-                {% include 'blog/friend_links.html' %}
+                {% include 'blog/sider_right/friend_links.html' %}
             {% endblock %}
             </div>
             {% endcache %}
