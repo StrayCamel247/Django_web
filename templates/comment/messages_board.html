@@ -13,7 +13,7 @@
             <div class="messenger-box">
                 {% include "comment/message_form.html" %}
                 <ul class="messege_ul">
-                    {% for message in leaved_messages %}
+                    {% for message in leaved_messages  %}
                     <li>
                         {% if user == message.author %}
                         <div id="mes-{{message.id}}" class="msg-sent msg-container">
@@ -27,7 +27,7 @@
                             <div class="msg-box">
                                 <div class="inner-box">
                                     <div class="name">
-                                        {{ forloop.counter }}楼&nbsp;-&nbsp;
+                                        {{ forloop.revcounter0 }}楼&nbsp;-&nbsp;
                                         {% if message.author.is_superuser %}
                                         <small class="text-danger">[博主]</small>
                                         {% else %}

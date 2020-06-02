@@ -124,4 +124,4 @@ class MessageView(generic.ListView):
         sort = self.kwargs.get('sort')
         if sort == 'v':
             return ('-update_date', '-id')
-        return ordering
+        return ('-id',)
