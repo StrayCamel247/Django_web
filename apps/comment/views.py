@@ -45,39 +45,44 @@ post_save.connect(notify_handler, sender=ArticleComment)
 @login_required
 @require_POST
 def AddcommentView(request):
-    if request.is_ajax():
-        data = request.POST
-        new_user = request.user
-        new_content = data.get('content')
-        rep_id = data.get('rep_id')
-        try:
-            # 如果能获得article_id，则添加文章评论
-            article_id = data.get('article_id')
-            the_article = Article.objects.get(id=article_id)
-            if not rep_id:
-                new_message = ArticleComment(author=new_user, content=new_content, belong=the_article, parent=None,
-                                            rep_to=None)
-            else:
-                new_rep_to = ArticleComment.objects.get(id=rep_id)
-                new_parent = new_rep_to.parent if new_rep_to.parent else new_rep_to
-                new_message = ArticleComment(author=new_user, content=new_content, belong=the_article, parent=new_parent,
-                                            rep_to=new_rep_to)
-            new_message.save()
-        except :
-            # 如果不获得article_id，则添加留言板信息
-            if not rep_id:
-                new_message = Message(author=new_user, content=new_content, parent=None,
-                                            rep_to=None)
-            else:
-                new_rep_to = Message.objects.get(id=rep_id)
-                new_parent = new_rep_to.parent if new_rep_to.parent else new_rep_to
-                new_message = Message(author=new_user, content=new_content, parent=new_parent, rep_to=new_rep_to)
-            new_message.save()
-            print(11111)
-        
-        new_point = '#mes-' + str(new_message.id)
-        return JsonResponse({'msg': '评论提交成功！', 'new_point': new_point})
-    return JsonResponse({'msg': '评论失败！'})
+    if not request.is_ajax():return JsonResponse({'msg': '评论失败！'})
+    data = request.POST
+    user = request.user
+    new_content = data.get('content', None)
+    rep_id = data.get('rep_id', None)
+    article_id = data.get('article_id', None)
+    
+    new_rep_to = (ArticleComment.objects.get(id=rep_id) if rep_id!='' else None) if article_id!='' else (Message.objects.get(id=rep_id) if rep_id!='' else None)
+    # 评论/留言的层级
+    try:
+        new_parent = new_rep_to.parent if new_rep_to.parent else new_rep_to
+    except AttributeError:
+        new_parent = None
+    # 文章评论或者为留言板留言
+    print('↓'*20)
+    print('user',user)
+    print('rep_id',rep_id)
+    print('new_rep_to',new_rep_to)
+    print('new_parent',new_parent)
+    print('article_id',article_id )
+    print('↑'*20)
+    new_message = (ArticleComment(author=user, content=new_content, belong=the_article, parent=new_parent, rep_to=new_rep_to)) if article_id!='' else (Message(author=user, content=new_content, parent=new_parent, rep_to=new_rep_to))
+    new_message.save()
+    
+    new_point = '#mes-' + str(new_message.id)
+    return JsonResponse({'msg': '评论提交成功！', 'new_point': new_point})
+    
+@login_required
+@require_POST
+def DelcommentView(request):
+    if not request.is_ajax():return JsonResponse({'msg': '评论失败！'})
+    data = request.POST
+    user = request.user
+    mes_id = data.get('mes_id', None)
+    article_id = data.get('article_id', None)
+    message = get_object_or_404(ArticleComment, author=user, belong=article_id, pk=mes_id) if article_id!=None else get_object_or_404(Message, author=user, pk=mes_id)
+    message.delete()
+    return JsonResponse({'msg': 'delete success'})
 
 @login_required
 def NotificationView(request, is_read=None):
@@ -88,28 +93,26 @@ def NotificationView(request, is_read=None):
 @login_required
 @require_POST
 def mark_to_read(request):
-    '''将一个消息标记为已读'''
-    if request.is_ajax():
-        data = request.POST
-        user = request.user
-        id = data.get('id')
-        info = get_object_or_404(Notification, get_p=user, id=id)
-        info.mark_to_read()
-        return JsonResponse({'msg': 'mark success'})
-    return JsonResponse({'msg': 'miss'})
+    """编辑文章评论消息已读"""
+    if not request.is_ajax():return JsonResponse({'msg': '标记失败！'})
+    data = request.POST
+    user = request.user
+    notification_id = data.get('id')
+    info = get_object_or_404(Notification, get_p=user, id=id)
+    info.mark_to_read()
+    return JsonResponse({'msg': 'mark success'})
 
 
 @require_POST
 def mark_to_delete(request):
-    '''将一个成员删除'''
-    if request.is_ajax():
-        data = request.POST
-        contacts = request.user
-        member = data.get('id')
-        info = get_object_or_404(Notification, contacts_p=contacts, member_p=member)
-        info.delete()
-        return JsonResponse({'msg': 'delete success'})
-    return JsonResponse({'msg': 'miss'})
+    """删除文章评论消息通知"""
+    if not request.is_ajax():return JsonResponse({'msg': '删除失败！'})
+    data = request.POST
+    user = request.user
+    notification_id = data.get('id')
+    info = get_object_or_404(Notification, get_p=user, id=notification_id)
+    info.delete()
+    return JsonResponse({'msg': 'delete success'})
 
 
 class MessageView(generic.ListView):

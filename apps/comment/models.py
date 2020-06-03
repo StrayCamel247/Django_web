@@ -11,8 +11,7 @@ class Comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='%(class)s_related', verbose_name='评论人',null=False, default='2')
     create_date = models.DateTimeField('创建时间', auto_now_add=True)
     content = MDTextField('评论内容')
-    parent = models.ForeignKey('self', verbose_name='父评论',on_delete=models.CASCADE, related_name='%(class)s_child_comments', blank=True,
-                               null=True)
+    parent = models.ForeignKey('self', verbose_name='父评论',on_delete=models.CASCADE, related_name='%(class)s_child_comments', blank=True, null=True)
     rep_to = models.ForeignKey('self', verbose_name='回复',on_delete=models.CASCADE, related_name='%(class)s_rep_comments', blank=True, null=True)
 
     class Meta:
@@ -37,7 +36,7 @@ class Comment(models.Model):
 # 留言板
 class Message(Comment):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='related', verbose_name='评论人',null=False, default='2')
-    parent = models.ForeignKey('self', verbose_name='父评论',on_delete=models.CASCADE, related_name='child_messages', blank=True,
+    parent = models.ForeignKey('self', verbose_name='父评论',on_delete=models.CASCADE, related_name='child_messages', blank=True, default=None, 
                                null=True)
 
     rep_to = models.ForeignKey('self', verbose_name='回复',on_delete=models.CASCADE, related_name='rep_messages', blank=True, null=True)

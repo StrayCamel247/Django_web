@@ -28,7 +28,7 @@
                                 href="{{ each.comment.belong.get_absolute_url }}#com-{{ each.comment.id }}">
                                 {{ each.comment.belong.title }}</a>&nbsp;中@了你，并评论道：
                         </h2>
-                        <p>{{ each.comment.content|truncatechars:130 }}</p>
+                        <p>{{ each.comment.content_to_markdown|truncatechars:130|safe }}</p>
                         {% if not each.is_read %}
                         <div class="to_read pb-1">
                             <button class="btn btn-success float-right rounded-0 f-16" data-id="{{ each.id }}"

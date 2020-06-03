@@ -16,7 +16,7 @@
                     {% for message in leaved_messages  %}
                     <li>
                         {% if user == message.author %}
-                        <div id="mes-{{message.id}}" class="msg-sent msg-container">
+                        <div  id="mes-{{message.id}}" class="msg-sent msg-container">
                         {% else %}
                         <div id="mes-{{message.id}}" class="msg-received msg-container">
                         {% endif %}
@@ -33,8 +33,18 @@
                                         {% else %}
                                         <small class="text-info">[作者]</small>
                                         {% endif %}{{message.author}}
+                                        {% if user == message.author %}
+                                        {% recall_com message as recall_check %}
+                                        {% if recall_check %}
+                                        <a id="del-message" class="mr-2 float-left" data-csrf="{{ csrf_token }}"
+                                        data-ajax-url="{% url 'comment:del_comment' %}" data-mes-id="{{ message.id }}">撤回</a>
+                                        {% endif %}
+                                        <a class="mr-2 rep-btn float-left"  href="#message-meditor"
+                           data-repid="{{ message.id }}" data-repuser="{{ message.author.username }}">回复</a>
+                                        {% else %}
                                         <a class="mr-2 rep-btn float-right"  href="#message-meditor"
                            data-repid="{{ message.id }}" data-repuser="{{ message.author.username }}">回复</a>
+                                        {% endif %}
                                     </div>
                                     <div class="meg">
                                         {{ message.content_to_markdown|safe}}

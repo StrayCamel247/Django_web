@@ -1,11 +1,16 @@
 # 创建了新的tags标签文件后必须重启服务器
 
 from django import template
+from django.utils import timezone
 from ..models import Message
-
 register = template.Library()
 
-
+@register.simple_tag
+def recall_com(mes):
+    """判断message创建日期是否为一天前"""
+    time = timezone.localtime(timezone.now())
+    return max((time - mes.create_date).days, 1)
+    
 @register.simple_tag
 def get_comment_count(entry):
     '''获取一个文章的评论总数'''

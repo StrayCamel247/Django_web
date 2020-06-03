@@ -3,7 +3,7 @@ $(function() {
 	$(".rep-btn").click(function(){
 	    var u = $(this).data('repuser')
 	    var i = $(this).data('repid')
-        sessionStorage.setItem('rep_id',i);
+        sessionStorage.setItem('rep_id', i);
 	    $("#rep-to").text("回复 @"+u).removeClass('hidden');
         $("#no-rep").removeClass('hidden');
 		$(".rep-btn").css("color", "#868e96");
@@ -74,8 +74,37 @@ $(function() {
             }
         });
     });
-    
-    //    提交留言后定位到新留言处
+//    点击撤回评论
+    $("#del-message").click(function(e) {
+        console.log('撤回')
+        var csrf = $(this).data('csrf');
+        var URL = $(this).data('ajax-url');
+        var mes_id = $(this).data('mes-id');
+        var article_id = $(this).data('article-id');
+        $.ajaxSetup({
+            data: {
+                'csrfmiddlewaretoken': csrf
+            }
+        });
+        $.ajax({
+            type: 'post',
+            url: URL,
+            data: {
+                'mes_id': mes_id,
+                'article_id': article_id
+            },
+
+            dataType: 'json',
+            success: function(ret) {
+                window.location.reload();
+                window.location.hash = "#mdeditor";
+            },
+            error: function(ret) {
+                alert(ret.msg);
+            }
+        });
+    });
+//    提交留言后定位到新留言处
     if (sessionStorage.getItem('new_point')) {
         console.log(sessionStorage.getItem('new_point'))
         // $('body,html').animate({scrollTop: $(sessionStorage.getItem('new_point')).offset().top}, 500);
