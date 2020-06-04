@@ -96,8 +96,9 @@ $(function() {
 
             dataType: 'json',
             success: function(ret) {
-                window.location.reload();
-                window.location.hash = "#mdeditor";
+                $('html, body').animate({
+                    scrollTop: $("#mdeditor").offset().top - 55
+                }, 500);
             },
             error: function(ret) {
                 alert(ret.msg);

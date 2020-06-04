@@ -1,5 +1,6 @@
 {% load static %}
 {% load comment_tags oauth_tags %}
+{% get_parent_comments article as comment_list %}
 <div class="card-body p-2 p-md-3 f-17" id="comment-list">
     <ul class="list-unstyled">
         <div class="mb-3">

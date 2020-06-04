@@ -69,6 +69,9 @@
         if ((nxtLink.is('ul')) && (!nxtLink.is(':visible'))) {
             $('#freen-main-menu').find('.freen-menu-ul > li > ul:visible').slideUp(300);
             nxtLink.slideDown(300);
+            $('html, body').animate({
+                scrollTop: $($.attr(this, 'href')).offset().top - 55
+            }, 500);
             $('#freen-main-menu').find('.freen-menu-ul > li:has(ul) > a').removeClass("freen-menu-up").addClass("freen-menu-down");
             $(this).addClass("freen-menu-up");
         }
@@ -78,7 +81,11 @@
             return true;
         }
     });
-    
+    $('#freen-main-menu').find(".freen-menu-ul > li > ul > li > a").on('click', function () {
+        $('html, body').animate({
+            scrollTop: $($.attr(this, 'href')).offset().top - 55
+        }, 500);
+    });
     /* MOBILE MENU */
     $("#freen-menu-toggle").on('click', function () {
         $("#freen-social-cell,#freen-main-menu").toggle();

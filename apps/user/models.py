@@ -5,6 +5,7 @@ from imagekit.processors import ResizeToFill
 from django.conf import settings
 from django.shortcuts import reverse
 from uuslug import slugify
+import random
 # 通讯录   category/contacts
 class Contacts(models.Model):
     name = models.CharField('通讯录', max_length=20)
@@ -47,7 +48,7 @@ class Ouser(AbstractUser):
     # 扩展用户头像字段
     avatar = ProcessedImageField(
         upload_to='avatar/%Y%m%d',
-        default='avatar/default.png',
+        default='avatar/default/default ({}).jpg'.format(random.randint(0, 134)),
         verbose_name='头像',
         processors=[ResizeToFill(80, 80)],
         blank=True
