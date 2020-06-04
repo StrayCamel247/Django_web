@@ -13,6 +13,13 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 from datetime import datetime
 import os
 import sys
+# 注册网站所需要的密码
+try:
+    from .passwords import *
+except :
+    print('↓'*20)
+    print('网站所需要的密码请重新定义')
+    print('↑'*20)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -167,24 +174,24 @@ AUTHOR_TITLE = 'rookie'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'django_blog',
-#         'USER': 'postgres',
-#         'PASSWORD': 'xxx',
-#         'HOST': '118.25.20.46',
-#         'PORT': '5432'
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'django_blog',
+        'USER': 'postgres',
+        'PASSWORD': POSTGRESQL_PD,
+        'HOST': '118.25.20.46',
+        'PORT': '5432'
+    }
+}
 
 # Email setting
 # SMTP服务器，我使用的是sendclound的服务
@@ -194,7 +201,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.outlook.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'aboyinsky@outlook.com'
-EMAIL_HOST_PASSWORD = 'xxx'
+EMAIL_HOST_PASSWORD = EMAIL_PD
 DEFAULT_FROM_EMAIL = 'aboyinsky@outlook.com'
 
 

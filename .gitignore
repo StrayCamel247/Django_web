@@ -40,3 +40,5 @@ tmp/*
 !**/*.md
 # 不上传pyton manage.py compress 运行后生成的css文件
 static/CACHE
+# 不上传网站需要的邮箱、数据库密码
+django_blog/passwords.py
