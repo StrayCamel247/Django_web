@@ -50,23 +50,22 @@
 
 1. 使用 markdown 语言来编写文章（basic）
     - [markdown基本语法](https://boywithacoin.cn/article/markdownji-ben-yu-fa/)
-2. 克隆 clone 项目后让项目在服务器运行（basic）
+    
+2. 项目运行（basic）
     > 大家有问题可以在[网站评论](https://boywithacoin.cn/)或者[github issue](https://github.com/Freen247/django_blog/issues)戳我!
 	
-    - [Nginx + Gunicorn 服务器配置 Django](https://boywithacoin.cn/article/nginx-gunicorn-fu-wu-qi-pei-zhi-django/)，服务器可使用`nohup bash gunicorn_start.sh`挂在后台运行。
+    - 让项目在服务器运行，参考文章：[Nginx + Gunicorn 服务器配置 Django](https://boywithacoin.cn/article/nginx-gunicorn-fu-wu-qi-pei-zhi-django/)，服务器可使用`nohup bash gunicorn_start.sh`挂在后台运行。
 
     - 本地环境运行项目：
-    ```
-    pip install -r requirements.txt
-    python manage.py makemigrations
-    python manage.py migrate
-    python manage.py compress
-    python manage.py runserver
-    ```
-    欢迎提issue
+        - 安装pip需求包`pip install -r requirements.txt`
+        - 构建项目所需要的数据空，默认链接数据库为本地db.sqlite3文件，连接信息更改请在django_blog/settings.py文件中进行更改
+        - 链接新的数据库或者更换数据库需要运行`python manage.py makemigrations & python manage.py migrate`
+        - 集合项目依赖包中的静态文件：`python manage.py collectstatic`
+        - 压缩文件:`python manage.py compress`
+        - 有问题欢迎到我网站留言和提issue
 
 3. 利用django开发网站日志
-    >类似于开发手册/教程，希望可以一起来contribute，支持更多的功能或框架！
+    >类似于开发手册/教程，希望可以一起来contribute！
     - [网站开发日志/教程](https://boywithacoin.cn/timeline)
     
 4. 依赖包
@@ -103,5 +102,5 @@
     - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`django_blog\whoosh_index`文件夹中的所有文件。
 
 ## 🐒网站实际效果预览
-![Python](https://boywithacoin.cn/static/media/editor/TIM%E5%9B%BE%E7%89%872020010122455_20200101225818752500.png)
+![Python](./template.png)
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article,  Keyword, FriendLink, Timeline
+from .models import Article,  Keyword, FriendLink, Timeline, Category
 
 
 @admin.register(Timeline)
@@ -75,6 +75,10 @@ admin.site.site_title = '博客后台管理'
 
 @admin.register(Keyword)
 class KeywordAdmin(admin.ModelAdmin):
+    list_display = ('name', 'id')
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'id')
 
 

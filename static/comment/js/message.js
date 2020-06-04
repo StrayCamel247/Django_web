@@ -96,6 +96,7 @@ $(function() {
 
             dataType: 'json',
             success: function(ret) {
+                window.location.reload();
                 $('html, body').animate({
                     scrollTop: $("#mdeditor").offset().top - 55
                 }, 500);

@@ -7,6 +7,14 @@
     <meta name="keywords"  content="{{ SITE_KEYWORDS}}" />
 {% endblock %}
 {% block content %}
+<div class="text-secondary font-weight-bold py-2 f-15 choice">
+    <a class="pb-2 ml-4 " href="u/">
+        <i class="fa fa-bars mr-1"></i>最近更新</a>
+    <a class="pb-2 ml-4 " href="c/">
+        <i class="fa fa-bars mr-1"></i>最早创建</a>
+    <a class="pb-2 ml-4 " href="hot/">
+        <i class="fa fa-fire mr-1"></i>热度最高</a>
+</div>
 <!-- 置顶POST -->
 {% for article in articles %}
 {% if article.is_top %}

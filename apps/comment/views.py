@@ -60,7 +60,7 @@ def AddcommentView(request):
     # 文章评论或者为留言板留言
     new_message = (ArticleComment(author=user, content=new_content, belong=Article.objects.get(id=article_id), parent=new_parent, rep_to=new_rep_to)) if article_id!='' else (Message(author=user, content=new_content, parent=new_parent, rep_to=new_rep_to))
     new_message.save()
-    
+
     new_point = '#mes-' + str(new_message.id)
     return JsonResponse({'msg': '评论提交成功！', 'new_point': new_point})
     

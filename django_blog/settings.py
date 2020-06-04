@@ -42,7 +42,7 @@ if DEBUG:
 else:
     DEBUG_PROPAGATE_EXCEPTIONS = True
 
-ALLOWED_HOSTS = ['boywithacoin.cn', '127.0.0.1', 'www.boywithacoin.cn']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 SYSTEM_HOST = '127.0.0.1'
 # Application definition
@@ -169,7 +169,6 @@ AUTHOR_TITLE = 'rookie'
 # SMTP服务器，我使用的是sendclound的服务
 # 是否使用了SSL 或者TLS
 #EMAIL_USE_SSL = True
-#EMAIL_USE_TLS = True
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.outlook.com'
 EMAIL_PORT = 587
@@ -184,7 +183,7 @@ LOGIN_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_REQUIRED = True
 # 注册中邮件验证方法:“强制（mandatory）”,“可选（optional）【默认】”或“否（none）”之一。
 # 开启邮箱验证的话，如果邮箱配置不可用会报错，所以默认关闭，根据需要自行开启
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "optional"
 # 作用于第三方账号的注册
 # SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional' | 'mandatory' | 'none'
 # 邮件发送后的冷却时间(以秒为单位)
@@ -332,7 +331,5 @@ PAGINATION_SETTINGS = {
     'SHOW_FIRST_PAGE_WHEN_INVALID': False,  # 当请求了不存在页，显示第一页
 }
 
-# 服务器域名
-DOMAIN_NAME = 'http://boywithacoin.cn'
 # 网站上线时常
 ONLINE_TIME_DAYS = (datetime.now() - datetime(2018, 1, 1)).days

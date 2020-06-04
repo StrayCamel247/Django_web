@@ -280,7 +280,7 @@ class default_upload(UploadView):
                     file.write(chunk)
         res = HttpResponse(json.dumps({'success': 1,
                                        'message': "上传成功！",
-                                       'url': '{0}{1}{2}/{3}/{4}'.format(settings.DOMAIN_NAME, settings.MEDIA_URL,
+                                       'url': '{0}{1}{2}/{3}/{4}'.format('http://'+request.get_host(), settings.MEDIA_URL,
                                                                          'mdeditor/uploads', '{0:%Y%m%d}'.format(
                                            datetime.datetime.now()),
                                            file_full_name)}))
