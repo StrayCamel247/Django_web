@@ -196,66 +196,6 @@ class Article(models.Model):
         # 将中文title变成拼音。
         self.slug = slugify(self.title)
         
-        # 将之前存在'/static/media/editor/'的图片迁移到'/static/media/article/others/'中
-        self.body = self.body.replace('/static/media/article/', '/static/media/mdeditor/article/')
-        # 保存外链图片链接到本地服务器并返回
-        img_urls = re.findall(r'\]\((.+?)\)',self.body)
-        import requests
-        import json
-        from PIL import Image
-        import sys
-        import os
-        import pickle
-        from django.core.files.uploadedfile import InMemoryUploadedFile
-        import multiprocessing
-        from concurrent.futures import (ALL_COMPLETED, ThreadPoolExecutor,
-                                        as_completed, wait)
-
-        def is_valid(file):
-            valid = True
-            try:
-                Image.open(file).load()
-            except OSError as e:
-                valid = False
-            return valid
-
-        def replace_img(url):
-            
-            admin_upload_url = "http://127.0.0.1:8000/tool/admin_upload/"
-            payload = {'q': ''}
-            headers = {}
-            try:
-                r = requests.get(url, stream=True)
-                path = './{}.png'.format(url.split('.')[2].replace('/', 'url'))
-                if r.status_code == 200:
-                    with open(path, 'wb') as file:
-                        file.write(r.content)
-                if is_valid(path):
-                    files = [
-                        ('editormd-image-file', open(path, 'rb'))
-                    ]
-                    try:
-                        res = requests.request(
-                            "POST", admin_upload_url, headers=headers, data=payload, files=files)
-                        print(admin_upload_url, res)
-                    except Exception as e:
-                        print(111, e)
-                    new_url = json.loads(
-                        res.text.encode('utf8')).get('url', '')
-                    self.body = self.body.replace(url, new_url)
-                os.remove(path)
-            except Exception as e:
-                pass
-
-        # 引入多线程处理文章中的外链图片
-        with ThreadPoolExecutor(int(multiprocessing.cpu_count()//(1-0.9))) as executor:
-            pool = [executor.submit(replace_img, (_))
-                              for _ in set([_ for _ in img_urls if settings.DOMAIN_NAME not in _])]
-            
-            
-
-            
-
         #在添加文章时手动选择是否添加到开发日志
         if(self.is_addtimeline):
             try:

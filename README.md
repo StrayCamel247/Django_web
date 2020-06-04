@@ -50,11 +50,13 @@
 
 1. 使用 markdown 语言来编写文章（basic）
     - [markdown基本语法](https://boywithacoin.cn/article/markdownji-ben-yu-fa/)
-    
+
 2. 项目运行（basic）
     > 大家有问题可以在[网站评论](https://boywithacoin.cn/)或者[github issue](https://github.com/Freen247/django_blog/issues)戳我!
 	
-    - 让项目在服务器运行，参考文章：[Nginx + Gunicorn 服务器配置 Django](https://boywithacoin.cn/article/nginx-gunicorn-fu-wu-qi-pei-zhi-django/)，服务器可使用`nohup bash gunicorn_start.sh`挂在后台运行。
+    - 让项目在服务器运行，参考文章：[Nginx + Gunicorn 服务器配置 Django](https://boywithacoin.cn/article/nginx-gunicorn-fu-wu-qi-pei-zhi-django/)
+    - 服务器可使用`nohup bash gunicorn_start.sh`挂在后台运行。
+    - 一键清除正在后台运行的django_blog项目，使用命令`bash kill_pid.sh`。
 
     - 本地环境运行项目：
         - 安装pip需求包`pip install -r requirements.txt`

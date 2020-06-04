@@ -3,7 +3,7 @@
 {% block top_file %}
     <style type="text/css">
         #message-meditor {
-            z-index: 100;
+            z-index: 9999;
         }
     </style>
 {% endblock %}
@@ -76,6 +76,17 @@
             // htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
             // //toolbar  : false,             //关闭工具栏
             // //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+            toolbarIcons : function() {
+                // Or return editormd.toolbarModes[name]; // full, simple, mini
+                // Using "||" set icons align right.
+                return ["undo", "redo", "|", "bold", "del", "italic", "ucwords", "uppercase", "lowercase", "hr", "|", "link", "reference-link", "table", "datetime", "emoji", "html-entities", "pagebreak", "goto-line", "|", "preview", "watch", "help", "info"]
+            },
+            disabledKeyMaps : [
+                "F11", "F10"  // disable some default keyboard shortcuts handle
+            ],
+            toolbarIconsClass : {
+            testIcon : "fa-gears"  // 指定一个FontAawsome的图标类
+        },
             emoji : true,
             taskList : true,
             tocm            : false,         // Using [TOCM]

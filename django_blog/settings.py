@@ -165,6 +165,27 @@ AUTHOR_DESC = 'early to bed, early to rise.'
 AUTHOR_EMAIL = 'aboyinsky@outlook.com'
 AUTHOR_TITLE = 'rookie'
 
+# Database
+# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'django_blog',
+#         'USER': 'postgres',
+#         'PASSWORD': 'xxx',
+#         'HOST': '118.25.20.46',
+#         'PORT': '5432'
+#     }
+# }
+
 # Email setting
 # SMTP服务器，我使用的是sendclound的服务
 # 是否使用了SSL 或者TLS
@@ -243,28 +264,6 @@ TEMPLATES = [
 # 当出现"SocialApp matching query does not exist"，这种报错的时候就需要更换这个ID
 SITE_ID = 1
 WSGI_APPLICATION = 'django_blog.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'django_blog',
-#         'USER': 'postgres',
-#         'PASSWORD': 'xxx',
-#         'HOST': '118.25.20.46',
-#         'PORT': '5432'
-#     }
-# }
 
 
 # Password validation
