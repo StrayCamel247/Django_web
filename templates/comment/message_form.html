@@ -1,0 +1,110 @@
+{% load static %}
+{% if user.is_authenticated %}
+{% block top_file %}
+    <style type="text/css">
+        #message-meditor {
+            z-index: 100;
+        }
+    </style>
+{% endblock %}
+<link href="{% static 'mdeditor/css/editormd.min.css' %}" rel="stylesheet" type="text/css">
+<div class="send-mgs">
+    <div id="message-meditor" class="yourmsg">        
+                <textarea id="mdeditor" class="form-control rounded-0" id="md_contain" placeholder="评论请使用 markdown 语法..." rows="5">评论请使用 markdown 语法...</textarea>
+    </div>
+    <div style="overflow: hidden;">
+    <button type="button" class="fa fa-paper-plane-o btn btn-info btn-lg float-right f-16"
+            id="push-message" data-csrf="{{ csrf_token }}"  data-article-id="{{ article.id }}"
+            data-ajax-url="{% url 'comment:add_comment' %}"></button>
+            
+    <button type="button" class="fa fa-reply btn btn-danger btn-lg float-right mr-4 f-16 hidden" id="no-rep"></button>
+
+    <span class='float-left text-info ml-0 hidden' id='rep-to'></span>
+
+
+    </div>
+</div>
+{% else %}
+<div class="text-center m-2 m-md-3 f-16" id="no-editor">
+    <div>您尚未登录，请
+        <a class="text-danger" href="/accounts/login">登录</a> 或
+        <a class="text-danger" href="/accounts/signup">注册</a> 后评论
+    </div>
+    <div class="login-link mt-2">
+        <a class="mx-3" href="/accounts/github/login/?next={{ request.path }}" title="社交账号登录有点慢，请耐心等候！"><i
+                class="fa fa-github fa-2x"></i></a>
+    </div>
+</div>
+{% endif %}
+{% block end_file %}
+<!-- 基础文件 -->
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="{% static 'comment/js/message.js' %}"></script>
+<script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>
+<script src="{% static 'mdeditor/js/lib/raphael.min.js' %}"></script>
+<!-- 绘制序列图 -->
+<script src="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
+<!-- 绘制流程图 -->
+<script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
+<script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
+<!-- <script src="{% static 'mdeditor/js/lib/underscore.min.js' %}"></script> -->
+<!-- <script src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script> -->
+<!-- <script src="{% static 'mdeditor/js/lib/prettify.min.js' %}"></script> -->
+<script type="text/javascript">
+    var testEditor;
+    $(function() {    
+        testEditor = editormd("message-meditor", {
+            width     : "90%",
+            path : "{% static 'mdeditor/js/lib/' %}",
+            height    : 240,
+            toc       : false,
+            // //atLink    : false,    // disable @link
+            // //emailLink : false,    // disable email address auto link
+            syncScrolling       : 'single',
+            todoList  : true,
+            // theme : "dark",
+            // previewTheme : "dark",
+            // editorTheme : "pastel-on-dark",
+            // markdown : md,
+            codeFold : true,
+            // //syncScrolling : false,
+            saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+            searchReplace : true,
+            // 开启工具栏固定定位
+            toolbarAutoFixed: false,
+            watch : false,                // 关闭实时预览
+            // htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
+            // //toolbar  : false,             //关闭工具栏
+            // //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+            emoji : true,
+            taskList : true,
+            tocm            : false,         // Using [TOCM]
+            tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+            flowChart : true,             // 开启流程图支持，默认关闭
+            sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+            imageUpload : true,
+            imageUploadURL: "/tool/default_upload/", //图片上传后台地址
+            onload: function() {
+                    // 界面重定位
+                    var pot = window.location.hash;
+                    if (pot){
+                        // 重定位到界面href中的#后id值
+                        console.log('重定位到',pot)
+                        $('body,html').animate({scrollTop: $(pot).offset().top-100}, 500);
+                    }
+                    else{
+                        // 重定位到界面顶端
+                        $('body,html').animate({scrollTop: $("body").offset().top-100}, 1);
+                    }
+                    // window.location.hash = pot
+                    // 引入插件 执行监听方法
+                    editormd.loadPlugin("{% static 'mdeditor/js/plugins/image-handle-paste/image-handle-paste' %}", function(){
+                        testEditor.imagePaste();
+                    });
+                }
+            });
+
+        
+    });
+</script>
+{% endblock %}

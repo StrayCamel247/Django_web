@@ -1,0 +1,15 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_title %}
+游戏世界 | 娃哈哈'店长'的个人博客
+{% endblock %}
+
+{% block mdeditor_contain %}
+	<title>贪吃蛇</title>
+	<canvas id="canvas" width="400" height="400"></canvas>
+{% endblock %}    
+{% block end_file %}
+	<script language="javascript" src="{% static 'game/snake.js' %}"></script>
+{% endblock %}
