@@ -1,0 +1,75 @@
+{% load static %}
+{% load comment_tags oauth_tags %}
+{% get_parent_comments article as comment_list %}
+<div class="card-body p-2 p-md-3 f-17" id="comment-list">
+    <ul class="list-unstyled">
+        <div class="mb-3">
+            <strong>{% get_comment_user_count article %}&nbsp;人参与&nbsp;|&nbsp;{% get_comment_count article %}&nbsp;条评论</strong>
+        </div>
+        {% for comment in comment_list %}
+        <div class="comment-parent pt-2" id="com-{{ comment.id }}">
+            <li class="media">
+                {% if comment.author.socialaccount_set.exists and comment.author.avatar.url == '/media/avatar/default.png' %}
+            <img class="avatar" src="{{ comment.author.socialaccount_set.all.0.get_avatar_url }}" alt="{{ comment.author }}">
+            {% else %}
+            <img class="avatar" src="{{ comment.author.avatar.url }}" alt="{{ comment.author }}">
+            {% endif %}
+                <div class="media-body ml-2">
+                    {% recall_com comment as recall_check %}
+                    {% if recall_check and user == comment.author %}
+                    
+                    <button type="button" class="del-message mr-2 float-right" data-csrf="{{ csrf_token }}"
+                    data-ajax-url="{% url 'comment:del_comment' %}" data-mes-id="{{ comment.id }}"data-mes-id="{{ each.id }}" data-article-id="{{ article.id }}">撤回</button>
+                    {% endif %}
+                    <a class="mr-2 rep-btn float-right"  href="#message-meditor"
+                           data-repid="{{ comment.id }}" data-repuser="{{ comment.author.username }}">回复</a>
+                    <p class="mt-0 mb-1">
+                        <strong>{{ comment.author }}</strong>
+                        {% if comment.author.is_superuser %}
+                        <small class="text-danger">[博主]</small>
+                        {% endif %}
+                    </p>
+                    <p class="small text-muted">{{ forloop.counter }}楼&nbsp;-&nbsp;{{ comment.create_date }}</p>
+                </div>
+            </li>
+            <div class="comment-body">{{ comment.content_to_markdown|safe }}</div>
+        </div>
+        {% get_child_comments comment as child_comments %}
+        {% if child_comments %}
+        <ul class="list-unstyled ml-4">
+            {% for each in child_comments %}
+            <div class="comment-child pt-2" id="com-{{ each.id }}" >
+                <li class="media">
+                    {% if each.author.socialaccount_set.exists and each.author.avatar.url == '/media/avatar/default.png' %}
+            <img class="avatar" src="{{ each.author.socialaccount_set.all.0.get_avatar_url }}" alt="{{ each.author }}">
+            {% else %}
+            <img class="avatar" src="{{ each.author.avatar.url }}" alt="{{ each.author }}">
+            {% endif %}
+                    <div class="media-body ml-2">
+                        {% recall_com each as recall_check %}
+                        {% if recall_check and user == each.author %}
+                        <button type="button" class="del-message mr-2 float-right" data-csrf="{{ csrf_token }}"
+                        data-ajax-url="{% url 'comment:del_comment' %}" data-mes-id="{{ each.id }}" data-article-id="{{ article.id }}">撤回</button>
+                        {% endif %}
+                        <a class="mr-2 rep-btn float-right"  href="#message-meditor"
+                           data-repid="{{ each.id }}" data-repuser="{{ each.author.username }}">回复</a>
+                        <p class="mt-0 mb-1"><strong>{{ each.author }}</strong>
+                            {% if each.author.is_superuser %}
+                            <small class="text-danger">[博主]</small>
+                            {% endif %}
+                            <i class="fa fa-share"></i>
+                            @{{ each.rep_to.author.username }}
+                        </p>
+                        <p class="small text-muted">{{ each.create_date }}</p>
+                    </div>
+                </li>
+                <div class="comment-body">{{ each.content_to_markdown|safe }}</div>
+            </div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% empty %}
+        暂时没有评论，欢迎来尬聊！
+        {% endfor %}
+    </ul>
+</div>
