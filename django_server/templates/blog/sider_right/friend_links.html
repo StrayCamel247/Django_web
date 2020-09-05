@@ -1,0 +1,31 @@
+{% load blog_tags %}
+
+<div class="freen-post-list-wrapper freen-widget">
+    <div class="freen-widget-body">
+    <div class="freen-post-list">
+        <h5 class="freen-title-with-border"><span><i class="fa fa-link mr-2 f-17" aria-hidden="true"></i>&nbsp;|友情链接</span></h5>
+
+        {% get_friends as friends %}
+        {% if friends %}
+        {% for friend in friends %}
+        <div class="freen-post-list">
+            <div class="freen-post-list-left ">
+                <a href="{{ friend.link }}">
+                    <img src="{{ friend.logo }}" alt="">
+                </a>
+            </div>
+            <div class="freen-post-list-right">
+                <p class="freen-post-list-title">
+                    <h6 href="{{ friend.link }}">{{ friend.name }}</h6>
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        &nbsp;&nbsp;暂无友链，欢迎来战
+        {% endif %}
+        
+    </div>
+    <p><a href="mailto:aboysintky@outlook.com">📧-<strong>Mail</strong></a></p>
+                <p><a href="javascript:void(0);" data-toggle="modal" data-target="#wechat"><i class="fa fa-wechat pr-1"></i>-<strong>Wechat</strong></a></p>
+</div>
