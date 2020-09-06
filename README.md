@@ -17,7 +17,6 @@
 
 - [x] App（api）：使用restful framework集成本网站的接口，对外开放，使用RESTful API框架，api主界面在`/api/v1/`
     - [x] 集合用户、博客、工具信息的api。
-    - [x] **个人不是很喜欢用这个框架来搭建接口，所以在各个app其他app下的view.py文件中自定义开发了get/post接口。**
 
 - [x] App（blog）：网站博客系统，basic 功能和界面展示、博客系统的文章分类（categories）、关键词（keywords）、浏览量统计以及规范的 SEO 设置。
     - [x] 文章的curd，展示文章、评论。
@@ -25,8 +24,6 @@
 - [x] App（user）用户认证系统，在 Django 自带的用户系统的基础上扩展 Oauth 认证，支持微博、Github 等第三方认证
     - [x] 邮箱注册登陆。
     - [x] 支持GitHub登陆，但还无法获取github用户头像。
-    - [ ] 支持qq/wechat登陆。
-    - [ ] 界面完善。
 
 - [x] App（comment）评论系统，炫酷的输入框特效，支持 markdown 语法，二级评论结构和回复功能
     - [x] 网站评论功能，评论信息增删改查
@@ -42,20 +39,14 @@
     - [x] 友链测试工具
     - [x] 编辑文章可以粘贴图片上传, admin链接后台编辑和前端编辑界面上传路由不一样，具体文件在`tool/views.py`
 
-
-- [ ] App（model）可视化算法模型
-    - [ ] 开发中...
  
 ## 🐾网站开发日志（How to contribute this webproject？）
 > 欢迎大家一起和我contribute，扩展更多的功能。
 
-1. 使用 markdown 语言来编写文章（basic）
-    - [markdown基本语法](https://boywithacoin.cn/article/markdownji-ben-yu-fa/)
-
-2. 项目运行（basic）
-    > 大家有问题可以在[网站评论](https://boywithacoin.cn/)或者[github issue](https://github.com/Freen247/django_blog/issues)戳我!
+1. 项目运行（basic）
+    > 大家有问题可以在[github issue](https://github.com/Freen247/django_blog/issues)戳我!
 	
-    - 让项目在服务器运行，参考文章：[Nginx + Gunicorn 服务器配置 Django](https://boywithacoin.cn/article/nginx-gunicorn-fu-wu-qi-pei-zhi-django/)
+    - 让项目在服务器运行，参考文章：[Nginx + Gunicorn 服务器配置 Django](https://leetcode-cn.com/circle/article/6DA7GA/)
     - 服务器可使用`nohup bash gunicorn_start.sh`挂在后台运行。
     - 一键清除正在后台运行的django_blog项目，使用命令`bash kill_pid.sh`
 
@@ -67,13 +58,8 @@
         - 集合项目依赖包中的静态文件：`python manage.py collectstatic`
         - 压缩文件:`python manage.py compress`
         - 有问题欢迎到我网站留言和提issue
-
-3. 利用django开发网站日志
-    >类似于开发手册/教程，希望可以一起来contribute！
-    - [网站开发日志/教程](https://boywithacoin.cn/timeline)
-    
-4. 依赖包
-    - model_requirements.txt为本地跑模型需要使用的依赖包
+        
+2. 依赖包
     - requirements.txt为项目运行的依赖包
 
 ## 🌲源码分支管理：
