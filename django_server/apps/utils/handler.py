@@ -7,6 +7,8 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 import time
 import os
+import re
+import requests
 
 
 class ImageStorage(FileSystemStorage):
@@ -29,3 +31,4 @@ class ImageStorage(FileSystemStorage):
         name = os.path.join(d, fn+ext)
         # 调用父类方法
         return super(ImageStorage, self)._save(name, content)
+

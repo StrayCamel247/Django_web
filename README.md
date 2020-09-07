@@ -1,4 +1,4 @@
-📚 Django 开发的个人网站
+📚 Django 可视化项目
 
 🐒 coders：[🐫Stray_camel](https://github.com/Freen247)
 
@@ -105,6 +105,4 @@
 - 数据库迁移/项目运行bug：`ValueError : unsupported pickle protocol: 5`
     - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`django_blog\whoosh_index`文件夹中的所有文件。
 
-## 🐒网站实际效果预览
-![Python](./template.png)
 
