@@ -10,6 +10,10 @@ import os
 import re
 import requests
 
+import sys
+import logging
+import datetime
+
 
 class ImageStorage(FileSystemStorage):
     def __init__(self, location=settings.MEDIA_ROOT, base_url=settings.MEDIA_URL):
@@ -32,3 +36,14 @@ class ImageStorage(FileSystemStorage):
         # 调用父类方法
         return super(ImageStorage, self)._save(name, content)
 
+
+# 打印时间的装饰器
+def logging_time(func):
+    def wrapper(*args, **kwargs):
+        start = datetime.datetime.now()
+        print("this function <", func.__name__, ">is running")
+        res = func(*args, **kwargs)
+        print("this function <", func.__name__,
+              "> takes time：", datetime.datetime.now()-start)
+        return res
+    return wrapper
