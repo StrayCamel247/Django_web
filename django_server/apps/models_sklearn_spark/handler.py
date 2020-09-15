@@ -1,4 +1,8 @@
-
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# __author__ : stray_camel
+# __description__ : s
+# __date__: 2020/09/15 17
 
 from concurrent.futures import ThreadPoolExecutor, ALL_COMPLETED, wait
 import multiprocessing
@@ -8,8 +12,9 @@ try:
 except:
     pass
 # 线程池
-from matrix_factorization.handlers import mf_svds
-
+from apps.models_sklearn_spark.Matrix_factorization.handlers import mf_svds
+def get_ml_1m_zip(params=None):
+    return 1
 def mf_svds_handler(params=None):
     #k:'分解矩阵的大小为k*k'
     k = params.get('k')
@@ -24,5 +29,3 @@ def hello_word_handler(params=None):
     }
     return res
 
-if __name__ == "__main__":
-    mf_svds(20)

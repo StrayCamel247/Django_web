@@ -5,7 +5,7 @@
 
 from django.conf.urls import url
 from .views import hello_word_view
-app_name = 'models'
+app_name = 'models_sklearn_spark'
 urlpatterns = [
     url(r'^hello_word/$', hello_word_view.as_view(), name='hello_word'),
 ]

@@ -28,6 +28,8 @@ class hello_word_view(generic.View):
         res = HelloWordResult(content=content)
         return res
     
-    def get(self, request, *args, **kwargs):
+    def get(self ,request, *args, **kwargs):
         return some_streaming_csv_view()
 
+class DIEN4CTR(generic.View):
+    pass

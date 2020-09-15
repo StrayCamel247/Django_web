@@ -1,9 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # __author__ : stray_camel
+# __description__ : DIEN论文复现
+# __date__: 2020/09/15 16
+import csv
+from apps.data.handlers import META_ELECTRONICS, REVIEWS_ELECTRONICS_5, TMP_PATH
+from apps.constants import MAX_CPUS
+from concurrent.futures import (ALL_COMPLETED, ThreadPoolExecutor,
+                                as_completed, wait)
+import pandas as pd
+import numpy as np
+import pickle
+
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# __author__ : stray_camel
 # __date__: 2020/06/16 15:54:37
 
-import csv
 from openpyxl import Workbook
 import io
 from django.http import HttpResponse, StreamingHttpResponse, FileResponse
@@ -52,3 +65,19 @@ def some_streaming_csv_view(params=None):
                                      content_type="text/csv")
     response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
     return response
+
+
+def get_amazon_data(params):
+    # with open(REVIEWS_ELECTRONICS_5, 'r') as fin:
+    #     df = {}
+    #     i = 0
+    # with ThreadPoolExecutor(MAX_CPUS) as executor:
+    #     for line in fin:
+    #         df[i] = eval(line)
+    #         i += 1
+    # df = pd.DataFrame.from_dict(df, orient='index')
+    # return df
+
+    df = pd.read_json(REVIEWS_ELECTRONICS_5, orient='values', encoding='utf-8')
+    with open(TMP_PATH, 'wb') as f:
+        pickle.dump(df, f, pickle.HIGHEST_PROTOCOL)
