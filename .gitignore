@@ -12,10 +12,11 @@ logs/*.log
 **/migrations/*
 !**/migrations/__init__.py
 # 不上传数据集，将数据集都打包成zip再上传
-**/data/BX-CSV-Dump/*
-!**/data/BX-CSV-Dump/*.MD
-**/data/ml-1m/*
-!**/data/ml-1m/*.MD
+**/*.zip
+**/*.gz
+**/*.dat
+**/*.csv
+**/*.json
 # python环境
 env/
 # 索引文件
@@ -42,3 +43,4 @@ tmp/*
 **/static/CACHE
 # 不上传网站需要的邮箱、数据库密码
 **/passwords.py
+!**/*.MD
