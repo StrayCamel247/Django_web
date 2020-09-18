@@ -11,16 +11,37 @@ from concurrent.futures import (ALL_COMPLETED, ThreadPoolExecutor,
 import pandas as pd
 import numpy as np
 import pickle
-
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# __author__ : stray_camel
-# __date__: 2020/06/16 15:54:37
-
 from openpyxl import Workbook
 import io
-from django.http import HttpResponse, StreamingHttpResponse, FileResponse
+from apps.api_exception import Fail, ParameterException
+import os
 
+def pre_data(params=None):
+    params = {'meta': META_ELECTRONICS,
+              'reviews': REVIEWS_ELECTRONICS_5}
+    file_pathes = params.get('files')
+    def json2df(file_path):
+        with open(file_path, 'r') as fin:
+            df = {}
+            i = 0
+            for line in fin:
+                df[i] = eval(line)
+                i += 1
+            df = pd.DataFrame.from_dict(df, orient='index')
+            return df
+    
+    reviews_df = json2df(params.get('reviews'))
+    with open(os.path.join(TMP_PATH, 'reviews.p'), 'wb') as f:
+        pickle.dump(reviews_df, f, pickle.HIGHEST_PROTOCOL)
+    
+    
+    meta_df = json2df(params.get('meta'))
+    meta_df = meta_df[meta_df['asin'].isin(reviews_df['asin'].unique())]
+    meta_df = meta_df.reset_index(drop=True)
+    with open(os.path.join(TMP_PATH, 'meta.p'), 'wb') as f:
+        pickle.dump(meta_df, f, pickle.HIGHEST_PROTOCOL)
+
+    
 
 def hello_word_handler(params=None):
     res = {

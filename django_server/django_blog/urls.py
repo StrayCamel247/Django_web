@@ -25,12 +25,17 @@ from django.contrib import admin
 # 网站地图
 from django.contrib.sitemaps.views import sitemap
 from apps.index.views import ArticleSitemap, CategorySitemap
+from apps.api_exception import exception_process,_handler404,_handler500
+import copy
+# handler400 = exception_process
+# handler403 = exception_process
+handler404 = _handler404
+handler500 = _handler500
 # 网站地图
 sitemaps = {
     'articles': ArticleSitemap,
     'categories': CategorySitemap
 }
-
 urlpatterns = [
     # admin
     path('admin/', admin.site.urls),

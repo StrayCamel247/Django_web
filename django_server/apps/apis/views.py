@@ -9,17 +9,58 @@ from apps.blog.models import Article, Category
 # from apps.tool.models import ToolLink
 from rest_framework import viewsets
 from rest_framework import permissions
-from .serializers import UserSerializer, GroupSerializer, ArticleSerializer, CategorySerializer,PostHaystackSerializer
+from .serializers import UserSerializer, GroupSerializer, ArticleSerializer, CategorySerializer, PostHaystackSerializer
 from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
 from .handler import IsAdminUserOrReadOnly
 from drf_haystack.viewsets import HaystackViewSet
 from rest_framework.throttling import AnonRateThrottle
+
+from rest_framework.views import APIView, status
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
+
+
+import logging
+logger=logging.getLogger('apps')
+class APIResponse(Response):
+    def __init__(self, data_status, data_msg, results=None,
+                 status=None, headers=None, content_type=None, *args, **kwargs):
+        data = {
+            'code': data_status,
+            'msg': data_msg
+        }
+        if results is not None:
+            data['results'] = results
+
+        data.update(kwargs)
+        super().__init__(data=data, status=status,
+                         headers=headers, content_type=content_type)
+
+
+class MockResponse(Response):
+    def __init__(self,  data,
+                 status=None, headers=None, content_type=None, *args, **kwargs):
+        super().__init__(data=data, status=status,
+                         headers=headers, content_type=content_type)
+
+from rest_framework.exceptions import APIException
+class test_apiview(APIView):
+    def get(self, req):
+        a = 1/0
+        # raise APIException('lalalalal')
+        return APIResponse(200, "success", task_id="success", log_id="success", status=status.HTTP_200_OK)
+
+
 class PostSearchAnonRateThrottle(AnonRateThrottle):
     THROTTLE_RATES = {"anon": "5/min"}
+
+
 class ArticleSearchView(HaystackViewSet):
     index_models = [Article]
     serializer_class = PostHaystackSerializer
     throttle_classes = [PostSearchAnonRateThrottle]
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """

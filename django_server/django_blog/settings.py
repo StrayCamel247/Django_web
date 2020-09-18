@@ -13,16 +13,22 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 from datetime import datetime
 import os
 import sys
+import logging
+
+import django.utils.log
+
+import logging.handlers
 # 注册网站所需要的密码
 try:
     from apps.passwords import EMAIL_PD, POSTGRESQL_PD
-except :
+except:
     print('↓'*20)
     print('网站所需要的密码请重新定义')
     print('↑'*20)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REACT_CLIENT_DIR = os.path.join(os.path.dirname(BASE_DIR), 'react_client', 'build')
+REACT_CLIENT_DIR = os.path.join(
+    os.path.dirname(BASE_DIR), 'react_client', 'build')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -34,20 +40,20 @@ SECRET_KEY = '1ek)3z+-*)(&1c&3fv=2*=lr_cyGst85w&a4y#5!2m*ik@=&!p0'
 
 # 自由选择需要开启的功能
 # 是否开始[在线工具]应用
-TOOL_FLAG = True
-# 是否开启[API]应用
-API_FLAG = False
+# TOOL_FLAG = True
+# # 是否开启[API]应用
+# API_FLAG = False
 # DEBUG模式是否开始的选择
 # 值为0：所有平台关闭DEBUG,值为1:所有平台开启DEBUG,值为其他：根据平台类型判断开启（默认设置的Windows下才开启）
-DEBUG = True
-# 默认状态 COMPRESS_ENABLED=False，因为生产环境 DEBUG=False
-# 只有在生产环境才有压缩静态资源的需求
-# 如果是开发环境就主动开启压缩功能、开启手动压缩功能
-if DEBUG:
-    COMPRESS_ENABLED = True  # 开启压缩功能
-    COMPRESS_OFFLINE = True  # 开启手动压缩
-else:
-    DEBUG_PROPAGATE_EXCEPTIONS = True
+# DEBUG = True
+# # 默认状态 COMPRESS_ENABLED=False，因为生产环境 DEBUG=False
+# # 只有在生产环境才有压缩静态资源的需求
+# # 如果是开发环境就主动开启压缩功能、开启手动压缩功能
+# if DEBUG:
+#     COMPRESS_ENABLED = True  # 开启压缩功能
+#     COMPRESS_OFFLINE = True  # 开启手动压缩
+# else:
+#     DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -82,11 +88,14 @@ INSTALLED_APPS = [
     'rest_framework',
     # 分页
     'pure_pagination',
+    # django3 异步
+    'djcelery'
 ]
 
 # 自动添加app
 APPS_FLODER = os.path.join(BASE_DIR, 'apps')
-APPS = [_ for _ in os.listdir(APPS_FLODER) if os.path.isdir(os.path.join(APPS_FLODER, _)) and 'pycache' not in _]
+APPS = [_ for _ in os.listdir(APPS_FLODER) if os.path.isdir(
+    os.path.join(APPS_FLODER, _)) and 'pycache' not in _]
 INSTALLED_APPS += ['apps.'+_ for _ in APPS]
 
 # restframework settings
@@ -104,12 +113,82 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '10/min',
-    # 版本管理
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
-    'DEFAULT_VERSION': 'v1'
-    # 以上两项设置分别全局指定使用的 API 版本管理方式和客户端缺省版本号的情况下默认请求的 API 版本。尽管这些配置项也可以在单个视图或者视图集的范围内指定，但是，统一的版本管理模式更为可取，因此我们在全局配置中指定。
-    }
+        # 版本管理
+        'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+        'DEFAULT_VERSION': 'v1'
+        # 以上两项设置分别全局指定使用的 API 版本管理方式和客户端缺省版本号的情况下默认请求的 API 版本。尽管这些配置项也可以在单个视图或者视图集的范围内指定，但是，统一的版本管理模式更为可取，因此我们在全局配置中指定。
+    },
+
+    # 配置报错路由
+    'EXCEPTION_HANDLER': 'apps.api_exception.exception_process'
 }
+# 日志
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'formatters': {
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[{server_time}] {message}',
+            'style': '{',
+        },
+        'console_format': {
+            'format': '%(color)s[process:%(process)d %(threadName)s-thread:%(thread)d] %(levelname)s:%(asctime)s %(pathname)s:%(lineno)s \n %(message)s \n',
+            # 'style': '{',
+        },
+        'file_format': {
+            'format': '[process:%(process)d-%(threadName)s thread:%(thread)d] %(levelname)s:%(asctime)s %(pathname)s:%(lineno)s \n %(message)s \n',
+            # 'style': '{',
+        }
+    },
+    'handlers': {
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/info_{}.log'.format(datetime.now().date())),
+            'formatter': 'file_format',
+        },
+        'console': {
+            # 'filters': ['require_debug_false'],
+            'level': 'INFO',
+            'class': 'apps.utils.log.handlers.ColorHandler',
+            # 'class': 'logging.StreamHandler',
+            'formatter': 'console_format',
+        },
+    },
+
+    'loggers': {
+        'apps': {
+            # 'handlers': ['file','console'],
+            'handlers': ['file','console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        # 'django': {
+        #     'handlers': ['console', 'mail_admins'],
+        #     'level': 'INFO',
+        # },
+    },
+}
+
 # 如果需要在本地压缩，需要在settings.py中添加 COMPRESS_OFFLINE=True才能执行下边命令手动压缩
 COMPRESS_OFFLINE = True
 # mdeditor
@@ -146,7 +225,7 @@ HAYSTACK_CONNECTIONS = {
         # 选择语言解析器为自己更换的结巴分词
         'ENGINE': 'apps.search.haystack_search_engin.WhooshEngine',
         # 保存索引文件的地址，选择主目录下，这个会自动生成
-        'PATH': os.path.join(APPS_FLODER,'search','whoosh_index'),
+        'PATH': os.path.join(APPS_FLODER, 'search', 'whoosh_index'),
     },
 }
 # 指定什么时候更新索引，这里定义为每当有文章更新时就更新索引。由于博客文章更新不会太频繁，因此实时更新没有问题。
@@ -155,17 +234,17 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 HAYSTACK_CUSTOM_HIGHLIGHTER = 'apps.search.Highlighter'
 
 CACHES = {
-#     "default": {
-            # redis缓存配置
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://127.0.0.1:6379/1",
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#         }
-#     }
+    #     "default": {
+    # redis缓存配置
+    #         "BACKEND": "django_redis.cache.RedisCache",
+    #         "LOCATION": "redis://127.0.0.1:6379/1",
+    #         "OPTIONS": {
+    #             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+    #         }
+    #     }
     'default': {
-            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        }
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
 }
 
 # 登陆成功后的回调路由
@@ -209,19 +288,25 @@ DATABASES = {
 #     }
 # }
 
+# 使用django设置将错误报告发送到指定邮箱
+# 发送邮件尽量使用send_mass_mail:https://docs.djangoproject.com/en/2.1/topics/email/
+ADMINS = (('stray_camel', '1351975058@qq.com'))
 # Email setting
 # SMTP服务器，我使用的是sendclound的服务
-# 是否使用了SSL 或者TLS
+# 邮件是否启用安全协议，与SMTP服务器通信时，是否启动TLS链接(安全链接)。默认是false
 #EMAIL_USE_SSL = True
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.outlook.com'
+# EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'aboyinsky@outlook.com'
 EMAIL_HOST_PASSWORD = EMAIL_PD
 DEFAULT_FROM_EMAIL = 'aboyinsky@outlook.com'
+# 邮件发送后端
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
-# 这里是随便写的一个 也可以是 /accounts/logout/ 测试比较随便
+# 这里是随便写的一个 也可以是 /accounts/logsout/ 测试比较随便
 LOGIN_REDIRECT_URL = '/'
 # 要求用户注册时必须填写email
 ACCOUNT_EMAIL_REQUIRED = True
@@ -358,4 +443,4 @@ PAGINATION_SETTINGS = {
 ONLINE_TIME_DAYS = (datetime.now() - datetime(2018, 1, 1)).days
 
 # django网站国际化
-USE_I18N  = True
+USE_I18N = True

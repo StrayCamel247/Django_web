@@ -12,9 +12,10 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from .handler import hello_word_handler,some_view,some_streaming_csv_view
 from apps.utils.wsme.signature import signature
+from .handler import hello_word_handler, some_view, some_streaming_csv_view, pre_data
 from .types import HelloWordResult, HelloWordBody
+
 
 class hello_word_view(generic.View):
     """ hello_word_view """
@@ -27,9 +28,17 @@ class hello_word_view(generic.View):
         content = hello_word_handler()
         res = HelloWordResult(content=content)
         return res
-    
-    def get(self ,request, *args, **kwargs):
-        return hello_word_handler()
 
-class DIEN4CTR(generic.View):
-    pass
+    @signature(HelloWordResult)
+    def get(self, request, *args, **kwargs):
+        content = hello_word_handler()
+        pre_data()
+        res = HelloWordResult(content=content)
+        return res
+
+
+class DIEN_CTR(generic.View):
+    """《Deep Interest Evolution Network for Click-Through Rate Prediction》论文信息"""
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(hello_word_view, self).dispatch(*args, **kwargs)

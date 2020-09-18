@@ -2,7 +2,7 @@
 from django.urls import path
 from django.conf.urls import url
 from rest_framework import routers
-from .views import UserViewSet, GroupViewSet, ArticleListSet, CategoryListSet,  AllArticleRssFeed,ArticleSearchView
+from .views import UserViewSet, GroupViewSet, ArticleListSet, CategoryListSet,  AllArticleRssFeed,ArticleSearchView, test_apiview
 from django.conf.urls import include
 from apps.index.views import HelloView
 # from apps.search.views import ArticleSearchView
@@ -20,6 +20,7 @@ urlpatterns = [
     # path('rest_framework/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path("v1/", include(router.urls)),
+    url(r"^test/", test_apiview.as_view(), name="RunCase"),  # 执行单个接口下所有用例
 ]
 
 # rss订阅

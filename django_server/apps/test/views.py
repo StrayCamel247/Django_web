@@ -28,6 +28,10 @@ class hello_word_view(generic.View):
         res = HelloWordResult(content=content)
         return res
     
+    @signature(HelloWordResult)
     def get(self, request, *args, **kwargs):
-        return some_streaming_csv_view()
+        # return some_streaming_csv_view()
+        content = hello_word_handler()
+        res = HelloWordResult(content=content)
+        return res
 

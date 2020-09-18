@@ -18,7 +18,7 @@ from apps.utils.wsme import json
 from django.shortcuts import HttpResponse
 import django
 from .handlers import signature as _signature
-log = logging.getLogger(__name__)
+log = logging.getLogger('apps')
 
 
 TYPES = {
@@ -68,29 +68,32 @@ def signature(*args, **kw):
                 request.content_type
             )
             dataformat = get_dataformat(request)
-            if ismethod:
-                args = [self] + list(args)
-            result = f(*args, **kwargs)
-            # NOTE: Support setting of status_code with default 200
-            status_code = funcdef.status_code
-            if isinstance(result, wsme.api.Response):
-                status_code = result.status_code
-                result = result.obj
-            # if hasattr(result, 'code'):
-            #     res = HttpResponse(
-            #         dataformat.encode_result(
-            #             result,
-            #             funcdef.return_type
-            #         ), content_type=dataformat.content_type
-            #     )
-            #     # res.mimetype = dataformat.content_type
-            #     # res.content_type = dataformat.content_type
-            # else:
-            # _code = 
-            res = HttpResponse(dataformat.encode_result(
-                result,
-                funcdef.return_type
-            ), content_type=dataformat.content_type, status=None if hasattr(result, 'code') else status_code)
+            try:
+                if ismethod:
+                    args = [self, request] + list(args)
+                result = f(*args, **kwargs)
+                # NOTE: Support setting of status_code with default 200
+                status_code = funcdef.status_code
+                if isinstance(result, wsme.api.Response):
+                    status_code = result.status_code
+                    result = result.obj
+                # if hasattr(result, 'code'):
+                #     res = HttpResponse(
+                #         dataformat.encode_result(
+                #             result,
+                #             funcdef.return_type
+                #         ), content_type=dataformat.content_type
+                #     )
+                #     # res.mimetype = dataformat.content_type
+                #     # res.content_type = dataformat.content_type
+                # else:
+                # _code = 
+                res = HttpResponse(dataformat.encode_result(
+                    result,
+                    funcdef.return_type
+                ), content_type=dataformat.content_type, status=None if hasattr(result, 'code') else status_code)
+            except Exception:
+                raise
             return res
         wrapper.wsme_func = f
         return wrapper
