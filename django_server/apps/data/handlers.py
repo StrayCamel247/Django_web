@@ -1,3 +1,8 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# __author__ : stray_camel
+# __description__ : 模型运行等数据集存储地方
+# __date__: 2020/09/21 15
 import cherrypy
 import sys
 import time
@@ -6,14 +11,18 @@ import logging
 import pandas as pd
 import os
 current_floder = os.path.dirname(__file__)
+# 模型日志文件夹
+MODELSLOG_PATH = os.path.join(current_floder, 'models_logs')
+# tensorflow checkpoint 文件夹
+CHECKPOINT_PATH = os.path.join(current_floder, 'checkpoint')
 # 缓存数据目录
-TMP_PATH = os.path.join(os.path.dirname(current_floder), 'tmp')
+TMP_PATH = os.path.join(current_floder, 'tmp')
 # ml电影的评分数据集
 ML_1M_RATINGS_FILE = os.path.join(current_floder, 'ml-1m\\ratings.csv')
 # 图书据数据目录
 BX_CSV_DUMP_FLODER = os.path.join(current_floder, 'BX-CSV-Dump')
 # amazon数据集目录
-META_ELECTRONICS = os.path.join(current_floder, 'DIEN\\meta_Electronics.json')
+META_ELECTRONICS = os.path.join(current_floder, 'Amazon\\meta_Electronics.json')
 REVIEWS_ELECTRONICS_5 = os.path.join(
     current_floder, 'Amazon\\reviews_Electronics_5.json')
 logging.basicConfig(level=logging.INFO)

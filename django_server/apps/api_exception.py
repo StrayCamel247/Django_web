@@ -22,10 +22,10 @@ from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework.status import is_client_error, is_server_error
 UNDEFINED_EXCEPTION_CODE = 0x000000FF
-_HANDLER400_CODE = '0x190'
-_HANDLER403_CODE = '0x1903'
-_HANDLER404_CODE = '0x194'
-_HANDLER500_CODE = '0x1f4'
+_HANDLER400_CODE = 0x190
+_HANDLER403_CODE = 0x1903
+_HANDLER404_CODE = 0x194
+_HANDLER500_CODE = 0x1f4
 UNDEFINED_EXCEPTION_MSG = _("System busy")
 log = logging.getLogger('apps')
 
@@ -87,7 +87,7 @@ def _handler404(request=None, exception=None):
             _['tried'] = 'all_modules'
     response.data['debuginfo'] = repr(exception)
     log.error(repr(exception))
-    res.status_code = _HANDLER400_CODE
+    response.data['status_code'] = _HANDLER400_CODE
     return HttpResponseNotFound(json.dumps(response.data), content_type=res.content_type)
 
 
@@ -96,7 +96,7 @@ def _handler500(request=None, exception=None):
     response = exception_process(
         exception=exception, context=None)
     res = get_dataformat(request)
-    res.status_code = _HANDLER500_CODE
+    response.data['status_code']= _HANDLER500_CODE
     return HttpResponseServerError(json.dumps(response.data), content_type=res.content_type)
 
 

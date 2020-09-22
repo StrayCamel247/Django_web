@@ -13,10 +13,10 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from apps.utils.wsme.signature import signature
-from .handler import hello_word_handler, some_view, some_streaming_csv_view, pre_data
+from .handler import hello_word_handler
 from .types import HelloWordResult, HelloWordBody
-
-
+import logging
+from .model import main
 class hello_word_view(generic.View):
     """ hello_word_view """
     @method_decorator(csrf_exempt)
@@ -32,13 +32,41 @@ class hello_word_view(generic.View):
     @signature(HelloWordResult)
     def get(self, request, *args, **kwargs):
         content = hello_word_handler()
-        pre_data()
+        # test = get_pred_data()
+        # a = logging
+        main()
+        res = HelloWordResult(content=content)
+        return res
+ 
+class Amazon_view(generic.View):
+    """ Amazon_view """
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(Amazon_view, self).dispatch(*args, **kwargs)
+
+    @signature(HelloWordResult, body=HelloWordBody)
+    def post(self, request, *args, **kwargs):
+        content = hello_word_handler()
+        res = HelloWordResult(content=content)
+        return res
+
+    @signature(HelloWordResult)
+    def get(self, request, *args, **kwargs):
+        content = hello_word_handler()
+        res = HelloWordResult(content=content)
+        return res
+class DIN_CTR(generic.View):
+    """《Deep Interest Network for Click-Through Rate Predict》论文信息"""
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(hello_word_view, self).dispatch(*args, **kwargs)
+
+    
+    @signature(HelloWordResult)
+    def get(self, request, *args, **kwargs):
+        content = hello_word_handler()
+        main()
         res = HelloWordResult(content=content)
         return res
 
 
-class DIEN_CTR(generic.View):
-    """《Deep Interest Evolution Network for Click-Through Rate Prediction》论文信息"""
-    @method_decorator(csrf_exempt)
-    def dispatch(self, *args, **kwargs):
-        return super(hello_word_view, self).dispatch(*args, **kwargs)
