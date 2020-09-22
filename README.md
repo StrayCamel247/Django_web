@@ -7,17 +7,18 @@
 - email：aboyinsky@outlook.com/wechat：1351975058
 
 ## ✨网站/规划功能/计划（Features/future）-持续更新...
-
 - [x] index: 网站主要系统
     - [x] 规范的 Sitemap 网站地图、友情链接
     - [x] 强大的全文搜索功能，只需要输入关键词就能展现全站与之关联的文章
     - [x] 缓存系统、cdn加速、django（cache）缓存html界面、django-compress 压缩文件
     - [x] 支持RSS订阅`/api/rss/`
+- [x] data_analysis: 使用简单的numpy，pandas复现算法或者模型，并通过接口返回演示
+    - `/data_analysis/compute_apriori/`:[Apriori算法实现](/django_server/apps/data_analysis/models/apriori.py)
 
-- [x] models_sklearn_spark: 机器学习和各种模型算法小demo复现并通过接口返回演示
+- [x] models_sklearn_spark: 机器学习和各种模型算法小demo复现，并通过接口返回演示
     > 开发中...
 
-- [x] models_tensorflow2: tensorflow2 kaggle等比赛的复现，并通过接口返回演示
+- [x] models_tensorflow2: 使用tensorflow2复现论文，比赛等，并通过接口返回演示
     > 开发中...
 
 - [x] api: 使用restful framework集成本网站的接口，对外开放，使用RESTful API框架，api主界面在`/api/v1/`
@@ -60,10 +61,6 @@
         - 集合项目依赖包中的静态文件：`python manage.py collectstatic`
         - 压缩文件:`python manage.py compress`
         - 有问题欢迎到我网站留言和提issue
-
-## 🌲源码分支管理：
-- [webiste_files](https://github.com/Freen247/django_blog/tree/website_files)：当前目录为网站前端样式的初始化文件。利用框架有bootstrap，fontawsome。
-
 
 ## 🙃常见安装项目 bug
 - `ImportError: PILKit was unable to import the Python Imaging Library. Please confirm it`s installe...`

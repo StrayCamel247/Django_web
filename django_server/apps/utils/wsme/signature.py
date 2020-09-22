@@ -17,7 +17,7 @@ from apps.utils.wsme import json
 
 from django.shortcuts import HttpResponse
 import django
-from .handlers import signature as _signature
+from .handler import signature as _signature
 log = logging.getLogger('apps')
 
 
@@ -52,7 +52,7 @@ def signature(*args, **kw):
         ismethod = args and args[0] == 'self'
         sig(f)
         funcdef = wsme.api.FunctionDefinition.get(f)
-        funcdef.resolve_types(wsme.types.registry)
+        # funcdef.resolve_types(wsme.types.registry)
 
         @functools.wraps(f)
         def wrapper(*args, **kwargs):
@@ -67,6 +67,9 @@ def signature(*args, **kw):
                 request.body,
                 request.content_type
             )
+            
+            # if funcdef.pass_request:
+            #     kwargs[funcdef.pass_request] = flask.request
             dataformat = get_dataformat(request)
             try:
                 if ismethod:

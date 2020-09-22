@@ -16,7 +16,7 @@ from apps.utils.wsme.signature import signature
 from .handler import hello_word_handler
 from .types import HelloWordResult, HelloWordBody
 import logging
-from .model import main
+# from .model import main
 class hello_word_view(generic.View):
     """ hello_word_view """
     @method_decorator(csrf_exempt)
@@ -34,7 +34,7 @@ class hello_word_view(generic.View):
         content = hello_word_handler()
         # test = get_pred_data()
         # a = logging
-        main()
+        # main()
         res = HelloWordResult(content=content)
         return res
  

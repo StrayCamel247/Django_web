@@ -12,7 +12,7 @@ try:
 except:
     pass
 # 线程池
-from apps.models_sklearn_spark.Matrix_factorization.handlers import mf_svds
+from apps.models_sklearn_spark.Matrix_factorization.handler import mf_svds
 def get_ml_1m_zip(params=None):
     return 1
 def mf_svds_handler(params=None):

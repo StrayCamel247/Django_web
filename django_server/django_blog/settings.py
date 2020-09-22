@@ -141,11 +141,11 @@ LOGGING = {
             'style': '{',
         },
         'console_format': {
-            'format': '%(color)s[process:%(process)d %(threadName)s-thread:%(thread)d] %(levelname)s:%(asctime)s %(pathname)s:%(lineno)s \n %(message)s \n',
+            'format': '%(color)s:%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n[process:%(process)d %(threadName)s-thread:%(thread)d]\n%(message)s\n',
             # 'style': '{',
         },
         'file_format': {
-            'format': '[process:%(process)d-%(threadName)s thread:%(thread)d] %(levelname)s:%(asctime)s %(pathname)s:%(lineno)s \n %(message)s \n',
+            'format': '%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n[process:%(process)d %(threadName)s-thread:%(thread)d]\n%(message)s\n',
             # 'style': '{',
         }
     },
@@ -169,7 +169,7 @@ LOGGING = {
         'console': {
             # 'filters': ['require_debug_false'],
             'level': 'INFO',
-            'class': 'apps.utils.log.handlers.ColorHandler',
+            'class': 'apps.utils.log.handler.ColorHandler',
             # 'class': 'logging.StreamHandler',
             'formatter': 'console_format',
         },
@@ -182,10 +182,11 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False,
         },
-        # 'django': {
-        #     'handlers': ['console', 'mail_admins'],
-        #     'level': 'INFO',
-        # },
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
     },
 }
 

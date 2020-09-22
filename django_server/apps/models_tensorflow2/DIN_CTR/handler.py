@@ -17,7 +17,7 @@ from openpyxl import Workbook
 
 from apps.api_exception import Fail, ParameterException
 from apps.constants import MAX_CPUS
-from apps.data.handlers import (META_ELECTRONICS, REVIEWS_ELECTRONICS_5,
+from apps.data.handler import (META_ELECTRONICS, REVIEWS_ELECTRONICS_5,
                                 TMP_PATH)
 
 def build_map(df:"reviews_df / meta_df", col_name:"列名")->(dict, list):

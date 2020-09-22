@@ -5,7 +5,7 @@
 # __date__: 2020/09/09 09
 
 try:
-    from apps.data.handlers import get_ml_1m_ratings_df
+    from apps.data.handler import get_ml_1m_ratings_df
 except:
     pass
 from math import sqrt
@@ -18,7 +18,7 @@ import numpy as np
 import pandas as pd
 from functools import lru_cache
 # sys.path.append(os.path.dirname(os.path.abspath('./')))
-# from apps.models_sklearn_spark.Matrix_factorization.handlers import ratings_df
+# from apps.models_sklearn_spark.Matrix_factorization.handler import ratings_df
 # apps_floder = os.path.dirname(os.path.dirname(__file__))
 # ratings_file = os.path.join(apps_floder, 'data\\ml-1m\\ratings.csv')
 # ratings_df = pd.read_csv(ratings_file, sep=',', engine='python')

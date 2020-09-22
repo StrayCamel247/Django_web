@@ -52,8 +52,9 @@ def _exception_handler(exc, debug=True):
 
         log.error('Undefined error: "%s". detail: \n%s' % (
             detail, debuginfo))
-        send_mail(detail, debuginfo, settings.DEFAULT_FROM_EMAIL,
-                  ['aboyinsky@outlook.com'])
+        # TODO:待开发，异步发送邮件
+        # send_mail(detail, debuginfo, settings.DEFAULT_FROM_EMAIL,
+        #           ['aboyinsky@outlook.com'])
         r = dict(status_code=UNDEFINED_EXCEPTION_CODE,
                  detail=six.text_type(UNDEFINED_EXCEPTION_MSG))
         if debug:

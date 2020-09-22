@@ -3,7 +3,7 @@
 # __author__ : stray_camel
 # __description__ : Deep interest network for click-through rate prediction
 # __date__: 2020/09/21 14
-from apps.data.handlers import CHECKPOINT_PATH, MODELSLOG_PATH
+from apps.data.handler import CHECKPOINT_PATH, MODELSLOG_PATH
 from apps.models_tensorflow2.DIN_CTR.handler import get_building_dataset
 import tensorflow as tf
 import numpy as np
@@ -11,7 +11,7 @@ import datetime
 import os
 import pickle
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-from apps.data.handlers import TMP_PATH
+from apps.data.handler import TMP_PATH
 
 
 def input_data(dataset, max_sl):
