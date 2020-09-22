@@ -12,6 +12,12 @@
     - [x] 强大的全文搜索功能，只需要输入关键词就能展现全站与之关联的文章
     - [x] 缓存系统、cdn加速、django（cache）缓存html界面、django-compress 压缩文件
     - [x] 支持RSS订阅`/api/rss/`
+
+- [x] utils: 网站系统功能
+    - [x] [创建网站数据类型，用于数据校验](django_server\apps\types.py)
+    - [x] [自定义signature装饰器，应用于view模板，校验接口传参](django_server\apps\utils\wsme\signature.py)
+    - [x] [自定义彩色日志系统，构建方法打印日志装饰器](django_server\apps\utils\log\handler.py)
+
 - [x] data_analysis: 使用简单的numpy，pandas复现算法或者模型，并通过接口返回演示
     - `/data_analysis/compute_apriori/`:[Apriori算法实现](/django_server/apps/data_analysis/models/apriori.py)
 
