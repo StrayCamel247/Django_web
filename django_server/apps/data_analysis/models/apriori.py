@@ -67,6 +67,7 @@ def aprioriGen(Lk, k):
 
 def apriori(params):
     """Apriori 算法是一种最有影响力的挖掘布尔关联规则的频繁项集的 算法,它使用一种称作逐层搜索的迭代方法，k- 项集用于探索（k+1）- 项集。首先，找出频繁 1- 项集的集合。该集合记作L1。L1 用于找频繁2- 项集的集合 L2，而L2 用于找L2，如此下去，直到不能找到 k- 项集。"""
+    print('123123')
     dataSet, minSupport, max_k = params.get(
         'data'), params.get('minSupport'), params.get('max_k')
     C1 = createC1(dataSet)  # 从事务集中获取候选1项集

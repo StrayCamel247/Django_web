@@ -4,8 +4,10 @@
 # __description__ : FP树生成频繁项集
 # __REFERENCES__ : [https://www.cnblogs.com/lsqin/p/9342926.html]
 # __date__: 2020/09/22 10
+from typing import Dict
 from apps.utils.log.handler import function_logging
-
+import logging
+log = logging.getLogger('apps')
 
 def loadSimpDat():
     """生成数据集"""
@@ -37,9 +39,15 @@ class treeNode:
     def count_add(self, count):
         self.count += count
 
+    def set_tree_infos(self, ind=1):
+        infos = {'第{n}层'.format(n=ind):'name为：{name}，出现{count}次'.format(name=self.name, count=self.count)}
+        for child in self.childrens.values():
+            infos = dict(infos, **child.set_tree_infos(ind=ind+1))
+        return infos
+
     def __str__(self, ind=1):
         for child in self.childrens.values():
-            print(child.__str__(ind + 1))
+           print(child.__str__(ind + 1))
         return '第{n}层：，name为：{name}，出现{count}次'.format(n=ind, name=self.name, count=self.count)
 
 
@@ -67,7 +75,7 @@ def updateTree(items, inTree, headerTable, count):
         updateTree(items[1::], inTree.childrens[items[0]], headerTable, count)
 
 
-def createTree(dataSet, minSpport=1):
+def createTree(dataSet, minSupport=1):
     """创建FP树。dataSet为事务集，为一个字典，键为每个事物，值为该事物出现的次数。minSup为最低支持度"""
     # 第一次遍历数据集，创建头指针表
     headerTable = {}
@@ -76,7 +84,7 @@ def createTree(dataSet, minSpport=1):
             headerTable[item] = headerTable.get(item, 0) + dataSet[trans]
     # 移除不满足最小支持度的元素项
     headerTable = dict(
-        filter(lambda i: i[1] >= minSpport, headerTable.items()))
+        filter(lambda i: i[1] >= minSupport, headerTable.items()))
     # 空元素集，返回空
     if not headerTable:
         return None, None
@@ -118,7 +126,7 @@ def findPrefixPath(basePat, treeNode):
     return condPats
 
 
-def mineTree(inTree, headerTable, minSpport: "最小支持度", preFix: "在函数中用于保存当前前缀" = set(), freqItemList: "用来储存生成的频繁项集" = []):
+def mineTree(inTree, headerTable, minSupport: "最小支持度", preFix: "在函数中用于保存当前前缀" = set(), freqItemList: "用来储存生成的频繁项集" = [], trees_info:'装填tree的所有信息'=[]):
     # 对频繁项按出现的数量进行排序进行排序
     # 返回重新排序的列表。每个元素是一个元组，[（key,[num,treeNode],()）
     sorted_headerTable = sorted(headerTable.items(), key=lambda p: p[1][0])
@@ -128,18 +136,19 @@ def mineTree(inTree, headerTable, minSpport: "最小支持度", preFix: "在函�
     for basePat in bigL:
         newFreqSet = preFix.copy()  # 新的频繁项集
         newFreqSet.add(basePat)     # 当前前缀添加一个新元素
-        freqItemList.append(newFreqSet)  # 所有的频繁项集列表
+        freqItemList.append(list(newFreqSet))  # 所有的频繁项集列表
         # 获取条件模式基。就是basePat元素的所有前缀路径。它像一个新的事务集
         condPattBases = findPrefixPath(basePat, headerTable[basePat][1])
-        myCondTree, myHead = createTree(condPattBases, minSpport)  # 创建条件FP树
+        myCondTree, myHead = createTree(condPattBases, minSupport)  # 创建条件FP树
         if myHead != None:
             # 用于测试
-            print('conditional tree for:', newFreqSet)
+            info = {'conditional tree for':str(newFreqSet)}
+            current_tree_info = dict(info, **myCondTree.set_tree_infos())
+            trees_info.append(current_tree_info)
+            print(str(info))
             print(myCondTree)
-            # 递归查找频繁项集
-            mineTree(myCondTree, myHead, minSpport,
-                     newFreqSet, freqItemList)
-
+            mineTree(myCondTree, myHead, minSupport,
+                     newFreqSet, freqItemList,trees_info=trees_info)
 
 @function_logging
 def ft_growth(params):
@@ -148,18 +157,17 @@ def ft_growth(params):
     根据事务集获取FP树和频繁项。
     遍历频繁项，生成每个频繁项的条件FP树和条件FP树的频繁项
     这样每个频繁项与他条件FP树的频繁项都构成了频繁项集"""
-    minSpport = 3
-    simpDat = loadSimpDat()  # 加载数据集
+    minSupport, simpDat = params.get('minSupport'), params.get('simpDat')
+    # minSupport = 3
+    # simpDat = loadSimpDat()  # 加载数据集
     initSet = createInitSet(simpDat)  # 转化为符合格式的事务集
-    myFPtree, myHeaderTab = createTree(initSet, minSpport)  # 形成FP树
+    myFPtree, myHeaderTab = createTree(initSet, minSupport)  # 形成FP树
     # myFPtree.__str__()  # 打印树
     freqItems = []  # 用于存储频繁项集
+    trees_info = []
     # trees = 'input':{
-    mineTree(myFPtree, myHeaderTab, minSpport, set([]), freqItems)  # 获取频繁项集
-    res = {'data': simpDat, 'minSpport': minSpport,
-           'description': ft_growth.__doc__, 'freqItems': freqItems}
+    mineTree(myFPtree, myHeaderTab, minSupport, set([]), freqItems,trees_info=trees_info)  # 获取频繁项集
+    res = {'data': simpDat, 'minSupport': minSupport,
+           'description': ft_growth.__doc__, 'freqItems': freqItems, 'trees_infos':trees_info}
     return res
 
-
-if __name__ == '__main__':
-    pass

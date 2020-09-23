@@ -12,7 +12,7 @@ from django_blog.settings import MEDIA_ROOT
 import markdown
 from markdown.extensions.toc import TocExtension
 import emoji, re, time, string, os
-from apps.utils.handler import ImageStorage
+from apps.utils.core.handler import ImageStorage
 
 
 # slider_right_table

@@ -12,13 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 from datetime import datetime
 import os
-import sys
-import logging
+from apps.utils.handler import get_local_host_ip
 
-import django.utils.log
-
-import logging.handlers
-# 注册网站所需要的密码
 try:
     from apps.passwords import EMAIL_PD, POSTGRESQL_PD
 except:
@@ -55,9 +50,9 @@ SECRET_KEY = '1ek)3z+-*)(&1c&3fv=2*=lr_cyGst85w&a4y#5!2m*ik@=&!p0'
 # else:
 #     DEBUG_PROPAGATE_EXCEPTIONS = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
-SYSTEM_HOST = '127.0.0.1'
+SYSTEM_HOST = get_local_host_ip()
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -141,7 +136,7 @@ LOGGING = {
             'style': '{',
         },
         'console_format': {
-            'format': '%(color)s:%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n[process:%(process)d %(threadName)s-thread:%(thread)d]\n%(message)s\n',
+            'format': '%(color)s\n%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n[process:%(process)d %(threadName)s-thread:%(thread)d]\n%(message)s\n',
             # 'style': '{',
         },
         'file_format': {
@@ -235,17 +230,17 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 HAYSTACK_CUSTOM_HIGHLIGHTER = 'apps.search.Highlighter'
 
 CACHES = {
-    #     "default": {
+        "default": {
     # redis缓存配置
-    #         "BACKEND": "django_redis.cache.RedisCache",
-    #         "LOCATION": "redis://127.0.0.1:6379/1",
-    #         "OPTIONS": {
-    #             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-    #         }
-    #     }
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    }
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "redis://{redis_ip}:{port}/1".format(redis_ip=SYSTEM_HOST, port='6379'),
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            }
+        }
+    # 'default': {
+    #     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    # }
 }
 
 # 登陆成功后的回调路由
