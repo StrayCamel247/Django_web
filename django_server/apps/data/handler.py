@@ -11,6 +11,8 @@ import logging
 import pandas as pd
 import os
 current_floder = os.path.dirname(__file__)
+# (模型) 媒体存放文件夹
+MEDIA_PATH = os.path.join(os.path.dirname(os.path.dirname(current_floder)), 'media/models/')
 # 模型日志文件夹
 MODELSLOG_PATH = os.path.join(current_floder, 'models_logs')
 # tensorflow checkpoint 文件夹
@@ -111,3 +113,5 @@ def get_ml_1m_ratings_df():
     ratings_df = pd.read_csv(ML_1M_RATINGS_FILE, sep=',', engine='python')
     return ratings_df
 
+if __name__ == "__main__":
+    print(MEDIA_PATH)
