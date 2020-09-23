@@ -30,8 +30,6 @@ def createC1(dataSet):
 
 # 找出候选集中的频繁项集
 # dataSet为全部数据集，Ck为大小为k（包含k个元素）的候选项集，minSupport为设定的最小支持度
-
-
 def scanD(dataSet, Ck, minSupport):
     """retList为在Ck中找出的频繁项集（支持度大于minSupport的），supportData记录各频繁项集的支持度"""
     ssCnt = {}   # 记录每个候选项的个数
@@ -73,7 +71,7 @@ def apriori(params):
         'data'), params.get('minSupport'), params.get('max_k')
     C1 = createC1(dataSet)  # 从事务集中获取候选1项集
     D = list(map(set, dataSet))  # 将事务集的每个元素转化为集合
-    L1, supportData = scanD(D, C1, minSupport)  # 获取频繁1项集和对应的支持度
+    L1, supportData = scanD(D, C1, minSupport)   # 获取频繁1项集和对应的支持度
     L = [L1]  # L用来存储所有的频繁项集
     k = max_k
     while (len(L[k-max_k]) > 0):  # 一直迭代到项集数目过大而在事务集中不存在这种n项集
@@ -85,7 +83,10 @@ def apriori(params):
 
     # 将L中的frozenset转化为字符串
     def _(x): return ''.join(map(str, x))
-    res_data = [''.join(sorted(map(_, i))) for i in L if i]
+    res_data = [sorted(map(_, i)) for i in L if i]
     res = {'origin_data': dataSet, 'supportData': supportData,
-           'description': apriori.__doc__, 'res_data': res_data, 'minSupport': minSupport}
+           'description': apriori.__doc__, 'res_data': res_data, 'minSupport': minSupport, 'max_(k)items':max_k}
     return res
+
+if __name__ == "__main__":
+    data = loadDataSet()

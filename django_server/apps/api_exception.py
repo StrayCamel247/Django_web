@@ -5,21 +5,19 @@
 
 from apps.utils.wsme.signature import get_dataformat
 import json
-from django.http.response import HttpResponseNotFound, HttpResponseServerError, HttpResponseForbidden
+from django.http.response import HttpResponseNotFound, HttpResponseServerError, HttpResponseForbidden,HttpResponseNotAllowed
 from functools import lru_cache
 import logging
-import inspect
 import sys
-import os
 import six
 import traceback
 from django.utils.translation import ugettext as _
-import inspect
 from rest_framework.exceptions import APIException
 from rest_framework.views import exception_handler, set_rollback
 from rest_framework.response import Response
 from django.core.mail import send_mail
 from django.conf import settings
+# F:\Envs\env\Lib\site-packages\rest_framework\status.py
 from rest_framework.status import is_client_error, is_server_error
 UNDEFINED_EXCEPTION_CODE = 0x000000FF
 _HANDLER400_CODE = 0x190
@@ -92,6 +90,7 @@ def _handler404(request=None, exception=None):
     return HttpResponseNotFound(json.dumps(response.data), content_type=res.content_type)
 
 
+    
 def _handler500(request=None, exception=None):
     exception = sys.exc_info()
     response = exception_process(

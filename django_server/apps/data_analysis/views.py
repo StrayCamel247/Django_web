@@ -14,8 +14,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from apps.utils.wsme.signature import signature
 from .types import HelloWordResult, HelloWordBody,ComputeAprioriBody
-from .models.apriori import apriori,loadDataSet
+from .models.apriori import apriori
+from apps.utils.decorators.http import require_http_methods,require_GET,require_POST
 
+
+@require_POST
 @signature(HelloWordResult, body=ComputeAprioriBody)
 def compute_apriori_view(body):
     params = {

@@ -100,6 +100,8 @@ INSTALLED_APPS += ['apps.'+_ for _ in APPS]
 
 # restframework settings
 REST_FRAMEWORK = {
+    # 配置报错路由
+    'EXCEPTION_HANDLER': 'apps.api_exception.exception_process',
     # 'DEFAULT_PERMISSION_CLASSES': (
     #     'rest_framework.permissions.AllowAny',
     # ),
@@ -119,8 +121,6 @@ REST_FRAMEWORK = {
         # 以上两项设置分别全局指定使用的 API 版本管理方式和客户端缺省版本号的情况下默认请求的 API 版本。尽管这些配置项也可以在单个视图或者视图集的范围内指定，但是，统一的版本管理模式更为可取，因此我们在全局配置中指定。
     },
 
-    # 配置报错路由
-    'EXCEPTION_HANDLER': 'apps.api_exception.exception_process'
 }
 # 日志
 LOGGING = {
@@ -183,7 +183,7 @@ LOGGING = {
             'propagate': False,
         },
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': False,
         },

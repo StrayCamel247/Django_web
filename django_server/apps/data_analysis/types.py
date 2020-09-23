@@ -13,7 +13,7 @@ import numpy as np
 from .models.apriori import loadDataSet
 # {"data":dataSet, "minSupport":0.7, "max_k":2}
 class ComputeAprioriBody(wtypes.Base):
-    minSupport = wsme.wsattr(int, default=0.3)
+    minSupport = wsme.wsattr(float, default=0.3)
     max_k = wsme.wsattr(int, default=2)
     data = wsme.wsattr(_types.jsontype, mandatory=True)
     def validate(self):
@@ -29,7 +29,7 @@ class ComputeAprioriBody(wtypes.Base):
         return self
 
 class HelloWordResult(wtypes.Base):
-    status_code = wsme.wsattr(int, default=0)
+    status_code = wsme.wsattr(int, default=200)
     content = _types.jsontype
     detail = wsme.wsattr(wtypes.text, default=str(_('success')))
 
