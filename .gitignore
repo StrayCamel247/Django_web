@@ -1,0 +1,48 @@
+# 不上传tmp文件夹及所有的文件
+test.*
+.idea/
+.ipynb_checkpoints/
+.vscode/
+logs/*.log
+# python缓存文件
+**/__pycache__
+# 我也不知道是啥的文件
+**/.DS_Store
+*.p
+**/migrations/*
+!**/migrations/__init__.py
+# 不上传数据集，将数据集都打包成zip再上传
+**/*.zip
+**/*.gz
+**/*.dat
+**/*.csv
+**/*.json
+# python环境
+env/
+# 索引文件
+**/whoosh_index/*.seg
+**/whoosh_index/*.toc
+# 不上传admin静态文件
+**/static/admin
+# 不上传rest_framework静态文件
+**/static/rest_framework
+# 不上传网站的静态资源，用户头像，但是保留默认头像文件
+media/avatar/*
+!media/avatar/default
+!media/avatar/logo.png
+# 不上传网站的静态资源，文章图片
+**/media/mdeditor/article
+**/media/mdeditor/uploads
+!media/mdeditor/**/*.MD
+# 不上传网站的静态资源，缓存文件
+**/media/CACHE
+# 不上传tmp缓存pickle文件
+tmp/*
+# 不上传pyton manage.py compress 运行后生成的css文件
+**/static/CACHE
+# 不上传网站需要的邮箱、数据库密码
+**/passwords.py
+!**/*.MD
+**/models_logs/**
+**/*.sqlite3
+!**/*.md

@@ -1,0 +1,25 @@
+{% load blog_tags %}
+<div class="freen-post-list-wrapper freen-widget">
+    <div class="freen-widget-body">
+        <h5 class="freen-title-with-border"><span><i class="fa fa-fire mr-1" aria-hidden="true"></i>&nbsp;|热门</span></h5>
+    
+    {% get_article_list '-views' 4 as pop_article %}
+    {% for pop in pop_article %}
+    <div class="freen-post-list">
+        <div class="freen-post-list-left">
+            <a href="/article{{ pop.slug }}">
+                <img src="{{ pop.img.url }}" alt="。">
+            </a>
+        </div>
+        <div class="freen-post-list-right">
+            <p class="freen-post-list-title">
+                <a href="/article/{{ pop.slug }}">{{ pop.title }}</a>
+            </p>
+            <div class="freen-post-list-info">
+                <i class="fa fa-heart-o"></i>({{ pop.views }}) 阅览
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+</div>
