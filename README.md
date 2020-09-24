@@ -1,5 +1,4 @@
 📚 Django 开发的个人网站
-
 🐒 coders：[🐫Stray_camel](https://github.com/Freen247)
 
 **☎ 联系方式**：
@@ -41,7 +40,6 @@
 
  
 ## 🐾网站开发日志（How to contribute this webproject？）
-> 欢迎大家一起和我contribute，扩展更多的功能。
 
 1. 项目运行（basic）
     > 大家有问题可以在[github issue](https://github.com/Freen247/django_blog/issues)戳我!
