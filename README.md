@@ -17,6 +17,7 @@
     - [x] [创建网站数据类型，用于数据校验](django_server\apps\types.py)
     - [x] [自定义signature装饰器，应用于view模板，校验接口传参](django_server\apps\utils\wsme\signature.py)
     - [x] [自定义彩色日志系统，构建方法打印日志装饰器](django_server\apps\utils\log\handler.py)
+    - [x] [重构django http请求方式校验](django_server\apps\utils\decorators\http.py)
 
 - [x] data_analysis: 使用简单的numpy，pandas复现算法或者模型，并通过接口返回演示
     - `/data_analysis/compute_apriori/`:[Apriori算法实现](/django_server/apps/data_analysis/models/apriori.py)
