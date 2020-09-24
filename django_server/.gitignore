@@ -12,18 +12,6 @@ logs/*.log
 **/migrations/*
 !**/migrations/__init__.py
 # 不上传数据集，将数据集都打包成zip再上传
-<<<<<<< HEAD
-data/BX-CSV-Dump
-# python环境
-env/
-# 索引文件
-whoosh_index/*.seg
-whoosh_index/*.toc
-# 不上传admin静态文件
-static/admin
-# 不上传rest_framework静态文件
-static/rest_framework
-=======
 **/*.zip
 **/*.gz
 **/*.dat
@@ -38,36 +26,21 @@ env/
 **/static/admin
 # 不上传rest_framework静态文件
 **/static/rest_framework
->>>>>>> develop
 # 不上传网站的静态资源，用户头像，但是保留默认头像文件
 media/avatar/*
 !media/avatar/default
 !media/avatar/logo.png
 # 不上传网站的静态资源，文章图片
-<<<<<<< HEAD
-media/mdeditor/article
-media/mdeditor/uploads
-!media/mdeditor/**/*.MD
-# 不上传网站的静态资源，缓存文件
-media/CACHE
-=======
 **/media/mdeditor/article
 **/media/mdeditor/uploads
 !media/mdeditor/**/*.MD
 # 不上传网站的静态资源，缓存文件
 **/media/CACHE
->>>>>>> develop
 # 不上传tmp缓存pickle文件
 tmp/*
 !**/*.md
 # 不上传pyton manage.py compress 运行后生成的css文件
-<<<<<<< HEAD
-static/CACHE
-# 不上传网站需要的邮箱、数据库密码
-**/passwords.py
-=======
 **/static/CACHE
 # 不上传网站需要的邮箱、数据库密码
 **/passwords.py
 !**/*.MD
->>>>>>> develop
