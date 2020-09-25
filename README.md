@@ -37,20 +37,20 @@ coders：[🐫Stray_camel](https://github.com/Freen247)
 ## 🐾网站
 
 ### 项目运行
-    > 大家有问题可以在[github issue](https://github.com/StrayCamel247/Django_React/issues/)戳我!
+> 大家有问题可以在[github issue](https://github.com/StrayCamel247/Django_React/issues/)戳我!
 	
-    - 让项目在服务器运行，参考文章：[Nginx + Gunicorn 服务器配置 Django](https://leetcode-cn.com/circle/article/6DA7GA/)
-    - 服务器可使用`nohup bash gunicorn_start.sh`挂在后台运行。
-    - 一键清除正在后台运行的django_blog项目，使用命令`bash kill_pid.sh`
+- 让项目在服务器运行，参考文章：[Nginx + Gunicorn 服务器配置 Django](https://leetcode-cn.com/circle/article/6DA7GA/)
+- 服务器可使用`nohup bash gunicorn_start.sh`挂在后台运行。
+- 一键清除正在后台运行的django_blog项目，使用命令`bash kill_pid.sh`
 
-    - 本地环境运行项目：
-        - 安装pip需求包`pip install -r requirements.txt`
-        -  更改`settings.py`文件中的数据库配置信息，使用本地`db.sqlite3`文件作数据库。
-        - 构建项目所需要的数据库，连接信息更改请在`django_blog/settings.py`文件中进行更改
-        - 链接新的数据库或者更换数据库需要运行`python manage.py makemigrations & python manage.py migrate`
-        - 集合项目依赖包中的静态文件：`python manage.py collectstatic`
-        - 压缩文件:`python manage.py compress`
-        - 有问题欢迎到我网站留言和提issue
+- 本地环境运行项目：
+    - 安装pip需求包`pip install -r requirements.txt`
+    -  更改`settings.py`文件中的数据库配置信息，使用本地`db.sqlite3`文件作数据库。
+    - 构建项目所需要的数据库，连接信息更改请在`django_blog/settings.py`文件中进行更改
+    - 链接新的数据库或者更换数据库需要运行`python manage.py makemigrations & python manage.py migrate`
+    - 集合项目依赖包中的静态文件：`python manage.py collectstatic`
+    - 压缩文件:`python manage.py compress`
+    - 有问题欢迎到我网站留言和提issue
 
 
 ### 🙃常见安装项目 bug
