@@ -5,7 +5,7 @@
 # __REFERENCES__ : [https://www.cnblogs.com/lsqin/p/9342926.html]
 # __date__: 2020/09/22 10
 from typing import Dict
-from apps.utils.log.handler import function_logging
+from apps.utils.logging.handler import function_logging
 import logging
 log = logging.getLogger('apps')
 

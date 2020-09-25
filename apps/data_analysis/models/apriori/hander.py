@@ -5,7 +5,7 @@
 # __REFERENCES__ : [https://wizardforcel.gitbooks.io/dm-algo-top10/content/apriori.html, https://www.cnblogs.com/lsqin/p/9342926.html],
 # __date__: 2020/09/22 09
 
-from apps.utils.log.handler import function_logging
+from apps.utils.logging.handler import function_logging
 from numpy import *
 import numpy as np
 import pandas as pd

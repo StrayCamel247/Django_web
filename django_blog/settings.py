@@ -118,29 +118,30 @@ REST_FRAMEWORK = {
 
 }
 # 日志
+# [process:%(process)d %(threadName)s-thread:%(thread)d]
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
     'filters': {
         'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse',
+            '()': 'django.utils.logging.RequireDebugFalse',
         },
         'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
+            '()': 'django.utils.logging.RequireDebugTrue',
         },
     },
     'formatters': {
         'django.server': {
-            '()': 'django.utils.log.ServerFormatter',
-            'format': '[{server_time}] {message}',
+            '()': 'django.utils.logging.ServerFormatter',
+            'format': '%(pathname)s:%(lineno)s %(asctime)s [{server_time}] %(levelname)s\n\n%(message)s\n',
             'style': '{',
         },
         'console_format': {
-            'format': '%(color)s\n%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n[process:%(process)d %(threadName)s-thread:%(thread)d]\n%(message)s\n',
+            'format': '%(color)s\n%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n\n%(message)s\n',
             # 'style': '{',
         },
         'file_format': {
-            'format': '%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n[process:%(process)d %(threadName)s-thread:%(thread)d]\n%(message)s\n',
+            'format': '%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n\n%(message)s\n',
             # 'style': '{',
         }
     },
@@ -153,7 +154,7 @@ LOGGING = {
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+            'class': 'django.utils.logging.AdminEmailHandler'
         },
         'file': {
             'level': 'INFO',
@@ -164,7 +165,7 @@ LOGGING = {
         'console': {
             # 'filters': ['require_debug_false'],
             'level': 'INFO',
-            'class': 'apps.utils.log.handler.ColorHandler',
+            'class': 'apps.utils.logging.handler.ColorHandler',
             # 'class': 'logging.StreamHandler',
             'formatter': 'console_format',
         },

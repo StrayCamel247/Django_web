@@ -8,10 +8,6 @@ from wsme import types as wtypes
 from apps import types as _types
 from django.utils.translation import ugettext as _
 from apps.api_exception import ParameterException
-from typing import List
-import numpy as np
-from .models.apriori import loadDataSet
-
 
 class ComputeFPgrowthBody(wtypes.Base):
     simpDat = wsme.wsattr(_types.jsontype, mandatory=True)
