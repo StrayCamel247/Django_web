@@ -67,3 +67,6 @@
 - 数据库迁移/项目运行bug：`ValueError : unsupported pickle protocol: 5`
     - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`django_blog\whoosh_index`文件夹中的所有文件。
 
+
+<!-- ### 项目stars曲线图
+[![Stargazers over time](https://starcharts.herokuapp.com/StrayCamel247/Django_web.svg)](https://github.com/StrayCamel247/Django_web) -->
