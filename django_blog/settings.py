@@ -122,19 +122,18 @@ REST_FRAMEWORK = {
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.logging.RequireDebugFalse',
-        },
-        'require_debug_true': {
-            '()': 'django.utils.logging.RequireDebugTrue',
-        },
-    },
+    # 'filters': {
+    #     'require_debug_false': {
+    #         '()': 'django.utils.logging.RequireDebugFalse',
+    #     },
+    #     'require_debug_true': {
+    #         '()': 'django.utils.logging.RequireDebugTrue',
+    #     },
+    # },
     'formatters': {
         'django.server': {
-            '()': 'django.utils.logging.ServerFormatter',
-            'format': '%(pathname)s:%(lineno)s %(asctime)s [{server_time}] %(levelname)s\n\n%(message)s\n',
-            'style': '{',
+            'format': '%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n%(message)s\n',
+            # 'style': '{',
         },
         'console_format': {
             'format': '%(color)s\n%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n\n%(message)s\n',
@@ -150,11 +149,6 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'django.server',
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.logging.AdminEmailHandler'
         },
         'file': {
             'level': 'INFO',

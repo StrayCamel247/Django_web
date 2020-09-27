@@ -1,11 +1,6 @@
-📚 Django3.x
+# xx
 
-coders：[🐫Stray_camel](https://github.com/Freen247)
-
-**☎ 联系方式**：
-- 🐒email：aboyinsky@outlook.com/wechat：1351975058
-
-## ✨Features-持续更新...
+## ✨Features-持续更新
 
 ### 👻Version_V2.0
 > django+vue前后端分离，集合算法可视化项目，学习、练习、训练模型，系统第层构建等。
@@ -31,14 +26,14 @@ coders：[🐫Stray_camel](https://github.com/Freen247)
 
 
 ### [🦄Version_V1.0](https://github.com/StrayCamel247/Django_web/tree/v1.0)
+
 > 网站采用传统的django MVT模式构建，使用bootstrap作为前端框架，用户管理、文章管理、评论系统、留言系统以及工具系统初步完善
 
- 
+
 ## 🐾网站
 
 ### 项目运行
-> 大家有问题可以在[github issue](https://github.com/StrayCamel247/Django_React/issues/)戳我!
-	
+
 - 让项目在服务器运行，参考文章：[Nginx + Gunicorn 服务器配置 Django](https://leetcode-cn.com/circle/article/6DA7GA/)
 - 服务器可使用`nohup bash gunicorn_start.sh`挂在后台运行。
 - 一键清除正在后台运行的django_blog项目，使用命令`bash kill_pid.sh`
@@ -50,7 +45,6 @@ coders：[🐫Stray_camel](https://github.com/Freen247)
     - 链接新的数据库或者更换数据库需要运行`python manage.py makemigrations & python manage.py migrate`
     - 集合项目依赖包中的静态文件：`python manage.py collectstatic`
     - 压缩文件:`python manage.py compress`
-    - 有问题欢迎到我网站留言和提issue
 
 
 ### 🙃常见安装项目 bug
