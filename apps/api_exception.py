@@ -86,7 +86,7 @@ def _handler404(request=None, exception=None):
             _['tried'] = 'all_modules'
     response.data['debuginfo'] = repr(exception)
     log.error(repr(exception))
-    response.data['status_code'] = _HANDLER400_CODE
+    response.data['status_code'] = _HANDLER404_CODE
     return HttpResponseNotFound(json.dumps(response.data), content_type=res.content_type)
 
 

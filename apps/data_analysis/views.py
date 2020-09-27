@@ -3,11 +3,10 @@
 # __author__ : stray_camel
 # __date__: 2020/05/26 12:40:21
 
-from django.views import generic
-from apps.utils.wsme.signature import signature
 from .types import HelloWordResult, ComputeAprioriBody, ComputeFPgrowthBody
 from .models.apriori.hander import apriori
 from .models.FPgrowth.handler import ft_growth
+from apps.utils.wsme.signature import signature
 from apps.utils.core.http import require_http_methods
 
 

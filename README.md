@@ -36,12 +36,12 @@
 
 - 让项目在服务器运行，参考文章：[Nginx + Gunicorn 服务器配置 Django](https://leetcode-cn.com/circle/article/6DA7GA/)
 - 服务器可使用`nohup bash gunicorn_start.sh`挂在后台运行。
-- 一键清除正在后台运行的django_blog项目，使用命令`bash kill_pid.sh`
+- 一键清除正在后台运行的config项目，使用命令`bash kill_pid.sh`
 
 - 本地环境运行项目：
     - 安装pip需求包`pip install -r requirements.txt`
     -  更改`settings.py`文件中的数据库配置信息，使用本地`db.sqlite3`文件作数据库。
-    - 构建项目所需要的数据库，连接信息更改请在`django_blog/settings.py`文件中进行更改
+    - 构建项目所需要的数据库，连接信息更改请在`config/settings.py`文件中进行更改
     - 链接新的数据库或者更换数据库需要运行`python manage.py makemigrations & python manage.py migrate`
     - 集合项目依赖包中的静态文件：`python manage.py collectstatic`
     - 压缩文件:`python manage.py compress`
@@ -65,7 +65,7 @@
     - 这个包直接安装就好，` pip install user_agent`
 
 - 数据库迁移/项目运行bug：`ValueError : unsupported pickle protocol: 5`
-    - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`django_blog\whoosh_index`文件夹中的所有文件。
+    - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`config\whoosh_index`文件夹中的所有文件。
 
 
 <!-- ### 项目stars曲线图

@@ -8,7 +8,7 @@ from mdeditor.fields import MDTextField
 from django.http import HttpResponse
 from uuslug import slugify
 from django.utils.text import slugify as sfy
-from django_blog.settings import MEDIA_ROOT
+from config.settings import MEDIA_ROOT
 import markdown
 from markdown.extensions.toc import TocExtension
 import emoji, re, time, string, os

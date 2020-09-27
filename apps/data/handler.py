@@ -30,6 +30,15 @@ REVIEWS_ELECTRONICS_5 = os.path.join(
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+def get_iris_data(*args, **kwargs):
+    from sklearn.datasets import load_iris
+    iris_data = load_iris()
+    
+    X = iris_data.data  # 只包括样本的特征，150x4
+    y = iris_data.target  # 样本的类型，[0, 1, 2]
+    features = iris_data.feature_names  # 4个特征的名称
+    targets = iris_data.target_names  # 3类鸢尾花的名称，跟y中的3个数字对应
+    return 1
 
 def test():
     # IMPORTANT: pass aditional Python modules to each worker

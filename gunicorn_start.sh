@@ -1,12 +1,12 @@
 #!/bin/bash
-NAME='django_blog' #应用的名称i
-DJANGODIR=/home/django_blog #django项目的目录
-SOCKFILE=/home/django_blog/gunicorn.sock #使用这个sock来通信
+NAME='Django_web' #应用的名称i
+DJANGODIR=/home/Django_web #django项目的目录
+SOCKFILE=/home/Django_web/gunicorn.sock #使用这个sock来通信
 USER=root #运行此应用的用户
 GROUP=root #运行此应用的组
 NUM_WORKERS=3 #gunicorn使用的工作进程数
-DJANGO_SETTINGS_MODULE=django_blog.settings #django的配置文件
-DJANGO_WSGI_MODULE=django_blog.wsgi #wsgi模块
+DJANGO_SETTINGS_MODULE=config.settings #django的配置文件
+DJANGO_WSGI_MODULE=config.wsgi #wsgi模块
 LOG_DIR=/home/logs #日志目录
 echo "starting $NAME as `whoami`"
 #激活python虚拟运行环境

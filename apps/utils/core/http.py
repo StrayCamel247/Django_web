@@ -9,7 +9,7 @@ from functools import wraps
 from apps.utils.wsme.signature import get_dataformat
 # F:\Envs\env\Lib\site-packages\rest_framework\status.py
 from rest_framework.status import is_client_error, is_server_error, HTTP_405_METHOD_NOT_ALLOWED
-from django_blog.urls import urlpatterns
+from config.urls import urlpatterns
 from django.http.response import HttpResponseNotFound, HttpResponseServerError, HttpResponseForbidden, HttpResponseNotAllowed
 import logging
 log = logging.getLogger('apps')
