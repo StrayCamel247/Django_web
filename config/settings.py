@@ -115,7 +115,17 @@ REST_FRAMEWORK = {
         'DEFAULT_VERSION': 'v1'
         # 以上两项设置分别全局指定使用的 API 版本管理方式和客户端缺省版本号的情况下默认请求的 API 版本。尽管这些配置项也可以在单个视图或者视图集的范围内指定，但是，统一的版本管理模式更为可取，因此我们在全局配置中指定。
     },
+    # jwt登陆机制
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'apps.utils.jwt.authentication.JSONWebTokenAuthentication',
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.BasicAuthentication',
+    ),
 
+}
+JWT_AUTH = {
+ # 指明JWT——token的有效期
+ 'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
 }
 # 日志
 # [process:%(process)d %(threadName)s-thread:%(thread)d]

@@ -3,13 +3,31 @@ from django.contrib.auth.decorators import login_required
 from .models import Contacts,Ouser
 from django.conf import settings
 from .forms import ProfileForm
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from apps.utils.core.http import require_http_methods
+from apps.utils.wsme.signature import signature
+from .types import AccountsResult,AccountLoginBody
 # Create your views here.
+
+@require_http_methods('account/login', methods=['POST'])
+@signature(AccountsResult,body=AccountLoginBody)
+def account_login(body):
+    """"""
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        login(request, user)
+        # Redirect to a success page.
+        ...
+    else:
+        pass
+    # Return an 'invalid login' error message.
+        ...
 
 @login_required
 def users_view(request):

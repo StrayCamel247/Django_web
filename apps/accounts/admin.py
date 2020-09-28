@@ -16,6 +16,3 @@ class OuserAdmin(UserAdmin):
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('username', 'email')
 
-# @admin.register(Contacts)
-# class ContactsAdmin(admin.ModelAdmin):
-#     list_display = ('name','description','slug')

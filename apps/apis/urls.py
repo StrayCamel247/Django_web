@@ -19,7 +19,7 @@ router.register(r"search", ArticleSearchView, basename="search")
 urlpatterns = [
     # path('rest_framework/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path("v1/", include(router.urls)),
+    path("rest_framework/", include(router.urls)),
     url(r"^test/", test_apiview.as_view(), name="RunCase"),  # 执行单个接口下所有用例
     # 执行单个接口下所有用例, name="RunCase"),  # 执行单个接口下所有用例
     url(r"^123/", test, name="123")
