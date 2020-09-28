@@ -8,16 +8,16 @@ USER_SETTINGS = getattr(settings, 'JWT_AUTH',  datetime.timedelta(days=0.5))
 
 DEFAULTS = {
     'JWT_ENCODE_HANDLER':
-    'apps.utils.jwt.handler.jwt_encode_handler',
+    'apps.jwt.handler.jwt_encode_handler',
 
     'JWT_DECODE_HANDLER':
-    'apps.utils.jwt.handler.jwt_decode_handler',
+    'apps.jwt.handler.jwt_decode_handler',
 
     'JWT_PAYLOAD_HANDLER':
-    'apps.utils.jwt.handler.jwt_payload_handler',
+    'apps.jwt.handler.jwt_payload_handler',
 
     'JWT_PAYLOAD_GET_USER_ID_HANDLER':
-    'apps.utils.jwt.handler.jwt_get_user_id_from_payload_handler',
+    'apps.jwt.handler.jwt_get_user_id_from_payload_handler',
 
     'JWT_PRIVATE_KEY':
     None,
@@ -26,10 +26,10 @@ DEFAULTS = {
     None,
 
     'JWT_PAYLOAD_GET_USERNAME_HANDLER':
-    'apps.utils.jwt.handler.jwt_get_username_from_payload_handler',
+    'apps.jwt.handler.jwt_get_username_from_payload_handler',
 
     'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'apps.utils.jwt.handler.jwt_response_payload_handler',
+    'apps.jwt.handler.jwt_response_payload_handler',
 
     'JWT_SECRET_KEY': settings.SECRET_KEY,
     'JWT_GET_USER_SECRET_KEY': None,
@@ -44,7 +44,7 @@ DEFAULTS = {
     'JWT_ALLOW_REFRESH': False,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
 
-    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    'JWT_AUTH_HEADER_PREFIX': 'STRAYCAMEL',
     'JWT_AUTH_COOKIE': None,
 }
 

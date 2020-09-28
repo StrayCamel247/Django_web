@@ -28,16 +28,10 @@ jwt_get_username_from_payload = api_settings.JWT_PAYLOAD_GET_USERNAME_HANDLER
 
 class JSONWebTokenSerializer(Serializer):
     """
-    Serializer class used to validate a username and password.
-
-    'username' is identified by the custom UserModel.USERNAME_FIELD.
-
-    Returns a JSON Web Token that can be used to authenticate later calls.
+    用于验证数据的Serializer类。
+    返回一个JSON Web令牌，可用于验证以后的调用。
     """
     def __init__(self, *args, **kwargs):
-        """
-        Dynamically add the USERNAME_FIELD to self.fields.
-        """
         super(JSONWebTokenSerializer, self).__init__(*args, **kwargs)
 
         self.fields[self.username_field] = serializers.CharField()

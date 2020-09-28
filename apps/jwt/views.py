@@ -2,26 +2,34 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from datetime import datetime
-
+from apps.utils.core.http import require_http_methods
+from apps.utils.wsme.signature import signature
+from .types import JWTResult,JWTLoginBody
 from .settings import api_settings
 from .serializers import (
     JSONWebTokenSerializer, RefreshJSONWebTokenSerializer,
     VerifyJSONWebTokenSerializer
 )
-
-jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
-
+# url锚点，让config.urls中集合url的机制可以访问到，并调用require_http_methods将url注册到apis中，和restful接口相集合
+urlpatterns=[]
+# jwt_response_payload_handler = api_settings.jwt_response_payload_handler
+from .handler import jwt_response_payload_handler
+@require_http_methods('account/login', methods=['POST'])
+@signature(JWTResult,body=JWTLoginBody)
+def jwt_token_login(body):
+    """结合jwt校验token的方式进行登陆"""
+    pass
 
 class JSONWebTokenAPIView(APIView):
     """
-    Base API View that various JWT interactions inherit from.
+    基于APIView的JWTapi视图
     """
     permission_classes = ()
     authentication_classes = ()
 
     def get_serializer_context(self):
         """
-        Extra context provided to the serializer class.
+        提供给serializer class的额外上下文。
         """
         return {
             'request': self.request,
@@ -30,11 +38,10 @@ class JSONWebTokenAPIView(APIView):
 
     def get_serializer_class(self):
         """
-        Return the class to use for the serializer.
+        返回用于serializer的类。
         Defaults to using `self.serializer_class`.
-        You may want to override this if you need to provide different
-        serializations depending on the incoming request.
-        (Eg. admins get full serialization, others get basic serialization)
+        支持定制化获取不同的信息：
+        例如：管理员获得完整的序列化，其他获得基本的序列化
         """
         assert self.serializer_class is not None, (
             "'%s' should either include a `serializer_class` attribute, "
@@ -44,14 +51,15 @@ class JSONWebTokenAPIView(APIView):
 
     def get_serializer(self, *args, **kwargs):
         """
-        Return the serializer instance that should be used for validating and
-        deserializing input, and for serializing output.
+        返回serializer instance应该用于validating and
+        deserializing input, and for serializing output。
         """
         serializer_class = self.get_serializer_class()
         kwargs['context'] = self.get_serializer_context()
         return serializer_class(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        # 将输入的数据序列化
         serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
@@ -60,12 +68,8 @@ class JSONWebTokenAPIView(APIView):
             response_data = jwt_response_payload_handler(token, user, request)
             response = Response(response_data)
             if api_settings.JWT_AUTH_COOKIE:
-                expiration = (datetime.utcnow() +
-                              api_settings.JWT_EXPIRATION_DELTA)
-                response.set_cookie(api_settings.JWT_AUTH_COOKIE,
-                                    token,
-                                    expires=expiration,
-                                    httponly=True)
+                expiration = (datetime.utcnow() +api_settings.JWT_EXPIRATION_DELTA)
+                response.set_cookie(api_settings.JWT_AUTH_COOKIE,token,expires=expiration,httponly=True)
             return response
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -73,9 +77,8 @@ class JSONWebTokenAPIView(APIView):
 
 class ObtainJSONWebToken(JSONWebTokenAPIView):
     """
-    API View that receives a POST with a user's username and password.
-
-    Returns a JSON Web Token that can be used for authenticated requests.
+    接收带有用户名和密码的POST的API View。
+    返回可用于已认证请求的JSON Web令牌。
     """
     serializer_class = JSONWebTokenSerializer
 

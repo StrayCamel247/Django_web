@@ -117,15 +117,18 @@ REST_FRAMEWORK = {
     },
     # jwt登陆机制
     'DEFAULT_AUTHENTICATION_CLASSES': (
-    'apps.utils.jwt.authentication.JSONWebTokenAuthentication',
-    'rest_framework.authentication.SessionAuthentication',
-    'rest_framework.authentication.BasicAuthentication',
+        # JWT认证
+        'apps.jwt.authentication.JSONWebTokenAuthentication',
+        # Session认证
+        'rest_framework.authentication.SessionAuthentication',
+        # Basic认证
+        'rest_framework.authentication.BasicAuthentication',
     ),
 
 }
 JWT_AUTH = {
     # 指明JWT——token的有效期
-'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
 }
 # 日志
 # [process:%(process)d %(threadName)s-thread:%(thread)d]
@@ -178,7 +181,7 @@ LOGGING = {
     'loggers': {
         'apps': {
             # 'handlers': ['file','console'],
-            'handlers': ['file','console'],
+            'handlers': ['file', 'console'],
             'level': 'INFO',
             'propagate': False,
         },
@@ -235,14 +238,14 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 HAYSTACK_CUSTOM_HIGHLIGHTER = 'apps.search.Highlighter'
 
 CACHES = {
-        "default": {
-    # redis缓存配置
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "redis://{redis_ip}:{port}/1".format(redis_ip=SYSTEM_HOST, port='6379'),
-            "OPTIONS": {
-                "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            }
+    "default": {
+        # redis缓存配置
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://{redis_ip}:{port}/1".format(redis_ip=SYSTEM_HOST, port='6379'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
+    }
     # 'default': {
     #     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     # }
@@ -441,7 +444,8 @@ PAGINATION_SETTINGS = {
 }
 
 # 网站上线时长
-ONLINE_TIME_DAYS = (datetime.datetime.now() - datetime.datetime(2018, 1, 1)).days
+ONLINE_TIME_DAYS = (datetime.datetime.now() -
+                    datetime.datetime(2018, 1, 1)).days
 
 # django网站国际化
 USE_I18N = True

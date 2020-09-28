@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # __author__ : stray_camel
-# __date__: 2020/06/10 15:05:24
+# __description__ : 结合wsme的types进行数据校验
+# __REFERENCES__ : 
+# __date__: 2020/09/28 17
 
 
 import json

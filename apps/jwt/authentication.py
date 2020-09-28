@@ -1,12 +1,23 @@
+"""
+JWT 的数据结构:
+它是一个很长的字符串，中间用点（.）分隔成三个部分。注意，JWT 内部是没有换行的，这里只是为了便于展示，将它写成了几行。
+xxxxxxxxxxxxxxxxxxxxxxxxxx.yyyyyyyyyyyyyyyyyyyyyyyy.zzzzzzzzzzzzzzzzzzzzzzzz
+JWT 的三个部分依次如下。
+
+Header（头部）
+Payload（负载）
+Signature（签名）
+
+写成一行，就是下面的样子。
+Header.Payload.Signature
+"""
 import jwt
 
 from django.contrib.auth import get_user_model
 from django.utils.encoding import smart_text
 from django.utils.translation import ugettext as _
 from rest_framework import exceptions
-from rest_framework.authentication import (
-    BaseAuthentication, get_authorization_header
-)
+from rest_framework.authentication import BaseAuthentication, get_authorization_header
 
 from .settings import api_settings
 
@@ -17,13 +28,17 @@ jwt_get_username_from_payload = api_settings.JWT_PAYLOAD_GET_USERNAME_HANDLER
 
 class BaseJSONWebTokenAuthentication(BaseAuthentication):
     """
-    Token based authentication using the JSON Web Token standard.
+    基于jwt的token验证
+    此认证方案使用[HTTP](https://tools.ietf.org/html/rfc2617) 基本认证，针对用户的用户名和密码进行认证。基本认证通常只适用于测试。
+    如果认证成功 BasicAuthentication 提供以下信息。
+    request.user 将是一个 Django User 实例。
+    request.auth 将是 None。
+    那些被拒绝的未经身份验证的请求会返回使用适当WWW-Authenticate标头的HTTP 401 Unauthorized响应。例如：
     """
 
     def authenticate(self, request):
         """
-        Returns a two-tuple of `User` and token if a valid signature has been
-        supplied using JWT-based authentication.  Otherwise returns `None`.
+        校验输入，如果用户不存在返回None，如果存在则返回数据
         """
         jwt_value = self.get_jwt_value(request)
         if jwt_value is None:
@@ -69,28 +84,30 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
 
 class JSONWebTokenAuthentication(BaseJSONWebTokenAuthentication):
     """
-    Clients should authenticate by passing the token key in the "Authorization"
-    HTTP header, prepended with the string specified in the setting
-    `JWT_AUTH_HEADER_PREFIX`. For example:
-
-        Authorization: JWT eyJhbGciOiAiSFMyNTYiLCAidHlwIj
+    JWT系统认证
+    通过http请求头中的"Authorization"中传递的密钥进行身份验证
     """
     www_authenticate_realm = 'api'
 
     def get_jwt_value(self, request):
+        """获取JWT的值"""
+        # 获取http请求头中HTTP_AUTHORIZATION
         auth = get_authorization_header(request).split()
         auth_header_prefix = api_settings.JWT_AUTH_HEADER_PREFIX.lower()
 
+        # 如果没有HTTP_AUTHORIZATION
         if not auth:
             if api_settings.JWT_AUTH_COOKIE:
                 return request.COOKIES.get(api_settings.JWT_AUTH_COOKIE)
             return None
 
+        # 如果HTTP_AUTHORIZATION和JWT头部分不匹配
         if smart_text(auth[0].lower()) != auth_header_prefix:
             return None
 
+        # 如果HTTP_AUTHORIZATION长度为
         if len(auth) == 1:
-            msg = _('Invalid Authorization header. No credentials provided.')
+            msg = _('无效请求头')
             raise exceptions.AuthenticationFailed(msg)
         elif len(auth) > 2:
             msg = _('Invalid Authorization header. Credentials string '
