@@ -40,7 +40,7 @@
 > 网站采用传统的django MVT模式构建，使用bootstrap作为前端框架，用户管理、文章管理、评论系统、留言系统以及工具系统初步完善
 
 
-## 🐾网站
+<!-- ## 🐾网站
 
 ### 项目运行
 
@@ -75,7 +75,7 @@
     - 这个包直接安装就好，` pip install user_agent`
 
 - 数据库迁移/项目运行bug：`ValueError : unsupported pickle protocol: 5`
-    - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`config\whoosh_index`文件夹中的所有文件。
+    - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`config\whoosh_index`文件夹中的所有文件。 -->
 
 
 <!-- ### 项目stars曲线图
