@@ -2,22 +2,22 @@ import datetime
 
 from django.conf import settings
 from rest_framework.settings import APISettings
-from datetime import datetime
+import datetime
 # 获取jwt登陆设定时间
 USER_SETTINGS = getattr(settings, 'JWT_AUTH',  datetime.timedelta(days=0.5))
 
 DEFAULTS = {
     'JWT_ENCODE_HANDLER':
-    'utils.jwt_encode_handler',
+    'apps.utils.jwt.handler.jwt_encode_handler',
 
     'JWT_DECODE_HANDLER':
-    'utils.jwt_decode_handler',
+    'apps.utils.jwt.handler.jwt_decode_handler',
 
     'JWT_PAYLOAD_HANDLER':
-    'utils.jwt_payload_handler',
+    'apps.utils.jwt.handler.jwt_payload_handler',
 
     'JWT_PAYLOAD_GET_USER_ID_HANDLER':
-    'utils.jwt_get_user_id_from_payload_handler',
+    'apps.utils.jwt.handler.jwt_get_user_id_from_payload_handler',
 
     'JWT_PRIVATE_KEY':
     None,
@@ -26,10 +26,10 @@ DEFAULTS = {
     None,
 
     'JWT_PAYLOAD_GET_USERNAME_HANDLER':
-    'utils.jwt_get_username_from_payload_handler',
+    'apps.utils.jwt.handler.jwt_get_username_from_payload_handler',
 
     'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'utils.jwt_response_payload_handler',
+    'apps.utils.jwt.handler.jwt_response_payload_handler',
 
     'JWT_SECRET_KEY': settings.SECRET_KEY,
     'JWT_GET_USER_SECRET_KEY': None,

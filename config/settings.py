@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-from datetime import datetime
+import datetime
 import os
 from apps.utils.handler import get_local_host_ip
 
@@ -124,8 +124,8 @@ REST_FRAMEWORK = {
 
 }
 JWT_AUTH = {
- # 指明JWT——token的有效期
- 'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    # 指明JWT——token的有效期
+'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
 }
 # 日志
 # [process:%(process)d %(threadName)s-thread:%(thread)d]
@@ -163,7 +163,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/info_{}.log'.format(datetime.now().date())),
+            'filename': os.path.join(BASE_DIR, 'logs/info_{}.log'.format(datetime.datetime.now().date())),
             'formatter': 'file_format',
         },
         'console': {
@@ -441,7 +441,7 @@ PAGINATION_SETTINGS = {
 }
 
 # 网站上线时长
-ONLINE_TIME_DAYS = (datetime.now() - datetime(2018, 1, 1)).days
+ONLINE_TIME_DAYS = (datetime.datetime.now() - datetime.datetime(2018, 1, 1)).days
 
 # django网站国际化
 USE_I18N = True

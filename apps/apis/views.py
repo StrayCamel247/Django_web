@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from apps.accounts.models import Ouser
 from apps.blog.models import Article, Category
-from apps.role.models import Department
+from apps.department.models import Department
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
 from .serializers import UserSerializer, GroupSerializer, ArticleSerializer, CategorySerializer, PostHaystackSerializer, DepartmentSerializer
