@@ -9,8 +9,9 @@ from .models.FPgrowth.handler import ft_growth
 from apps.utils.wsme.signature import signature
 from apps.utils.core.http import require_http_methods
 
-
-@require_http_methods('/data_analysis/compute_fp_growth', methods=['POST'])
+# url锚点，让config.urls中集合url的机制可以访问到，并调用require_http_methods将url注册到apis中，和restful接口相集合
+urlpatterns=[]
+@require_http_methods('data_analysis/compute_fp_growth', methods=['POST'])
 @signature(HelloWordResult, body=ComputeFPgrowthBody)
 def compute_fp_growth_view(body):
     params = {
@@ -22,7 +23,7 @@ def compute_fp_growth_view(body):
     return res
 
 
-@require_http_methods('/data_analysis/compute_apriori', methods=['POST'])
+@require_http_methods('data_analysis/compute_apriori', methods=['POST'])
 @signature(HelloWordResult, body=ComputeAprioriBody)
 def compute_apriori_view(body):
     params = {

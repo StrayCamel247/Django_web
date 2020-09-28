@@ -51,9 +51,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 
-# 自定义管理站点的名称和URL标题
-admin.site.site_header = '网站管理'
-admin.site.site_title = '博客后台管理'
+
 
 
 # @admin.register(Timeline)

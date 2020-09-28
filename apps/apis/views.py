@@ -1,4 +1,5 @@
 from django.contrib.syndication.views import Feed
+from django.http import request
 from django.shortcuts import render
 
 # Create your views here.
@@ -19,16 +20,14 @@ from rest_framework.views import APIView, status
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-
-
 import logging
 logger=logging.getLogger('apps')
 class APIResponse(Response):
     def __init__(self, data_status, data_msg, results=None,
                  status=None, headers=None, content_type=None, *args, **kwargs):
         data = {
-            'code': data_status,
-            'msg': data_msg
+            'status_code': data_status,
+            'detail': data_msg
         }
         if results is not None:
             data['results'] = results
@@ -46,11 +45,15 @@ class MockResponse(Response):
 
 from rest_framework.exceptions import APIException
 class test_apiview(APIView):
-    def get(self, req):
+    def get(self, request):
         a = 1/0
         # raise APIException('lalalalal')
         return APIResponse(200, "success", task_id="success", log_id="success", status=status.HTTP_200_OK)
 
+def test(request):
+    print(request)
+    a = 1/0
+    return APIResponse(200, "success", task_id="success", log_id="success", status=status.HTTP_200_OK)
 
 class PostSearchAnonRateThrottle(AnonRateThrottle):
     THROTTLE_RATES = {"anon": "5/min"}
@@ -83,7 +86,7 @@ class ArticleListSet(viewsets.ModelViewSet):
 class CategoryListSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 
 
 class GroupViewSet(viewsets.ModelViewSet):

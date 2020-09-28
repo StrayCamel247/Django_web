@@ -1,5 +1,5 @@
 # xx
-
+![](https://img.shields.io/github/license/straycamel247/Django_web) ![](https://img.shields.io/github/repo-size/straycamel247/Django_web) ![](https://img.shields.io/github/languages/code-size/straycamel247/django_web)
 ## ✨Features-持续更新
 
 ### 👻Version_V2.0

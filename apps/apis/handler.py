@@ -4,7 +4,6 @@
 # __date__: 2020/05/25 11:37:04
 from rest_framework import permissions
 
-
 class IsAdminUserOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:

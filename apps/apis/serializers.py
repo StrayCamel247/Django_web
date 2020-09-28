@@ -1,3 +1,4 @@
+from drf_haystack.serializers import HaystackSerializerMixin
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from apps.accounts.models import Ouser
@@ -25,32 +26,24 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-    # author_id = serializers.ReadOnlyField(source='author.username')
-    # category_id = CategorySerializer(read_only=True)
-    # keywords = serializers.SlugRelatedField(
-    #     many=True,
-    #     read_only=True,
-    #     slug_field='name'
-    # )
 
     class Meta:
         model = Article
-        # fields = ('id', 'author_id', 'title', 'views', 'category_id', 'tags','body')
         fields = '__all__'
-        # exclude = ('body',)
+
 
 # https://www.zmrenwu.com/courses/django-rest-framework-tutorial/materials/101/
-from drf_haystack.serializers import HaystackSerializerMixin
+
 
 class PostHaystackSerializer(HaystackSerializerMixin, ArticleSerializer):
     class Meta(ArticleSerializer.Meta):
         search_fields = ["key_word"]
-        
+
+
 class TimelineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Timeline
         fields = '__all__'
-
 
 
 # class ToolCategorySerializer(serializers.ModelSerializer):
@@ -58,7 +51,7 @@ class TimelineSerializer(serializers.ModelSerializer):
 #         model = ToolCategory
 #         fields = '__all__'
 
-        
+
 # class ToolLinkSerializer(serializers.ModelSerializer):
 #     category = ToolCategorySerializer()
 #     class Meta:

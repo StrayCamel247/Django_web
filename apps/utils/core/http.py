@@ -9,7 +9,8 @@ from functools import wraps
 from apps.utils.wsme.signature import get_dataformat
 # F:\Envs\env\Lib\site-packages\rest_framework\status.py
 from rest_framework.status import is_client_error, is_server_error, HTTP_405_METHOD_NOT_ALLOWED
-from config.urls import urlpatterns
+from apps.apis.urls import urlpatterns
+# from config.urls import urlpatterns
 from django.http.response import HttpResponseNotFound, HttpResponseServerError, HttpResponseForbidden, HttpResponseNotAllowed
 import logging
 log = logging.getLogger('apps')
@@ -32,7 +33,6 @@ def require_http_methods(path, name=None, methods=[]):
         raise ParameterException('请传入url')
     name = path if not name else name
     def decorator(func):
-        urlpatterns.append(url(r'^apis/v1.0/{path}/$'.format(path=path), func, name=name))
         def inner(request, *args, **kwargs):
             if request.method not in methods:
                 res = get_dataformat(request)
@@ -44,6 +44,8 @@ def require_http_methods(path, name=None, methods=[]):
                 log.warn(message)
                 return response
             return func(request, *args, **kwargs)
+        
+        urlpatterns.append(url(r'^{path}/$'.format(path=path), inner, name=name))
         return inner
     return decorator
 

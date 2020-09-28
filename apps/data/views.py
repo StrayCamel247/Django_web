@@ -5,6 +5,3 @@
 # __REFERENCES__ : 
 # __date__: 2020/09/27 16
 
-from apps.utils.wsme.signature import signature
-from apps.utils.core.http import require_http_methods
-from .types import DataResultResult

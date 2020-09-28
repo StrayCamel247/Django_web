@@ -22,9 +22,9 @@ except:
     print('↑'*20)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REACT_CLIENT_DIR = os.path.join(
-    os.path.dirname(BASE_DIR), 'react_client', 'build')
-
+# sys.path.append(BASE_DIR)
+VUE_WEB_DIR = os.path.join(
+    os.path.dirname(BASE_DIR), 'Vue_web')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -40,7 +40,7 @@ SECRET_KEY = '1ek)3z+-*)(&1c&3fv=2*=lr_cyGst85w&a4y#5!2m*ik@=&!p0'
 # API_FLAG = False
 # DEBUG模式是否开始的选择
 # 值为0：所有平台关闭DEBUG,值为1:所有平台开启DEBUG,值为其他：根据平台类型判断开启（默认设置的Windows下才开启）
-# DEBUG = True
+DEBUG = True
 # # 默认状态 COMPRESS_ENABLED=False，因为生产环境 DEBUG=False
 # # 只有在生产环境才有压缩静态资源的需求
 # # 如果是开发环境就主动开启压缩功能、开启手动压缩功能
@@ -342,7 +342,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [REACT_CLIENT_DIR],
+        'DIRS': [VUE_WEB_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -407,8 +407,8 @@ STATICFILES_FINDERS = (
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    REACT_CLIENT_DIR,
-    os.path.join(REACT_CLIENT_DIR, 'static'),
+    VUE_WEB_DIR,
+    os.path.join(VUE_WEB_DIR, 'static'),
     # 'static/',
     # debug模式服务器解决后端admin界面css样式缺失
     # '/home/config/env/lib/python3.6/site-packages/django/contrib/admin/static'

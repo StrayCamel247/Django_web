@@ -9,7 +9,6 @@ from six import integer_types
 from uuslug import slugify
 import random
 from datetime import datetime
-AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 # 通讯录   category/contacts
 
 
@@ -88,47 +87,3 @@ class Ouser(AbstractUser):
         return 222
 
 
-class Department(models.Model):
-    """部门信息管理"""
-    name = models.CharField(max_length=20, verbose_name=u"部门名称", default="")
-    number = models.IntegerField(verbose_name=u"部门人数")
-    manager = models.CharField(max_length=10, verbose_name=u"部门经理", default="")
-
-    class Meta:
-        verbose_name = Ouser.__doc__
-        verbose_name_plural = verbose_name
-        db_table = "department_message"
-
-    # def __unicode__(self):
-    #    return self.name
-    def __str__(self):
-        return self.name
-
-
-class Staff(models.Model):
-    """员工信息管理"""
-    department = models.ForeignKey(
-        Department, verbose_name="部门", null=True, blank=True)
-    name = models.CharField(max_length=20, verbose_name=u"员工姓名")
-    email = models.EmailField(
-        default='straycamel@straycamel.com', verbose_name=u"邮箱")
-    gradSchool = models.CharField(max_length=20, verbose_name=u"毕业学校")
-    address = models.CharField(max_length=50, verbose_name=u"住址", default='2')
-    sex = models.CharField(max_length=10, choices=(
-        ('female', u'女'), ('male', u'男')), verbose_name=u"性别")
-    age = models.IntegerField(verbose_name=u"年龄")
-    birthday = models.DateField(verbose_name=u"生日")
-    tel = models.CharField(max_length=20, verbose_name=u"手机号")
-    salary_num = models.IntegerField(default=0, verbose_name=u"薪资")
-    add_time = models.DateTimeField(default=datetime.now, verbose_name=u"入职时间")
-    user = models.OneToOneField(AUTH_USER_MODEL, blank=True, null=True)
-
-    class Meta:
-        verbose_name = Staff.__doc__
-        verbose_name_plural = verbose_name
-        db_table = "staff_message"
-
-    # def __unicode__(self):
-    #    return self.name
-    def __str__(self):
-        return self.name
