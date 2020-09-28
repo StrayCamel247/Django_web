@@ -3,7 +3,12 @@ from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from apps.accounts.models import Ouser
 from apps.blog.models import Article, Category, Timeline
+from apps.role.models import Department
 # from apps.tool.models import ToolLink, ToolCategory
+class DepartmentSerializer(ModelSerializer):
+    class Meta:
+        model = Department
+        fields = '__all__'
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

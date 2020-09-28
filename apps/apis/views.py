@@ -1,16 +1,15 @@
+
 from django.contrib.syndication.views import Feed
 from django.http import request
 from django.shortcuts import render
 
-# Create your views here.
 from django.contrib.auth.models import User, Group
 from apps.accounts.models import Ouser
 from apps.blog.models import Article, Category
-#  Timeline
-# from apps.tool.models import ToolLink
-from rest_framework import viewsets
+from apps.role.models import Department
+from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
-from .serializers import UserSerializer, GroupSerializer, ArticleSerializer, CategorySerializer, PostHaystackSerializer
+from .serializers import UserSerializer, GroupSerializer, ArticleSerializer, CategorySerializer, PostHaystackSerializer, DepartmentSerializer
 from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
 from .handler import IsAdminUserOrReadOnly
 from drf_haystack.viewsets import HaystackViewSet
@@ -21,7 +20,18 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 import logging
-logger=logging.getLogger('apps')
+logger = logging.getLogger('apps')
+
+
+class DepartmentViewSet(ModelViewSet):
+    """
+    API endpoint that allows Departments to be viewed or edited.
+    """
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
+
+
 class APIResponse(Response):
     def __init__(self, data_status, data_msg, results=None,
                  status=None, headers=None, content_type=None, *args, **kwargs):
@@ -43,17 +53,19 @@ class MockResponse(Response):
         super().__init__(data=data, status=status,
                          headers=headers, content_type=content_type)
 
-from rest_framework.exceptions import APIException
+
 class test_apiview(APIView):
     def get(self, request):
         a = 1/0
         # raise APIException('lalalalal')
         return APIResponse(200, "success", task_id="success", log_id="success", status=status.HTTP_200_OK)
 
+
 def test(request):
     print(request)
     a = 1/0
     return APIResponse(200, "success", task_id="success", log_id="success", status=status.HTTP_200_OK)
+
 
 class PostSearchAnonRateThrottle(AnonRateThrottle):
     THROTTLE_RATES = {"anon": "5/min"}
@@ -65,7 +77,7 @@ class ArticleSearchView(HaystackViewSet):
     throttle_classes = [PostSearchAnonRateThrottle]
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
@@ -74,7 +86,16 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
 
 
-class ArticleListSet(viewsets.ModelViewSet):
+class UserViewSet(ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Ouser.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
+
+
+class ArticleListSet(ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
@@ -83,13 +104,13 @@ class ArticleListSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 
-class CategoryListSet(viewsets.ModelViewSet):
+class CategoryListSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
@@ -98,13 +119,13 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-# class TimelineListSet(viewsets.ModelViewSet):
+# class TimelineListSet(ModelViewSet):
 #     queryset = Timeline.objects.all()
 #     serializer_class = TimelineSerializer
 #     permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
 
 
-# class ToolLinkListSet(viewsets.ModelViewSet):
+# class ToolLinkListSet(ModelViewSet):
 #     queryset = ToolLink.objects.all()
 #     serializer_class = ToolLinkSerializer
 #     permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
