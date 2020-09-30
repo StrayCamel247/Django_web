@@ -1,6 +1,6 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Contacts,Ouser
+from .models import Contacts, Ouser
 from django.conf import settings
 from .forms import ProfileForm
 from django.contrib.auth import authenticate, login
@@ -12,46 +12,65 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from apps.utils.core.http import require_http_methods
 from apps.utils.wsme.signature import signature
-from .types import AccountsResult,AccountLoginBody
+from .types import AccountsResult, AccountLoginBody, AccountTokenBody
+from apps.jwt.handler import jwt_login_handler, jwt_token_refresh_handler, jwt_token_verify_handler
 # Create your views here.
+urlpatterns = []
+@require_http_methods('account/token-verify', methods=['POST'])
+@signature(AccountsResult, body=AccountTokenBody)
+def jwt_token_verify(body):
+    params = {
+        'token': body.token
+    }
+    content = jwt_token_verify_handler(**params)
+    return AccountsResult(content=content)
 
-@require_http_methods('account/login', methods=['POST'])
-@signature(AccountsResult,body=AccountLoginBody)
-def account_login(body):
-    """"""
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        login(request, user)
-        # Redirect to a success page.
-        ...
-    else:
-        pass
-    # Return an 'invalid login' error message.
-        ...
+@require_http_methods('account/token-refresh', methods=['POST'])
+@signature(AccountsResult, body=AccountTokenBody)
+def jwt_token_refresh(body):
+    params = {
+        'token': body.token
+    }
+    content = jwt_token_refresh_handler(**params)
+    return AccountsResult(content=content)
+
+@require_http_methods('account/token-login', methods=['POST'])
+@signature(AccountsResult, body=AccountLoginBody)
+def jwt_token_login(body):
+    params = {
+        'username': body.username,
+        'password': body.password
+    }
+    content = jwt_login_handler(**params)
+    return AccountsResult(content=content)
+
+
 
 @login_required
 def users_view(request):
-    return render(request,'user/users.html')
+    return render(request, 'user/users.html')
 
 
 @login_required
 def profile_view(request):
-    return render(request,'user/account/profile.html')
+    return render(request, 'user/account/profile.html')
+
 
 @login_required
 def change_profile_view(request):
     if request.method == 'POST':
         # 上传文件需要使用request.FILES
-        form = ProfileForm(request.POST,request.FILES,instance=request.user)
+        form = ProfileForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             # 添加一条信息,表单验证成功就重定向到个人信息页面
-            messages.add_message(request,messages.SUCCESS,'个人信息更新成功！')
+            messages.add_message(request, messages.SUCCESS, '个人信息更新成功！')
             return redirect('accounts:profile')
     else:
         # 不是POST请求就返回空表单
         form = ProfileForm(instance=request.user)
-    return render(request,'user/account/change_profile.html',context={'form':form})
+    return render(request, 'user/account/change_profile.html', context={'form': form})
+
 
 @login_required
 def AdminView(request):
@@ -66,7 +85,7 @@ def AdminView(request):
     # else:
     #     # 不是POST请求就返回空表单
     #     form = ProfileForm(instance=request.user)
-    return render(request,'user/account/admin.html')
+    return render(request, 'user/account/admin.html')
 
 
 # @csrf_exempt
@@ -86,11 +105,12 @@ def DelmemberView(request):
         member.contact.remove(cont)
         # info.delete()
         # if (info):
-            # return JsonResponse({'msg': })
+        # return JsonResponse({'msg': })
         # else :
         #     return JsonResponse({'msg': 'delete success'})
-    
+
     return JsonResponse({'msg': contact_id})
+
 
 @require_POST
 def AddmemberView(request):
@@ -110,8 +130,9 @@ def AddmemberView(request):
         #     return JsonResponse({'msg': })
         # else :
         #     return JsonResponse({'msg': 'delete success'})
-    
+
     return JsonResponse({'msg': "good"})
+
 
 @require_POST
 def SearchmemberView(request):
@@ -121,12 +142,10 @@ def SearchmemberView(request):
         member_id = data.get('member_id')
         member_name = data.get('member_name')
 
-        
-        if (get_object_or_404(Ouser, id=member_id ).username == member_name):
+        if (get_object_or_404(Ouser, id=member_id).username == member_name):
             return JsonResponse({'msg': member_id})
         else:
             return JsonResponse({'msg': 'nobody'})
-    
 
 
 class ContactsView(generic.ListView):
@@ -135,7 +154,6 @@ class ContactsView(generic.ListView):
     context_object_name = 'members'
     paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
     paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
-
 
     def get_queryset(self, **kwargs):
         queryset = super(ContactsView, self).get_queryset()
@@ -148,5 +166,3 @@ class ContactsView(generic.ListView):
         context_data['search_contacts'] = '通讯录'
         context_data['search_instance'] = contacts
         return context_data
-
-

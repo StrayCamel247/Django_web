@@ -9,8 +9,8 @@ from apps import types as _types
 from django.utils.translation import ugettext as _
 
 class HelloResult(wtypes.Base):
-    code = wsme.wsattr(int, default=0)
-    msg = wsme.wsattr(wtypes.text, default=str(_('success')))
+    status_code =  wsme.wsattr(int, default=0)
+    detail =  wsme.wsattr(wtypes.text, default=str(_('success')))
     content = _types.jsontype
 
 class HelloBody(wtypes.Base):

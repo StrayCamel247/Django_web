@@ -22,11 +22,6 @@ class hello_word_view(generic.View):
     def dispatch(self, *args, **kwargs):
         return super(hello_word_view, self).dispatch(*args, **kwargs)
 
-    # @signature(HelloWordResult, body=HelloWordBody)
-    # def post(self, request, *args, **kwargs):
-    #     content = hello_word_handler()
-    #     res = HelloWordResult(content=content)
-    #     return res
     @signature(HelloWordResult)
     def get(self):
         content = get_ml_1m_zip()

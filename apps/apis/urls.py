@@ -22,7 +22,7 @@ urlpatterns = [
     path("rest_framework/", include(router.urls)),
     url(r"^test/", test_apiview.as_view(), name="RunCase"),  # 执行单个接口下所有用例
     # 执行单个接口下所有用例, name="RunCase"),  # 执行单个接口下所有用例
-    url(r"^123/", test, name="123")
+    url(r"^123", test, name="123")
 ]
 
 # rss订阅

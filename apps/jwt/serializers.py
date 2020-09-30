@@ -1,11 +1,4 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# __author__ : stray_camel
-# __description__ : jwt
-# __REFERENCES__ : https://jwt.io/
-# __date__: 2020/09/28 14
 import jwt
-
 
 from calendar import timegm
 from datetime import datetime, timedelta
@@ -15,8 +8,8 @@ from django.utils.translation import ugettext as _
 from rest_framework import serializers
 from .compat import Serializer
 
-from .settings import api_settings
-from .compat import get_username_field, PasswordField
+from apps.jwt.settings import api_settings
+from apps.jwt.compat import get_username_field, PasswordField
 
 
 User = get_user_model()
@@ -28,10 +21,16 @@ jwt_get_username_from_payload = api_settings.JWT_PAYLOAD_GET_USERNAME_HANDLER
 
 class JSONWebTokenSerializer(Serializer):
     """
-    用于验证数据的Serializer类。
-    返回一个JSON Web令牌，可用于验证以后的调用。
+    Serializer class used to validate a username and password.
+
+    'username' is identified by the custom UserModel.USERNAME_FIELD.
+
+    Returns a JSON Web Token that can be used to authenticate later calls.
     """
     def __init__(self, *args, **kwargs):
+        """
+        Dynamically add the USERNAME_FIELD to self.fields.
+        """
         super(JSONWebTokenSerializer, self).__init__(*args, **kwargs)
 
         self.fields[self.username_field] = serializers.CharField()

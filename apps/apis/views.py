@@ -1,5 +1,9 @@
-
-from .test import serializer_signature, testbody,  testresult
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# __author__ : stray_camel
+# __description__ : apis视图定义
+# __REFERENCES__ : 
+# __date__: 2020/09/30 09
 from django.contrib.syndication.views import Feed
 from django.http import request
 from django.shortcuts import render
@@ -65,15 +69,14 @@ class test_apiview(APIView):
         return APIResponse(200, "success", task_id="success", log_id="success", status=status.HTTP_200_OK)
 
 
-import json
-@serializer_signature(testresult, body=testbody)
-def test(body):
-    print(body)
+# import json
+# @serializer_signature(testresult, body=testbody)
+# def test(body):
+def test(requests):
+    print(requests)
     print(1)
     res = testresult(dict(code='1234', mesage='1234'))
     print(res.data)
-    return
-    return HttpResponse(json.dumps(res.data), content_type='application/json')
     # print(request)
     # print(request.GET)
     # ser = testbody(data=json.loads(request.body))

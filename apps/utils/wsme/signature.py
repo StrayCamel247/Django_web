@@ -68,8 +68,6 @@ def signature(*args, **kw):
                 request.content_type
             )
             
-            # if funcdef.pass_request:
-            #     kwargs[funcdef.pass_request] = flask.request
             dataformat = get_dataformat(request)
             try:
                 if ismethod:
@@ -80,17 +78,6 @@ def signature(*args, **kw):
                 if isinstance(result, wsme.api.Response):
                     status_code = result.status_code
                     result = result.obj
-                # if hasattr(result, 'code'):
-                #     res = HttpResponse(
-                #         dataformat.encode_result(
-                #             result,
-                #             funcdef.return_type
-                #         ), content_type=dataformat.content_type
-                #     )
-                #     # res.mimetype = dataformat.content_type
-                #     # res.content_type = dataformat.content_type
-                # else:
-                # _code = 
                 res = HttpResponse(dataformat.encode_result(
                     result,
                     funcdef.return_type

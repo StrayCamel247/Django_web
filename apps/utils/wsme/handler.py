@@ -227,7 +227,7 @@ class Response(object):
 def format_exception(excinfo, debug=False):
     """Extract informations that can be sent to the client."""
     error = excinfo[1]
-    code = getattr(error, 'code', None)
+    status_code =  getattr(error, 'code', None)
     if code and utils.is_valid_code(code) and utils.is_client_error(code):
         faultstring = (error.faultstring if hasattr(error, 'faultstring')
                        else six.text_type(error))

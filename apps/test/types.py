@@ -9,9 +9,9 @@ from apps import types as _types
 from django.utils.translation import ugettext as _
 from apps.api_exception import ParameterException
 class HelloWordResult(wtypes.Base):
-    code = wsme.wsattr(int, default=0)
+    status_code =  wsme.wsattr(int, default=0)
     content = _types.jsontype
-    msg = wsme.wsattr(wtypes.text, default=str(_('success')))
+    detail =  wsme.wsattr(wtypes.text, default=str(_('success')))
 
 class HelloWordBody(wtypes.Base):
     test = wsme.wsattr(wtypes.text, mandatory=True)

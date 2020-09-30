@@ -10,6 +10,7 @@ class Serializer(serializers.Serializer):
 
 
 class PasswordField(serializers.CharField):
+
     def __init__(self, *args, **kwargs):
         if 'style' not in kwargs:
             kwargs['style'] = {'input_type': 'password'}

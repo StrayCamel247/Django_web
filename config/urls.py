@@ -64,5 +64,3 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += [path(_+'/', include('apps.{app_name}.urls'.format(app_name=_)), name=_) for _ in settings.APPS if os.path.exists(os.path.join(settings.APPS_FLODER, _, 'urls.py'))]
 
 urlpatterns += [path('', include('apps.data_analysis.views'.format(app_name='data_analysis')), name='data_analysis')]
-
-urlpatterns += [path('', include('apps.jwt.views'.format(app_name='jwt')), name='jwt')]

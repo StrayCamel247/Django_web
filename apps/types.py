@@ -129,16 +129,16 @@ class Base(wtypes.Base):
 
 
 class BaseResult(wtypes.Base):
-    code = wsme.wsattr(int, default=0)
+    status_code =  wsme.wsattr(int, default=0)
 
 
 class FailResult(BaseResult):
-    code = wsme.wsattr(wtypes.text, default=0xFFFF1111)
-    msg = wsme.wsattr(wtypes.text, default=str(_('Fail')))
+    status_code =  wsme.wsattr(wtypes.text, default=0xFFFF1111)
+    detail =  wsme.wsattr(wtypes.text, default=str(_('Fail')))
     content = jsontype
 
 class Success(BaseResult):
-    msg = wtypes.text
+    detail =  wtypes.text
 
 
 class QueryFlatResult(BaseResult):
