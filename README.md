@@ -18,7 +18,6 @@
   - [x] **重构django http请求方式校验，支持装饰器传入`path`，`methods`自定义url，而不是再urls.py文件配置**:`apps\utils\decorators\http.py`
   - [x] **继承rest framework框架的统一的异常处理**:`apps\utils\decorators\http.py`
   - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\jwt`
-  - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\jwt`
   - [x] **继承rest framework框架序列化功能，配置接口数据校验**:`apps\jwt\serializers.py`
     > 之前刚做完wsme数据校验的扩展和开发，欸rest framework的序列化也挺好用的，这可咋整
 

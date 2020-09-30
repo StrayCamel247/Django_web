@@ -1,4 +1,5 @@
 
+from .test import serializer_signature, testbody,  testresult
 from django.contrib.syndication.views import Feed
 from django.http import request
 from django.shortcuts import render
@@ -17,6 +18,7 @@ from rest_framework.throttling import AnonRateThrottle
 
 from rest_framework.views import APIView, status
 from rest_framework.response import Response
+from django.shortcuts import HttpResponse
 from rest_framework import status
 from rest_framework.views import APIView
 import logging
@@ -53,6 +55,8 @@ class MockResponse(Response):
         super().__init__(data=data, status=status,
                          headers=headers, content_type=content_type)
 
+# @serializer_signature(, body)
+
 
 class test_apiview(APIView):
     def get(self, request):
@@ -61,10 +65,25 @@ class test_apiview(APIView):
         return APIResponse(200, "success", task_id="success", log_id="success", status=status.HTTP_200_OK)
 
 
-def test(request):
-    print(request)
-    a = 1/0
-    return APIResponse(200, "success", task_id="success", log_id="success", status=status.HTTP_200_OK)
+import json
+@serializer_signature(testresult, body=testbody)
+def test(body):
+    print(body)
+    print(1)
+    res = testresult(dict(code='1234', mesage='1234'))
+    print(res.data)
+    return
+    return HttpResponse(json.dumps(res.data), content_type='application/json')
+    # print(request)
+    # print(request.GET)
+    # ser = testbody(data=json.loads(request.body))
+    # # ser.is_valid(raise_exception=True)#返回TRUE,表示校验成功，否则没有校验成
+    # # a = 1/0
+    # print(ser.initial_data)
+    # # print(ser._kw)
+    # res = testresult(dict(code='1234', mesage='1234'))
+    # print(res.data)
+    # return HttpResponse(json.dumps(res.data), content_type='application/json')
 
 
 class PostSearchAnonRateThrottle(AnonRateThrottle):
