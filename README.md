@@ -6,6 +6,8 @@
 
 ## ✨Features-持续更新
 
+### [🦍Postman接口文档](https://explore.postman.com/templates/12957/djangoweb)
+
 ### 👻Version_V2.0
 
 > django+vue前后端分离，集合算法可视化项目，学习、练习、训练模型，系统底层构建等。
@@ -17,9 +19,12 @@
   - [x] **自定义彩色日志系统，构建方法打印日志装饰器**:`apps\utils\log\handler.py`
   - [x] **重构django http请求方式校验，支持装饰器传入`path`，`methods`自定义url，而不是再urls.py文件配置**:`apps\utils\decorators\http.py`
   - [x] **继承rest framework框架的统一的异常处理**:`apps\utils\decorators\http.py`
+
+- [x] jwt登陆验证
   - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\jwt`
   - [x] **继承rest framework框架序列化功能，配置接口数据校验**:`apps\jwt\serializers.py`
-    > 之前刚做完wsme数据校验的扩展和开发，欸rest framework的序列化也挺好用的，这可咋整
+  - [x] **将JWT中的CBV视图转换为FBV视图handlers**:`apps\jwt\handler.py`
+
 
 - [x] data_analysis: 使用简单的numpy，pandas复现算法或者模型，并通过接口返回演示
   - [x] **Apriori算法实现**:`apps\data_analysis\models\apriori.py`)`

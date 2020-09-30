@@ -15,7 +15,7 @@ from apps.utils.wsme.signature import signature
 from .types import AccountsResult, AccountLoginBody, AccountTokenBody
 from apps.jwt.handler import jwt_login_handler, jwt_token_refresh_handler, jwt_token_verify_handler
 # Create your views here.
-urlpatterns = []
+# urlpatterns = []
 @require_http_methods('account/token-verify', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def jwt_token_verify(body):
