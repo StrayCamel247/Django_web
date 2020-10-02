@@ -24,6 +24,7 @@
   - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\jwt`
   - [x] **继承rest framework框架序列化功能，配置接口数据校验**:`apps\jwt\serializers.py`
   - [x] **将JWT中的CBV视图转换为FBV视图handlers**:`apps\jwt\handler.py`
+  - [x] **没有使用rsf的jwt认证**`apps\utils\jwt`
 
 
 - [x] data_analysis: 使用简单的numpy，pandas复现算法或者模型，并通过接口返回演示
