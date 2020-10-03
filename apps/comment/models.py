@@ -1,6 +1,4 @@
 from django.db import models
-from django.conf import settings
-from apps.blog.models import Article
 from mdeditor.fields import MDTextField
 
 import markdown

@@ -2,7 +2,7 @@
 from django.urls import path
 from django.conf.urls import url
 from rest_framework import routers
-from .views import UserViewSet, GroupViewSet, ArticleListSet, CategoryListSet,  AllArticleRssFeed, ArticleSearchView, test_apiview, test, DepartmentViewSet
+from .drf_views import UserViewSet, GroupViewSet, ArticleListSet, CategoryListSet,  AllArticleRssFeed, ArticleSearchView, test_apiview, test, DepartmentViewSet
 from django.conf.urls import include
 from apps.index.views import HelloView
 

@@ -25,7 +25,7 @@ from django.contrib import admin
 # 网站地图
 from django.contrib.sitemaps.views import sitemap
 from apps.index.views import ArticleSitemap, CategorySitemap
-from apps.api_exception import exception_process,_handler404,_handler500
+from apps.api_exception import exception_process, _handler404, _handler500
 import copy
 # handler400 = exception_process
 # handler403 = exception_process
@@ -61,6 +61,10 @@ urlpatterns = [
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns += [path(_+'/', include('apps.{app_name}.urls'.format(app_name=_)), name=_) for _ in settings.APPS if os.path.exists(os.path.join(settings.APPS_FLODER, _, 'urls.py'))]
+urlpatterns += [path(_+'/', include('apps.{app_name}.urls'.format(app_name=_)), name=_)
+                for _ in settings.APPS if os.path.exists(os.path.join(settings.APPS_FLODER, _, 'urls.py'))]
 
-urlpatterns += [path('', include('apps.data_analysis.views'.format(app_name='data_analysis')), name='data_analysis')]
+urlpatterns += [path('', include('apps.data_analysis.views'.format(
+    app_name='data_analysis')), name='data_analysis')]
+urlpatterns += [path('', include('apps.data.views'.format(app_name='data')), name='data')]
+urlpatterns += [path('', include('apps.apis.views'.format(app_name='apis2_views')), name='apis_views')]

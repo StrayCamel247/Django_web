@@ -1,6 +1,5 @@
 from django.conf.urls import url
 from .views import IndexView, MySearchView
-# , AddmessageView
 # from apps.comment.views import MessageView
 app_name = 'index'
 urlpatterns = [
@@ -16,7 +15,7 @@ urlpatterns = [
     # url(r'^date/(?P<year>\d+)/(?P<month>\d+)/$',
     #     IndexView.as_view(template_name='archive.html'), name='date'),
     # # 全文搜索
-    url(r'^search/$', MySearchView.as_view(), name='search'),
+    # url(r'^search/$', MySearchView.as_view(), name='search'),
     # # 留言板
     # url(r'^message_board/$', MessageView.as_view(), name='message'),
     # 关于自己

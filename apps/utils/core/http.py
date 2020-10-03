@@ -5,16 +5,14 @@
 # __REFERENCES__ : F:\Envs\env\Lib\site-packages\django\views\decorators\http.py
 # __date__: 2020/09/23 12
 
-from functools import wraps
 from apps.utils.wsme.signature import get_dataformat
 # F:\Envs\env\Lib\site-packages\rest_framework\status.py
-from rest_framework.status import is_client_error, is_server_error, HTTP_405_METHOD_NOT_ALLOWED
+from rest_framework.status import  HTTP_405_METHOD_NOT_ALLOWED
 from apps.apis.urls import urlpatterns
-# from config.urls import urlpatterns
-from django.http.response import HttpResponseNotFound, HttpResponseServerError, HttpResponseForbidden, HttpResponseNotAllowed
+from django.http.response import HttpResponseNotAllowed
 import logging
 log = logging.getLogger('apps')
-import json, sys
+import json
 from apps.api_exception import ParameterException
 from django.conf.urls import url
 
@@ -50,11 +48,3 @@ def require_http_methods(path, name=None, methods=[]):
     return decorator
 
 
-# require_GET = require_http_methods(["GET"])
-# require_GET.__doc__ = "Decorator to require that a view only accepts the GET method."
-
-# require_POST = require_http_methods(["POST"])
-# require_POST.__doc__ = "Decorator to require that a view only accepts the POST method."
-
-# require_safe = require_http_methods(["GET", "HEAD"])
-# require_safe.__doc__ = "Decorator to require that a view only accepts safe methods: GET and HEAD."
