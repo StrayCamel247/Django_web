@@ -26,7 +26,8 @@
   - [x] **将JWT中的CBV视图转换为FBV视图handlers**:`apps\jwt\handler.py`
   - [x] **没有使用rsf的jwt认证**`apps\utils\jwt`
 
-
+- [x] apis
+  - [x] **获得所有urls**`apps\apis\views.py`
 - [x] data_analysis: 使用简单的numpy，pandas复现算法或者模型，并通过接口返回演示
   - [x] **Apriori算法实现**:`apps\data_analysis\models\apriori.py`)`
 
