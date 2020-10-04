@@ -7,6 +7,7 @@ from django.db.models import constraints
 from pyspark import SparkContext, SparkConf
 import logging
 import pandas as pd
+import numpy as np
 import os
 current_floder = os.path.dirname(__file__)
 # (模型) 媒体存放文件夹
@@ -37,14 +38,16 @@ def get_iris_data(*args, **kwargs):
     iris_data = load_iris()
     per_page = kwargs.get('per_page', 10)
     page = kwargs.get('page',1)
-    paginator = Paginator(iris_data.data, per_page)
+    label_name-
+    data = np.column_stack((iris_data.data, iris_data.target))
+    paginator = Paginator(data, per_page)
     try:
         contacts = paginator.page(page)
     except PageNotAnInteger:
         contacts = paginator.page(1)
     except EmptyPage:
         contacts = paginator.page(paginator.num_pages)
-    title_columns = iris_data.feature_names
+    title_columns = iris_data.feature_names+['label']
     all_pages = contacts.paginator.num_pages
     data_length = contacts.paginator.count
     res = {

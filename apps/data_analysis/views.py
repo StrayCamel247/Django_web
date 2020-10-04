@@ -3,11 +3,11 @@
 # __author__ : stray_camel
 # __date__: 2020/05/26 12:40:21
 
-from .types import HelloWordResult, ComputeAprioriBody, ComputeFPgrowthBody
-from .models.apriori.hander import apriori
-from .models.FPgrowth.handler import ft_growth
 from apps.utils.wsme.signature import signature
 from apps.utils.core.http import require_http_methods
+from .types import HelloWordResult, ComputeAprioriBody, ComputeFPgrowthBody
+from .moduls.apriori.hander import apriori
+from .moduls.FPgrowth.handler import ft_growth
 
 # url锚点，让config.urls中集合url的机制可以访问到，并调用require_http_methods将url注册到apis中，和restful接口相集合
 urlpatterns=[]
