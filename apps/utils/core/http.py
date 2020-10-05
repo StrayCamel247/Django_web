@@ -15,17 +15,18 @@ log = logging.getLogger('apps')
 import json
 from apps.api_exception import ParameterException
 from django.conf.urls import url
+from django.contrib.auth import REDIRECT_FIELD_NAME
 
-def require_http_methods(path, name=None, methods=[]):
+def require_http_methods(path, name=None, methods=[],**login_required):
     """
-    Decorator to make a view only accept particular request methods.  Usage::
-
-        @require_http_methods(["GET", "POST"])
+    用户指定view对应的url和request methods，并将url注册到apis连接下
+    NOTE:
+        @require_http_methods('data/iris_data', methods=['GET'])
         def my_view(request):
             # I can assume now that only GET or POST requests make it this far
-            # ...
-
-    Note that request methods should be in uppercase.
+    **login_required:
+        指定访问url的user的限制
+        参考:django/contrib/auth/decorators.py
     """
     if not path:
         raise ParameterException('请传入url')

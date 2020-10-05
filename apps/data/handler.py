@@ -38,7 +38,7 @@ def get_iris_data(*args, **kwargs):
     iris_data = load_iris()
     per_page = kwargs.get('per_page', 10)
     page = kwargs.get('page',1)
-    label_name-
+    # label_name-
     data = np.column_stack((iris_data.data, iris_data.target))
     paginator = Paginator(data, per_page)
     try:

@@ -12,6 +12,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .handler import get_iris_data
 # url锚点，让config.urls中集合url的机制可以访问到，并调用require_http_methods将url注册到apis中，和restful接口相集合
 urlpatterns=[]
+
+from django.contrib.auth.decorators import login_required
 @require_http_methods('data/iris_data', methods=['GET'])
 @signature(DataResult, int)
 def iris_data_view(page):

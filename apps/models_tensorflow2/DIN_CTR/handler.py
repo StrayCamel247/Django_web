@@ -20,7 +20,7 @@ from apps.constants import MAX_CPUS
 from apps.data.handler import (META_ELECTRONICS, REVIEWS_ELECTRONICS_5,
                                 TMP_PATH)
 
-def build_map(df:"reviews_df / meta_df", col_name:"列名")->(dict, list):
+def build_map(df:"reviews_df / meta_df", col_name:"列名"):
     """
     制作一个映射，键为列名，值为序列数字
     :return: 字典，键
