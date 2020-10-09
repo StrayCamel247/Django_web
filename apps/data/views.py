@@ -14,7 +14,8 @@ from .handler import get_iris_data
 urlpatterns=[]
 
 from django.contrib.auth.decorators import login_required
-@require_http_methods('data/iris_data', methods=['GET'])
+
+@require_http_methods('data/iris_data', methods=['GET'], login_required=True)
 @signature(DataResult, int)
 def iris_data_view(page):
     data = get_iris_data(page=page)
