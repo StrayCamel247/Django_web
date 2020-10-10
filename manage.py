@@ -1,4 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# __author__ : stray_camel
+# __description__ : django 启动文件
+# __REFERENCES__ : 
+# __date__: 2020/10/10 17
 import os
 import sys
 

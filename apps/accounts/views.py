@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Contacts, Ouser
 from django.conf import settings
-from .forms import ProfileForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
@@ -13,6 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 from apps.utils.core.http import require_http_methods
 from apps.utils.wsme.signature import signature
 from .types import AccountsResult, AccountLoginBody, AccountTokenBody, AccountRefreshBody
+from .forms import ProfileForm
+from .models import Contacts, Ouser
 from .handler import token_refresh_sliding_handler, token_obtain_sliding_handler, token_refresh_handler, token_obtain_pair_handler
 # Create your views here.
 urlpatterns = []
@@ -31,7 +31,7 @@ def token_obtain_pair(body):
 
 @require_http_methods('account/access-refresh', methods=['POST'])
 @signature(AccountsResult, body=AccountRefreshBody)
-def jwt_access_refresh(body):
+def token_access_refresh(body):
     params = {
         'refresh': body.refresh
     }
@@ -52,7 +52,7 @@ def token_obtain_sliding(body):
 
 @require_http_methods('account/token-refresh', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
-def jwt_token_refresh(body):
+def token_refresh(body):
     params = {
         'token': body.token
     }

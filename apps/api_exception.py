@@ -289,3 +289,7 @@ class RoleUsed(APIException):
 class UserUsed(APIException):
     detail = _("This user is in use and cannot be deleted")
     status_code = 0x00000024
+
+class ResponseNotAllowed(APIException):
+    detail = _("'Method Not Allowed")
+    status_code = 0x00000195

@@ -45,7 +45,6 @@ def get_all_url_dict(*args, **kwargs):
     recursion_urls(None, '/', md.urlpatterns, url_ordered_dict)  # 递归去获取所有的路由
     return url_ordered_dict
 
-
 class IsAdminUserOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:

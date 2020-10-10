@@ -20,12 +20,21 @@
   - [x] **自定义signature装饰器，应用于view模板，校验接口传参**:`apps\utils\wsme\signature.py`
   - [x] **自定义彩色日志系统，构建方法打印日志装饰器**:`apps\utils\log\handler.py`
   - [x] **继承rest framework框架的统一的异常处理**:`apps\utils\decorators\http.py`
-  - [x] **重构django http请求方式校验，支持装饰器传入`methods:"用户指定url和request methods，并将url注册到apis连接下" = [], login_required: "用户指定是否开启request.user校验" = False, perm: "user拥有的权限" = (), jwt_required: "用户指定是否开启request.jwt校验" = False`，而不是再urls.py文件配置**:`apps\utils\decorators\http.py`
+  - [x] **重构django http请求方式校验，而不是再urls.py文件配置**:`apps\utils\decorators\http.py`
+    - [x] 支持将用户指定url和request methods，并将url注册到apis连接下
+    - [x] 支持对request.user校验
+    - [x] 支持对jwt的token校验（jwt生辰方式见jwt登陆验证），获得token校验后会更新token，将数据插入到返回的json中
 
 - [x] jwt登陆验证
   - [x] 开发简单的jwt登陆验证，绕过drf框架，直接使用django原生系统:`apps\utils\jwt`
   - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\accounts\views.py`
+    > https://django-rest-framework-simplejwt.readthedocs.io/en/latest/token_types.html#token-types
+    - Simple JWT provides two different token types that can be used to prove authentication; 两种方式均可获得对应的token和user信息（user信息使用的序列化功能在`apps\apis\serializers.py`中定制：
+    - [x] “access”, “sliding”：`apps\accounts\views.py`:token_obtain_pair()/token_access_refresh()
+    - [x] “refresh”：`apps\accounts\views.py`:token_obtain_sliding()/token_refresh()
   - [x] **将django-rest-framework-simplejwt中的CBV视图转换为FBV视图handlers**:`apps\accounts\handler.py`
+
+- [ ] django csrf 接口登陆验证
 
 - [x] apis
   - [x] **获得所有urls**:`apps\apis\views.py`

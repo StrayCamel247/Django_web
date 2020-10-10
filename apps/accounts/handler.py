@@ -4,12 +4,15 @@
 # __description__ : 基于https://github.com/SimpleJWT/django-rest-framework-simplejwt 开发jwt-TOKEN验证脚手架
 # __REFERENCES__ :
 # __date__: 2020/10/10 14
+from django.contrib.auth.models import update_last_login
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer, TokenObtainPairSerializer, TokenObtainSlidingSerializer, TokenRefreshSlidingSerializer, TokenVerifySerializer
-from .types import User
 from apps.api_exception import InvalidJwtToken
+from apps.apis.serializers import UserSerializer
+from .types import User
 import logging
 log = logging.getLogger('apps')
+
 
 def get_username_field():
     try:
@@ -52,8 +55,10 @@ def token_obtain_pair_handler(username, password):
     ser = TokenObtainPairSerializer(
         data={get_username_field(): username, 'password': password})
     ser.is_valid(raise_exception=True)
+    update_last_login(None, ser.user)
     res = dict(refresh=ser.validated_data.get('refresh'),
-               access=ser.validated_data.get('access')
+               access=ser.validated_data.get('access'), 
+               user=UserSerializer(ser.user).data
                )
     return res
 
@@ -66,8 +71,9 @@ def token_obtain_sliding_handler(username, password):
     ser = TokenObtainSlidingSerializer(
         data={get_username_field(): username, 'password': password})
     ser.is_valid(raise_exception=True)
-    res = dict(token=ser.validated_data.get('token')
-               )
+    update_last_login(None, ser.user)
+    res = dict(token=ser.validated_data.get('token'),
+               user=UserSerializer(ser.user).data)
     return res
 
 
