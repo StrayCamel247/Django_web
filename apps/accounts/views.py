@@ -12,38 +12,52 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from apps.utils.core.http import require_http_methods
 from apps.utils.wsme.signature import signature
-from .types import AccountsResult, AccountLoginBody, AccountTokenBody
-from apps.jwt.handler import jwt_login_handler, jwt_token_refresh_handler, jwt_token_verify_handler
+from .types import AccountsResult, AccountLoginBody, AccountTokenBody, AccountRefreshBody
+from .handler import token_refresh_sliding_handler, token_obtain_sliding_handler, token_refresh_handler, token_obtain_pair_handler
 # Create your views here.
-# urlpatterns = []
-@require_http_methods('account/token-verify/', methods=['POST'])
-@signature(AccountsResult, body=AccountTokenBody)
-def jwt_token_verify(body):
+urlpatterns = []
+
+
+@require_http_methods('account/access-login', methods=['POST'])
+@signature(AccountsResult, body=AccountLoginBody)
+def token_obtain_pair(body):
     params = {
-        'token': body.token
+        'username': body.username,
+        'password': body.password
     }
-    content = jwt_token_verify_handler(**params)
+    content = token_obtain_pair_handler(**params)
     return AccountsResult(content=content)
 
-@require_http_methods('account/token-refresh/', methods=['POST'])
+
+@require_http_methods('account/access-refresh', methods=['POST'])
+@signature(AccountsResult, body=AccountRefreshBody)
+def jwt_access_refresh(body):
+    params = {
+        'refresh': body.refresh
+    }
+    content = token_refresh_handler(**params)
+    return AccountsResult(content=content)
+
+
+@require_http_methods('account/token-login', methods=['POST'])
+@signature(AccountsResult, body=AccountLoginBody)
+def token_obtain_sliding(body):
+    params = {
+        'username': body.username,
+        'password': body.password
+    }
+    content = token_obtain_sliding_handler(**params)
+    return AccountsResult(content=content)
+
+
+@require_http_methods('account/token-refresh', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def jwt_token_refresh(body):
     params = {
         'token': body.token
     }
-    content = jwt_token_refresh_handler(**params)
+    content = token_refresh_sliding_handler(**params)
     return AccountsResult(content=content)
-
-@require_http_methods('account/token-login/', methods=['POST'])
-@signature(AccountsResult, body=AccountLoginBody)
-def jwt_token_login(body):
-    params = {
-        'username': body.username,
-        'password': body.password
-    }
-    content = jwt_login_handler(**params)
-    return AccountsResult(content=content)
-
 
 
 @login_required

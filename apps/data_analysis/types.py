@@ -9,6 +9,23 @@ from apps import types as _types
 from django.utils.translation import ugettext as _
 from apps.api_exception import ParameterException
 
+class ComputeSvmBody(wtypes.Base):
+    minSupport = wsme.wsattr(float, default=0.3)
+    max_k = wsme.wsattr(int, default=2)
+    data = wsme.wsattr(_types.jsontype, mandatory=True)
+
+    def validate(self):
+        if not self.data:
+            raise ParameterException(detail=str(_("params error")))
+        # 检查输入的二维列表为二维，且每个元素为int
+        try:
+            check = sum(not isinstance(__, int) for _ in self.data for __ in _)
+        except TypeError:
+            raise ParameterException(detail=str(_("data维度必须是二维列表")))
+        if check:
+            raise ParameterException(detail=str(_("data元素必须为int")))
+        return self
+
 class ComputeFPgrowthBody(wtypes.Base):
     simpDat = wsme.wsattr(_types.jsontype, mandatory=True)
     minSupport = wsme.wsattr(float, default=2)

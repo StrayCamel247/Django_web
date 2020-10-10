@@ -17,7 +17,7 @@ from apps.apis.urls import urlpatterns
 from django.http.response import HttpResponseNotAllowed
 import logging
 from apps.api_exception import InsufficientPermissionsError, NeedLogin, InvalidJwtToken, ServerError
-from apps.jwt.handler import jwt_token_verify_handler
+from apps.accounts.handler import token_refresh_sliding_handler
 log = logging.getLogger('apps')
 
 
@@ -40,7 +40,7 @@ def check_user(user: 'checks that the user is logged in', perm: 'checks whether 
 
 
 def require_http_methods(path, name=None, methods:
-                         "用户指定url和request methods，并将url注册到apis连接下" = [], login_required: "用户指定是否开启request.user校验" = False, perm: "user拥有的权限" = (), jwt_required: "用户指定是否开启request.jwt校验" = False, **check):
+                         "用户指定url和request methods，并将url注册到apis连接下" = [], login_required: "用户指定是否开启request.user校验" = False, perm: "user拥有的权限" = (), token_required: "用户指定是否开启request.jwt校验" = False, **check):
     """
         指定访问url的user的限制
         参考:django/contrib/auth/decorators.py; django/views/decorators/http.py
@@ -78,12 +78,21 @@ def require_http_methods(path, name=None, methods:
                 raise InsufficientPermissionsError(detail=message)
 
             # NOTE:推荐
-            # request.jwt校验
+            # request.token校验，更新token并通过接口返回
             try:
-                assert jwt_required
-                jwt_token_verify_handler(request.jwt)
+                assert token_required
+                token = request.headers._store.get('token')[1]
+                new_token = token_refresh_sliding_handler(token)
+                res = func(request, *args, **kwargs)
+                res.content = json.dumps(
+                    dict(json.loads(res.content), **new_token))
+                return res
             except AssertionError:
                 pass
+            except IndexError:
+                message = 'headers need token'
+                log.warn(message)
+                raise InvalidJwtToken(detail=message)
             except:
                 message = 'user not authentication'
                 log.warn(message)

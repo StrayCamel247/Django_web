@@ -8,29 +8,35 @@
 
 ### [🦍Postman接口文档](https://explore.postman.com/templates/12957/djangoweb)
 
+> 开发完后再进行完善
+
 ### 👻Version_V2.0
 
-> django+vue前后端分离，集合算法可视化项目，学习、练习、训练模型，系统底层构建等。
+> django+vue，CS系统，集合算法可视化项目，学习、练习、训练模型，系统底层构建等。
 
 - [x] utils: 网站系统功能
   - [x] **创建网站数据类型，用于数据校验**:`apps\types.py`
   - [x] **结合wsme数据校验并扩展自定义数据结构，结合signature装饰器对接口的数据进行数据校验**:`apps\types.py`
   - [x] **自定义signature装饰器，应用于view模板，校验接口传参**:`apps\utils\wsme\signature.py`
   - [x] **自定义彩色日志系统，构建方法打印日志装饰器**:`apps\utils\log\handler.py`
-  - [x] **重构django http请求方式校验，支持装饰器传入`methods:"用户指定url和request methods，并将url注册到apis连接下" = [], login_required: "用户指定是否开启request.user校验" = False, perm: "user拥有的权限" = (), jwt_required: "用户指定是否开启request.jwt校验" = False`，而不是再urls.py文件配置**:`apps\utils\decorators\http.py`
   - [x] **继承rest framework框架的统一的异常处理**:`apps\utils\decorators\http.py`
+  - [x] **重构django http请求方式校验，支持装饰器传入`methods:"用户指定url和request methods，并将url注册到apis连接下" = [], login_required: "用户指定是否开启request.user校验" = False, perm: "user拥有的权限" = (), jwt_required: "用户指定是否开启request.jwt校验" = False`，而不是再urls.py文件配置**:`apps\utils\decorators\http.py`
 
 - [x] jwt登陆验证
-  - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\jwt`
-  - [x] **继承rest framework框架序列化功能，配置接口数据校验**:`apps\jwt\serializers.py`
-  - [x] **将JWT中的CBV视图转换为FBV视图handlers**:`apps\jwt\handler.py`
-  - [x] **没有使用rsf的jwt认证**`apps\utils\jwt`
+  - [x] 开发简单的jwt登陆验证，绕过drf框架，直接使用django原生系统:`apps\utils\jwt`
+  - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\accounts\views.py`
+  - [x] **将django-rest-framework-simplejwt中的CBV视图转换为FBV视图handlers**:`apps\accounts\handler.py`
 
 - [x] apis
-  - [x] **获得所有urls**`apps\apis\views.py`
+  - [x] **获得所有urls**:`apps\apis\views.py`
   
+- [x] data
+  - [x] **iris_data数据可视化接口**:`apps\data\views.py`
+
 - [x] data_analysis: 使用简单的numpy，pandas复现算法或者模型，并通过接口返回演示
-  - [x] **Apriori算法实现**:`apps\data_analysis\models\apriori.py`)`
+  - [x] **Apriori算法实现**:`apps\data_analysis\models\apriori.py`
+  - [x] **FPgrowth算法实现**:`apps\data_analysis\moduls\FPgrowth\handler.py`
+  - [x] **SVM算法实现（预测）**:`apps\data_analysis\moduls\svm\handler.py`
 
 - [x] models_sklearn_spark: 机器学习和各种模型算法小demo复现，并通过接口返回演示
   > 开发中...
@@ -62,27 +68,33 @@
     - 链接新的数据库或者更换数据库需要运行`python manage.py makemigrations & python manage.py migrate`
     - 集合项目依赖包中的静态文件：`python manage.py collectstatic`
     - 压缩文件:`python manage.py compress`
-
+ -->
 
 ### 🙃常见安装项目 bug
-- `ImportError: PILKit was unable to import the Python Imaging Library. Please confirm it`s installe...`
-    - 安装pillow库：`pip install pillow`
+
+- 接口post请求莫名变成get请求:
+  - [参考](https://blog.csdn.net/qq_37228688/article/details/89414576)
+  - 在url定向的时候，如果末尾不是‘/’，会被系统重定向到带‘/’的url，即301，然后空的请求被重定向，就变成了get
+  - 在url末尾加上`/`即可解决。
+
+- `ImportError: PILKit was unable to import the Python Imaging Library. Please confirm it s installe...`
+  - 安装pillow库：`pip install pillow`
 
 - `ModuleNotFoundError: No module named 'compressor'`
-    - 原因是安装django_compressor时的依赖包rcssm出了问题，重新安装rcssm包
-    - `pip install rcssmin --install-option="--without-c-extensions"`
+  - 原因是安装django_compressor时的依赖包rcssm出了问题，重新安装rcssm包
+  - `pip install rcssmin --install-option="--without-c-extensions"`
 
 - `ImportError: cannot import name 'connections' from 'haystack' `
-    - 常见处理方法；写在自动安装的依赖包`pip uninstall haystack`，如果还不能解决，重新卸载并安装djang-haystack。
+  - 常见处理方法；写在自动安装的依赖包`pip uninstall haystack`，如果还不能解决，重新卸载并安装djang-haystack。
 
-- `ImportError: cannot import name 'ChineseAnalyzer' from 'jieba.analyse' (F:\workspac' `
-    - 安装依赖包`whoosh`，其实在requirement里面已经有了，但是估计时没安装成功吧。再安装一次就好了
+- `ImportError: cannot import name 'ChineseAnalyzer' from 'jieba.analyse' `
+  - 安装依赖包`whoosh`，其实在requirement里面已经有了，但是估计时没安装成功吧。再安装一次就好了
 
 - `ModuleNotFoundError: No module named 'user_agent'`
-    - 这个包直接安装就好，` pip install user_agent`
+  - 这个包直接安装就好，` pip install user_agent`
 
 - 数据库迁移/项目运行bug：`ValueError : unsupported pickle protocol: 5`
-    - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`config\whoosh_index`文件夹中的所有文件。 -->
+  - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`apps\search\whoosh_index`文件夹中的所有文件。
 
 
 <!-- ### 项目stars曲线图

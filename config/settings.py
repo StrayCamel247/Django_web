@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import datetime
 import os
 from apps.utils.handler import get_local_host_ip
-
+from datetime import timedelta
 try:
     from apps.passwords import EMAIL_PD, POSTGRESQL_PD
 except:
@@ -118,17 +118,39 @@ REST_FRAMEWORK = {
     # jwt登陆机制
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # JWT认证
-        'apps.jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         # Session认证
-        'rest_framework.authentication.SessionAuthentication',
-        # Basic认证
-        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # # Basic认证
+        # 'rest_framework.authentication.BasicAuthentication',
     ),
 
 }
-JWT_AUTH = {
-    # 指明JWT——token的有效期
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+
+    # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/token_types.html
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.SlidingToken','rest_framework_simplejwt.tokens.SlidingToken'),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 # 日志
 # [process:%(process)d %(threadName)s-thread:%(thread)d]

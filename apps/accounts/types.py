@@ -1,22 +1,37 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # __author__ : stray_camel
-# __description__ : 
-# __REFERENCES__ : 
+# __description__ : 数据校验
+# __REFERENCES__ :
 # __date__: 2020/09/28 12
 import wsme
 from wsme import types as wtypes
 from apps import types as _types
 from django.utils.translation import ugettext as _
 from apps.api_exception import ParameterException
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+
+class AccountRefreshBody(wtypes.Base):
+    refresh = wsme.wsattr(wtypes.text, mandatory=True)
+
+    def validate(self):
+        if not len(self.refresh.split('.')) == 3:
+            raise ParameterException(
+                'token应该包含 Header（头部）.Payload（负载）.Signature（签名）三个部分')
+        return self
+
 
 class AccountTokenBody(wtypes.Base):
     token = wsme.wsattr(wtypes.text, mandatory=True)
 
     def validate(self):
-        if not len(self.token.split('.')) ==3:
-            raise ParameterException('token应该包含 Header（头部）.Payload（负载）.Signature（签名）三个部分')
+        if not len(self.token.split('.')) == 3:
+            raise ParameterException(
+                'token应该包含 Header（头部）.Payload（负载）.Signature（签名）三个部分')
         return self
+
 
 class AccountLoginBody(wtypes.Base):
     username = wsme.wsattr(wtypes.text, mandatory=True)
@@ -24,6 +39,7 @@ class AccountLoginBody(wtypes.Base):
 
     def validate(self):
         return self
+
 
 class AccountsResult(wtypes.Base):
     status_code = wsme.wsattr(int, default=200)
@@ -33,5 +49,3 @@ class AccountsResult(wtypes.Base):
     def validate(self):
         print('test')
         return self
-
-

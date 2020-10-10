@@ -34,3 +34,14 @@ def compute_apriori_view(body):
     content = apriori(params)
     res = HelloWordResult(content=content)
     return res
+
+@require_http_methods('data_analysis/iris_svm', methods=['POST'])
+@signature(HelloWordResult, body=ComputeAprioriBody)
+def compute_apriori_view(body):
+    params = {
+        'minSupport': body.minSupport,
+        'max_k': body.max_k
+    }
+    content = apriori(params)
+    res = HelloWordResult(content=content)
+    return res
