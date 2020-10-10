@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # __author__ : stray_camel
 # __description__ : http405报错判断
-# __REFERENCES__ : F:\Envs\env\Lib\site-packages\django\views\decorators\http.py
+# __REFERENCES__ : 
 # __date__: 2020/09/23 12
 
 from django.contrib.auth.decorators import login_required
@@ -16,7 +16,8 @@ from rest_framework.status import HTTP_405_METHOD_NOT_ALLOWED
 from apps.apis.urls import urlpatterns
 from django.http.response import HttpResponseNotAllowed
 import logging
-from apps.api_exception import InsufficientPermissionsError, NeedLogin
+from apps.api_exception import InsufficientPermissionsError, NeedLogin,InvalidJwtToken,ServerError
+from apps.jwt.handler import jwt_token_verify_handler
 log = logging.getLogger('apps')
 
 
@@ -38,18 +39,13 @@ def check_user(user: 'checks that the user is logged in', perm: 'checks whether 
     return False
 
 
-def require_http_methods(path, name=None, methods=[], **check):
+
+
+def require_http_methods(path, name=None, methods:
+"用户指定view对应的url和request methods，并将url注册到apis连接下"=[],login_required:"用户指定是否开启request.user校验" = False,perm:"user拥有的权限"=(),jwt_required:"用户指定是否开启request.jwt校验"=False, **check):
     """
-    用户指定view对应的url和request methods，并将url注册到apis连接下
-    NOTE:
-        @require_http_methods('data/iris_data', methods=['GET'])
-        def my_view(request):
-            # I can assume now that only GET or POST requests make it this far
-    **check:
-        login_required = True 开启校验
-        perm = (user拥有的权限)
         指定访问url的user的限制
-        参考:django/contrib/auth/decorators.py
+        参考:django/contrib/auth/decorators.py; django/views/decorators/http.py
     """
     if not path:
         raise ParameterException('请传入url')
@@ -61,27 +57,39 @@ def require_http_methods(path, name=None, methods=[], **check):
             try:
                 assert request.method in methods
             except AssertionError:
-                res = get_dataformat(request)
+                dataformat = get_dataformat(request)
                 message = 'Method Not Allowed ({method}): {path}'.format(
                     method=request.method, path=request.path)
                 r = dict(status_code=HTTP_405_METHOD_NOT_ALLOWED,
-                         detail=message)
+                        detail=message)
                 response = HttpResponseNotAllowed(
-                    methods, json.dumps(r), content_type=res.content_type)
+                    methods, json.dumps(r), content_type=dataformat.content_type)
                 log.warn(message)
                 return response
 
-            # user校验
+            # request.user校验
             try:
-                assert check.get('login_required') and check_user(
-                    request.user, perm=check.get('perm'))
+                assert login_required
+                check_user(request.user, perm)
+            except AssertionError:
+                pass
             except InsufficientPermissionsError:
                 message = 'user get no permission (perm:{perm})'.format(
-                    perm=check.get('perm'))
+                    perm=perm)
+                log.warn(message)
                 raise InsufficientPermissionsError(detail=message)
+
+            # NOTE:推荐
+            # request.jwt校验
+            try:
+                assert jwt_required
+                jwt_token_verify_handler(request.jwt)
             except AssertionError:
+                pass
+            except:
                 message = 'user not authentication'
-                raise NeedLogin(detail=message)
+                log.warn(message)
+                raise InvalidJwtToken(detail=message)
 
             return func(request, *args, **kwargs)
 

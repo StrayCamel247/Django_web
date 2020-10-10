@@ -187,9 +187,13 @@ class InvalidUserMail(APIException):
     status_code = 0x0000000F
 
 
-class InvalidCsrfToken(APIException):
-    detail = _("Invalid csrf token")
+class InvalidJwtToken(APIException):
+    detail = _("Invalid jwt token")
     status_code = 0x00000010
+
+# class InvalidCsrfToken(APIException):
+#     detail = _("Invalid csrf token")
+#     status_code = 0x00000010
 
 
 class NeedLogin(APIException):

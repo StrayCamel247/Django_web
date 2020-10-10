@@ -16,7 +16,7 @@ from .types import AccountsResult, AccountLoginBody, AccountTokenBody
 from apps.jwt.handler import jwt_login_handler, jwt_token_refresh_handler, jwt_token_verify_handler
 # Create your views here.
 # urlpatterns = []
-@require_http_methods('account/token-verify', methods=['POST'])
+@require_http_methods('account/token-verify/', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def jwt_token_verify(body):
     params = {
@@ -25,7 +25,7 @@ def jwt_token_verify(body):
     content = jwt_token_verify_handler(**params)
     return AccountsResult(content=content)
 
-@require_http_methods('account/token-refresh', methods=['POST'])
+@require_http_methods('account/token-refresh/', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def jwt_token_refresh(body):
     params = {
@@ -34,7 +34,7 @@ def jwt_token_refresh(body):
     content = jwt_token_refresh_handler(**params)
     return AccountsResult(content=content)
 
-@require_http_methods('account/token-login', methods=['POST'])
+@require_http_methods('account/token-login/', methods=['POST'])
 @signature(AccountsResult, body=AccountLoginBody)
 def jwt_token_login(body):
     params = {
