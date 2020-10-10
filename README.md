@@ -17,7 +17,7 @@
   - [x] **结合wsme数据校验并扩展自定义数据结构，结合signature装饰器对接口的数据进行数据校验**:`apps\types.py`
   - [x] **自定义signature装饰器，应用于view模板，校验接口传参**:`apps\utils\wsme\signature.py`
   - [x] **自定义彩色日志系统，构建方法打印日志装饰器**:`apps\utils\log\handler.py`
-  - [x] **重构django http请求方式校验，支持装饰器传入`path`，`methods`自定义url，而不是再urls.py文件配置**:`apps\utils\decorators\http.py`
+  - [x] **重构django http请求方式校验，支持装饰器传入`methods:"用户指定url和request methods，并将url注册到apis连接下" = [], login_required: "用户指定是否开启request.user校验" = False, perm: "user拥有的权限" = (), jwt_required: "用户指定是否开启request.jwt校验" = False`，而不是再urls.py文件配置**:`apps\utils\decorators\http.py`
   - [x] **继承rest framework框架的统一的异常处理**:`apps\utils\decorators\http.py`
 
 - [x] jwt登陆验证
@@ -28,6 +28,7 @@
 
 - [x] apis
   - [x] **获得所有urls**`apps\apis\views.py`
+  
 - [x] data_analysis: 使用简单的numpy，pandas复现算法或者模型，并通过接口返回演示
   - [x] **Apriori算法实现**:`apps\data_analysis\models\apriori.py`)`
 
