@@ -21,7 +21,7 @@ from django.conf import settings
 from rest_framework.status import is_client_error, is_server_error
 UNDEFINED_EXCEPTION_CODE = 0x000000FF
 _HANDLER400_CODE = 0x190
-_HANDLER403_CODE = 0x1903
+_HANDLER403_CODE = 0x193
 _HANDLER404_CODE = 0x194
 _HANDLER500_CODE = 0x1f4
 UNDEFINED_EXCEPTION_MSG = _("System busy")
@@ -70,12 +70,18 @@ def _handler400(request=None, exception=None):
 
 
 def _handler403(request=None, exception=None):
+    """重写django系统对400、403、404、500code报错的机制handler"""
     response = exception_handler(
         exc=exception, context=None)
-    pass
+    res = get_dataformat(request)
+    response.data['debuginfo'] = repr(exception)
+    log.error(repr(exception))
+    response.data['status_code'] = _HANDLER403_CODE
+    return HttpResponseForbidden(json.dumps(response.data), content_type=res.content_type)
 
 
 def _handler404(request=None, exception=None):
+    """重写django系统对400、403、404、500code报错的机制handler"""
     response = exception_handler(
         exc=exception, context=None)
     res = get_dataformat(request)
@@ -92,11 +98,13 @@ def _handler404(request=None, exception=None):
 
     
 def _handler500(request=None, exception=None):
+    """重写django系统对400、403、404、500code报错的机制handler"""
     exception = sys.exc_info()
     response = exception_process(
         exception=exception, context=None)
     res = get_dataformat(request)
     response.data['status_code']= _HANDLER500_CODE
+    print(res)
     return HttpResponseServerError(json.dumps(response.data), content_type=res.content_type)
 
 

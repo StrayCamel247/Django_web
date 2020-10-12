@@ -364,6 +364,7 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 AUTH_USER_MODEL = 'accounts.Ouser'
 
 MIDDLEWARE = [
+    'apps.utils.corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

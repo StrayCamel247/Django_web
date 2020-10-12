@@ -27,7 +27,7 @@
       - [x] 获得token校验后会更新token，将数据插入到返回的json中
 
 - [x] jwt登陆验证
-  - [x] 开发简单的jwt登陆验证，绕过drf框架，直接使用django原生系统:`apps\utils\jwt`
+  - [x] **关闭django的csrftoken验证**，开发简单的jwt登陆验证，绕过drf框架，直接使用django原生系统:`apps\utils\jwt`
   - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\accounts\views.py`
     > https://django-rest-framework-simplejwt.readthedocs.io/en/latest/token_types.html#token-types; Simple JWT provides two different token types that can be used to prove authentication; 两种方式均可获得对应的token和user信息（user信息使用的序列化功能在
     - [x] “access”, “sliding”：`apps\accounts\views.py`:token_obtain_pair()/token_access_refresh()
@@ -35,7 +35,6 @@
 
   - [x] **将django-rest-framework-simplejwt中的CBV视图转换为FBV视图handlers**:`apps\accounts\handler.py`
 
-- [ ] django csrf 接口登陆验证
 
 - [x] apis
   - [x] **获得所有urls**:`apps\apis\views.py`
