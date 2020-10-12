@@ -75,16 +75,8 @@ def methods_check(req, methods):
     except AssertionError:
         message = 'Method Not Allowed ({method}): {path}'.format(
             method=req.method, path=req.path)
-        log.warn(message)
+        log.warning(message)
         raise ResponseNotAllowed(detail=message)
-        # dataformat = get_dataformat(req)
-
-        # r = dict(status_code=HTTP_405_METHOD_NOT_ALLOWED,
-        #          detail=message)
-        # response = HttpResponseNotAllowed(
-        #     methods, json.dumps(r), content_type=dataformat.content_type)
-        # log.warn(message)
-        # return response
 
 
 def request_user_check(req, login_required, perm):
