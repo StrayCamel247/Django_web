@@ -18,8 +18,9 @@ import os
 from django.conf.urls import include, url
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.static import serve
-
+# from django.views.static import serve
+# django.contrib.staticfiles.views.serve
+from django.contrib.staticfiles.views import serve
 from django.contrib import admin
 
 # 网站地图
@@ -61,7 +62,6 @@ urlpatterns = [
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
 urlpatterns += [path(_+'/', include('apps.{app_name}.urls'.format(app_name=_)), name=_)
                 for _ in settings.APPS if os.path.exists(os.path.join(settings.APPS_FLODER, _, 'urls.py'))]
 
