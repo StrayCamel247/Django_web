@@ -34,15 +34,15 @@ PRODUCT_ERROR_CODE = 0x1f4
 @lru_cache(maxsize=128, typed=False)
 def _exception_handler(exc, debug=True):
     """Extract informations that can be sent to the client."""
-    status_code = getattr(exc, 'status_code', None)
+    status_code = getattr(exc[0], 'status_code', None)
     if status_code:
-        detail = (six.text_type(exc.detail) if hasattr(exc, 'detail')
+        detail = (six.text_type(exc[0].detail) if hasattr(exc[0], 'detail')
                   else six.text_type(exc))
         r = dict(status_code=status_code,
                  detail=detail)
-        log.debug("Defined error: %s" % r['detail'])
+        log.warn("Defined error: %s" % r['detail'])
         r['debuginfo'] = None
-        return r
+        return Response(r, status=_HANDLER500_CODE)
     else:
         detail = six.text_type(exc)
         excinfo = sys.exc_info()

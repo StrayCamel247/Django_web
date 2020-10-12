@@ -196,3 +196,5 @@ public/video
 /src/layouts/components/zx-layouts
 /zx-templates
 /package-lock.json
+
+/static/

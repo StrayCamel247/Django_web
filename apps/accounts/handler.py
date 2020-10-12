@@ -7,6 +7,9 @@
 from django.contrib.auth.models import update_last_login
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer, TokenObtainPairSerializer, TokenObtainSlidingSerializer, TokenRefreshSlidingSerializer, TokenVerifySerializer
+from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
+from rest_framework_simplejwt.tokens import SlidingToken
+from rest_framework_simplejwt.models import TokenUser
 from apps.api_exception import InvalidJwtToken
 from apps.apis.serializers import UserSerializer
 from .types import User
@@ -22,15 +25,31 @@ def get_username_field():
 
     return username_field
 
-# NOTE:Untyped tokens do not verify the "token_type" claim.  This is useful when performing general validation of a token's signature and other properties which do not relate to the token's intended use.
-# def token_verify_handler(token):
-#     """
-#     Takes a token and indicates if it is valid.  This view provides no
-#     information about a token's fitness for a particular use.
-#     """
-#     ser = TokenVerifySerializer({'token': token})
-#     ser.is_valid(raise_exception=True)
-#     print(ser)
+
+def token_get_user_model(token):
+    """
+    Returns a stateless user object which is backed by the given validated
+    token.
+    """
+    Token = SlidingToken(token)
+    if api_settings.USER_ID_CLAIM not in Token:
+        # The TokenUser class assumes tokens will have a recognizable user
+        # identifier claim.
+        raise InvalidJwtToken(
+            'Token contained no recognizable user identification')
+    log.info('验证token:{}，user_id为'.format(token, TokenUser(Token).id))
+    _user = User.objects.get(id=TokenUser(Token).id)
+    return _user
+
+
+def token_verify_handler(token):
+    """
+    Takes a token and indicates if it is valid.  This view provides no
+    information about a token's fitness for a particular use.
+    """
+    _user = token_get_user_model(token)
+    res = dict(user=UserSerializer(_user).data)
+    return res
 
 
 def token_refresh_sliding_handler(token):
@@ -57,7 +76,7 @@ def token_obtain_pair_handler(username, password):
     ser.is_valid(raise_exception=True)
     update_last_login(None, ser.user)
     res = dict(refresh=ser.validated_data.get('refresh'),
-               access=ser.validated_data.get('access'), 
+               access=ser.validated_data.get('access'),
                user=UserSerializer(ser.user).data
                )
     return res

@@ -5,10 +5,8 @@
 # __REFERENCES__ :
 # __date__: 2020/09/23 12
 
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.conf.urls import url
-from django.http import request
+from django.template.base import kwarg_re
 from apps.api_exception import ParameterException
 import json
 from apps.utils.wsme.signature import get_dataformat
@@ -18,8 +16,12 @@ from apps.apis.urls import urlpatterns
 from django.http.response import HttpResponseNotAllowed
 import logging
 from apps.api_exception import InsufficientPermissionsError, NeedLogin, InvalidJwtToken, ResponseNotAllowed
-from apps.accounts.handler import token_refresh_sliding_handler
+from apps.accounts.handler import token_get_user_model
 log = logging.getLogger('apps')
+
+# 去安居request,针对 传入token的url 赋值此request，具体引用方法看apps\data\views.py
+request = None
+
 
 def require_http_methods(path, name=None, methods:
                          "用户指定url和request methods，并将url注册到apis连接下" = [], login_required: "用户指定是否开启request.user校验" = False, perm: "user拥有的权限" = (), token_required: "用户指定是否开启request.jwt校验" = False, **check):
@@ -32,16 +34,16 @@ def require_http_methods(path, name=None, methods:
     name = path if not name else name
 
     def decorator(func):
-        def inner(request, *args, **kwargs):
+        def inner(req, *args, **kwargs):
             # methods校验
-            methods_check(request, methods)
-            # request.user校验
-            request_user_check(request, login_required, perm)
+            methods_check(req, methods)
+            # req.user校验
+            request_user_check(req, login_required, perm)
             # NOTE:推荐
-            # request.token校验，更新token并通过接口返回
+            # req.token校验，更新token并通过接口返回
             res = request_token_check(
-                request, func, token_required, *args, **kwargs)
-            return res if res else func(request, *args, **kwargs)
+                req, func, token_required, *args, **kwargs)
+            return res if res else func(req, *args, **kwargs)
 
         urlpatterns.append(
             url(r'^{path}/$'.format(path=path), inner, name=name))
@@ -67,15 +69,15 @@ def user_check(user: 'checks that the user is logged in', perm: 'checks whether 
     return False
 
 
-def methods_check(request, methods):
+def methods_check(req, methods):
     try:
-        assert request.method in methods
+        assert req.method in methods
     except AssertionError:
         message = 'Method Not Allowed ({method}): {path}'.format(
-            method=request.method, path=request.path)
-        log.WARNING(message)
+            method=req.method, path=req.path)
+        log.warn(message)
         raise ResponseNotAllowed(detail=message)
-        # dataformat = get_dataformat(request)
+        # dataformat = get_dataformat(req)
 
         # r = dict(status_code=HTTP_405_METHOD_NOT_ALLOWED,
         #          detail=message)
@@ -85,10 +87,10 @@ def methods_check(request, methods):
         # return response
 
 
-def request_user_check(request, login_required, perm):
+def request_user_check(req, login_required, perm):
     try:
         assert login_required
-        user_check(request.user, perm)
+        user_check(req.user, perm)
     except AssertionError:
         pass
     except InsufficientPermissionsError:
@@ -98,14 +100,26 @@ def request_user_check(request, login_required, perm):
         raise InsufficientPermissionsError(detail=message)
 
 
-def request_token_check(request, func, token_required, *args, **kwargs):
+def update_request(req, **kwargs):
+    """修改request属性，并同步到全局变量"""
+    global request
+    for k, v in kwargs.items():
+        setattr(req, k, v)
+    request = req
+    print(request)
+    return req
+
+
+def request_token_check(req, func, token_required, *args, **kwargs):
+    """校验token，获取user信息并添加到request中"""
     try:
         assert token_required
-        token = request.headers._store.get('token')[1]
-        new_token = token_refresh_sliding_handler(token)
-        res = func(request, *args, **kwargs)
+        token = req.headers._store.get('token')[1]
+        user = token_get_user_model(token)
+        req = update_request(req, user=user)
+        res = func(req, *args, **kwargs)
         res.content = json.dumps(
-            dict(json.loads(res.content), **new_token))
+            dict(json.loads(res.content)))
         return res
     except AssertionError:
         pass
@@ -117,5 +131,3 @@ def request_token_check(request, func, token_required, *args, **kwargs):
         message = 'user not authentication'
         log.warn(message)
         raise InvalidJwtToken(detail=message)
-
-

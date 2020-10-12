@@ -21,17 +21,18 @@
   - [x] **自定义彩色日志系统，构建方法打印日志装饰器**:`apps\utils\log\handler.py`
   - [x] **继承rest framework框架的统一的异常处理**:`apps\utils\decorators\http.py`
   - [x] **重构django http请求方式校验，而不是再urls.py文件配置**:`apps\utils\decorators\http.py`
-    - [x] 支持将用户指定url和request methods，并将url注册到apis连接下
+    - [x] 支持将用户指定url和request methods，并自动将url注册到apis连接下
     - [x] 支持对request.user校验
-    - [x] 支持对jwt的token校验（jwt生辰方式见jwt登陆验证），获得token校验后会更新token，将数据插入到返回的json中
+    - [x] 支持对jwt的token校验（jwt生辰方式见jwt登陆验证）
+      - [x] 获得token校验后会更新token，将数据插入到返回的json中
 
 - [x] jwt登陆验证
   - [x] 开发简单的jwt登陆验证，绕过drf框架，直接使用django原生系统:`apps\utils\jwt`
   - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\accounts\views.py`
-    > https://django-rest-framework-simplejwt.readthedocs.io/en/latest/token_types.html#token-types
-    - Simple JWT provides two different token types that can be used to prove authentication; 两种方式均可获得对应的token和user信息（user信息使用的序列化功能在`apps\apis\serializers.py`中定制：
+    > https://django-rest-framework-simplejwt.readthedocs.io/en/latest/token_types.html#token-types; Simple JWT provides two different token types that can be used to prove authentication; 两种方式均可获得对应的token和user信息（user信息使用的序列化功能在
     - [x] “access”, “sliding”：`apps\accounts\views.py`:token_obtain_pair()/token_access_refresh()
     - [x] “refresh”：`apps\accounts\views.py`:token_obtain_sliding()/token_refresh()
+
   - [x] **将django-rest-framework-simplejwt中的CBV视图转换为FBV视图handlers**:`apps\accounts\handler.py`
 
 - [ ] django csrf 接口登陆验证
@@ -83,7 +84,7 @@
 
 - 接口post请求莫名变成get请求:
   - [参考](https://blog.csdn.net/qq_37228688/article/details/89414576)
-  - 在url定向的时候，如果末尾不是‘/’，会被系统重定向到带‘/’的url，即301，然后空的请求被重定向，就变成了get
+  - pots请求在url定向的时候，如果末尾不是‘/’，会被系统重定向到带‘/’的url，即301，然后空的请求被重定向，就变成了get
   - 在url末尾加上`/`即可解决。
 
 - `ImportError: PILKit was unable to import the Python Imaging Library. Please confirm it s installe...`

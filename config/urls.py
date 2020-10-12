@@ -60,6 +60,7 @@ urlpatterns = [
     # path('tool/', include('apps.tool.urls'), name='tool'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += [path(_+'/', include('apps.{app_name}.urls'.format(app_name=_)), name=_)
                 for _ in settings.APPS if os.path.exists(os.path.join(settings.APPS_FLODER, _, 'urls.py'))]

@@ -278,9 +278,9 @@ CACHES = {
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 AUTHENTICATION_BACKENDS = (
-    # auth 身份验证 与 allauth 无关
+    # django默认的身份验证
     'django.contrib.auth.backends.ModelBackend',
-    # allauth 身份验证
+    # allauth身份验证
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
@@ -442,13 +442,6 @@ STATICFILES_FINDERS = (
 # 静态文件收集
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
-    VUE_WEB_DIR,
-    os.path.join(VUE_WEB_DIR, 'static'),
-    # 'static/',
-    # debug模式服务器解决后端admin界面css样式缺失
-    # '/home/config/env/lib/python3.6/site-packages/django/contrib/admin/static'
-]
 # 媒体文件
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
