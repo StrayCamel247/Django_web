@@ -364,17 +364,13 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 AUTH_USER_MODEL = 'accounts.Ouser'
 
 MIDDLEWARE = [
-<<<<<<< HEAD
+    # 跨站请求
     'apps.utils.corsheaders.middleware.CorsMiddleware',
-=======
-    # 允许跨域请求
-    'apps.utils.core.corsheaders.middleware.CorsMiddleware',
-    # Django 中间件
->>>>>>> 4b14ef293b084790e6fd92b7886246dcd59eb6f1
+    # django其他中间件
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

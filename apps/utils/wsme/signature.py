@@ -63,7 +63,7 @@ def signature(*args, **kw):
             # post的数据,request.body
             args, kwargs = wsme.rest.args.get_args(
                 funcdef, args, kwargs,
-                request.GET, request.content_params,
+                request.GET, {},
                 request.body,
                 request.content_type
             )

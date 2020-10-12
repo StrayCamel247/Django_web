@@ -10,7 +10,7 @@ from rest_framework_simplejwt.serializers import TokenRefreshSerializer, TokenOb
 from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
 from rest_framework_simplejwt.tokens import SlidingToken
 from rest_framework_simplejwt.models import TokenUser
-from apps.api_exception import InvalidJwtToken
+from apps.api_exception import InvalidJwtToken,InvalidUser
 from apps.apis.serializers import UserSerializer
 from .types import User
 import logging
@@ -89,7 +89,10 @@ def token_obtain_sliding_handler(username, password):
     """
     ser = TokenObtainSlidingSerializer(
         data={get_username_field(): username, 'password': password})
-    ser.is_valid(raise_exception=True)
+    try:
+        ser.is_valid(raise_exception=True)
+    except:
+        raise InvalidUser('用户名/密码输入错误')
     update_last_login(None, ser.user)
     res = dict(token=ser.validated_data.get('token'),
                user=UserSerializer(ser.user).data)
