@@ -39,10 +39,10 @@ def _exception_handler(exc, debug=True):
         detail = (six.text_type(exc[0].detail) if hasattr(exc[0], 'detail')
                   else six.text_type(exc))
         r = dict(status_code=status_code,
-                 detail=detail[1])
+                 detail=UNDEFINED_EXCEPTION_MSG)
         log.warn("Defined error: %s" % r['detail'])
         r['debuginfo'] = detail
-        return Response(r, status=_HANDLER500_CODE)
+        return Response(r)
     else:
         detail = six.text_type(exc)
         excinfo = sys.exc_info()
