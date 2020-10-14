@@ -21,7 +21,7 @@ class UserSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Ouser
         fields = ['id', 'username', 'email',
-                  'is_staff', 'is_active','last_login', 'date_joined']
+                  'is_staff', 'is_superuser', 'is_active','last_login', 'date_joined', 'introduction','avatar']
 
 
 class GroupSerializer(HyperlinkedModelSerializer):

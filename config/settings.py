@@ -399,7 +399,9 @@ CORS_ALLOW_HEADERS = (
     'dnt',
     'origin',
     'user-agent',
+    # 解决：Access to XMLHttpRequest at 'xxxxxxxxxxx' from origin 'xxxxxxxxx' has been blocked by CORS policy: Request header field x-token is not allowed by Access-Control-Allow-Headers in preflight response.
     'x-csrftoken',
+    'x-token',
     'x-requested-with',
     'Pragma',
 )

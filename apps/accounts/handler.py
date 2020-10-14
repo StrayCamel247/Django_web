@@ -4,6 +4,7 @@
 # __description__ : 基于https://github.com/SimpleJWT/django-rest-framework-simplejwt 开发jwt-TOKEN验证脚手架
 # __REFERENCES__ :
 # __date__: 2020/10/10 14
+from datetime import date
 from django.contrib.auth.models import update_last_login
 from django.contrib.auth import logout
 from rest_framework_simplejwt.settings import api_settings
@@ -11,7 +12,7 @@ from rest_framework_simplejwt.serializers import TokenRefreshSerializer, TokenOb
 from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
 from rest_framework_simplejwt.tokens import SlidingToken
 from rest_framework_simplejwt.models import TokenUser
-from apps.api_exception import InvalidJwtToken,InvalidUser
+from apps.api_exception import InvalidJwtToken, InvalidUser
 from apps.apis.serializers import UserSerializer
 from .types import User
 import logging
@@ -27,11 +28,7 @@ def get_username_field():
     return username_field
 
 
-def token_get_user_model(token):
-    """
-    Returns a stateless user object which is backed by the given validated
-    token.
-    """
+def _token_get_user_id(token):
     Token = SlidingToken(token)
     if api_settings.USER_ID_CLAIM not in Token:
         # The TokenUser class assumes tokens will have a recognizable user
@@ -39,8 +36,26 @@ def token_get_user_model(token):
         raise InvalidJwtToken(
             'Token contained no recognizable user identification')
     log.info('验证token:{}，user_id为'.format(token, TokenUser(Token).id))
-    _user = User.objects.get(id=TokenUser(Token).id)
+    return TokenUser(Token).id
+
+
+def token_get_user_model(token):
+    """
+    Returns a stateless user object which is backed by the given validated
+    token.
+    """
+    _id = _token_get_user_id(token)
+    _user = User.objects.get(id=_id)
     return _user
+
+
+def token_user_info(token):
+    """
+    date通过token获取user的基本信息
+    """
+    user_id = _token_get_user_id(token)
+    # 2020/10/14 TODO:通过orm系统，获取user的基本信息和权限
+    return None
 
 
 def token_verify_handler(token):

@@ -9,10 +9,8 @@ from six import integer_types
 from uuslug import slugify
 import random
 from datetime import datetime
-# 通讯录   category/contacts
-
-
 class Contacts(models.Model):
+    """通讯录   category/contacts"""
     name = models.CharField('通讯录', max_length=20)
     description = models.TextField('描述', max_length=240, default="通讯录",
                                    help_text='用来作为SEO中description,长度参考SEO标准')
@@ -51,6 +49,7 @@ class Ouser(AbstractUser):
     link = models.URLField(
         '个人网址', blank=True, help_text='提示：网址必须填写以http开头的完整形式')
     contact = models.ManyToManyField(Contacts, verbose_name='通讯录', default='1')
+    introduction = models.TextField('个人简介', max_length=240, default='沉默是金😂')
     # 扩展用户头像字段
     avatar = ProcessedImageField(
         upload_to='avatar/%Y%m%d',

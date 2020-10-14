@@ -13,10 +13,9 @@ from apps.utils.wsme.signature import signature
 from .types import AccountsResult, AccountLoginBody, AccountTokenBody, AccountRefreshBody
 from .forms import ProfileForm
 from .models import Contacts, Ouser
-from .handler import token_refresh_sliding_handler, token_obtain_sliding_handler, token_refresh_handler, token_obtain_pair_handler, token_verify_handler
+from .handler import token_refresh_sliding_handler, token_obtain_sliding_handler, token_refresh_handler, token_obtain_pair_handler, token_verify_handler,token_user_info
 # Create your views here.
 urlpatterns = []
-
 
 @require_http_methods('account/access-login', methods=['POST'])
 @signature(AccountsResult, body=AccountLoginBody)
@@ -68,6 +67,13 @@ def token_verify(body):
     content = token_verify_handler(**params)
     return AccountsResult(content=content)
 
+@require_http_methods('account/user_info', methods=['GET'])
+@signature(AccountsResult, str)
+def token_user_info(token):
+    content = token_user_info(token)
+    return AccountsResult(content=content)
+
+## v1.0
 @login_required
 def users_view(request):
     return render(request, 'user/users.html')
