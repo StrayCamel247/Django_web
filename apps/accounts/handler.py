@@ -5,6 +5,7 @@
 # __REFERENCES__ :
 # __date__: 2020/10/10 14
 from django.contrib.auth.models import update_last_login
+from django.contrib.auth import logout
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer, TokenObtainPairSerializer, TokenObtainSlidingSerializer, TokenRefreshSlidingSerializer, TokenVerifySerializer
 from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
