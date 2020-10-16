@@ -7,24 +7,25 @@
 
 from django.conf.urls import url
 from django.template.base import kwarg_re
+from django.http.response import HttpResponseNotAllowed
+from rest_framework.status import HTTP_405_METHOD_NOT_ALLOWED
 from apps.api_exception import ParameterException
-import json
 from apps.utils.wsme.signature import get_dataformat
 # F:\Envs\env\Lib\site-packages\rest_framework\status.py
-from rest_framework.status import HTTP_405_METHOD_NOT_ALLOWED
 from apps.apis.urls import urlpatterns
-from django.http.response import HttpResponseNotAllowed
-import logging
 from apps.api_exception import InsufficientPermissionsError, NeedLogin, InvalidJwtToken, ResponseNotAllowed
 from apps.accounts.handler import token_get_user_model
+import logging
+import json
+import functools
 log = logging.getLogger('apps')
-
+from django.core.handlers.wsgi import WSGIRequest 
 # 去安居request,针对 传入token的url 赋值此request，具体引用方法看apps\data\views.py
 request = None
 
 
 def require_http_methods(path, name=None, methods:
-                         "用户指定url和request methods，并将url注册到apis连接下" = [], login_required: "用户指定是否开启request.user校验" = False, perm: "user拥有的权限" = (), token_required: "用户指定是否开启request.jwt校验" = False, **check):
+                         "用户指定url和request methods，并将url注册到apis连接下" = [], login_required: "用户指定是否开启request.user校验" = False, perm: "user拥有的权限" = (), jwt_required: "用户指定是否开启request.jwt校验" = False, **check):
     """
         指定访问url的user的限制
         参考:django/contrib/auth/decorators.py; django/views/decorators/http.py
@@ -32,9 +33,10 @@ def require_http_methods(path, name=None, methods:
     if not path:
         raise ParameterException('请传入url')
     name = path if not name else name
-
+    
     def decorator(func):
-        def inner(req, *args, **kwargs):
+        @functools.wraps(func)
+        def inner(req,*args, **kwargs):
             # methods校验
             methods_check(req, methods)
             # req.user校验
@@ -42,7 +44,11 @@ def require_http_methods(path, name=None, methods:
             # NOTE:推荐
             # req.token校验，更新token并通过接口返回
             res = request_token_check(
-                req, func, token_required, *args, **kwargs)
+                req, func, jwt_required, *args, **kwargs)
+            
+            # 邮箱验证
+            res = request_token_check(
+                req, func, jwt_required, *args, **kwargs)
             return res if res else func(req, *args, **kwargs)
 
         urlpatterns.append(
@@ -102,12 +108,13 @@ def update_request(req, **kwargs):
     return req
 
 
-def request_token_check(req, func, token_required, *args, **kwargs):
+def request_token_check(req, func, jwt_required, *args, **kwargs):
     """校验token，获取user信息并添加到request中"""
     try:
-        assert token_required
+        assert jwt_required
         token = req.headers._store.get('token')[1]
         user = token_get_user_model(token)
+        # 讲登陆后的user 插入request中
         req = update_request(req, user=user)
         res = func(req, *args, **kwargs)
         res.content = json.dumps(

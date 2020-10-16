@@ -8,7 +8,7 @@ import wsme
 from wsme import types as wtypes
 from apps import types as _types
 from django.utils.translation import ugettext as _
-from apps.api_exception import ParameterException
+from apps.api_exception import ParameterException,InvalidUser
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -23,6 +23,15 @@ class AccountRefreshBody(wtypes.Base):
         return self
 
 
+class AccountPasswordChangeBody(wtypes.Base):
+    username = wsme.wsattr(wtypes.text, mandatory=False)
+    id = wsme.wsattr(wtypes.text, mandatory=False)
+
+    def validate(self):
+        if not self.username or not self.id:
+            raise InvalidUser(
+                '用户未登陆或者名称/id未输入')
+        return self
 class AccountTokenBody(wtypes.Base):
     token = wsme.wsattr(wtypes.text, mandatory=True)
 

@@ -7,6 +7,7 @@
 from datetime import date
 from django.contrib.auth.models import update_last_login
 from django.contrib.auth import logout
+from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer, TokenObtainPairSerializer, TokenObtainSlidingSerializer, TokenRefreshSlidingSerializer, TokenVerifySerializer
 from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
@@ -14,9 +15,18 @@ from rest_framework_simplejwt.tokens import SlidingToken
 from rest_framework_simplejwt.models import TokenUser
 from apps.api_exception import InvalidJwtToken, InvalidUser
 from apps.apis.serializers import UserSerializer
+from apps.utils.email.handler import send_email
 from .types import User
 import logging
 log = logging.getLogger('apps')
+
+# 修改密码
+def token_user_password_change_handler(**kwrags):
+    """用户根据id或者username+邮箱验证修改密码"""
+    user_id = kwrags.get('id')
+    res = dict(user=UserSerializer(user_id).data)
+    # TODO:待开发
+    pass
 
 
 def get_username_field():
@@ -49,13 +59,15 @@ def token_get_user_model(token):
     return _user
 
 
-def token_user_info(token):
+def token_user_info_handler(token):
     """
     date通过token获取user的基本信息
     """
-    user_id = _token_get_user_id(token)
+    # user_id = _token_get_user_id(token)
     # 2020/10/14 TODO:通过orm系统，获取user的基本信息和权限
-    return None
+    _user = token_get_user_model(token)
+    res = dict(user=UserSerializer(_user).data)
+    return res
 
 
 def token_verify_handler(token):

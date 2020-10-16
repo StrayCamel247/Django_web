@@ -8,12 +8,13 @@ from django.views import generic
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+import jwt
 from apps.utils.core.http import require_http_methods
 from apps.utils.wsme.signature import signature
 from .types import AccountsResult, AccountLoginBody, AccountTokenBody, AccountRefreshBody
 from .forms import ProfileForm
 from .models import Contacts, Ouser
-from .handler import token_refresh_sliding_handler, token_obtain_sliding_handler, token_refresh_handler, token_obtain_pair_handler, token_verify_handler,token_user_info
+from .handler import token_refresh_sliding_handler, token_obtain_sliding_handler, token_refresh_handler, token_obtain_pair_handler, token_verify_handler,token_user_info_handler,token_user_password_change_handler,AccountPasswordChangeBody
 # Create your views here.
 urlpatterns = []
 
@@ -67,10 +68,23 @@ def token_verify(body):
     content = token_verify_handler(**params)
     return AccountsResult(content=content)
 
-@require_http_methods('account/user_info', methods=['GET'])
-@signature(AccountsResult, str)
-def token_user_info(token):
-    content = token_user_info(token)
+@require_http_methods('account/user_info', methods=['POST'])
+@signature(AccountsResult, body=AccountTokenBody)
+def token_user_info(body):
+    params = {
+        'token': body.token
+    }
+    content = token_user_info_handler(**params)
+    return AccountsResult(content=content)
+
+@require_http_methods('account/user_password_change', methods=['POST'], jwt_required=True)
+@signature(AccountsResult, body=AccountPasswordChangeBody)
+def token_user_password_change(body):
+    params = {
+        'id': body.id,
+        'username': body.username,
+    }
+    content = token_user_password_change_handler(**params)
     return AccountsResult(content=content)
 
 ## v1.0

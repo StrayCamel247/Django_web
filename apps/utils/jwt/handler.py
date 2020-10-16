@@ -69,3 +69,4 @@ def jwt_login_handler(username, password):
         raise ValidationError(msg)
     res = jwt_base_handler(user, token)
     return res
+
