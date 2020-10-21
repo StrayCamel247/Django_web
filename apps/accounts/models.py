@@ -183,3 +183,31 @@ class UserInfoSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Ouser
         fields = ['id', 'username', 'introduction','avatar']
+
+from rest_framework_simplejwt.settings import api_settings
+from rest_framework_simplejwt.tokens import SlidingToken
+from apps.api_exception import InvalidJwtToken, InvalidUser
+from rest_framework_simplejwt.models import TokenUser
+def _token_get_user_id(token):
+    """
+    The TokenUser class assumes tokens will have a recognizable user
+    identifier claim.
+    """
+    try:
+        Token = SlidingToken(token)
+        assert api_settings.USER_ID_CLAIM in Token
+    except:
+        raise InvalidJwtToken(
+            detail='Token contained no recognizable user identification')
+    return TokenUser(Token).id
+
+
+from .types import User
+def token_get_user_model(token):
+    """
+    Returns a stateless user object which is backed by the given validated
+    token.
+    """
+    _id = _token_get_user_id(token)
+    _user = User.objects.get(id=_id)
+    return _user

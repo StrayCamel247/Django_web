@@ -12,7 +12,6 @@ from apps.api_exception import ParameterException,InvalidUser
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-
 class AccountRefreshBody(wtypes.Base):
     refresh = wsme.wsattr(wtypes.text, mandatory=True)
 

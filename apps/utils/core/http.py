@@ -5,6 +5,7 @@
 # __REFERENCES__ :
 # __date__: 2020/09/23 12
 
+from django.core.handlers.wsgi import WSGIRequest
 from django.conf.urls import url
 from django.template.base import kwarg_re
 from django.http.response import HttpResponseNotAllowed
@@ -14,18 +15,23 @@ from apps.utils.wsme.signature import get_dataformat
 # F:\Envs\env\Lib\site-packages\rest_framework\status.py
 from apps.apis.urls import urlpatterns
 from apps.api_exception import InsufficientPermissionsError, NeedLogin, InvalidJwtToken, ResponseNotAllowed
-from apps.accounts.handler import token_get_user_model
+from apps.accounts.models import token_get_user_model
 import logging
 import json
 import functools
 log = logging.getLogger('apps')
-from django.core.handlers.wsgi import WSGIRequest 
-# 去安居request,针对 传入token的url 赋值此request，具体引用方法看apps\data\views.py
-request = None
+# request,针对 传入token的url 赋值此request，具体引用方法看apps\data\views.py
+# TODO: 将用户访问的请求作成队列保存到数据库
+REQUEST = {'current_request': None}
 
 
-def require_http_methods(path, name=None, methods:
-                         "用户指定url和request methods，并将url注册到apis连接下" = [], login_required: "用户指定是否开启request.user校验" = False, perm: "user拥有的权限" = (), jwt_required: "用户指定是否开启request.jwt校验" = False, **check):
+def require_http_methods(path, name=None,
+                         methods: "用户指定url和request methods，并将url注册到apis连接下" = [],
+                         login_required: "用户指定是否开启request.user校验" = False,
+                         perm: "user拥有的权限" = (),
+                         jwt_required: "用户指定是否开启request.jwt校验" = False,
+                         ini_request: "初始化request，即可通过from apps.utils.core.http import REQUEST 引用当前request" = False,
+                         **check):
     """
         指定访问url的user的限制
         参考:django/contrib/auth/decorators.py; django/views/decorators/http.py
@@ -33,19 +39,19 @@ def require_http_methods(path, name=None, methods:
     if not path:
         raise ParameterException('请传入url')
     name = path if not name else name
-    
+
     def decorator(func):
         @functools.wraps(func)
-        def inner(req,*args, **kwargs):
+        def inner(req, *args, **kwargs):
             # methods校验
             methods_check(req, methods)
             # req.user校验
-            request_user_check(req, login_required, perm)
+            request_ckeck(req, login_required, ini_request, perm)
             # NOTE:推荐
             # req.token校验，更新token并通过接口返回
             res = request_token_check(
                 req, func, jwt_required, *args, **kwargs)
-            
+
             # 邮箱验证
             res = request_token_check(
                 req, func, jwt_required, *args, **kwargs)
@@ -85,7 +91,8 @@ def methods_check(req, methods):
         raise ResponseNotAllowed(detail=message)
 
 
-def request_user_check(req, login_required, perm):
+def request_ckeck(req, login_required, ini_request, perm):
+    # 登陆校验
     try:
         assert login_required
         user_check(req.user, perm)
@@ -96,15 +103,21 @@ def request_user_check(req, login_required, perm):
             perm=perm)
         log.warn(message)
         raise InsufficientPermissionsError(detail=message)
+    # request更新
+    try:
+        assert ini_request
+        global REQUEST
+        REQUEST['current_request'] = req
+    except:
+        pass
 
 
 def update_request(req, **kwargs):
     """修改request属性，并同步到全局变量"""
-    global request
     for k, v in kwargs.items():
         setattr(req, k, v)
-    request = req
-    print(request)
+    global REQUEST
+    REQUEST['current_request'] = req
     return req
 
 
@@ -126,7 +139,7 @@ def request_token_check(req, func, jwt_required, *args, **kwargs):
         message = 'headers need token'
         log.warn(message)
         raise InvalidJwtToken(detail=message)
-    except:
+    except Exception as e:
         message = 'user not authentication'
-        log.warn(message)
+        log.warn(e)
         raise InvalidJwtToken(detail=message)

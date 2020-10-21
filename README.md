@@ -31,7 +31,7 @@
   - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\accounts\views.py`
     > https://django-rest-framework-simplejwt.readthedocs.io/en/latest/token_types.html#token-types; Simple JWT provides two different token types that can be used to prove authentication; 两种方式均可获得对应的token和user信息（user信息使用的序列化功能在
     - [x] “access”, “sliding”：`apps\accounts\views.py`:token_obtain_pair()/token_access_refresh()
-    - [x] “refresh”：`apps\accounts\views.py`:token_obtain_sliding()/token_refresh()
+    - [x] “refresh”：`apps\accounts\views.py`:token_obtain_sliding_login()/token_refresh()
   - [x] **将django-rest-framework-simplejwt中的CBV视图转换为FBV视图handlers**:`apps\accounts\handler.py`
   - [ ] 网站用户注册
   - [ ] 支持allauth.socialaccount api登陆并作jwt验证

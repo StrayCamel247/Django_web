@@ -11,11 +11,12 @@ from django.views.decorators.csrf import csrf_exempt
 import jwt
 from apps.utils.core.http import require_http_methods
 from apps.utils.wsme.signature import signature
-from .types import AccountsResult, AccountLoginBody, AccountTokenBody, AccountRefreshBody,AccountPasswordChangeBody
+from .types import AccountsResult, AccountLoginBody, AccountTokenBody, AccountRefreshBody, AccountPasswordChangeBody
 from .models import Contacts, Ouser
-from .handler import token_refresh_sliding_handler, token_obtain_sliding_handler, token_refresh_handler, token_obtain_pair_handler, token_verify_handler,token_user_info_handler,token_user_password_change_handler
+from .handler import token_refresh_sliding_handler, token_obtain_sliding_login_handler, token_obtain_sliding_logout_handler, token_refresh_handler, token_obtain_pair_handler, token_verify_handler, token_user_info_handler, token_user_password_change_handler
 # Create your views here.
 urlpatterns = []
+
 
 @require_http_methods('account/access_login', methods=['POST'])
 @signature(AccountsResult, body=AccountLoginBody)
@@ -38,14 +39,24 @@ def token_access_refresh(body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/token_login', methods=['POST'])
+@require_http_methods('account/token_login', methods=['POST'], ini_request=True)
 @signature(AccountsResult, body=AccountLoginBody)
-def token_obtain_sliding(body):
+def token_obtain_sliding_login(body):
+    """用户登陆"""
     params = {
         'username': body.username,
         'password': body.password
     }
-    content = token_obtain_sliding_handler(**params)
+    content = token_obtain_sliding_login_handler(
+        **params)
+    return AccountsResult(content=content)
+
+
+@require_http_methods('account/token_logout', methods=['GET'],jwt_required=True)
+@signature(AccountsResult)
+def token_obtain_sliding_logout():
+    """用户登出"""
+    content = token_obtain_sliding_logout_handler()
     return AccountsResult(content=content)
 
 
@@ -58,6 +69,7 @@ def token_refresh(body):
     content = token_refresh_sliding_handler(**params)
     return AccountsResult(content=content)
 
+
 @require_http_methods('account/token_verify', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def token_verify(body):
@@ -67,6 +79,7 @@ def token_verify(body):
     content = token_verify_handler(**params)
     return AccountsResult(content=content)
 
+
 @require_http_methods('account/user_info', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def token_user_info(body):
@@ -75,6 +88,7 @@ def token_user_info(body):
     }
     content = token_user_info_handler(**params)
     return AccountsResult(content=content)
+
 
 @require_http_methods('account/user_password_change', methods=['POST'], jwt_required=True)
 @signature(AccountsResult, body=AccountPasswordChangeBody)
@@ -86,124 +100,124 @@ def token_user_password_change(body):
     content = token_user_password_change_handler(**params)
     return AccountsResult(content=content)
 
-## v1.0
-@login_required
-def users_view(request):
-    return render(request, 'user/users.html')
+# v1.0
+# @login_required
+# def users_view(request):
+#     return render(request, 'user/users.html')
 
 
-@login_required
-def profile_view(request):
-    return render(request, 'user/account/profile.html')
+# @login_required
+# def profile_view(request):
+#     return render(request, 'user/account/profile.html')
 
 
-@login_required
-def change_profile_view(request):
-    if request.method == 'POST':
-        # 上传文件需要使用request.FILES
-        form = ProfileForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
-            # 添加一条信息,表单验证成功就重定向到个人信息页面
-            messages.add_message(request, messages.SUCCESS, '个人信息更新成功！')
-            return redirect('accounts:profile')
-    else:
-        # 不是POST请求就返回空表单
-        form = ProfileForm(instance=request.user)
-    return render(request, 'user/account/change_profile.html', context={'form': form})
+# @login_required
+# def change_profile_view(request):
+#     if request.method == 'POST':
+#         # 上传文件需要使用request.FILES
+#         form = ProfileForm(request.POST, request.FILES, instance=request.user)
+#         if form.is_valid():
+#             form.save()
+#             # 添加一条信息,表单验证成功就重定向到个人信息页面
+#             messages.add_message(request, messages.SUCCESS, '个人信息更新成功！')
+#             return redirect('accounts:profile')
+#     else:
+#         # 不是POST请求就返回空表单
+#         form = ProfileForm(instance=request.user)
+#     return render(request, 'user/account/change_profile.html', context={'form': form})
 
 
-@login_required
-def AdminView(request):
-    # if request.method == 'POST':
-    #     # 上传文件需要使用request.FILES
-    #     form = ProfileForm(request.POST,request.FILES,instance=request.user)
-    #     if form.is_valid():
-    #         form.save()
-    #         # 添加一条信息,表单验证成功就重定向到个人信息页面
-    #         messages.add_message(request,messages.SUCCESS,'个人信息更新成功！')
-    #         return redirect('accounts:profile')
-    # else:
-    #     # 不是POST请求就返回空表单
-    #     form = ProfileForm(instance=request.user)
-    return render(request, 'user/account/admin.html')
+# @login_required
+# def AdminView(request):
+#     # if request.method == 'POST':
+#     #     # 上传文件需要使用request.FILES
+#     #     form = ProfileForm(request.POST,request.FILES,instance=request.user)
+#     #     if form.is_valid():
+#     #         form.save()
+#     #         # 添加一条信息,表单验证成功就重定向到个人信息页面
+#     #         messages.add_message(request,messages.SUCCESS,'个人信息更新成功！')
+#     #         return redirect('accounts:profile')
+#     # else:
+#     #     # 不是POST请求就返回空表单
+#     #     form = ProfileForm(instance=request.user)
+#     return render(request, 'user/account/admin.html')
 
 
-# @csrf_exempt
-@require_POST
-def DelmemberView(request):
-    '''将一个member删除'''
-    if request.is_ajax():
-        data = request.POST
-        # if (data):
-        #     JsonResponse({'msg': 'good'})
-        member_id = data.get('member_id')
-        contact_id = data.get('contact_id')
-        # JsonResponse({'msg': 'good'})
-        member = get_object_or_404(Ouser, id=member_id)
-        cont = get_object_or_404(Contacts, id=contact_id)
-        # 获取当前通讯录下所有的用户列表
-        member.contact.remove(cont)
-        # info.delete()
-        # if (info):
-        # return JsonResponse({'msg': })
-        # else :
-        #     return JsonResponse({'msg': 'delete success'})
+# # @csrf_exempt
+# @require_POST
+# def DelmemberView(request):
+#     '''将一个member删除'''
+#     if request.is_ajax():
+#         data = request.POST
+#         # if (data):
+#         #     JsonResponse({'msg': 'good'})
+#         member_id = data.get('member_id')
+#         contact_id = data.get('contact_id')
+#         # JsonResponse({'msg': 'good'})
+#         member = get_object_or_404(Ouser, id=member_id)
+#         cont = get_object_or_404(Contacts, id=contact_id)
+#         # 获取当前通讯录下所有的用户列表
+#         member.contact.remove(cont)
+#         # info.delete()
+#         # if (info):
+#         # return JsonResponse({'msg': })
+#         # else :
+#         #     return JsonResponse({'msg': 'delete success'})
 
-    return JsonResponse({'msg': contact_id})
-
-
-@require_POST
-def AddmemberView(request):
-    '''增加member'''
-    if request.is_ajax():
-        data = request.POST
-        # if (data):
-        #     JsonResponse({'msg': 'good'})
-        member_id = data.get('member_id')
-        contact_id = data.get('contact_id')
-        # JsonResponse({'msg': 'good'})
-        member = get_object_or_404(Ouser, id=member_id)
-        cont = get_object_or_404(Contacts, id=contact_id)
-        member.contact.add(cont)
-        # info.delete()
-        # if (info):
-        #     return JsonResponse({'msg': })
-        # else :
-        #     return JsonResponse({'msg': 'delete success'})
-
-    return JsonResponse({'msg': "good"})
+#     return JsonResponse({'msg': contact_id})
 
 
-@require_POST
-def SearchmemberView(request):
-    '''搜索member'''
-    if request.is_ajax():
-        data = request.POST
-        member_id = data.get('member_id')
-        member_name = data.get('member_name')
+# @require_POST
+# def AddmemberView(request):
+#     '''增加member'''
+#     if request.is_ajax():
+#         data = request.POST
+#         # if (data):
+#         #     JsonResponse({'msg': 'good'})
+#         member_id = data.get('member_id')
+#         contact_id = data.get('contact_id')
+#         # JsonResponse({'msg': 'good'})
+#         member = get_object_or_404(Ouser, id=member_id)
+#         cont = get_object_or_404(Contacts, id=contact_id)
+#         member.contact.add(cont)
+#         # info.delete()
+#         # if (info):
+#         #     return JsonResponse({'msg': })
+#         # else :
+#         #     return JsonResponse({'msg': 'delete success'})
 
-        if (get_object_or_404(Ouser, id=member_id).username == member_name):
-            return JsonResponse({'msg': member_id})
-        else:
-            return JsonResponse({'msg': 'nobody'})
+#     return JsonResponse({'msg': "good"})
 
 
-class ContactsView(generic.ListView):
-    model = Ouser
-    template_name = 'user/contacts.html'
-    context_object_name = 'members'
-    paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
-    paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
+# @require_POST
+# def SearchmemberView(request):
+#     '''搜索member'''
+#     if request.is_ajax():
+#         data = request.POST
+#         member_id = data.get('member_id')
+#         member_name = data.get('member_name')
 
-    def get_queryset(self, **kwargs):
-        queryset = super(ContactsView, self).get_queryset()
-        contacts = get_object_or_404(Contacts, slug=self.kwargs.get('slug'))
-        return queryset.filter(contact=contacts)
+#         if (get_object_or_404(Ouser, id=member_id).username == member_name):
+#             return JsonResponse({'msg': member_id})
+#         else:
+#             return JsonResponse({'msg': 'nobody'})
 
-    def get_context_data(self, **kwargs):
-        context_data = super(ContactsView, self).get_context_data()
-        contacts = get_object_or_404(Contacts, slug=self.kwargs.get('slug'))
-        context_data['search_contacts'] = '通讯录'
-        context_data['search_instance'] = contacts
-        return context_data
+
+# class ContactsView(generic.ListView):
+#     model = Ouser
+#     template_name = 'user/contacts.html'
+#     context_object_name = 'members'
+#     paginate_by = getattr(settings, 'BASE_PAGE_BY', None)
+#     paginate_orphans = getattr(settings, 'BASE_ORPHANS', 0)
+
+#     def get_queryset(self, **kwargs):
+#         queryset = super(ContactsView, self).get_queryset()
+#         contacts = get_object_or_404(Contacts, slug=self.kwargs.get('slug'))
+#         return queryset.filter(contact=contacts)
+
+#     def get_context_data(self, **kwargs):
+#         context_data = super(ContactsView, self).get_context_data()
+#         contacts = get_object_or_404(Contacts, slug=self.kwargs.get('slug'))
+#         context_data['search_contacts'] = '通讯录'
+#         context_data['search_instance'] = contacts
+#         return context_data
