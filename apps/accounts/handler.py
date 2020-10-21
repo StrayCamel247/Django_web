@@ -16,7 +16,9 @@ from rest_framework_simplejwt.models import TokenUser
 from apps.api_exception import InvalidJwtToken, InvalidUser
 from apps.apis.serializers import UserSerializer
 from apps.utils.email.handler import send_email
+from apps.role.models import get_role_via_user
 from .types import User
+from .models import UserInfoSerializer
 import logging
 log = logging.getLogger('apps')
 
@@ -39,13 +41,16 @@ def get_username_field():
 
 
 def _token_get_user_id(token):
-    Token = SlidingToken(token)
-    if api_settings.USER_ID_CLAIM not in Token:
-        # The TokenUser class assumes tokens will have a recognizable user
-        # identifier claim.
+    """
+    The TokenUser class assumes tokens will have a recognizable user
+    identifier claim.
+    """
+    try:
+        Token = SlidingToken(token)
+        assert api_settings.USER_ID_CLAIM in Token
+    except :
         raise InvalidJwtToken(
-            'Token contained no recognizable user identification')
-    log.info('验证token:{}，user_id为'.format(token, TokenUser(Token).id))
+            detail='Token contained no recognizable user identification')
     return TokenUser(Token).id
 
 
@@ -64,9 +69,14 @@ def token_user_info_handler(token):
     date通过token获取user的基本信息
     """
     # user_id = _token_get_user_id(token)
-    # 2020/10/14 TODO:通过orm系统，获取user的基本信息和权限
+    # 查询
     _user = token_get_user_model(token)
-    res = dict(user=UserSerializer(_user).data)
+    res = dict(user=UserInfoSerializer(_user).data)
+    params = dict(user_id=_user.id)
+    # 查询角色信息
+    role = get_role_via_user(params)
+    roles = dict(roles=[_[0] for _ in role])
+    res = dict(res, **roles)
     return res
 
 

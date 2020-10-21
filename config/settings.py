@@ -208,7 +208,7 @@ LOGGING = {
             'propagate': False,
         },
         'django': {
-            'handlers': ['django.server', 'file'],
+            'handlers': ['django.server', 'file', 'console'],
             'level': 'INFO',
             'propagate': False,
         },
@@ -371,7 +371,7 @@ MIDDLEWARE = [
     # 通用中间件
     # 'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
-    # 'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]

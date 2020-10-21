@@ -40,7 +40,7 @@ def _exception_handler(exc, debug=True):
                   else six.text_type(exc))
         r = dict(status_code=status_code,
                  detail=UNDEFINED_EXCEPTION_MSG)
-        log.warn("Defined error: %s" % r['detail'])
+        # log.warn("Defined error: %s" % r['detail'])
         r['debuginfo'] = detail
         return Response(r)
     else:

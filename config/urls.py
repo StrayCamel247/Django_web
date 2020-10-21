@@ -68,4 +68,5 @@ urlpatterns += [path(_+'/', include('apps.{app_name}.urls'.format(app_name=_)), 
 urlpatterns += [path('', include('apps.data_analysis.views'.format(
     app_name='data_analysis')), name='data_analysis')]
 urlpatterns += [path('', include('apps.data.views'.format(app_name='data')), name='data')]
-urlpatterns += [path('', include('apps.apis.views'.format(app_name='apis2_views')), name='apis_views')]
+urlpatterns += [path('', include('apps.apis.views'.format(app_name='apis_views')), name='apis_views')]
+urlpatterns += [path('', include('apps.accounts.views'.format(app_name='accounts_views')), name='accounts_views')]

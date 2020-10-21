@@ -11,14 +11,13 @@ from django.views.decorators.csrf import csrf_exempt
 import jwt
 from apps.utils.core.http import require_http_methods
 from apps.utils.wsme.signature import signature
-from .types import AccountsResult, AccountLoginBody, AccountTokenBody, AccountRefreshBody
-from .forms import ProfileForm
+from .types import AccountsResult, AccountLoginBody, AccountTokenBody, AccountRefreshBody,AccountPasswordChangeBody
 from .models import Contacts, Ouser
-from .handler import token_refresh_sliding_handler, token_obtain_sliding_handler, token_refresh_handler, token_obtain_pair_handler, token_verify_handler,token_user_info_handler,token_user_password_change_handler,AccountPasswordChangeBody
+from .handler import token_refresh_sliding_handler, token_obtain_sliding_handler, token_refresh_handler, token_obtain_pair_handler, token_verify_handler,token_user_info_handler,token_user_password_change_handler
 # Create your views here.
 urlpatterns = []
 
-@require_http_methods('account/access-login', methods=['POST'])
+@require_http_methods('account/access_login', methods=['POST'])
 @signature(AccountsResult, body=AccountLoginBody)
 def token_obtain_pair(body):
     params = {
@@ -29,7 +28,7 @@ def token_obtain_pair(body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/access-refresh', methods=['POST'])
+@require_http_methods('account/access_refresh', methods=['POST'])
 @signature(AccountsResult, body=AccountRefreshBody)
 def token_access_refresh(body):
     params = {
@@ -39,7 +38,7 @@ def token_access_refresh(body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/token-login', methods=['POST'])
+@require_http_methods('account/token_login', methods=['POST'])
 @signature(AccountsResult, body=AccountLoginBody)
 def token_obtain_sliding(body):
     params = {
@@ -50,7 +49,7 @@ def token_obtain_sliding(body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/token-refresh', methods=['POST'])
+@require_http_methods('account/token_refresh', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def token_refresh(body):
     params = {
@@ -59,7 +58,7 @@ def token_refresh(body):
     content = token_refresh_sliding_handler(**params)
     return AccountsResult(content=content)
 
-@require_http_methods('account/token-verify', methods=['POST'])
+@require_http_methods('account/token_verify', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def token_verify(body):
     params = {

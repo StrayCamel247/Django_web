@@ -5,6 +5,7 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.conf import settings
 from django.shortcuts import reverse
 from django.utils.translation import gettext_lazy as _
+from rest_framework.serializers import ModelSerializer,HyperlinkedModelSerializer
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from six import integer_types
@@ -177,3 +178,8 @@ class User_role(models.Model):
     # 用户id
     user_id = models.IntegerField(
         verbose_name=u"角色id")
+
+class UserInfoSerializer(HyperlinkedModelSerializer):
+    class Meta:
+        model = Ouser
+        fields = ['id', 'username', 'introduction','avatar']
