@@ -5,20 +5,23 @@
 # __REFERENCES__ :
 # __date__: 2020/09/23 12
 
-from django.core.handlers.wsgi import WSGIRequest
-from django.conf.urls import url
-from django.template.base import kwarg_re
-from django.http.response import HttpResponseNotAllowed
-from rest_framework.status import HTTP_405_METHOD_NOT_ALLOWED
-from apps.api_exception import ParameterException
-from apps.utils.wsme.signature import get_dataformat
+import functools
+import json
+import logging
+
+from apps.accounts.models import token_get_user_model
+from apps.api_exception import (InsufficientPermissionsError, InvalidJwtToken,
+                                NeedLogin, ParameterException,
+                                ResponseNotAllowed)
 # F:\Envs\env\Lib\site-packages\rest_framework\status.py
 from apps.apis.urls import urlpatterns
-from apps.api_exception import InsufficientPermissionsError, NeedLogin, InvalidJwtToken, ResponseNotAllowed
-from apps.accounts.models import token_get_user_model
-import logging
-import json
-import functools
+from apps.utils.wsme.signature import get_dataformat
+from django.conf.urls import url
+from django.core.handlers.wsgi import WSGIRequest
+from django.http.response import HttpResponseNotAllowed
+from django.template.base import kwarg_re
+from rest_framework.status import HTTP_405_METHOD_NOT_ALLOWED
+
 log = logging.getLogger('apps')
 # request,针对 传入token的url 赋值此request，具体引用方法看apps\data\views.py
 # TODO: 将用户访问的请求作成队列保存到数据库
