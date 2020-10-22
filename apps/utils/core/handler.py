@@ -9,8 +9,6 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 import time
 import os
-
-
 class ImageStorage(FileSystemStorage):
     def __init__(self, location=settings.MEDIA_ROOT, base_url=settings.MEDIA_URL):
         # 初始化

@@ -11,7 +11,7 @@ import logging
 
 from apps.accounts.models import token_get_user_model
 from apps.api_exception import (InsufficientPermissionsError, InvalidJwtToken,
-                                NeedLogin, ParameterException,
+                                InvalidUser, ParameterException,
                                 ResponseNotAllowed)
 # F:\Envs\env\Lib\site-packages\rest_framework\status.py
 from apps.apis.urls import urlpatterns
@@ -48,8 +48,8 @@ def require_http_methods(path, name=None,
         def inner(req, *args, **kwargs):
             # methods校验
             methods_check(req, methods)
-            # req.user校验
-            request_ckeck(req, login_required, ini_request, perm)
+            # NOTE:暂时弃用，req.user校验
+            # request_ckeck(req, login_required, ini_request, perm)
             # NOTE:推荐
             # req.token校验，更新token并通过接口返回
             res = request_token_check(
@@ -66,7 +66,9 @@ def require_http_methods(path, name=None,
     return decorator
 
 
-def user_check(user: 'checks that the user is logged in', perm: 'checks whether a user has a particular permission enabled' = None, raise_exception=True):
+def user_check(user: 'checks that the user is logged in',
+               perm: 'checks whether a user has a particular permission enabled' = None,
+               raise_exception=True):
     """校验request中的user"""
     if not perm:
         return user.is_authenticated
@@ -130,7 +132,12 @@ def request_token_check(req, func, jwt_required, *args, **kwargs):
         assert jwt_required
         token = req.headers._store.get('token')[1]
         user = token_get_user_model(token)
-        # 讲登陆后的user 插入request中
+        # 验证session中user是否匹配
+        from django.contrib.auth import get_user
+        _user = get_user(req)
+        if not user.pk == _user.pk:
+            raise InvalidUser(detail='session和token不匹配')
+        # 将登陆后的user 插入request中
         req = update_request(req, user=user)
         res = func(req, *args, **kwargs)
         res.content = json.dumps(
