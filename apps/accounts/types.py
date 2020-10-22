@@ -31,6 +31,7 @@ class AccountPasswordChangeBody(wtypes.Base):
             raise InvalidUser(
                 '用户未登陆或者名称/id未输入')
         return self
+
 class AccountTokenBody(wtypes.Base):
     token = wsme.wsattr(wtypes.text, mandatory=True)
 

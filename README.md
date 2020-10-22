@@ -33,6 +33,7 @@
     - [x] “access”, “sliding”：`apps\accounts\views.py`:token_obtain_pair()/token_access_refresh()
     - [x] “refresh”：`apps\accounts\views.py`:token_obtain_sliding_login()/token_refresh()
   - [x] **将django-rest-framework-simplejwt中的CBV视图转换为FBV视图handlers**:`apps\accounts\handler.py`
+  - [x] **使用jwt和session联合验证** 
   - [ ] 网站用户注册
   - [ ] 支持allauth.socialaccount api登陆并作jwt验证
 

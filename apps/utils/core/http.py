@@ -15,12 +15,7 @@ from apps.api_exception import (InsufficientPermissionsError, InvalidJwtToken,
                                 ResponseNotAllowed)
 # F:\Envs\env\Lib\site-packages\rest_framework\status.py
 from apps.apis.urls import urlpatterns
-from apps.utils.wsme.signature import get_dataformat
 from django.conf.urls import url
-from django.core.handlers.wsgi import WSGIRequest
-from django.http.response import HttpResponseNotAllowed
-from django.template.base import kwarg_re
-from rest_framework.status import HTTP_405_METHOD_NOT_ALLOWED
 
 log = logging.getLogger('apps')
 # request,针对 传入token的url 赋值此request，具体引用方法看apps\data\views.py
