@@ -48,11 +48,7 @@ def require_http_methods(path, name=None,
             # NOTE:推荐
             # req.token校验，更新token并通过接口返回
             res = request_token_check(
-                req, func, jwt_required, *args, **kwargs)
-
-            # 邮箱验证
-            res = request_token_check(
-                req, func, jwt_required, *args, **kwargs)
+                req, func, jwt_required,ini_request, *args, **kwargs)
             return res if res else func(req, *args, **kwargs)
 
         urlpatterns.append(
@@ -121,7 +117,7 @@ def update_request(req, **kwargs):
     return req
 
 
-def request_token_check(req, func, jwt_required, *args, **kwargs):
+def request_token_check(req, func, jwt_required,ini_request, *args, **kwargs):
     """校验token，获取user信息并添加到request中"""
     try:
         assert jwt_required
@@ -130,7 +126,7 @@ def request_token_check(req, func, jwt_required, *args, **kwargs):
         # 验证session中user是否匹配
         from django.contrib.auth import get_user
         _user = get_user(req)
-        if not user.pk == _user.pk:
+        if not user.pk == _user.pk :
             raise InvalidUser(detail='session和token不匹配')
         # 将登陆后的user 插入request中
         req = update_request(req, user=user)
@@ -148,3 +144,11 @@ def request_token_check(req, func, jwt_required, *args, **kwargs):
         message = 'user not authentication'
         log.warn(e)
         raise InvalidJwtToken(detail=message)
+    
+    # request更新
+    try:
+        assert ini_request
+        global REQUEST
+        REQUEST['current_request'] = req
+    except:
+        pass
