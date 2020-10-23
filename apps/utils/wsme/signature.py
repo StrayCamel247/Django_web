@@ -70,11 +70,9 @@ def signature(*args, **kw):
             
             dataformat = get_dataformat(request)
             try:
-                if ismethod:
-                    # django的类视图cbv
-                    args = [self, request] + list(args)
-                # 常规路由fbv
-                result = f(*args, **kwargs)
+                # 常规路由fbv和django的类视图cbv
+                result = f(request, *args, **kwargs) if not ismethod else f(self, request, *args, **kwargs)
+                # result = f(*args, **kwargs)
                 # NOTE: Support setting of status_code with default 200
                 status_code = funcdef.status_code
                 if isinstance(result, wsme.api.Response):

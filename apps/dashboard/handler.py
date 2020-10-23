@@ -9,6 +9,7 @@ import random
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.sessions.models import Session
 from datetime import datetime
+from django.http import request
 from django.utils.timezone import make_aware
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -35,8 +36,9 @@ def kpi_online_user_via_all_handler(**params):
     pass
 
 
-def kpi_indicator_handler():
-    res = chart_mapping()
+def kpi_indicator_handler(**params):
+    request = params.get('request')
+    res = chart_mapping(request)
     return res
 
 

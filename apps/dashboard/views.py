@@ -6,6 +6,8 @@
 # __date__: 2020/09/27 16
 
 import re
+
+from django.http import request
 from apps.utils.wsme.signature import signature
 from apps.utils.core.http import require_http_methods
 from .types import DashboardResult, KpiBody
@@ -16,15 +18,18 @@ urlpatterns = []
 
 @require_http_methods('dashboard/indicator', methods=['GET'])
 @signature(DashboardResult)
-def kpi_indicator():
+def kpi_indicator(request):
     """查询前端展示的kpi 指标"""
-    result = kpi_indicator_handler()
+    params = dict(
+        request=request,
+    )
+    result = kpi_indicator_handler(**params)
     return DashboardResult(content=result)
 
 
-@require_http_methods('dashboard/kpi_value', methods=['POST'],jwt_required=False)
+@require_http_methods('dashboard/kpi_value', methods=['POST'])
 @signature(DashboardResult, body=KpiBody)
-def kpi_value(body):
+def kpi_value(request,body):
     """kpi值接口  根据 indicator 传入参数不同请求不同的 handler"""
     params = {
         "indicator": body.indicator
@@ -36,7 +41,7 @@ def kpi_value(body):
 
 @require_http_methods('transaction/list', methods=['GET'])
 @signature(DashboardResult, int)
-def iris_data_view(page):
+def iris_data_view(request,page):
     data = generate_transaction_list(page=page)
     res = DashboardResult(content=data)
     return res

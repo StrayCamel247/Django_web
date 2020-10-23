@@ -26,7 +26,7 @@ class DBUtil(object):
     @staticmethod
     def fetch_data(sql, params):
         """根据sql/params查询数据，返回字段信息和数据"""
-        render_sql(sql=sql, params=params)
+        sql = render_sql(sql=sql, params=params)
         try:
             cur = conn.cursor()
             con = cur.execute(sql, params)
@@ -36,7 +36,6 @@ class DBUtil(object):
                 col[0] if col else 'unknown' for col in cur.description]
             res['description'] = description
             cur.close()
-            con.close()
             return res
         except Exception as er:
             LOG.error("fetch data error: {0}, sql is: {1}".format(er, sql))
@@ -119,7 +118,7 @@ def render_sql(sql=None, params=None):
         broker_name='A%',
         broker_id=10
     )
-
+    
     print(SQL % test)
 
 
@@ -132,3 +131,4 @@ def render_sql(sql=None, params=None):
     # except Exception:
     #     logging.warn('sql日志打印失败')
     cur.close()
+    return sql

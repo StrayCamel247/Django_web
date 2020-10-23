@@ -15,7 +15,7 @@ urlpatterns = []
 
 @http.require_http_methods('data/iris_data', methods=['GET'])
 @signature(DataResult, int)
-def iris_data_view(page):
+def iris_data_view(request, page):
     data = get_iris_data(page=page)
     res = DataResult(content=data)
     return res

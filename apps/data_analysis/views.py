@@ -13,7 +13,7 @@ from .moduls.FPgrowth.handler import ft_growth
 urlpatterns=[]
 @require_http_methods('data_analysis/compute_fp_growth', methods=['POST'])
 @signature(HelloWordResult, body=ComputeFPgrowthBody)
-def compute_fp_growth_view(body):
+def compute_fp_growth_view(request, body):
     params = {
         'simpDat': body.simpDat,
         'minSupport': body.minSupport
@@ -25,7 +25,7 @@ def compute_fp_growth_view(body):
 
 @require_http_methods('data_analysis/compute_apriori', methods=['POST'])
 @signature(HelloWordResult, body=ComputeAprioriBody)
-def compute_apriori_view(body):
+def compute_apriori_view(request, body):
     params = {
         'data': body.data,
         'minSupport': body.minSupport,
@@ -37,7 +37,7 @@ def compute_apriori_view(body):
 
 @require_http_methods('data_analysis/iris_svm', methods=['POST'])
 @signature(HelloWordResult, body=ComputeAprioriBody)
-def compute_apriori_view(body):
+def compute_apriori_view(request, body):
     params = {
         'minSupport': body.minSupport,
         'max_k': body.max_k

@@ -13,7 +13,6 @@ from datetime import date
 from apps.api_exception import InvalidJwtToken, InvalidUser
 from apps.apis.serializers import UserSerializer
 from apps.role.models import get_role_via_user
-from apps.utils.core.http import REQUEST, update_request
 from apps.utils.email.handler import send_email
 from django.apps import apps as django_apps
 from django.conf import settings

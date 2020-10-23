@@ -198,7 +198,7 @@ def _token_get_user_id(token):
         assert api_settings.USER_ID_CLAIM in Token
     except:
         raise InvalidJwtToken(
-            detail='Token contained no recognizable user identification')
+            detail='Token 失效')
     return TokenUser(Token).id
 
 
