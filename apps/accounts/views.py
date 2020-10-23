@@ -29,7 +29,7 @@ def token_access_refresh(body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/token_login', methods=['POST'], ini_request=True)
+@require_http_methods('account/token_login', methods=['POST'], jwt_required=False)
 @signature(AccountsResult, body=AccountLoginBody)
 def token_obtain_sliding_login(body):
     """用户登陆"""
@@ -42,7 +42,7 @@ def token_obtain_sliding_login(body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/token_logout', methods=['GET'], jwt_required=True)
+@require_http_methods('account/token_logout', methods=['GET'])
 @signature(AccountsResult)
 def token_obtain_sliding_logout():
     """用户登出"""
@@ -80,7 +80,7 @@ def token_user_info(body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/user_password_change', methods=['POST'], jwt_required=True)
+@require_http_methods('account/user_password_change', methods=['POST'])
 @signature(AccountsResult, body=AccountPasswordChangeBody)
 def token_user_password_change(body):
     params = {

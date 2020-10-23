@@ -5,7 +5,6 @@ from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
 from mdeditor.fields import MDTextField
-from django.http import HttpResponse
 from uuslug import slugify
 from django.utils.text import slugify as sfy
 import markdown

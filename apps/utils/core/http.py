@@ -27,8 +27,8 @@ def require_http_methods(path, name=None,
                          methods: "用户指定url和request methods，并将url注册到apis连接下" = [],
                          login_required: "用户指定是否开启request.user校验" = False,
                          perm: "user拥有的权限" = (),
-                         jwt_required: "用户指定是否开启request.jwt校验" = False,
-                         ini_request: "初始化request，即可通过from apps.utils.core.http import REQUEST 引用当前request" = False,
+                         jwt_required: "用户指定是否开启request.jwt校验" = True,
+                         ini_request: "初始化request，即可通过from apps.utils.core.http import REQUEST 引用当前request" = True,
                          **check):
     """
         指定访问url的user的限制
@@ -110,10 +110,11 @@ def request_ckeck(req, login_required, ini_request, perm):
 
 def request_token_check(req, func, jwt_required, ini_request, *args, **kwargs):
     """校验token，获取user信息并添加到request中"""
+    res = None
     try:
         assert jwt_required
         # 获取jwt中的user
-        token = req.headers._store.get('x-token')[1]
+        token = req.headers._store.get('x-token',(None,None))[1]
         user = token_get_user_model(token)
         # 获取session中的user
         from django.contrib.auth import get_user
@@ -123,7 +124,6 @@ def request_token_check(req, func, jwt_required, ini_request, *args, **kwargs):
         res = func(req, *args, **kwargs)
         # res.content = json.dumps(
         #     dict(json.loads(res.content)))
-        return res
     except AssertionError as e:
         msg = six.text_type(e)
         if msg:
@@ -142,6 +142,7 @@ def request_token_check(req, func, jwt_required, ini_request, *args, **kwargs):
         REQUEST['current_request'] = req
     except:
         pass
+    return res
 
 
 def update_request(req, **kwargs):
