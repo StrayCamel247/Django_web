@@ -1,18 +1,10 @@
-from PIL import Image
-from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# __author__ : stray_camel
+# __description__ : 
+# __REFERENCES__ : 
+# __date__: 2020/10/22 14
 from django.db import models
-from django.conf import settings
-from django.shortcuts import reverse
-from mdeditor.fields import MDTextField
-from django.http import HttpResponse
-from uuslug import slugify
-from django.utils.text import slugify as sfy
-from config.settings import MEDIA_ROOT
-import markdown
-from markdown.extensions.toc import TocExtension
-import emoji, re, time, string, os
-from apps.utils.core.handler import ImageStorage
 
 
 # slider_right_table
@@ -25,7 +17,8 @@ class FriendLink(models.Model):
     name = models.CharField('网站名称', max_length=50)
     description = models.CharField('网站描述', max_length=100, blank=True)
     link = models.URLField('友链地址', help_text='请填写http或https开头的完整形式地址')
-    logo = models.URLField('网站LOGO', help_text='请填写http或https开头的完整形式地址', blank=True)
+    logo = models.URLField(
+        '网站LOGO', help_text='请填写http或https开头的完整形式地址', blank=True)
     create_date = models.DateTimeField('创建时间', auto_now_add=True)
     is_active = models.BooleanField('是否有效', default=True)
     is_show = models.BooleanField('是否首页展示', default=False)
@@ -46,10 +39,9 @@ class FriendLink(models.Model):
         return home_url
 
     def active_to_false(self):
-        self.is_active=False
+        self.is_active = False
         self.save(update_fields=['is_active'])
 
     def show_to_false(self):
         self.is_show = True
         self.save(update_fields=['is_show'])
-

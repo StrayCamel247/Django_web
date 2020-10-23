@@ -8,7 +8,7 @@
 import functools
 import json
 import logging
-
+import six
 from apps.accounts.models import token_get_user_model
 from apps.api_exception import (InsufficientPermissionsError, InvalidJwtToken,
                                 InvalidUser, ParameterException,
@@ -48,7 +48,7 @@ def require_http_methods(path, name=None,
             # NOTE:推荐
             # req.token校验，更新token并通过接口返回
             res = request_token_check(
-                req, func, jwt_required,ini_request, *args, **kwargs)
+                req, func, jwt_required, ini_request, *args, **kwargs)
             return res if res else func(req, *args, **kwargs)
 
         urlpatterns.append(
@@ -108,6 +108,42 @@ def request_ckeck(req, login_required, ini_request, perm):
         pass
 
 
+def request_token_check(req, func, jwt_required, ini_request, *args, **kwargs):
+    """校验token，获取user信息并添加到request中"""
+    try:
+        assert jwt_required
+        # 获取jwt中的user
+        token = req.headers._store.get('x-token')[1]
+        user = token_get_user_model(token)
+        # 获取session中的user
+        from django.contrib.auth import get_user
+        _user = get_user(req)
+        # 校验user
+        assert user.pk == _user.pk, 'session和token不匹配'
+        res = func(req, *args, **kwargs)
+        # res.content = json.dumps(
+        #     dict(json.loads(res.content)))
+        return res
+    except AssertionError as e:
+        msg = six.text_type(e)
+        if msg:
+            raise InvalidUser('token和session用户不一致')
+    except IndexError or TypeError:
+        message = 'headers need token'
+        log.warn(message)
+        raise InvalidJwtToken(detail=message)
+
+    # request更新
+    try:
+        assert ini_request
+        # 将登陆后的user 插入request中
+        # req = update_request(req, user=user)
+        global REQUEST
+        REQUEST['current_request'] = req
+    except:
+        pass
+
+
 def update_request(req, **kwargs):
     """修改request属性，并同步到全局变量"""
     for k, v in kwargs.items():
@@ -115,40 +151,3 @@ def update_request(req, **kwargs):
     global REQUEST
     REQUEST['current_request'] = req
     return req
-
-
-def request_token_check(req, func, jwt_required,ini_request, *args, **kwargs):
-    """校验token，获取user信息并添加到request中"""
-    try:
-        assert jwt_required
-        token = req.headers._store.get('token')[1]
-        user = token_get_user_model(token)
-        # 验证session中user是否匹配
-        from django.contrib.auth import get_user
-        _user = get_user(req)
-        if not user.pk == _user.pk :
-            raise InvalidUser(detail='session和token不匹配')
-        # 将登陆后的user 插入request中
-        req = update_request(req, user=user)
-        res = func(req, *args, **kwargs)
-        res.content = json.dumps(
-            dict(json.loads(res.content)))
-        return res
-    except AssertionError:
-        pass
-    except IndexError:
-        message = 'headers need token'
-        log.warn(message)
-        raise InvalidJwtToken(detail=message)
-    except Exception as e:
-        message = 'user not authentication'
-        log.warn(e)
-        raise InvalidJwtToken(detail=message)
-    
-    # request更新
-    try:
-        assert ini_request
-        global REQUEST
-        REQUEST['current_request'] = req
-    except:
-        pass
