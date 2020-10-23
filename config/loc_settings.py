@@ -293,6 +293,13 @@ AUTHOR_DESC = 'early to bed, early to rise.'
 AUTHOR_EMAIL = 'aboyinsky@outlook.com'
 AUTHOR_TITLE = 'rookie'
 
+# pg模式
+schema_constant = dict(
+        app_schema_name='apps',
+        APP_SCHEMA_NAME='apps',
+        system_schema_name='public',
+        SYSTEM_SCHEMA_NAME='public'
+    )
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 DATABASES = {
@@ -505,6 +512,3 @@ ONLINE_TIME_DAYS = (datetime.datetime.now() -
 
 # django网站国际化
 USE_I18N = True
-
-# 反斜杠
-APPEND_SLASH=False
