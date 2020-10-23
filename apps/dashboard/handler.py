@@ -21,13 +21,13 @@ User = get_user_model()
 class KpiFactory:
     """kpi 指标工厂方法"""
     options = {
-        "online_user_via_all"
+        "all_users"
     }
 
     @staticmethod
     def create_handler(_type):
         handler = dict(
-            online_user_via_all=get_all_logged_in_users,
+            all_users=get_all_users_count_handler,
         )
         return handler[_type]
 
@@ -40,6 +40,16 @@ def kpi_indicator_handler(**params):
     request = params.get('request')
     res = chart_mapping(request)
     return res
+
+def get_dashboard_barChart_handler(**params):
+    xAxis_data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    return str(all_user_num)
+
+def get_all_users_count_handler(**params):
+    """获得系统全部用户数量"""
+    all_user_num = User.objects.filter(
+        is_active=IsActiveConstant.ACTIVE).count()
+    return str(all_user_num)
 
 
 def get_all_logged_in_users(**params):

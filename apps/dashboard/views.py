@@ -42,6 +42,14 @@ def kpi_value(request,body):
 @require_http_methods('transaction/list', methods=['GET'])
 @signature(DashboardResult, int)
 def iris_data_view(request,page):
+    """制造假数据"""
     data = generate_transaction_list(page=page)
     res = DashboardResult(content=data)
     return res
+
+@require_http_methods('dashboard/barChart', methods=['POST'])
+@signature(DashboardResult)
+def kpi_value(request):
+    # TODO:假数据
+    result = 1
+    return DashboardResult(content=result)
