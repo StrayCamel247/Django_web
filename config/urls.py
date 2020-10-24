@@ -26,7 +26,8 @@ from django.contrib import admin
 # 网站地图
 from django.contrib.sitemaps.views import sitemap
 from apps.index.views import ArticleSitemap, CategorySitemap
-from apps.api_exception import exception_process, _handler404, _handler500,_handler403
+from apps.api_exception import exception_process, _handler404, _handler500, _handler403
+from apps.utils.core.url.static import static
 import copy
 # handler400 = exception_process
 handler403 = _handler403
@@ -60,13 +61,19 @@ urlpatterns = [
     # tool
     # path('tool/', include('apps.tool.urls'), name='tool'),
 ]
+from django.views.static import serve
+import re
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += [path(_+'/', include('apps.{app_name}.urls'.format(app_name=_)), name=_)
                 for _ in settings.APPS if os.path.exists(os.path.join(settings.APPS_FLODER, _, 'urls.py'))]
-
+# TODO:自动载入
 urlpatterns += [path('', include('apps.data_analysis.views'.format(
     app_name='data_analysis')), name='data_analysis')]
 urlpatterns += [path('', include('apps.data.views'.format(app_name='data')), name='data')]
-urlpatterns += [path('', include('apps.apis.views'.format(app_name='apis_views')), name='apis_views')]
-urlpatterns += [path('', include('apps.accounts.views'.format(app_name='accounts_views')), name='accounts_views')]
+urlpatterns += [path('', include('apps.apis.views'.format(
+    app_name='apis_views')), name='apis_views')]
+urlpatterns += [path('', include('apps.accounts.views'.format(
+    app_name='accounts_views')), name='accounts_views')]
+urlpatterns += [path('', include('apps.dashboard.views'.format(
+    app_name='dashboard_views')), name='dashboard_views')]

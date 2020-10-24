@@ -1,14 +1,10 @@
 from PIL import Image
-from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
 from mdeditor.fields import MDTextField
-from django.http import HttpResponse
 from uuslug import slugify
 from django.utils.text import slugify as sfy
-from config.settings import MEDIA_ROOT
 import markdown
 from markdown.extensions.toc import TocExtension
 import emoji, re, time, string, os

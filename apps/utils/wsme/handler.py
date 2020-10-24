@@ -7,6 +7,7 @@ import traceback
 import functools
 import inspect
 import logging
+from django.http import request
 import six
 
 import wsme.exc
@@ -134,6 +135,8 @@ class FunctionDefinition(object):
         # args, varargs, keywords, defaults = argspec
         if args[0] == 'self':
             args = args[1:]
+        # args[0]==request,过滤调
+        args = args[1:]
         arg_types = list(arg_types)
         if self.body_type is not None:
             arg_types.append(self.body_type)

@@ -13,9 +13,9 @@ from .handler import get_iris_data
 # url锚点，让config.urls中集合url的机制可以访问到，并调用require_http_methods将url注册到apis中，和restful接口相集合
 urlpatterns = []
 
-@http.require_http_methods('data/iris_data', methods=['GET'], jwt_required=True)
+@http.require_http_methods('data/iris_data', methods=['GET'])
 @signature(DataResult, int)
-def iris_data_view(page):
+def iris_data_view(request, page):
     data = get_iris_data(page=page)
     res = DataResult(content=data)
     return res

@@ -8,10 +8,12 @@ from apps.utils.management import LocalManagement
 from django.conf import settings
 import os
 import sys
-
+config = {
+    'dev':'config.dev_settings',
+    'loc':'config.loc_settings'
+}
 def execute_from_command_line(argv=None):
-    default_settings = "config.settings"
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", default_settings)
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", config['loc'])
     utility = LocalManagement(argv)
     utility.execute()
 

@@ -23,8 +23,6 @@ except:
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # sys.path.append(BASE_DIR)
-VUE_WEB_DIR = os.path.join(
-    os.path.dirname(BASE_DIR), 'Vue_web')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -33,6 +31,7 @@ SECRET_KEY = '1ek)3z+-*)(&1c&3fv=2*=lr_cyGst85w&a4y#5!2m*ik@=&!p0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
+PORT = 8000
 # 自由选择需要开启的功能
 # 是否开始[在线工具]应用
 # TOOL_FLAG = True
@@ -115,16 +114,17 @@ REST_FRAMEWORK = {
         # 以上两项设置分别全局指定使用的 API 版本管理方式和客户端缺省版本号的情况下默认请求的 API 版本。尽管这些配置项也可以在单个视图或者视图集的范围内指定，但是，统一的版本管理模式更为可取，因此我们在全局配置中指定。
     },
     # jwt登陆机制
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
         # JWT认证
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         # Session认证
         # 'rest_framework.authentication.SessionAuthentication',
         # # Basic认证
         # 'rest_framework.authentication.BasicAuthentication',
-    ),
+    # ),
 
 }
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
@@ -297,8 +297,14 @@ AUTHOR_TITLE = 'rookie'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'django_web',
+        'USER':'postgres',
+        'PASSWORD':'postgres',
+        'HOST':'127.0.0.1',
+        'PORT':5432
     }
 }
 
@@ -358,7 +364,6 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 # # 更改或设置密码后是否自动退出
 # ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE(=False)
 # 更改为True，用户将在重置密码后自动登录
-# ROOT_URLCONF = 'blog.urls'
 
 AUTH_USER_MODEL = 'accounts.Ouser'
 
@@ -412,16 +417,16 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [VUE_WEB_DIR],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                # 'django.template.context_processors.debug',
+                # 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # 全局变量
-                'apps.index.views.global_setting',
+                # 'apps.index.views.global_setting',
                 # allauth 需要 django 提供这个处理器
                 'django.template.context_processors.request',
             ],
@@ -469,10 +474,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'compressor.finders.CompressorFinder',)
+# STATICFILES_FINDERS = (
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'compressor.finders.CompressorFinder',)
 # 静态文件收集
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -481,17 +486,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-# 统一分页设置
-# 指定如何对搜索结果分页，这里设置为每 2 项结果为一页。
-BASE_PAGE_BY = 7
-BASE_ORPHANS = 4
-
-# django-pure-pagination 分页设置
-PAGINATION_SETTINGS = {
-    'PAGE_RANGE_DISPLAYED': 4,  # 分页条当前页前后应该显示的总页数（两边均匀分布，因此要设置为偶数），
-    'MARGIN_PAGES_DISPLAYED': 1,  # 分页条开头和结尾显示的页数
-    'SHOW_FIRST_PAGE_WHEN_INVALID': False,  # 当请求了不存在页，显示第一页
-}
+HOST_MEDIA = 'http://'+SYSTEM_HOST+':'+str(PORT)+'/media/'
 
 # 网站上线时长
 ONLINE_TIME_DAYS = (datetime.datetime.now() -

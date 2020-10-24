@@ -17,7 +17,7 @@ urlpatterns = []
 
 @require_http_methods('all_urls', methods=['GET'])
 @signature(ApisResult)
-def get_all_url_dict_view():
+def get_all_url_dict_view(request):
     """获取项目中所有的URL"""
     content = get_all_url_dict()
     return ApisResult(content=content)

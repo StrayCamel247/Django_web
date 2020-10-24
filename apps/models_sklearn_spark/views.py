@@ -6,6 +6,7 @@
 import os
 import datetime
 import json
+from django.http import request
 
 from django.views import generic
 from django.conf import settings
@@ -23,7 +24,7 @@ class hello_word_view(generic.View):
         return super(hello_word_view, self).dispatch(*args, **kwargs)
 
     @signature(HelloWordResult)
-    def get(self):
+    def get(self, request):
         content = get_ml_1m_zip()
         return HelloWordResult(content=content)
 

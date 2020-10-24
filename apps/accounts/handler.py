@@ -9,11 +9,11 @@ import inspect
 import logging
 import re
 from datetime import date
-
+import six
 from apps.api_exception import InvalidJwtToken, InvalidUser
 from apps.apis.serializers import UserSerializer
 from apps.role.models import get_role_via_user
-from apps.utils.core.http import REQUEST
+
 from apps.utils.core.session.handler import session_logout, _get_user_session_key, session_user_update
 from django.contrib.auth.models import update_last_login
 from rest_framework_simplejwt.serializers import (
@@ -21,27 +21,26 @@ from rest_framework_simplejwt.serializers import (
     TokenRefreshSerializer, TokenRefreshSlidingSerializer)
 
 from .models import UserInfoSerializer, token_get_user_model
-from .types import User
+from django.contrib.auth import get_user_model
 
 log = logging.getLogger('apps')
 
 
-def token_obtain_sliding_logout_handler():
+def token_obtain_sliding_logout_handler(**params):
     """
     用户登出，更新用户信息，注销request信息等
     """
     try:
-        log.info('logout')
-        log.info(REQUEST)
-        current_request = REQUEST.get('current_request', None)
-        assert current_request
+        current_request = params.get('request')
+        assert params.get('request')
         session_logout(current_request)
     except Exception as e:
         log.warn(e)
+        raise InvalidJwtToken(msg=six.text_type(e))
     return '登出成功'
 
 
-def token_obtain_sliding_login_handler(username, password):
+def token_obtain_sliding_login_handler(request, username, password):
     """
     Takes a set of user credentials and returns a sliding JSON web token to
     prove the authentication of those credentials.
@@ -53,8 +52,7 @@ def token_obtain_sliding_login_handler(username, password):
     except:
         raise InvalidUser('用户名/密码输入错误')
     update_last_login(None, ser.user)
-    print(REQUEST)
-    session_user_update(REQUEST.get('current_request'), ser.user)
+    session_user_update(request, ser.user)
     res = dict(token=ser.validated_data.get('token'),
                user=UserSerializer(ser.user).data)
     return res
@@ -70,6 +68,7 @@ def token_user_password_change_handler(**kwrags):
 
 def get_username_field():
     try:
+        User = get_user_model()
         username_field = User.USERNAME_FIELD
     except AttributeError:
         username_field = 'username'
@@ -83,6 +82,7 @@ def token_user_info_handler(token):
     """
     # user_id = _token_get_user_id(token)
     # 查询
+    # print(REQUEST)
     _user = token_get_user_model(token)
     res = dict(user=UserInfoSerializer(_user).data)
     params = dict(user_id=_user.id)

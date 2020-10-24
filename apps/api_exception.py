@@ -103,7 +103,8 @@ def _handler500(request=None, exception=None):
     response = exception_process(
         exception=exception, context=None)
     res = get_dataformat(request)
-    response.data['status_code']= _HANDLER500_CODE
+    status_code = getattr(exception[0], 'status_code', None)
+    response.data['status_code']= _HANDLER500_CODE if not status_code else status_code
     print(res)
     return HttpResponseServerError(json.dumps(response.data), content_type=res.content_type)
 
