@@ -11,7 +11,7 @@ from django.http import request
 from apps.utils.wsme.signature import signature
 from apps.utils.core.http import require_http_methods
 from .types import DashboardResult, KpiBody
-from .handler import KpiFactory, generate_transaction_list, kpi_indicator_handler,get_dashboard_barChart_handler
+from .handler import KpiFactory, generate_transaction_list, kpi_indicator_handler, get_dashboard_barChart_handler
 # url锚点，让config.urls中集合url的机制可以访问到，并调用require_http_methods将url注册到apis中，和restful接口相集合
 urlpatterns = []
 
@@ -29,7 +29,7 @@ def kpi_indicator(request):
 
 @require_http_methods('dashboard/kpi_value', methods=['POST'])
 @signature(DashboardResult, body=KpiBody)
-def kpi_value(request,body):
+def kpi_value(request, body):
     """kpi值接口  根据 indicator 传入参数不同请求不同的 handler"""
     params = {
         "indicator": body.indicator
@@ -41,15 +41,16 @@ def kpi_value(request,body):
 
 @require_http_methods('transaction/list', methods=['GET'])
 @signature(DashboardResult, int)
-def iris_data_view(request,page):
+def iris_data_view(request, page):
     """制造假数据"""
     data = generate_transaction_list(page=page)
     res = DashboardResult(content=data)
     return res
 
+
 @require_http_methods('dashboard/barChart', methods=['POST'])
 @signature(DashboardResult)
-def kpi_value(request):
+def dashboard_barChart(request):
     # TODO:假数据
     result = get_dashboard_barChart_handler()
     return DashboardResult(content=result)
