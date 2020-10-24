@@ -17,6 +17,8 @@ from apps.constants import IsActiveConstant
 from apps.utils.tools import chart_mapping
 User = get_user_model()
 
+from faker import Faker
+fake = Faker()
 
 class KpiFactory:
     """kpi 指标工厂方法"""
@@ -42,14 +44,19 @@ def kpi_indicator_handler(**params):
     return res
 
 def get_dashboard_barChart_handler(**params):
-    xAxis_data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    return str(all_user_num)
+    """为柱状图生成假数据"""
+    res = dict(
+    xAxis_data = ['慕风', '纵浪','帅','清'],
+    series_data = [[fake.random_int(min=20,max=2000) for _ in range(5)] for name in range(5)],
+    series_name = [fake.job() for _ in range(5)])
+    
+    return res
 
 def get_all_users_count_handler(**params):
     """获得系统全部用户数量"""
     all_user_num = User.objects.filter(
         is_active=IsActiveConstant.ACTIVE).count()
-    return str(all_user_num)
+    return all_user_num
 
 
 def get_all_logged_in_users(**params):
@@ -76,8 +83,6 @@ def get_all_logged_in_users(**params):
 def generate_transaction_list(**params):
     import uuid
     # 随机生成10个日期字符串
-    from faker import Faker
-    fake = Faker()
     data = [dict(update_time=fake.date_time_this_year(before_now=True,  after_now=False,
                                                       tzinfo=None).strftime('%Y-%m-%d %H:%M:%S'), order_no=str(uuid.uuid1()), username=fake.name(),
                  status=['sucess', 'pedding'][random.randint(0, 1)],

@@ -1,11 +1,17 @@
+from rest_framework_simplejwt.settings import api_settings
+from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.models import TokenUser
+from apps.api_exception import InvalidJwtToken, InvalidUser
+from rest_framework_simplejwt.tokens import SlidingToken
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
 from django.db.models.fields import IntegerField
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.conf import settings
 from django.shortcuts import reverse
 from django.utils.translation import gettext_lazy as _
-from rest_framework.serializers import ModelSerializer,HyperlinkedModelSerializer
+from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer
+from rest_framework import serializers
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from six import integer_types
@@ -14,43 +20,43 @@ from datetime import datetime
 import random
 
 # 用户注册
-def user_register(request):
-    '''
-    用户注册视图函数
-    :param request:
-    :return:
-    '''
-    if request.session.get('is_login', None):
-        return redirect('/')
-    if request.method == 'GET':
-        return render(request, 'user/user_register.html', {})
-    elif request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        re_password = request.POST.get('re_password')
-        email = request.POST.get('email')
-        try:
-            user = models.User.objects.get(username=username)
-            return render(request, 'user/user_register.html', {'error_code': -1, 'error_msg': '账号已经存在,换个账号试试吧!'})
-        except:
-            try:
-                user = models.User.objects.get(email=email)
-                return render(request, 'user/user_register.html',
-                              {'error_code': -2, 'error_msg': '邮箱已经存在,换个昵称试试吧!'})
-            except:
-                if password != re_password:
-                    return render(request, 'user/user_register.html',
-                                  {'error_code': -3, 'error_msg': '两次密码输入不一致,请重新注册'})
-                else:
-                    password = make_password(password, None, 'pbkdf2_sha256')
-                    user = models.User(username=username,
-                                       password=password, email=email)
-                    user.save()
-                    code = make_confirm_string(user)
-                    send_email(email, code)
+# def user_register(request):
+#     '''
+#     用户注册视图函数
+#     :param request:
+#     :return:
+#     '''
+#     if request.session.get('is_login', None):
+#         return redirect('/')
+#     if request.method == 'GET':
+#         return render(request, 'user/user_register.html', {})
+#     elif request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         re_password = request.POST.get('re_password')
+#         email = request.POST.get('email')
+#         try:
+#             user = models.User.objects.get(username=username)
+#             return render(request, 'user/user_register.html', {'error_code': -1, 'error_msg': '账号已经存在,换个账号试试吧!'})
+#         except:
+#             try:
+#                 user = models.User.objects.get(email=email)
+#                 return render(request, 'user/user_register.html',
+#                               {'error_code': -2, 'error_msg': '邮箱已经存在,换个昵称试试吧!'})
+#             except:
+#                 if password != re_password:
+#                     return render(request, 'user/user_register.html',
+#                                   {'error_code': -3, 'error_msg': '两次密码输入不一致,请重新注册'})
+#                 else:
+#                     password = make_password(password, None, 'pbkdf2_sha256')
+#                     user = models.User(username=username,
+#                                        password=password, email=email)
+#                     user.save()
+#                     code = make_confirm_string(user)
+#                     send_email(email, code)
 
-                    message = '请前往注册邮箱，进行邮件确认！'
-                    return render(request, 'user/confirm.html', locals())
+#                     message = '请前往注册邮箱，进行邮件确认！'
+#                     return render(request, 'user/confirm.html', locals())
 
 
 # 邮箱发送
@@ -74,6 +80,7 @@ def send_email(email, code):
     msg.attach_alternative(html_content, "text/html")
 
     msg.send()
+
 
 class Contacts(models.Model):
     """通讯录   category/contacts"""
@@ -117,7 +124,8 @@ class Ouser(AbstractUser):
         _('username'),
         max_length=150,
         unique=True,
-        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+        help_text=_(
+            'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
         validators=[username_validator],
         error_messages={
             'unique': _("A user with that username already exists."),
@@ -179,15 +187,20 @@ class User_role(models.Model):
     user_id = models.IntegerField(
         verbose_name=u"角色id")
 
+
 class UserInfoSerializer(HyperlinkedModelSerializer):
+    avatar = serializers.SerializerMethodField()
+
     class Meta:
         model = Ouser
-        fields = ['id', 'username', 'introduction','avatar']
+        fields = ['id', 'username', 'introduction', 'avatar']
 
-from rest_framework_simplejwt.settings import api_settings
-from rest_framework_simplejwt.tokens import SlidingToken
-from apps.api_exception import InvalidJwtToken, InvalidUser
-from rest_framework_simplejwt.models import TokenUser
+    def get_avatar(self, obj):
+        # 拼接媒体url访问用户头像
+        avatar_url = settings.HOST_MEDIA+obj.avatar.name
+        return avatar_url
+
+
 def _token_get_user_id(token):
     """
     The TokenUser class assumes tokens will have a recognizable user
@@ -202,12 +215,12 @@ def _token_get_user_id(token):
     return TokenUser(Token).id
 
 
-from .types import User
 def token_get_user_model(token):
     """
     Returns a stateless user object which is backed by the given validated
     token.
     """
+    User = get_user_model()
     _id = _token_get_user_id(token)
     _user = User.objects.get(id=_id)
     return _user

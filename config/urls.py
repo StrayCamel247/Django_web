@@ -27,6 +27,7 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from apps.index.views import ArticleSitemap, CategorySitemap
 from apps.api_exception import exception_process, _handler404, _handler500, _handler403
+from apps.utils.core.url.static import static
 import copy
 # handler400 = exception_process
 handler403 = _handler403
@@ -60,6 +61,8 @@ urlpatterns = [
     # tool
     # path('tool/', include('apps.tool.urls'), name='tool'),
 ]
+from django.views.static import serve
+import re
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += [path(_+'/', include('apps.{app_name}.urls'.format(app_name=_)), name=_)

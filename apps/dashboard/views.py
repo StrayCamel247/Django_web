@@ -11,7 +11,7 @@ from django.http import request
 from apps.utils.wsme.signature import signature
 from apps.utils.core.http import require_http_methods
 from .types import DashboardResult, KpiBody
-from .handler import KpiFactory, generate_transaction_list, kpi_indicator_handler
+from .handler import KpiFactory, generate_transaction_list, kpi_indicator_handler,get_dashboard_barChart_handler
 # url锚点，让config.urls中集合url的机制可以访问到，并调用require_http_methods将url注册到apis中，和restful接口相集合
 urlpatterns = []
 
@@ -51,5 +51,5 @@ def iris_data_view(request,page):
 @signature(DashboardResult)
 def kpi_value(request):
     # TODO:假数据
-    result = 1
+    result = get_dashboard_barChart_handler()
     return DashboardResult(content=result)

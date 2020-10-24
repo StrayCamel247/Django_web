@@ -1,6 +1,4 @@
 from PIL import Image
-from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse

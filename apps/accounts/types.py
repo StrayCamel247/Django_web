@@ -9,8 +9,7 @@ from wsme import types as wtypes
 from apps import types as _types
 from django.utils.translation import ugettext as _
 from apps.api_exception import ParameterException,InvalidUser
-from django.contrib.auth import get_user_model
-User = get_user_model()
+
 
 class AccountRefreshBody(wtypes.Base):
     refresh = wsme.wsattr(wtypes.text, mandatory=True)

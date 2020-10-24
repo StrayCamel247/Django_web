@@ -9,7 +9,7 @@ import inspect
 import logging
 import re
 from datetime import date
-
+import six
 from apps.api_exception import InvalidJwtToken, InvalidUser
 from apps.apis.serializers import UserSerializer
 from apps.role.models import get_role_via_user
@@ -21,7 +21,7 @@ from rest_framework_simplejwt.serializers import (
     TokenRefreshSerializer, TokenRefreshSlidingSerializer)
 
 from .models import UserInfoSerializer, token_get_user_model
-from .types import User
+from django.contrib.auth import get_user_model
 
 log = logging.getLogger('apps')
 
@@ -36,6 +36,7 @@ def token_obtain_sliding_logout_handler(**params):
         session_logout(current_request)
     except Exception as e:
         log.warn(e)
+        raise InvalidJwtToken(msg=six.text_type(e))
     return '登出成功'
 
 
@@ -67,6 +68,7 @@ def token_user_password_change_handler(**kwrags):
 
 def get_username_field():
     try:
+        User = get_user_model()
         username_field = User.USERNAME_FIELD
     except AttributeError:
         username_field = 'username'
