@@ -34,8 +34,6 @@
     - [x] “refresh”：`apps\accounts\views.py`:token_obtain_sliding_login()/token_refresh()
   - [x] **将django-rest-framework-simplejwt中的CBV视图转换为FBV视图handlers**:`apps\accounts\handler.py`
   - [x] **使用jwt和session联合验证** 
-  - [ ] 网站用户注册
-  - [ ] 支持allauth.socialaccount api登陆并作jwt验证
 
 
 - [x] apis
@@ -43,17 +41,6 @@
   
 - [x] data
   - [x] **iris_data数据可视化接口**:`apps\data\views.py`
-
-- [x] data_analysis: 使用简单的numpy，pandas复现算法或者模型，并通过接口返回演示
-  - [x] **Apriori算法实现**:`apps\data_analysis\models\apriori.py`
-  - [x] **FPgrowth算法实现**:`apps\data_analysis\moduls\FPgrowth\handler.py`
-  - [x] **SVM算法实现（预测）**:`apps\data_analysis\moduls\svm\handler.py`
-
-- [x] models_sklearn_spark: 机器学习和各种模型算法小demo复现，并通过接口返回演示
-  > 开发中...
-
-- [x] models_tensorflow2: 使用tensorflow2复现论文，比赛等，并通过接口返回演示
-  > 开发中...
 
 - [x] api: 使用restful framework集成本网站的接口，对外开放，使用RESTful API框架，api主界面在`/api/v1/`
   - [x] 集合用户、博客、工具信息的api。
