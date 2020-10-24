@@ -9,7 +9,7 @@ import random
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.sessions.models import Session
 from datetime import datetime
-from django.http import request
+
 from django.utils.timezone import make_aware
 from django.conf import settings
 from django.contrib.auth import get_user_model

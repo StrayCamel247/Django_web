@@ -1,9 +1,17 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render
 from apps.utils.core.http import require_http_methods
 from apps.utils.wsme.signature import signature
-from .types import AccountsResult, AccountLoginBody, AccountTokenBody, AccountRefreshBody, AccountPasswordChangeBody
-from .handler import token_refresh_sliding_handler, token_obtain_sliding_login_handler, token_obtain_sliding_logout_handler, token_refresh_handler, token_obtain_pair_handler, token_verify_handler, token_user_info_handler, token_user_password_change_handler
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render
+
+from .handler import (token_obtain_pair_handler,
+                      token_obtain_sliding_login_handler,
+                      token_obtain_sliding_logout_handler,
+                      token_refresh_handler, token_refresh_sliding_handler,
+                      token_user_info_handler,
+                      token_user_password_change_handler, token_verify_handler)
+from .types import (AccountLoginBody, AccountPasswordChangeBody,
+                    AccountRefreshBody, AccountsResult, AccountTokenBody)
+
 # Create your views here.
 urlpatterns = []
 
