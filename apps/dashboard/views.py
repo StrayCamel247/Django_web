@@ -11,7 +11,7 @@ import re
 from apps.utils.wsme.signature import signature
 from apps.utils.core.http import require_http_methods
 from .types import DashboardResult, KpiBody
-from .handler import KpiFactory, generate_transaction_list, kpi_indicator_handler, get_dashboard_barChart_handler
+from .handler import KpiFactory, generate_transaction_list, kpi_indicator_handler, get_dashboard_barChart_handler,get_dashboard_BoxCard_handler
 # url锚点，让config.urls中集合url的机制可以访问到，并调用require_http_methods将url注册到apis中，和restful接口相集合
 urlpatterns = []
 
@@ -39,10 +39,10 @@ def kpi_value(request, body):
     return DashboardResult(content=result)
 
 
-@require_http_methods('transaction/list', methods=['GET'])
+@require_http_methods('dashboard/TransactionTable', methods=['GET'])
 @signature(DashboardResult, int)
-def iris_data_view(request, page):
-    """制造假数据"""
+def dashboard_TransactionTable(request, page):
+    """dashboard/TransactionTable"""
     data = generate_transaction_list(page=page)
     res = DashboardResult(content=data)
     return res
@@ -51,6 +51,38 @@ def iris_data_view(request, page):
 @require_http_methods('dashboard/barChart', methods=['POST'])
 @signature(DashboardResult)
 def dashboard_barChart(request):
-    # TODO:假数据
+    """dashboard/barChart"""
+    result = get_dashboard_barChart_handler()
+    return DashboardResult(content=result)
+
+
+@require_http_methods('dashboard/BoxCard', methods=['POST'])
+@signature(DashboardResult)
+def dashboard_BoxChart(request):
+    """dashboard/BoxCard"""
+    result = get_dashboard_BoxCard_handler()
+    return DashboardResult(content=result)
+
+# TODO:待开发... 
+@require_http_methods('dashboard/LineChart', methods=['POST'])
+@signature(DashboardResult)
+def dashboard_barChart(request):
+    """dashboard/LineChart"""
+    result = get_dashboard_barChart_handler()
+    return DashboardResult(content=result)
+
+
+@require_http_methods('dashboard/PieChart', methods=['POST'])
+@signature(DashboardResult)
+def dashboard_PieChart(request):
+    """dashboard/PieChart"""
+    result = get_dashboard_barChart_handler()
+    return DashboardResult(content=result)
+
+
+@require_http_methods('dashboard/RaddarChart', methods=['POST'])
+@signature(DashboardResult)
+def dashboard_RaddarChart(request):
+    """dashboard/RaddarChart"""
     result = get_dashboard_barChart_handler()
     return DashboardResult(content=result)

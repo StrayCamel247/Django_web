@@ -147,10 +147,11 @@ class Ouser(AbstractUser):
     )
 
     class Meta:
-        verbose_name = '用户'  # 定义网站管理后台表名
+        verbose_name = """用户"""
         verbose_name_plural = verbose_name
         ordering = ['id']
-
+        db_table = "user"
+        
     def __str__(self):
         return self.username
 
@@ -209,10 +210,10 @@ def _token_get_user_id(token):
     try:
         Token = SlidingToken(token)
         assert api_settings.USER_ID_CLAIM in Token
+        return TokenUser(Token).id
     except:
         raise InvalidJwtToken(
             detail='Token 失效')
-    return TokenUser(Token).id
 
 
 def token_get_user_model(token):

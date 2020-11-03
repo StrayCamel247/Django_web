@@ -43,8 +43,16 @@ def kpi_indicator_handler(**params):
     res = chart_mapping(request)
     return res
 
+def get_dashboard_BoxCard_handler(**params):
+    """为BoxCard生成假数据"""
+    res = dict(
+    xAxis_data = ['慕风', '纵浪','帅','清'],
+    series_data = [[fake.random_int(min=20,max=2000) for _ in range(5)] for name in range(5)],
+    series_name = [fake.job() for _ in range(5)])
+    
+    return res
 def get_dashboard_barChart_handler(**params):
-    """为柱状图生成假数据"""
+    """为barChart生成假数据"""
     res = dict(
     xAxis_data = ['慕风', '纵浪','帅','清'],
     series_data = [[fake.random_int(min=20,max=2000) for _ in range(5)] for name in range(5)],

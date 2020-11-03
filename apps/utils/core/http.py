@@ -44,9 +44,9 @@ def require_http_methods(path, name=None,
             # request_ckeck(req, login_required, perm)
             # NOTE:推荐
             # req.token校验，更新token并通过接口返回
-            res = request_token_check(
+            request_token_check(
                 req, func, jwt_required, *args, **kwargs)
-            return res if res else func(req, *args, **kwargs)
+            return func(req, *args, **kwargs)
 
         urlpatterns.append(
             url(r'^{path}$'.format(path=path), inner, name=name))
@@ -112,7 +112,7 @@ def request_token_check(req, func, jwt_required, *args, **kwargs):
         _user = get_user(req)
         # 校验user
         assert user.pk == _user.pk, 'session和token不匹配'
-        res = func(req, *args, **kwargs)
+        # res = func(req, *args, **kwargs)
         # res.content = json.dumps(
         #     dict(json.loads(res.content)))
     except AssertionError as e:

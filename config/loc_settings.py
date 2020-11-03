@@ -299,9 +299,10 @@ AUTHOR_TITLE = 'rookie'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'OPTIONS': {
+                    'options': '-c search_path=public,apps'
+                },
         'NAME': 'django_web',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
