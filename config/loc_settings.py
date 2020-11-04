@@ -300,9 +300,10 @@ AUTHOR_TITLE = 'rookie'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'OPTIONS': {
-                    'options': '-c search_path=public,apps'
-                },
+        # TODO:默认选择public模式，开发可以提供选择自定义schema
+        # 'OPTIONS': {
+        #             'options': '-c search_path=public,apps'
+        #         },
         'NAME': 'django_web',
         'USER': 'postgres',
         'PASSWORD': 'postgres',

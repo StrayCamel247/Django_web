@@ -7,7 +7,11 @@ from uuslug import slugify
 from django.utils.text import slugify as sfy
 import markdown
 from markdown.extensions.toc import TocExtension
-import emoji, re, time, string, os
+import emoji
+import re
+import time
+import string
+import os
 from apps.utils.core.handler import ImageStorage
 # Create your models here.
 
@@ -35,6 +39,8 @@ class Category(models.Model):
         return Article.objects.filter(category=self)
 
 # 文章关键词，用来作为 SEO 中 keywords
+
+
 class Keyword(models.Model):
     name = models.CharField('文章关键词', max_length=20)
     is_deleted = models.BooleanField('是否已删除', default=False)
@@ -65,13 +71,14 @@ class Article(models.Model):
                             default='default.png', storage=ImageStorage())
     # 文章唯一标识符
     slug = models.SlugField(editable=False)
-    category_id = models.IntegerField(verbose_name='分类id', null=False, default='1')
+    category_id = models.IntegerField(
+        verbose_name='分类id', null=False, default='1')
     keywords = models.ManyToManyField(Keyword, verbose_name='文章关键词',
                                       help_text='文章关键词，用来作为SEO中keywords，最好使用长尾词，3-4个足够')
 
-    #置顶
+    # 置顶
     is_top = models.BooleanField('是否首页展示', default=False)
-    #是否更新timeline
+    # 是否更新timeline
     is_addtimeline = models.BooleanField('是否添加时间线', default=False)
     is_deleted = models.BooleanField('是否已删除', default=False)
 
@@ -79,6 +86,7 @@ class Article(models.Model):
         verbose_name = '文章'
         verbose_name_plural = verbose_name
         ordering = ['-update_date']
+        db_table = 'article'
 
     def __str__(self):
         return self.title
@@ -105,7 +113,7 @@ class Article(models.Model):
     def get_next(self):
         return Article.objects.filter(id__gt=self.id).order_by('id').first()
 
-    #添加到博客开发时间线
+    # 添加到博客开发时间线
     def add_time(self):
         web_time = Timeline()
         web_time.title = self.title
@@ -117,22 +125,22 @@ class Article(models.Model):
     def save(self, *args, **kwargs):
         # 将中文title变成拼音。
         self.slug = slugify(self.title)
-        
-        #在添加文章时手动选择是否添加到开发日志
+
+        # 在添加文章时手动选择是否添加到开发日志
         if(self.is_addtimeline):
             try:
-                #如何只是对文章进行修改，说明已经添加过
+                # 如何只是对文章进行修改，说明已经添加过
                 if(Timeline.objects.get(slug=self.slug)):
-                    #则只对日志中的内容和图片和时间进行修改。
+                    # 则只对日志中的内容和图片和时间进行修改。
                     old = Timeline.objects.get(slug=self.slug)
                     old.content = self.summary
                     old.icon = self.img
                     old.update_date = self.create_date
-                    old.save(update_fields=['content', 'icon','update_date'])
+                    old.save(update_fields=['content', 'icon', 'update_date'])
                 else:
-                    #如果没有添加过则就直接创建日志再发布
+                    # 如果没有添加过则就直接创建日志再发布
                     self.add_time()
-                    #objects.get可能的报错
+                    # objects.get可能的报错
             except Timeline.DoesNotExist:
                 self.add_time()
             except Timeline.MultipleObjectsReturned:
@@ -140,13 +148,15 @@ class Article(models.Model):
         super(Article, self).save(*args, **kwargs)
 
 # 时间线
+
+
 class Timeline(models.Model):
-    #选择在左边显示还是右边
+    # 选择在左边显示还是右边
     SIDE_CHOICE = (
         ('L', '左边'),
         ('R', '右边'),
     )
-   
+
     side = models.CharField(
         '位置', max_length=1, choices=SIDE_CHOICE, default='L')
     icon = models.CharField('图标', max_length=50, default='fa fa-pencil')
@@ -154,8 +164,9 @@ class Timeline(models.Model):
     update_date = models.DateTimeField('更新时间')
     content = models.TextField('主要内容')
     is_deleted = models.BooleanField('是否已删除', default=False)
-    #唯一标识符
-    slug = models.SlugField(editable=False,null=True, unique=True)
+    # 唯一标识符
+    slug = models.SlugField(editable=False, null=True, unique=True)
+
     class Meta:
         verbose_name = '博客升级时间线'
         verbose_name_plural = verbose_name
@@ -176,10 +187,10 @@ class Timeline(models.Model):
         to_emoji_content = emoji.emojize(self.content, use_aliases=True)
         return markdown.markdown(to_emoji_content,
                                  extensions=['markdown.extensions.extra',
-                                 'markdown.extensions.codehilite'
-                                  ]
+                                             'markdown.extensions.codehilite'
+                                             ]
                                  )
 
     def save(self, *args, **kwargs):
-            self.slug = slugify(self.title)
-            super(Timeline, self).save(*args, **kwargs)
+        self.slug = slugify(self.title)
+        super(Timeline, self).save(*args, **kwargs)
