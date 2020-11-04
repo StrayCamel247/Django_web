@@ -6,8 +6,8 @@
 # __date__: 2020/09/23 12
 
 import functools
-import json
 import logging
+
 import six
 from apps.accounts.models import token_get_user_model
 from apps.api_exception import (InsufficientPermissionsError, InvalidJwtToken,

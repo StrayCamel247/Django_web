@@ -7,17 +7,19 @@
 from __future__ import absolute_import
 
 import functools
-import logging
 import inspect
+import logging
+
+from apps.utils.wsme import json
+from django.shortcuts import HttpResponse
+
 import wsme
 import wsme.api
-import wsme.rest.xml
 import wsme.rest.args
-from apps.utils.wsme import json
+import wsme.rest.xml
 
-from django.shortcuts import HttpResponse
-import django
 from .handler import signature as _signature
+
 log = logging.getLogger('apps')
 
 

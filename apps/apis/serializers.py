@@ -4,12 +4,15 @@
 # __description__ : restful framework 框架的使用
 # __REFERENCES__ : 参考官方文档和https://www.zmrenwu.com/courses/django-rest-framework-tutorial/materials/101/
 # __date__: 2020/09/28 12
-from drf_haystack.serializers import HaystackSerializerMixin
-from django.contrib.auth.models import User, Group
-from rest_framework.serializers import ModelSerializer,HyperlinkedModelSerializer
 from apps.accounts.models import Ouser
 from apps.blog.models import Article, Category, Timeline
 from apps.department.models import Department
+from django.contrib.auth.models import Group, User
+from drf_haystack.serializers import HaystackSerializerMixin
+from rest_framework.serializers import (HyperlinkedModelSerializer,
+                                        ModelSerializer)
+
+
 # from apps.tool.models import ToolLink, ToolCategory
 class DepartmentSerializer(ModelSerializer):
     class Meta:

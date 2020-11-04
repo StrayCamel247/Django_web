@@ -4,6 +4,7 @@
 # __description__ : 生成假数据
 # __REFERENCES__ :
 # __date__: 2020/10/22 14
+from faker import Faker
 import random
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -17,8 +18,8 @@ from apps.constants import IsActiveConstant
 from apps.utils.tools import chart_mapping
 User = get_user_model()
 
-from faker import Faker
 fake = Faker()
+
 
 class KpiFactory:
     """kpi 指标工厂方法"""
@@ -43,22 +44,28 @@ def kpi_indicator_handler(**params):
     res = chart_mapping(request)
     return res
 
+
 def get_dashboard_BoxCard_handler(**params):
     """为BoxCard生成假数据"""
     res = dict(
-    xAxis_data = ['慕风', '纵浪','帅','清'],
-    series_data = [[fake.random_int(min=20,max=2000) for _ in range(5)] for name in range(5)],
-    series_name = [fake.job() for _ in range(5)])
-    
+        xAxis_data=['慕风', '纵浪', '帅', '清'],
+        series_data=[[fake.random_int(min=20, max=2000)
+                      for _ in range(5)] for name in range(5)],
+        series_name=[fake.job() for _ in range(5)])
+
     return res
+
+
 def get_dashboard_barChart_handler(**params):
     """为barChart生成假数据"""
     res = dict(
-    xAxis_data = ['慕风', '纵浪','帅','清'],
-    series_data = [[fake.random_int(min=20,max=2000) for _ in range(5)] for name in range(5)],
-    series_name = [fake.job() for _ in range(5)])
-    
+        xAxis_data=['慕风', '纵浪', '帅', '清'],
+        series_data=[[fake.random_int(min=20, max=2000)
+                      for _ in range(5)] for name in range(5)],
+        series_name=[fake.job() for _ in range(5)])
+
     return res
+
 
 def get_all_users_count_handler(**params):
     """获得系统全部用户数量"""

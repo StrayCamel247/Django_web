@@ -19,7 +19,7 @@ urlpatterns = []
 @require_http_methods('dashboard/indicator', methods=['GET'])
 @signature(DashboardResult)
 def kpi_indicator(request):
-    """查询前端展示的kpi 指标"""
+    """前端查询展示的kpi 指标"""
     params = dict(
         request=request,
     )
@@ -42,7 +42,7 @@ def kpi_value(request, body):
 @require_http_methods('dashboard/TransactionTable', methods=['GET'])
 @signature(DashboardResult, int)
 def dashboard_TransactionTable(request, page):
-    """dashboard/TransactionTable"""
+    """前端查询展示dashboard/TransactionTable"""
     data = generate_transaction_list(page=page)
     res = DashboardResult(content=data)
     return res
@@ -51,7 +51,7 @@ def dashboard_TransactionTable(request, page):
 @require_http_methods('dashboard/barChart', methods=['POST'])
 @signature(DashboardResult)
 def dashboard_barChart(request):
-    """dashboard/barChart"""
+    """前端查询展示dashboard/barChart"""
     result = get_dashboard_barChart_handler()
     return DashboardResult(content=result)
 
@@ -59,7 +59,7 @@ def dashboard_barChart(request):
 @require_http_methods('dashboard/BoxCard', methods=['POST'])
 @signature(DashboardResult)
 def dashboard_BoxChart(request):
-    """dashboard/BoxCard"""
+    """前端查询展示dashboard/BoxCard"""
     result = get_dashboard_BoxCard_handler()
     return DashboardResult(content=result)
 
@@ -67,7 +67,7 @@ def dashboard_BoxChart(request):
 @require_http_methods('dashboard/LineChart', methods=['POST'])
 @signature(DashboardResult)
 def dashboard_barChart(request):
-    """dashboard/LineChart"""
+    """前端查询展示dashboard/LineChart"""
     result = get_dashboard_barChart_handler()
     return DashboardResult(content=result)
 
@@ -75,7 +75,7 @@ def dashboard_barChart(request):
 @require_http_methods('dashboard/PieChart', methods=['POST'])
 @signature(DashboardResult)
 def dashboard_PieChart(request):
-    """dashboard/PieChart"""
+    """前端查询展示dashboard/PieChart"""
     result = get_dashboard_barChart_handler()
     return DashboardResult(content=result)
 
@@ -83,6 +83,6 @@ def dashboard_PieChart(request):
 @require_http_methods('dashboard/RaddarChart', methods=['POST'])
 @signature(DashboardResult)
 def dashboard_RaddarChart(request):
-    """dashboard/RaddarChart"""
+    """前端查询展示dashboard/RaddarChart"""
     result = get_dashboard_barChart_handler()
     return DashboardResult(content=result)
