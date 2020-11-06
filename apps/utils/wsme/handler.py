@@ -7,7 +7,7 @@ import traceback
 import functools
 import inspect
 import logging
-from django.http import request
+
 import six
 
 import wsme.exc

@@ -4,33 +4,11 @@
 # __description__ : 基于https://github.com/SimpleJWT/django-rest-framework-simplejwt 开发jwt-TOKEN验证脚手架
 # __REFERENCES__ :
 # __date__: 2020/10/10 14
-from apps.utils.wsme import json
-import inspect
-import logging
-import re
-from datetime import date
-
-from apps.api_exception import InvalidJwtToken, InvalidUser
-from apps.apis.serializers import UserSerializer
-from apps.role.models import get_role_via_user
-from apps.utils.email.handler import send_email
-from django.apps import apps as django_apps
-from django.conf import settings
 from django.contrib.auth import (BACKEND_SESSION_KEY, HASH_SESSION_KEY,
-                                 SESSION_KEY, get_user, get_user_model,_get_backends)
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import update_last_login
-from django.contrib.auth.signals import (user_logged_in, user_logged_out,
-                                         user_login_failed)
-from django.core.exceptions import ImproperlyConfigured, PermissionDenied
-from django.middleware.csrf import rotate_token
+                                 SESSION_KEY, get_user_model, _get_backends)
 from django.utils.crypto import constant_time_compare
-from django.utils.module_loading import import_string
-from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
-from rest_framework_simplejwt.serializers import (
-    TokenObtainPairSerializer, TokenObtainSlidingSerializer,
-    TokenRefreshSerializer, TokenRefreshSlidingSerializer,
-    TokenVerifySerializer)
+
+
 def session_logout(request):
     """
     Remove the authenticated user's ID from the request and flush their session
@@ -52,6 +30,7 @@ def _get_user_session_key(request):
     # This value in the session is always serialized to a string, so we need
     # to convert it back to Python whenever we access it.
     return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+
 
 def session_user_update(request, user=None, backend=None):
     """

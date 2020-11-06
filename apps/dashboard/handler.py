@@ -4,21 +4,23 @@
 # __description__ : 生成假数据
 # __REFERENCES__ :
 # __date__: 2020/10/22 14
+import operator
 import random
-
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.sessions.models import Session
 from datetime import datetime
-from django.http import request
-from django.utils.timezone import make_aware
-from django.conf import settings
-from django.contrib.auth import get_user_model
+
 from apps.constants import IsActiveConstant
 from apps.utils.tools import chart_mapping
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.sessions.models import Session
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.utils.timezone import make_aware
+from faker import Faker
+
 User = get_user_model()
 
-from faker import Faker
 fake = Faker()
+
 
 class KpiFactory:
     """kpi 指标工厂方法"""
@@ -43,14 +45,43 @@ def kpi_indicator_handler(**params):
     res = chart_mapping(request)
     return res
 
-def get_dashboard_barChart_handler(**params):
-    """为柱状图生成假数据"""
+
+def get_dashboard_BoxCard_handler(**params):
+    """为BoxCard生成假数据"""
     res = dict(
-    xAxis_data = ['慕风', '纵浪','帅','清'],
-    series_data = [[fake.random_int(min=20,max=2000) for _ in range(5)] for name in range(5)],
-    series_name = [fake.job() for _ in range(5)])
-    
+        xAxis_data=['慕风', '纵浪', '帅', '清'],
+        series_data=[[fake.random_int(min=20, max=2000)
+                      for _ in range(5)] for name in range(5)],
+        series_name=[fake.job() for _ in range(5)])
+
     return res
+
+
+def get_dashboard_barChart_handler(**params):
+    """为barChart生成假数据"""
+    res = dict(
+        xAxis_data=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        lineChart_data=[
+            dict(
+                code=k, name=v, data=[fake.random_int(min=4000, max=30000) for _ in range(7)], normal=dict(color=n_c), areaStyle=dict(color=a_c), animationEasing=['quadraticOut', 'cubicInOut'][fake.random_int(min=0, max=1)])
+            for k, v, n_c, a_c in zip(
+                ['moofeng', 'zonglang', 'shuai', 'qing'], ['慕风', '纵浪', '帅', '清'], [
+                    fake.hex_color() for _ in range(4)], [fake.hex_color() for _ in range(4)]
+            )
+        ]
+    )
+    return res
+
+
+def get_dashboard_pieChart_handler(**params):
+    """为pieChart生成假数据"""
+    res = dict(
+        linechart_data=sorted([
+            dict(value=fake.random_int(min=80, max=300), name=v, code=k) for k, v in zip(['moofeng', 'zonglang', 'shuai', 'qing'], ['慕风', '纵浪', '帅', '清'])
+        ], key=operator.itemgetter('value', 'code'), reverse=True)
+    )
+    return res
+
 
 def get_all_users_count_handler(**params):
     """获得系统全部用户数量"""
@@ -82,6 +113,7 @@ def get_all_logged_in_users(**params):
 
 def generate_transaction_list(**params):
     import uuid
+
     # 随机生成10个日期字符串
     data = [dict(update_time=fake.date_time_this_year(before_now=True,  after_now=False,
                                                       tzinfo=None).strftime('%Y-%m-%d %H:%M:%S'), order_no=str(uuid.uuid1()), username=fake.name(),

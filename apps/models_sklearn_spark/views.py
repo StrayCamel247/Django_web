@@ -6,7 +6,7 @@
 import os
 import datetime
 import json
-from django.http import request
+
 
 from django.views import generic
 from django.conf import settings

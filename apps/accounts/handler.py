@@ -4,24 +4,26 @@
 # __description__ : 基于https://github.com/SimpleJWT/django-rest-framework-simplejwt 开发jwt-TOKEN验证脚手架
 # __REFERENCES__ :
 # __date__: 2020/10/10 14
-from apps.utils.wsme import json
 import inspect
 import logging
 import re
 from datetime import date
+
 import six
 from apps.api_exception import InvalidJwtToken, InvalidUser
 from apps.apis.serializers import UserSerializer
 from apps.role.models import get_role_via_user
-
-from apps.utils.core.session.handler import session_logout, _get_user_session_key, session_user_update
+from apps.utils.core.session.handler import (_get_user_session_key,
+                                             session_logout,
+                                             session_user_update)
+from apps.utils.wsme import json
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import update_last_login
 from rest_framework_simplejwt.serializers import (
     TokenObtainPairSerializer, TokenObtainSlidingSerializer,
     TokenRefreshSerializer, TokenRefreshSlidingSerializer)
 
 from .models import UserInfoSerializer, token_get_user_model
-from django.contrib.auth import get_user_model
 
 log = logging.getLogger('apps')
 

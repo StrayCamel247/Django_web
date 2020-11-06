@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import datetime
 import os
-from apps.utils.handler import get_local_host_ip
 from datetime import timedelta
+
+from apps.utils.handler import get_local_host_ip
+
 try:
     from apps.passwords import EMAIL_PD, POSTGRESQL_PD
 except:
@@ -115,12 +117,12 @@ REST_FRAMEWORK = {
     },
     # jwt登陆机制
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
-        # JWT认证
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # Session认证
-        # 'rest_framework.authentication.SessionAuthentication',
-        # # Basic认证
-        # 'rest_framework.authentication.BasicAuthentication',
+    # JWT认证
+    # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # Session认证
+    # 'rest_framework.authentication.SessionAuthentication',
+    # # Basic认证
+    # 'rest_framework.authentication.BasicAuthentication',
     # ),
 
 }
@@ -143,14 +145,14 @@ SIMPLE_JWT = {
     'USER_ID_CLAIM': 'user_id',
 
     # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/token_types.html
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.SlidingToken','rest_framework_simplejwt.tokens.SlidingToken'),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.SlidingToken', 'rest_framework_simplejwt.tokens.SlidingToken'),
     'TOKEN_TYPE_CLAIM': 'token_type',
 
     'JTI_CLAIM': 'jti',
 
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME': timedelta(hours=2),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(hours=2),
 }
 # 日志
 # [process:%(process)d %(threadName)s-thread:%(thread)d]
@@ -297,14 +299,16 @@ AUTHOR_TITLE = 'rookie'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # TODO:默认选择public模式，开发可以提供选择自定义schema
+        # 'OPTIONS': {
+        #             'options': '-c search_path=public,apps'
+        #         },
         'NAME': 'django_web',
-        'USER':'postgres',
-        'PASSWORD':'postgres',
-        'HOST':'127.0.0.1',
-        'PORT':5432
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': '127.0.0.1',
+        'PORT': 5432
     }
 }
 
@@ -405,8 +409,9 @@ CORS_ALLOW_HEADERS = (
     'dnt',
     'origin',
     'user-agent',
-    # 解决：Access to XMLHttpRequest at 'xxxxxxxxxxx' from origin 'xxxxxxxxx' has been blocked by CORS policy: Request header field x-token is not allowed by Access-Control-Allow-Headers in preflight response.
+    # 👇解决：Access to XMLHttpRequest at 'xxxxxxxxxxx' from origin 'xxxxxxxxx' has been blocked by CORS policy: Request header field x-token is not allowed by Access-Control-Allow-Headers in preflight response.
     'x-csrftoken',
+    # 👆
     'x-token',
     'x-requested-with',
     'Pragma',

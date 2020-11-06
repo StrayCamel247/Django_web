@@ -13,7 +13,7 @@ from apps.utils.django_db import DBUtil
 def chart_mapping(request):
     sql = """
         select chart_body
-        from apps.chart_mapping
+        from public.chart_mapping
         WHERE url_code=:url_code
     """
     path = request.path

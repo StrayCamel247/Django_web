@@ -5,33 +5,35 @@
 # __REFERENCES__ :
 # __date__: 2020/09/30 09
 import logging
-from django.contrib.syndication.views import Feed
-from django.contrib.auth.models import Group
-
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, IsAuthenticated
-from rest_framework.throttling import AnonRateThrottle
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-
-from drf_haystack.viewsets import HaystackViewSet
 
 from apps.accounts.models import Ouser
 from apps.blog.models import Article, Category
 from apps.department.models import Department
+from django.contrib.auth.models import Group
+from django.contrib.syndication.views import Feed
+from drf_haystack.viewsets import HaystackViewSet
+from rest_framework import status
+from rest_framework.permissions import (DjangoModelPermissionsOrAnonReadOnly,
+                                        IsAuthenticated)
+from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
-from .serializers import UserSerializer, GroupSerializer, ArticleSerializer, CategorySerializer, PostHaystackSerializer, DepartmentSerializer
-from .handler import get_all_url_dict, IsAdminUserOrReadOnly
+from .handler import IsAdminUserOrReadOnly, get_all_url_dict
+from .serializers import (ArticleSerializer, CategorySerializer,
+                          DepartmentSerializer, GroupSerializer,
+                          PostHaystackSerializer, UserSerializer)
 from .types import ApisResult
+
 logger = logging.getLogger('apps')
 
 
 def test(requests):
     print(requests)
     print(1)
-    res = testresult(dict(code='1234', mesage='1234'))
-    print(res.data)
+    # res = testresult(dict(code='1234', mesage='1234'))
+    # print(res.data)
     # print(request)
     # print(request.GET)
     # ser = testbody(data=json.loads(request.body))
