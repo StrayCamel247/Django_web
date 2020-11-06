@@ -11,7 +11,7 @@ import re
 from apps.utils.wsme.signature import signature
 from apps.utils.core.http import require_http_methods
 from .types import DashboardResult, KpiBody
-from .handler import KpiFactory, generate_transaction_list, kpi_indicator_handler, get_dashboard_barChart_handler,get_dashboard_BoxCard_handler
+from .handler import KpiFactory, generate_transaction_list, kpi_indicator_handler, get_dashboard_barChart_handler,get_dashboard_pieChart_handler,get_dashboard_BoxCard_handler
 # url锚点，让config.urls中集合url的机制可以访问到，并调用require_http_methods将url注册到apis中，和restful接口相集合
 urlpatterns = []
 
@@ -76,7 +76,7 @@ def dashboard_barChart(request):
 @signature(DashboardResult)
 def dashboard_PieChart(request):
     """前端查询展示dashboard/PieChart"""
-    result = get_dashboard_barChart_handler()
+    result = get_dashboard_pieChart_handler()
     return DashboardResult(content=result)
 
 
