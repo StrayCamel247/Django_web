@@ -11,7 +11,7 @@ import re
 from apps.utils.wsme.signature import signature
 from apps.utils.core.http import require_http_methods
 from .types import DashboardResult, KpiBody
-from .handler import KpiFactory, generate_transaction_list, kpi_indicator_handler, get_dashboard_barChart_handler,get_dashboard_pieChart_handler,get_dashboard_BoxCard_handler
+from .handler import KpiFactory, generate_transaction_list, kpi_indicator_handler, get_dashboard_barChart_handler,get_dashboard_pieChart_handler,get_dashboard_BoxCard_handler,get_dashboard_LineChart_handler,get_dashboard_RaddarChart_handler,get_dashboard_TodoList_handler
 # url锚点，让config.urls中集合url的机制可以访问到，并调用require_http_methods将url注册到apis中，和restful接口相集合
 urlpatterns = []
 
@@ -60,15 +60,15 @@ def dashboard_barChart(request):
 @signature(DashboardResult)
 def dashboard_BoxChart(request):
     """前端查询展示dashboard/BoxCard"""
-    result = get_dashboard_BoxCard_handler()
+    result = get_dashboard_BoxCard_handler,get_dashboard_LineChart_handler()
     return DashboardResult(content=result)
 
 
 @require_http_methods('dashboard/LineChart', methods=['POST'])
 @signature(DashboardResult)
-def dashboard_barChart(request):
+def dashboard_LineChart(request):
     """前端查询展示dashboard/LineChart"""
-    result = get_dashboard_barChart_handler()
+    result = get_dashboard_LineChart_handler()
     return DashboardResult(content=result)
 
 
@@ -84,5 +84,12 @@ def dashboard_PieChart(request):
 @signature(DashboardResult)
 def dashboard_RaddarChart(request):
     """前端查询展示dashboard/RaddarChart"""
-    result = get_dashboard_barChart_handler()
+    result = get_dashboard_RaddarChart_handler()
+    return DashboardResult(content=result)
+
+@require_http_methods('dashboard/TodoList', methods=['POST'])
+@signature(DashboardResult)
+def dashboard_TodoList(request):
+    """前端查询展示dashboard/TodoList"""
+    result = get_dashboard_TodoList_handler()
     return DashboardResult(content=result)
