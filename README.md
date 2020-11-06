@@ -17,11 +17,12 @@
 
 #### 前后端联调
 > 数据基本由faker假数据生成
-- [ ] 效果预览，（服务器选购中ing）
+- [x] 预览
+  - [x] 本地预览：![img](template.png)
+  - [ ] 在线预览：（服务器选购中ing）
 - [x] apps\dashboard: Vue_web仪表盘功能
   - [x] kpi各个指标根据kpi_indicator接口工厂分配查询各指标，分多次请求查询各个kpi值
-  - [x] barChart 柱状图可见`apps\dashboard\views.py：dashboard_barChart`
-  - [ ] 开发中
+  - [x] 仪表盘各类图标通过接口获取数据展示
 
 #### 后端系统
 - [x] data
@@ -31,7 +32,8 @@
   - [x] **Apriori算法实现**:`apps\data_analysis\models\apriori.py`
   - [x] **FPgrowth算法实现**:`apps\data_analysis\moduls\FPgrowth\handler.py`
   - [x] **SVM算法实现（预测）**:`apps\data_analysis\moduls\svm\handler.py`
-
+  - [ ] 开发中...
+  
 - [x] models_sklearn_spark: 机器学习和各种模型算法小demo复现，并通过接口返回演示
   > 开发中...
 

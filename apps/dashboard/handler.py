@@ -63,7 +63,7 @@ def get_dashboard_barChart_handler(**params):
         xAxis_data=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         lineChart_data=[
             dict(
-                code=k, name=v, data=[fake.random_int(min=8000, max=30000) for _ in range(7)], normal=dict(color=n_c), areaStyle=dict(color=a_c), animationEasing=['quadraticOut', 'cubicInOut'][fake.random_int(min=0, max=1)])
+                code=k, name=v, data=[fake.random_int(min=4000, max=30000) for _ in range(7)], normal=dict(color=n_c), areaStyle=dict(color=a_c), animationEasing=['quadraticOut', 'cubicInOut'][fake.random_int(min=0, max=1)])
             for k, v, n_c, a_c in zip(
                 ['moofeng', 'zonglang', 'shuai', 'qing'], ['慕风', '纵浪', '帅', '清'], [
                     fake.hex_color() for _ in range(4)], [fake.hex_color() for _ in range(4)]
