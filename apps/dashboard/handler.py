@@ -60,6 +60,17 @@ def get_dashboard_BoxCard_handler(**params):
 def get_dashboard_barChart_handler(**params):
     """为barChart生成假数据"""
     res = dict(
+        xAxis_data=['慕风', '纵浪', '帅', '清'],
+        series_data=[[fake.random_int(min=20, max=2000)
+                      for _ in range(5)] for name in range(5)],
+        series_name=[fake.job() for _ in range(5)])
+
+    return res
+
+
+def get_dashboard_LineChart_handler(**params):
+    """为LineChart生成假数据"""
+    res = dict(
         xAxis_data=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         lineChart_data=[
             dict(
@@ -80,6 +91,33 @@ def get_dashboard_pieChart_handler(**params):
             dict(value=fake.random_int(min=80, max=300), name=v, code=k) for k, v in zip(['moofeng', 'zonglang', 'shuai', 'qing'], ['慕风', '纵浪', '帅', '清'])
         ], key=operator.itemgetter('value', 'code'), reverse=True)
     )
+    return res
+
+
+def get_dashboard_RaddarChart_handler(**params):
+    """为RaddarChart生成假数据"""
+    indicator_names = [fake.country() for _ in range(7)]
+    data = [dict(value=dict(zip(indicator_names, [
+        fake.random_int(min=10000, max=25000)
+        for _ in range(7)])), name=n) for n in ['慕风', '纵浪', '帅', '清']
+    ]
+    res = dict(
+        data=data,
+        indicator=[dict(name=_, max=30000) for _ in indicator_names]
+    )
+    return res
+
+
+def get_dashboard_TodoList_handler(**params):
+    """为TodoList生成假数据"""
+    res = [
+        dict(
+            text=fake.sentence(
+                nb_words=6, variable_nb_words=True, ext_word_list=None),
+            done=[
+                True, False][fake.random_int(min=0, max=1)]
+        ) for _ in range(fake.random_int(min=6, max=10))
+    ]
     return res
 
 
