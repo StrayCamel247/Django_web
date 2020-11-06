@@ -63,7 +63,7 @@ def dashboard_BoxChart(request):
     result = get_dashboard_BoxCard_handler()
     return DashboardResult(content=result)
 
-# TODO:待开发... 
+
 @require_http_methods('dashboard/LineChart', methods=['POST'])
 @signature(DashboardResult)
 def dashboard_barChart(request):
