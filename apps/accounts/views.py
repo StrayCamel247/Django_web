@@ -1,8 +1,9 @@
+from django.contrib.auth import get_user_model
 from apps.utils.core.http import require_http_methods
 from apps.utils.wsme.signature import signature
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
-
+from django.utils.translation import ugettext as _
 from .handler import (token_obtain_pair_handler,
                       token_obtain_sliding_login_handler,
                       token_obtain_sliding_logout_handler,
@@ -10,10 +11,20 @@ from .handler import (token_obtain_pair_handler,
                       token_user_info_handler,
                       token_user_password_change_handler, token_verify_handler)
 from .types import (AccountLoginBody, AccountPasswordChangeBody,
-                    AccountRefreshBody, AccountsResult, AccountTokenBody)
+                    AccountRefreshBody, AccountsResult, AccountTokenBody, QueryUserInfo)
 
 # Create your views here.
 urlpatterns = []
+
+User = get_user_model()
+
+@require_http_methods('/api/auth/get_users', methods=['POST'])
+@signature(AccountsResult, body=QueryUserInfo)
+def get_users(body):
+    """模糊查询用户"""
+    users = User.get_users(body)
+    content = {"users": users}
+    return AccountsResult(msg=str(_('get users success')), content=content)
 
 
 @require_http_methods('account/access_login', methods=['POST'])

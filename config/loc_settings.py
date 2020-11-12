@@ -81,12 +81,17 @@ INSTALLED_APPS = [
     'compressor',
     # rest框架
     'rest_framework',
-    # 分页
-    'pure_pagination',
+    # django-mtv分页模块
+    # TODO:待卸载...
+    # 'pure_pagination',
     # django3 异步
-    'djcelery'
+    'djcelery',
+    # django性能分析
+    'silk'
 ]
-
+# 询的过程哪个环节耗费了多少时间
+SILKY_PYTHON_PROFILER = True
+SILKY_PYTHON_PROFILER_BINARY = True
 # 自动添加app
 APPS_FLODER = os.path.join(BASE_DIR, 'apps')
 APPS = [_ for _ in os.listdir(APPS_FLODER) if os.path.isdir(

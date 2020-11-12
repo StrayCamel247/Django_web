@@ -4,7 +4,7 @@ from rest_framework_simplejwt.models import TokenUser
 from apps.api_exception import InvalidJwtToken, InvalidUser
 from rest_framework_simplejwt.tokens import SlidingToken
 from django.db import models
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import AbstractUser, User, AnonymousUser
 from django.db.models.fields import IntegerField
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.conf import settings
@@ -18,7 +18,9 @@ from six import integer_types
 from uuslug import slugify
 from datetime import datetime
 import random
-
+from wsme import Unset
+from apps.role.models import Role
+from django.contrib.auth.hashers import check_password, make_password
 # 用户注册
 # def user_register(request):
 #     '''
@@ -33,7 +35,7 @@ import random
 #     elif request.method == 'POST':
 #         username = request.POST.get('username')
 #         password = request.POST.get('password')
-#         re_password = request.POST.get('re_password')
+#         repassword = request.POST.get('repassword')
 #         email = request.POST.get('email')
 #         try:
 #             user = models.User.objects.get(username=username)
@@ -44,11 +46,11 @@ import random
 #                 return render(request, 'user/user_register.html',
 #                               {'error_code': -2, 'error_msg': '邮箱已经存在,换个昵称试试吧!'})
 #             except:
-#                 if password != re_password:
+#                 if password != repassword:
 #                     return render(request, 'user/user_register.html',
 #                                   {'error_code': -3, 'error_msg': '两次密码输入不一致,请重新注册'})
 #                 else:
-#                     password = make_password(password, None, 'pbkdf2_sha256')
+#                     password = makepassword(password, None, 'pbkdf2_sha256')
 #                     user = models.User(username=username,
 #                                        password=password, email=email)
 #                     user.save()
@@ -119,6 +121,11 @@ class Ouser(AbstractUser):
     SET()   对ForeignKey设置对SET()函数传递的数值
     DO_NOTHING  不进行任何操作。若数据库提高了引用完整性，则此种设置会抛出一个IntegrityError，除非对这一数据字段手动添加了SQL语句中的ON DELETE字段
     """
+    class Meta:
+        verbose_name = """用户"""
+        verbose_name_plural = verbose_name
+        ordering = ['id']
+        db_table = "user"
     username_validator = UnicodeUsernameValidator()
     username = models.CharField(
         _('username'),
@@ -131,11 +138,15 @@ class Ouser(AbstractUser):
             'unique': _("A user with that username already exists."),
         },
     )
+    update_time = models.DateTimeField(verbose_name='更新时间')
     email = models.EmailField(_('email address'), blank=True, unique=True)
     link = models.URLField(
         '个人网址', blank=True, help_text='提示：网址必须填写以http开头的完整形式')
     contact = models.ManyToManyField(Contacts, verbose_name='通讯录', default='1')
+    is_admin = models.BooleanField(verbose_name='管理员', default=False)
+    is_delete = models.BooleanField(verbose_name='已删除', default=False)
     introduction = models.TextField('个人简介', max_length=240, default='沉默是金😂')
+    phone = models.TextField('电话号码', max_length=64, default='')
     # 扩展用户头像字段
     avatar = ProcessedImageField(
         upload_to='avatar/%Y%m%d',
@@ -146,12 +157,6 @@ class Ouser(AbstractUser):
         blank=True
     )
 
-    class Meta:
-        verbose_name = """用户"""
-        verbose_name_plural = verbose_name
-        ordering = ['id']
-        db_table = "user"
-        
     def __str__(self):
         return self.username
 
@@ -164,13 +169,124 @@ class Ouser(AbstractUser):
             x.save()
         super(Ouser, self).save(*args, **kwargs)
 
-    def db_delete_user(self):
-        deleteResult = Ouser.objects.filter(username=self.username).delete()
-        if deleteResult:
-            return 1
+    @property
+    def is_admin(self):
+        # NOTE:2.2版本user有type_code字段，但是七匹狼不需要全部判定为非管理员
+        # return self.type_code == self.TYPE_ADMIN
+        return True if self.user_id == 1 else False
 
-    def test(self):
-        return 222
+    @property
+    def password(self):
+        return self.password
+
+    @password.setter
+    def password(self, raw):
+        # make_password(原始密码) 或 make_password(原始密码，None) 或 make_password(原始密码，'')：每次产生的密码均不同。
+        self.password = make_password(raw)
+
+    def checkpassword(self, value):
+        """
+        密码校验
+        """
+        if not self.password:
+            return False
+        return check_password(self.password, value)
+
+    def is_authenticated(self):
+        """验证用户是否登录"""
+        if isinstance(self, AnonymousUserMixin):
+            return False
+        else:
+            return True
+
+    def is_del(self):
+        return self.is_delete
+
+    @property
+    def is_anonymous(self):
+        if isinstance(self, AnonymousUser):
+            return True
+        else:
+            return False
+
+    def get_id(self):
+        return self.id
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+    @staticmethod
+    def query_user_from_token(token):
+        """
+        将序列化的内容解码
+        :param token: 序列化的内容
+        :return: 
+        """
+        _user = token_get_user_model(token)
+        return _user
+
+    @staticmethod
+    def add_user(form):
+        """
+        增加用户,为用户新增角色
+        """
+        user_info = dict(username=form.username,
+                         name=form.name,
+                         password=form.password,
+                         email=form.email,
+                         phone=form.phone)
+        roles = form.roles
+        user = User(**user_info)
+        user.save()
+
+        # 赋予用户角色
+        if len(roles) > 0:
+            user_role_infos = [dict(
+                user_id=user.get_id(),
+                role_id=_
+            ) for _ in roles]
+            User_role.objects.bulk_create(user_role_infos)
+        return user
+
+    @staticmethod
+    def update_user(form):
+        """
+        更新用户
+        :param form:前端传入参数
+        :return:
+        """
+        user_id = form.user_id
+        username = form.username
+        name = form.name
+        email = form.email
+        phone = form.phone
+        remark = form.remark
+        is_active = form.is_active
+        roles = form.roles
+        user = User.objects.get(user_id=user_id)
+
+        user.username = username
+        if email != Unset:
+            user.email = email
+        if phone != Unset:
+            user.phone = phone
+        if remark != Unset:
+            user.remark = remark
+        if is_active != Unset:
+            user.is_active = is_active
+        user.update_time = datetime.now()
+        user.save()
+        # 更新用户角色
+        if roles != Unset:
+            # 删除原先的用户角色
+            User_role.objects.filter(user_id=user.id).delete()
+            user_role_infos = [dict(
+                user_id=user.get_id(),
+                role_id=_
+            ) for _ in roles]
+            User_role.objects.bulk_create(user_role_infos)
+
+
 
 
 class User_role(models.Model):
@@ -218,8 +334,7 @@ def _token_get_user_id(token):
 
 def token_get_user_model(token):
     """
-    Returns a stateless user object which is backed by the given validated
-    token.
+    根据token返回用户
     """
     User = get_user_model()
     _id = _token_get_user_id(token)

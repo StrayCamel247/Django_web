@@ -8,7 +8,12 @@ import wsme
 from wsme import types as wtypes
 from apps import types as _types
 from django.utils.translation import ugettext as _
-from apps.api_exception import ParameterException,InvalidUser
+from apps.api_exception import ParameterException, InvalidUser
+
+
+class QueryUserInfo(wtypes.Base):
+    filter_str = wsme.wsattr(wtypes.text, default="")
+    is_active = wtypes.wsattr(bool, default=True)
 
 
 class AccountRefreshBody(wtypes.Base):
@@ -30,6 +35,7 @@ class AccountPasswordChangeBody(wtypes.Base):
             raise InvalidUser(
                 '用户未登陆或者名称/id未输入')
         return self
+
 
 class AccountTokenBody(wtypes.Base):
     token = wsme.wsattr(wtypes.text, mandatory=True)

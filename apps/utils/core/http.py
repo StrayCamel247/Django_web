@@ -5,6 +5,7 @@
 # __REFERENCES__ :
 # __date__: 2020/09/23 12
 
+import os
 import functools
 import logging
 
@@ -20,6 +21,8 @@ from django.conf.urls import url
 log = logging.getLogger('apps')
 # request,针对 传入token的url 赋值此request，具体引用方法看apps\data\views.py
 
+env = os.getenv('APPS_ENV', 'local')
+
 
 def require_http_methods(path, name=None,
                          methods: "用户指定url和request methods，并将url注册到apis连接下" = [],
@@ -33,23 +36,26 @@ def require_http_methods(path, name=None,
     """
     if not path:
         raise ParameterException('请传入url')
-    name = path if not name else name
 
     def decorator(func):
         @functools.wraps(func)
         def inner(req, *args, **kwargs):
             # methods校验
             methods_check(req, methods)
-            # NOTE:暂时弃用，req.user校验
             # request_ckeck(req, login_required, perm)
-            # NOTE:推荐
-            # req.token校验，更新token并通过接口返回
             request_token_check(
                 req, func, jwt_required, *args, **kwargs)
             return func(req, *args, **kwargs)
 
         urlpatterns.append(
-            url(r'^{path}$'.format(path=path), inner, name=name))
+            url(
+                r'^{path}$'.format(path=path), inner,
+                name='{n}_defined in:{p} via {m}'.format(
+                    n=name or '',
+                    p=path,
+                    m=str(methods))
+            )
+        )
         return inner
     return decorator
 
@@ -75,6 +81,9 @@ def user_check(user: 'checks that the user is logged in',
 
 
 def methods_check(req, methods):
+    """
+    接口请求方式校验
+    """
     try:
         assert req.method in methods
     except AssertionError:
@@ -85,7 +94,10 @@ def methods_check(req, methods):
 
 
 def request_ckeck(req, login_required, perm):
-    # 登陆校验
+    """
+    登陆校验
+    NOTE:暂时弃用，req.user校验
+    """
     try:
         assert login_required
         user_check(req.user, perm)
@@ -96,16 +108,17 @@ def request_ckeck(req, login_required, perm):
             perm=perm)
         log.warn(message)
         raise InsufficientPermissionsError(detail=message)
-   
 
 
 def request_token_check(req, func, jwt_required, *args, **kwargs):
     """校验token，获取user信息并添加到request中"""
     res = None
+    # 本地环境无需验证登陆
+    jwt_required *= env != 'local'
     try:
         assert jwt_required
         # 获取jwt中的user
-        token = req.headers._store.get('x-token',(None,None))[1]
+        token = req.headers._store.get('x-token', (None, None))[1]
         user = token_get_user_model(token)
         # 获取session中的user
         from django.contrib.auth import get_user
@@ -123,4 +136,3 @@ def request_token_check(req, func, jwt_required, *args, **kwargs):
         message = 'headers need token'
         log.warn(message)
         raise InvalidJwtToken(detail=message)
-

@@ -9,10 +9,11 @@ from collections import OrderedDict
 from django.conf import settings
 
 
-def recursion_urls(pre_namespace: '以后用户拼接name', pre_url: '以后用于拼接url', urlpatterns: '路由关系列表', url_ordered_dict: '用于保存递归中获取的所有路由'):
+def recursion_urls(pre_namespace: '以后用户拼接name', pre_url: '以后用于拼接url', urlpatterns: '路由关系列表', url_ordered_dict: '用于保存递归中获取的所有路由' = []):
     """递归的去获取URL"""
     for item in urlpatterns:
-        if isinstance(item, URLPattern):  # 非路由分发
+        # 非路由分发
+        if isinstance(item, URLPattern):
             if not item.name:
                 continue
             if pre_namespace:
@@ -21,8 +22,8 @@ def recursion_urls(pre_namespace: '以后用户拼接name', pre_url: '以后用�
                 name = item.name
             url = pre_url + str(item.pattern)
 
-            url_ordered_dict[name] = {
-                'name': name, 'url': url.replace('^', '').replace('$', '')}
+            url_ordered_dict.append({
+                'name': name, 'url': url.replace('^', '').replace('$', '')})
         elif isinstance(item, URLResolver):
             if pre_namespace:
                 if item.namespace:
@@ -40,10 +41,11 @@ def recursion_urls(pre_namespace: '以后用户拼接name', pre_url: '以后用�
 
 def get_all_url_dict(*args, **kwargs):
     """获取项目中所有的URL"""
-    url_ordered_dict = OrderedDict()
+    url_ordered_dict = []
     md = import_string(settings.ROOT_URLCONF)
     recursion_urls(None, '/', md.urlpatterns, url_ordered_dict)  # 递归去获取所有的路由
     return url_ordered_dict
+
 
 class IsAdminUserOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
