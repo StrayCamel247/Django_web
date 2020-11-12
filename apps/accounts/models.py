@@ -191,10 +191,10 @@ class Ouser(AbstractUser):
         if not self.password:
             return False
         return check_password(self.password, value)
-
+    @property
     def is_authenticated(self):
         """验证用户是否登录"""
-        if isinstance(self, AnonymousUserMixin):
+        if isinstance(self, AnonymousUser):
             return False
         else:
             return True

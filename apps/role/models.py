@@ -7,7 +7,7 @@
 from django.db import models
 
 from apps.utils.django_db import DBUtil
-from apps.accounts.models import User_role
+
 
 
 class Role(models.Model):
@@ -55,6 +55,7 @@ class PagePermission(models.Model):
 
 # 根据用户id获取用户角色
 def get_role_via_user(params=None):
+    from apps.accounts.models import User_role
     params = dict(dict(user_role=User_role._meta.model_name,
                        role=Role._meta.model_name), **params) if params else params
     sql = """

@@ -18,9 +18,9 @@ urlpatterns = []
 
 User = get_user_model()
 
-@require_http_methods('/api/auth/get_users', methods=['POST'])
+@require_http_methods('api/auth/get_users', methods=['POST'])
 @signature(AccountsResult, body=QueryUserInfo)
-def get_users(body):
+def get_users(request, body):
     """模糊查询用户"""
     users = User.get_users(body)
     content = {"users": users}

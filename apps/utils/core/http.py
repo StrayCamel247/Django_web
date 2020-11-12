@@ -50,7 +50,7 @@ def require_http_methods(path, name=None,
         urlpatterns.append(
             url(
                 r'^{path}$'.format(path=path), inner,
-                name='{n}_defined in:{p} via {m}'.format(
+                name='{n}_defined in {p} via {m}'.format(
                     n=name or '',
                     p=path,
                     m=str(methods))
