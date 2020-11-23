@@ -138,7 +138,8 @@ class Ouser(AbstractUser):
             'unique': _("A user with that username already exists."),
         },
     )
-    update_time = models.DateTimeField(verbose_name='更新时间')
+    password = models.CharField(_('password'), max_length=128, null=True)
+    update_time = models.DateTimeField(verbose_name='更新时间', auto_now=True)
     email = models.EmailField(_('email address'), blank=True, unique=True)
     link = models.URLField(
         '个人网址', blank=True, help_text='提示：网址必须填写以http开头的完整形式')
@@ -175,14 +176,14 @@ class Ouser(AbstractUser):
         # return self.type_code == self.TYPE_ADMIN
         return True if self.user_id == 1 else False
 
-    @property
-    def password(self):
-        return self.password
+    # @property
+    # def password(self):
+    #     return self.password
 
-    @password.setter
-    def password(self, raw):
-        # make_password(原始密码) 或 make_password(原始密码，None) 或 make_password(原始密码，'')：每次产生的密码均不同。
-        self.password = make_password(raw)
+    # @password.setter
+    # def password(self, raw):
+    #     # make_password(原始密码) 或 make_password(原始密码，None) 或 make_password(原始密码，'')：每次产生的密码均不同。
+    #     self.password = make_password(raw)
 
     def checkpassword(self, value):
         """
