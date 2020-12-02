@@ -84,7 +84,9 @@
 
 - `ImportError: cannot import name 'connections' from 'haystack' `
   - 常见处理方法；写在自动安装的依赖包`pip uninstall haystack`，如果还不能解决，重新卸载并安装djang-haystack。
-
+- Linux系统django-haystack库安装失败
+  - python比较好的地方就在于，出现异常抛出的异常上下文信息比较明确，能一眼看出问题所在，看了一下异常报错，原因在于当前虚拟环境下缺少setuptools_scm库，django-haystack的安装依赖这个库。`python -m pip install setuptools_scm`
+  
 - `ImportError: cannot import name 'ChineseAnalyzer' from 'jieba.analyse' `
   - 安装依赖包`whoosh`，其实在requirement里面已经有了，但是估计时没安装成功吧。再安装一次就好了
 

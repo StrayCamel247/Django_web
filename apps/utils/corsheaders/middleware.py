@@ -5,8 +5,8 @@ from django import http
 from django.utils.cache import patch_vary_headers
 from django.utils.deprecation import MiddlewareMixin
 
-from corsheaders.conf import conf
-from corsheaders.signals import check_request_enabled
+from .conf import conf
+from .signals import check_request_enabled
 
 ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin"
 ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers"
