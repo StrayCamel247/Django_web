@@ -6,6 +6,15 @@
 
 ## ✨Features-持续更新
 
+### [🚓项目运行]
+> 项目采用uwsgi工具可以启动，通信流程为：`浏览器-http协议-nginx服务器-uwsgi协议-uwsgi服务器-uwsgi协议-python_wsgi_module_wsgi（python专用协议）-python_app（python应用）`
+- 命令行启动
+  - `python manage.py runserver` or `python manage.py runserver 0.0.0.0:8000 --noreload`
+
+- uwsgi启动
+  - 安装虚拟环境，并设置好参数，注意修改下方参数中虚拟环境/项目文件目录是否正确
+  - `dev.ini` 文件可直接启动并运行在后台
+  - `uwsgi.ini` debug运行
 ### [🦍Postman接口文档](https://explore.postman.com/templates/12957/djangoweb)
 
 > 开发完后再进行完善
