@@ -7,9 +7,10 @@ For more information on this file, see
 https://docs.djangoproject.com/en/2.0/howto/deployment/wsgi/
 """
 
-import os
+
 from django.core.wsgi import get_wsgi_application
-from ..manage import setdefault_django_settings_module
+
+from .handler import setdefault_django_settings_module
 
 setdefault_django_settings_module()
 

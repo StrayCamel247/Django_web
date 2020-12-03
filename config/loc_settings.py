@@ -312,8 +312,8 @@ DATABASES = {
         'NAME': 'django_web',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        # 'HOST': '127.0.0.1',
-        'HOST': '47.114.93.191',
+        'HOST': '127.0.0.1',
+        # 'HOST': '47.114.93.191',
         'PORT': 5432
     }
 }
@@ -394,7 +394,8 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
-    '*'
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
 )
 CORS_ALLOW_METHODS = (
     'DELETE',

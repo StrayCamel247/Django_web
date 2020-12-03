@@ -4,28 +4,21 @@
 # __description__ : django 启动文件
 # __REFERENCES__ :
 # __date__: 2020/10/10 17
-from apps.utils.management import LocalManagement
-from django.conf import settings
-import os
 import sys
 
+from django.conf import settings
 
-def setdefault_django_settings_module():
-    """
-    项目启动前若不适用默认文件，则需要配置此环境变量
-    >>> import os
-    >>> os.environ['django_web_flag'] = 'dev'
-
-    
-    >>> env = os.get('django_web_env', 'loc')
-    """
-    env = os.get('django_web_env', 'loc')
-    # 设置django默认环境变量 DJANGO_SETTINGS_MODULE
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE",
-                          'config.{}_settings'.format(env))
+from apps.utils.management import LocalManagement
+from config.handler import setdefault_django_settings_module
 
 
 def execute_from_command_line(argv=None):
+    """
+    通过命令行启动项目
+    >>> python manage.py runserver 
+    or
+    >>> python manage.py runserver 0.0.0.0:8000 --noreload
+    """
     setdefault_django_settings_module()
     utility = LocalManagement(argv)
     utility.execute()
