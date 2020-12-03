@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import re
+from django.views.static import serve
 from django.urls import path, re_path
 import os
 from django.conf.urls import include, url
@@ -61,13 +63,18 @@ urlpatterns = [
     # tool
     # path('tool/', include('apps.tool.urls'), name='tool'),
 ]
-from django.views.static import serve
-import re
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += [path(_+'/', include('apps.{app_name}.urls'.format(app_name=_)), name=_)
-                for _ in settings.APPS if os.path.exists(os.path.join(settings.APPS_FLODER, _, 'urls.py'))]
-# TODO:自动载入
+
+
+urlpatterns += [
+    path(_v+'/', include('.'.join([k, _v, 'urls'])), name='_v'.join([k, _v]))\
+    for k, v in settings.APPS_FLODER_DICT.items()\
+    for _v in v\
+    if os.path.exists(os.path.join(settings.BASE_DIR, k, _v, 'urls.py'))
+]
+
+# TODO:自动载入重写后的views文件
 urlpatterns += [path('', include('apps.data_analysis.views'.format(
     app_name='data_analysis')), name='data_analysis')]
 urlpatterns += [path('', include('apps.data.views'.format(app_name='data')), name='data')]
@@ -76,4 +83,5 @@ urlpatterns += [path('', include('apps.apis.views'.format(
 urlpatterns += [path('', include('apps.accounts.views'.format(
     app_name='accounts_views')), name='accounts_views')]
 urlpatterns += [path('', include('ele_admin.ele_admin_dashboard.views'.format(
-    app_name='dashboard_views')), name='dashboard_views')]
+    app_name='ele_admin_dashboard_views')), name='ele_admin_dashboard_views')]
+print(urlpatterns)

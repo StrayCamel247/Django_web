@@ -21,7 +21,7 @@ from django.conf.urls import url
 log = logging.getLogger('apps')
 # request,针对 传入token的url 赋值此request，具体引用方法看apps\data\views.py
 
-env = os.getenv('APPS_ENV', 'local')
+env = os.getenv('django_web_flag', 'loc')
 
 
 def require_http_methods(path, name=None,
@@ -114,7 +114,7 @@ def request_token_check(req, func, jwt_required, *args, **kwargs):
     """校验token，获取user信息并添加到request中"""
     res = None
     # 本地环境无需验证登陆
-    jwt_required *= env != 'local'
+    jwt_required *= env != 'loc'
     try:
         assert jwt_required
         # 获取jwt中的user

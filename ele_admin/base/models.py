@@ -12,6 +12,12 @@ from django.db import models
 
 
 class ChartMapping(models.Model):
+    """
+    NOTE:
+    base.ChartMapping.chart_body: (fields.W904) django.contrib.postgres.fields.JSONField is deprecated. Support for it (except in historical migrations) will be removed in Django 4.0.
+        HINT: Use django.db.models.JSONField instead.
+
+    """
     class Meta:
         verbose_name = """图标信息表头"""
         verbose_name_plural = verbose_name

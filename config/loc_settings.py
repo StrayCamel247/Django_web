@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+from collections import defaultdict
 import datetime
 import os
 from datetime import timedelta
@@ -93,16 +94,15 @@ INSTALLED_APPS = [
 SILKY_PYTHON_PROFILER = True
 SILKY_PYTHON_PROFILER_BINARY = True
 # 自动添加apps中的路由
-APPS_FLODER = os.path.join(BASE_DIR, 'apps')
-APPS = [_ for _ in os.listdir(APPS_FLODER) if os.path.isdir(
+APPS_NAMES = ['apps', 'ele_admin']
+APPS_FLODER_DICT = defaultdict(list)
+for apps in APPS_NAMES:
+    APPS_FLODER = os.path.join(BASE_DIR, apps)
+    APPS_FLODER_DICT[apps] = [_ for _ in os.listdir(APPS_FLODER) if os.path.isdir(
     os.path.join(APPS_FLODER, _)) and 'pycache' not in _]
-INSTALLED_APPS += ['apps.'+_ for _ in APPS]
 
-# 自动添加ele_admin中的路由
-APPS_FLODER = os.path.join(BASE_DIR, 'ele_admin')
-APPS = [_ for _ in os.listdir(APPS_FLODER) if os.path.isdir(
-    os.path.join(APPS_FLODER, _)) and 'pycache' not in _]
-INSTALLED_APPS += ['ele_admin.'+_ for _ in APPS]
+INSTALLED_APPS += ['.'.join([k,_v]) for k,v in APPS_FLODER_DICT.items()  for _v in v]
+
 
 # restframework settings
 REST_FRAMEWORK = {
