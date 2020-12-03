@@ -192,6 +192,7 @@ class Ouser(AbstractUser):
         if not self.password:
             return False
         return check_password(self.password, value)
+
     @property
     def is_authenticated(self):
         """验证用户是否登录"""
@@ -286,8 +287,6 @@ class Ouser(AbstractUser):
                 role_id=_
             ) for _ in roles]
             User_role.objects.bulk_create(user_role_infos)
-
-
 
 
 class User_role(models.Model):

@@ -9,7 +9,6 @@ from django.db import models
 from apps.utils.django_db import DBUtil
 
 
-
 class Role(models.Model):
     class Meta:
         verbose_name = """角色信息"""
@@ -54,10 +53,10 @@ class PagePermission(models.Model):
 
 
 # 根据用户id获取用户角色
-def get_role_via_user(params=None):
+def get_role_via_user(params={}):
     from apps.accounts.models import User_role
-    params = dict(dict(user_role=User_role._meta.model_name,
-                       role=Role._meta.model_name), **params) if params else params
+    params = dict({'user_role': User_role._meta.model_name,
+                   'role': Role._meta.model_name}, **params)
     sql = """
         SELECT
             role_name

@@ -4,8 +4,9 @@
 # __date__: 2020/05/26 11:09:55
 
 import io
-import socket
 import re
+import socket
+
 import requests
 from openpyxl import Workbook
 from openpyxl.comments import Comment
@@ -57,7 +58,7 @@ def get_local_host_ip(params=None):
     # 太网适配器 IPV4:
     # ip = socket.gethostbyname(socket.gethostname())
     # 局域网 IPV4
-    ip = get_host_ip()
+    # ip = get_host_ip()
     return ip
 
 

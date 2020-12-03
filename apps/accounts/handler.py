@@ -82,13 +82,11 @@ def token_user_info_handler(token):
     """
     date通过token获取user的基本信息
     """
-    # user_id = _token_get_user_id(token)
-    # 查询
-    # print(REQUEST)
+    # 查询用户序列化信息
     _user = token_get_user_model(token)
     res = dict(user=UserInfoSerializer(_user).data)
     params = dict(user_id=_user.id)
-    # 查询角色信息
+    # 查询用户角色信息
     role = get_role_via_user(params)
     roles = dict(roles=[_[0] for _ in role])
     res = dict(res, **roles)
