@@ -7,7 +7,6 @@
 from django.db import models
 from django.conf import settings
 from datetime import datetime
-AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 
 class Department(models.Model):

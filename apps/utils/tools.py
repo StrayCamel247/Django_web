@@ -10,10 +10,10 @@ from apps.utils.django_db import DBUtil
 # @cache.cached(timeout=1000, key_prefix='charts_map/%s')
 
 
-def chart_mapping(request):
+def ele_admin_chart_mapping(request):
     sql = """
         select chart_body
-        from public.chart_mapping
+        from public.ele_admin_chart_mapping
         WHERE url_code=:url_code
     """
     path = request.path

@@ -9,7 +9,7 @@ import random
 from datetime import datetime
 
 from apps.constants import IsActiveConstant
-from apps.utils.tools import chart_mapping
+from apps.utils.tools import ele_admin_chart_mapping
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.sessions.models import Session
@@ -42,7 +42,7 @@ def kpi_online_user_via_all_handler(**params):
 
 def kpi_indicator_handler(**params):
     request = params.get('request')
-    res = chart_mapping(request)
+    res = ele_admin_chart_mapping(request)
     return res
 
 

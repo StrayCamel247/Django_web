@@ -75,5 +75,5 @@ urlpatterns += [path('', include('apps.apis.views'.format(
     app_name='apis_views')), name='apis_views')]
 urlpatterns += [path('', include('apps.accounts.views'.format(
     app_name='accounts_views')), name='accounts_views')]
-urlpatterns += [path('', include('apps.dashboard.views'.format(
+urlpatterns += [path('', include('ele_admin.ele_admin_dashboard.views'.format(
     app_name='dashboard_views')), name='dashboard_views')]

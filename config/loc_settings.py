@@ -92,11 +92,17 @@ INSTALLED_APPS = [
 # 询的过程哪个环节耗费了多少时间
 SILKY_PYTHON_PROFILER = True
 SILKY_PYTHON_PROFILER_BINARY = True
-# 自动添加app
+# 自动添加apps中的路由
 APPS_FLODER = os.path.join(BASE_DIR, 'apps')
 APPS = [_ for _ in os.listdir(APPS_FLODER) if os.path.isdir(
     os.path.join(APPS_FLODER, _)) and 'pycache' not in _]
 INSTALLED_APPS += ['apps.'+_ for _ in APPS]
+
+# 自动添加ele_admin中的路由
+APPS_FLODER = os.path.join(BASE_DIR, 'ele_admin')
+APPS = [_ for _ in os.listdir(APPS_FLODER) if os.path.isdir(
+    os.path.join(APPS_FLODER, _)) and 'pycache' not in _]
+INSTALLED_APPS += ['ele_admin.'+_ for _ in APPS]
 
 # restframework settings
 REST_FRAMEWORK = {
