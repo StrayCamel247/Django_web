@@ -16,7 +16,7 @@ def setdefault_django_settings_module():
     >>> import os
     >>> os.environ['django_web_flag'] = 'dev'
 
-    根据自定义环境变量django_web_env获取配置文件，默认为loc
+    
     >>> env = os.get('django_web_env', 'loc')
     """
     env = os.get('django_web_env', 'loc')
