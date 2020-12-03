@@ -402,6 +402,10 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8000',
     'http://localhost:8000',
+    'http://127.0.0.1:422',
+    'http://localhost:422',
+    'http://127.0.0.1:9520',
+    'http://localhost:9520',
 )
 CORS_ALLOW_METHODS = (
     'DELETE',
@@ -412,7 +416,7 @@ CORS_ALLOW_METHODS = (
     'PUT',
     'VIEW',
 )
-
+# CORS_PREFLIGHT_MAX_AGE = "3600"
 CORS_ALLOW_HEADERS = (
     'XMLHttpRequest',
     'X_FILENAME',
@@ -422,9 +426,9 @@ CORS_ALLOW_HEADERS = (
     'dnt',
     'origin',
     'user-agent',
-    # 👇解决：Access to XMLHttpRequest at 'xxxxxxxxxxx' from origin 'xxxxxxxxx' has been blocked by CORS policy: Request header field x-token is not allowed by Access-Control-Allow-Headers in preflight response.
+    # NOTE:👇解决：Access to XMLHttpRequest at 'xxxxxxxxxxx' from origin 'xxxxxxxxx' has been blocked by CORS policy: Request header field x-token is not allowed by Access-Control-Allow-Headers in preflight response.
     'x-csrftoken',
-    # 👆
+    # NOTE:👆解决：Access to XMLHttpRequest at 'xxxxxxxxxxx' from origin 'xxxxxxxxx' 
     'x-token',
     'x-requested-with',
     'Pragma',
