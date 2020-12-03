@@ -5,7 +5,8 @@
 
 import io
 import socket
-
+import re
+import requests
 from openpyxl import Workbook
 from openpyxl.comments import Comment
 from openpyxl.styles import Alignment, Border, PatternFill, Side
@@ -13,7 +14,7 @@ from openpyxl.utils import get_column_letter
 
 
 def get_host_ip():
-    """查询本机ip地址"""
+    """查询本机内网ip地址1"""
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(('8.8.8.8', 80))
@@ -23,6 +24,7 @@ def get_host_ip():
     return ip
 
 def get_client_ip(request):
+    """查询本机内网ip地址2"""
     ip_type = 'Client_Real_IP'
     ip = request.headers.get(ip_type, '')
     if ip == '':
@@ -37,14 +39,20 @@ def get_client_ip(request):
     if ip == '':
         ip_type = ''
     return ip, ip_type
+def get_internet_ip():
+    """获取本机的外网地址"""
+    res = requests.get('http://members.3322.org/dyndns/getip').content
+    ip = re.match(r"\d+\.\d+\.\d+\.\d*",res).group()
+    return ip
 
 def get_local_host_ip(params=None):
     """获取本机"""
+    # 外网ip
+    ip = get_internet_ip()
     # 太网适配器 IPV4:
-    ip = socket.gethostbyname(socket.gethostname())
+    # ip = socket.gethostbyname(socket.gethostname())
     # 局域网 IPV4
-    if not ip:
-        ip = get_host_ip()
+    ip = get_host_ip()
     return ip
 
 
