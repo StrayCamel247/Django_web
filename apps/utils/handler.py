@@ -23,6 +23,7 @@ def get_host_ip():
         s.close()
     return ip
 
+
 def get_client_ip(request):
     """查询本机内网ip地址2"""
     ip_type = 'Client_Real_IP'
@@ -39,11 +40,15 @@ def get_client_ip(request):
     if ip == '':
         ip_type = ''
     return ip, ip_type
+
+
 def get_internet_ip():
     """获取本机的外网地址"""
-    res = requests.get('http://members.3322.org/dyndns/getip').content.decode('utf-8')
-    ip = re.match(r"\d+\.\d+\.\d+\.\d*",res).group()
+    res = requests.get(
+        'http://members.3322.org/dyndns/getip').content.decode('utf-8')
+    ip = re.match(r"\d+\.\d+\.\d+\.\d*", res).group()
     return ip
+
 
 def get_local_host_ip(params=None):
     """获取本机"""
