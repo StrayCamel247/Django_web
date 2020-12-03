@@ -5,7 +5,9 @@
 ![code-size](https://img.shields.io/github/languages/code-size/straycamel247/django_web)
 
 ## ✨Features-持续更新
-
+> django+vue，CS系统，前后端分离，底层系统自定义构建的基础上和[Vue_web](https://github.com/StrayCamel247/Vue_web)进行接口联调，接口展示。同时运行两个项目可进行数据展示。
+> 此版本的最终目的在于开发完成用户管理，数据可视化，算法/量化分析可视化等功能的前后端分离系统。
+> 如有问题欢迎[ISSUE](https://github.com/StrayCamel247/Django_web/issues)
 ### [🚓项目运行]
 > 项目采用uwsgi工具可以启动，通信流程为：`浏览器-http协议-nginx服务器-uwsgi协议-uwsgi服务器-uwsgi协议-python_wsgi_module_wsgi（python专用协议）-python_app（python应用）`
 - 命令行启动
@@ -20,9 +22,6 @@
 > 开发完后再进行完善
 
 ### 😋Version_V2.1
-> django+vue，CS系统，前后端分离，底层系统自定义构建的基础上和[Vue_web](https://github.com/StrayCamel247/Vue_web)进行接口联调，接口展示。同时运行两个项目可进行数据展示。
-> 此版本的最终目的在于开发完成用户管理，数据可视化，算法/量化分析可视化等功能的前后端分离系统。
-> 如有问题欢迎[ISSUE](https://github.com/StrayCamel247/Django_web/issues)
 
 #### 前后端联调
 > 数据基本由faker假数据生成
@@ -33,7 +32,8 @@
   - [x] kpi各个指标根据kpi_indicator接口工厂分配查询各指标，分多次请求查询各个kpi值
   - [x] 仪表盘各类图标通过接口获取数据展示
 
-#### 后端系统
+#### apps-后端系统 
+
 - [x] data
   - [x] **iris_data数据可视化接口**:`apps\data\views.py`
 
@@ -49,11 +49,51 @@
 - [x] models_tensorflow2: 使用tensorflow2复现论文，比赛等，并通过接口返回演示
   > 开发中...
 
-### 👻[Version_V2.0](https://github.com/StrayCamel247/Django_web/tree/v2.0)
+- [x] utils: 网站系统功能
+  - [x] **创建网站数据类型，用于数据校验**:`apps\types.py`
+  - [x] **结合wsme数据校验并扩展自定义数据结构，结合signature装饰器对接口的数据进行数据校验**:`apps\types.py`
+  - [x] **自定义signature装饰器，应用于view模板，校验接口传参**:`apps\utils\wsme\signature.py`
+  - [x] **自定义彩色日志系统，构建方法打印日志装饰器**:`apps\utils\log\handler.py`
+  - [x] **继承rest framework框架的统一的异常处理**:`apps\utils\decorators\http.py`
+  - [x] **重构django http请求方式校验，而不是再urls.py文件配置**:`apps\utils\decorators\http.py`
+    - [x] 支持将用户指定url和request methods，并自动将url注册到apis连接下
+    - [x] 支持对request.user校验
+    - [x] 支持对jwt的token校验（jwt生辰方式见jwt登陆验证）
+      - [x] 获得token校验后会更新token，将数据插入到返回的json中
 
-> django+vue，CS系统，集合算法可视化项目，学习、练习、训练模型，系统底层构建等。
+- [x] jwt登陆验证
+  - [x] **关闭django的csrftoken验证**，开发简单的jwt登陆验证，绕过drf框架，直接使用django原生系统:`apps\utils\jwt`
+  - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\accounts\views.py`
+    > https://django-rest-framework-simplejwt.readthedocs.io/en/latest/token_types.html#token-types; Simple JWT provides two different token types that can be used to prove authentication; 两种方式均可获得对应的token和user信息（user信息使用的序列化功能在
+    - [x] “access”, “sliding”：`apps\accounts\views.py`:token_obtain_pair()/token_access_refresh()
+    - [x] “refresh”：`apps\accounts\views.py`:token_obtain_sliding_login()/token_refresh()
+  - [x] **将django-rest-framework-simplejwt中的CBV视图转换为FBV视图handlers**:`apps\accounts\handler.py`
+  - [x] **使用jwt和session联合验证** 
 
-### [🦄Version_V1.0](https://github.com/StrayCamel247/Django_web/tree/v1.0)
+
+- [x] apis
+  - [x] **获得所有urls**:`apps\apis\views.py`
+
+#### ele_admin 后端扩展功能
+> 结合前端界面[Vue_web](https://github.com/StrayCamel247/Vue_web)进行开发调试
+
+- [x] `ele_admin\ele_admin_dashboard`管理界面仪表盘界面
+  > 数据由python的faker包生成，具体逻辑看代码
+  - [x] 前端查询展示的kpi 指标
+  - [x] kpi值接口  根据 indicator 传入参数不同请求不同的 handler
+    - [x] 查询系统总共用户数
+  - [x] 前端查询展示 `dashboard/TransactionTable`
+  - [x] 前端查询展示 `dashboard/barChart`
+  - [x] 前端查询展示 `dashboard/BoxCard`
+  - [x] 前端查询展示 `dashboard/LineChart`
+  - [x] 前端查询展示 `dashboard/PieChart`
+  - [x] 前端查询展示 `dashboard/RaddarChart`
+  - [x] 前端查询展示 `dashboard/TodoList`
+- [ ] `ele_admin\ele_admin_interface`接口（数据库操作）测试
+### 👻[Version_V2.0](https://github.com/StrayCamel247/Django_web/releases/tag/v2.0.0)
+> django+vue，CS系统，系统底层构建等。
+
+### [🦄Version_V1.0](https://github.com/StrayCamel247/Django_web/releases/tag/v1.0
 
 > 网站采用传统的django MVT模式构建，使用bootstrap作为前端框架，用户管理、文章管理、评论系统、留言系统以及工具系统初步完善
 
