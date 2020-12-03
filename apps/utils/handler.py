@@ -41,7 +41,7 @@ def get_client_ip(request):
     return ip, ip_type
 def get_internet_ip():
     """获取本机的外网地址"""
-    res = requests.get('http://members.3322.org/dyndns/getip').content
+    res = requests.get('http://members.3322.org/dyndns/getip').content.decode('utf-8')
     ip = re.match(r"\d+\.\d+\.\d+\.\d*",res).group()
     return ip
 
