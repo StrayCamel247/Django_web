@@ -14,7 +14,7 @@ from collections import defaultdict
 import datetime
 import os
 from datetime import timedelta
-
+import platform
 from apps.utils.handler import get_local_host_ip
 
 try:
@@ -35,7 +35,7 @@ SECRET_KEY = '1ek)3z+-*)(&1c&3fv=2*=lr_cyGst85w&a4y#5!2m*ik@=&!p0'
 # SECURITY WARNING: don't run with debug turned on in production!
 
 PORT = 8000
-# 自由选择需要开启的功能
+# 自 由选择需要开启的功能
 # 是否开始[在线工具]应用
 # TOOL_FLAG = True
 # # 是否开启[API]应用
@@ -321,7 +321,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         # 'HOST': '47.114.93.191',
         'PORT': 5432
-    }
+     }
 }
 
 
@@ -333,7 +333,7 @@ DATABASES = {
 #         'PASSWORD': POSTGRESQL_PD,
 #         'HOST': '127.0.0.1',
 #         'PORT': '5432'
-#     }
+#      }
 # }
 
 # 使用django设置将错误报告发送到指定邮箱
@@ -507,8 +507,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
-HOST_MEDIA = 'http://'+SYSTEM_HOST+':'+str(PORT)+'/media/'
+# 定义django媒体文件url
+HOST_MEDIA = 'http://'+SYSTEM_HOST+':'+str(PORT)+'/media/' if 'windows'.capitalize() in platform.system() else 'http://'+SYSTEM_HOST+'/media/'
 
 # 网站上线时长
 ONLINE_TIME_DAYS = (datetime.datetime.now() -

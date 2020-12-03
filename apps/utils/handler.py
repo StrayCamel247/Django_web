@@ -6,7 +6,7 @@
 import io
 import re
 import socket
-
+import platform
 import requests
 from openpyxl import Workbook
 from openpyxl.comments import Comment
@@ -52,11 +52,11 @@ def get_internet_ip():
 
 
 def get_local_host_ip(params=None):
-    """获取本机"""
-    # 外网ip
-    ip = get_internet_ip()
+    """获取本机ip"""
     # 太网适配器 IPV4:
-    # ip = socket.gethostbyname(socket.gethostname())
+    ip = socket.gethostbyname(socket.gethostname()) \
+            if 'windows'.capitalize() in platform.system() \
+            else get_internet_ip() # 外网ip
     # 局域网 IPV4
     # ip = get_host_ip()
     return ip
