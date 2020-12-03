@@ -19,5 +19,6 @@ urlpatterns = []
 @signature(ApisResult)
 def get_all_url_dict_view(request):
     """获取项目中所有的URL"""
+    print('8'*20)
     content = get_all_url_dict()
     return ApisResult(content=content)
