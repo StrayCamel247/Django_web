@@ -35,6 +35,7 @@ SECRET_KEY = '1ek)3z+-*)(&1c&3fv=2*=lr_cyGst85w&a4y#5!2m*ik@=&!p0'
 # SECURITY WARNING: don't run with debug turned on in production!
 
 PORT = 8000
+linux_port = 422
 # 自 由选择需要开启的功能
 # 是否开始[在线工具]应用
 # TOOL_FLAG = True
@@ -508,7 +509,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 定义django媒体文件url
-HOST_MEDIA = 'http://'+SYSTEM_HOST+':'+str(PORT)+'/media/' if 'windows'.capitalize() in platform.system() else 'http://'+SYSTEM_HOST+'/media/'
+HOST_MEDIA = 'http://'+SYSTEM_HOST+':'+str(PORT)+'/media/' if 'windows'.capitalize() in platform.system() else 'http://'+SYSTEM_HOST+':'+str(linux_port)+'/media/'
 
 # 网站上线时长
 ONLINE_TIME_DAYS = (datetime.datetime.now() -
