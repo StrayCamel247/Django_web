@@ -7,7 +7,7 @@
 from datetime import datetime
 
 from django.conf import settings
-from django.contrib.postgres.fields import JSONField
+# from django.contrib.postgres.fields import JSONField
 from django.db import models
 from ele_admin import system_name
 
@@ -55,7 +55,7 @@ class ChartMapping(models.Model):
         db_table = "{sys}_chart_mapping".format(sys=system_name)
     module_code = models.CharField(max_length=200, default="")
     url_code = models.CharField(max_length=200, default="")
-    chart_body = JSONField(null=True, blank=True)
+    chart_body = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return self.name
