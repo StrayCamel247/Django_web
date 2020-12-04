@@ -3,9 +3,9 @@
 # __author__ : stray_camel
 # __description__ :
 # __REFERENCES__ :
-# __date__: 2020/05/25 10
+# __date__: 2020/12/03 22
+from .constants import description, system_name
 
-from .constants import system_name, description
 __all__ = [
     'description', 'system_name',
 ]

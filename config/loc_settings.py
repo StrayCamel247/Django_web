@@ -42,11 +42,10 @@ linux_port = 422
 # # 是否开启[API]应用
 # API_FLAG = False
 # DEBUG模式是否开始的选择
-# 值为0：所有平台关闭DEBUG,值为1:所有平台开启DEBUG,值为其他：根据平台类型判断开启（默认设置的Windows下才开启）
 # DEBUG = True
-# # 默认状态 COMPRESS_ENABLED=False，因为生产环境 DEBUG=False
-# # 只有在生产环境才有压缩静态资源的需求
-# # 如果是开发环境就主动开启压缩功能、开启手动压缩功能
+# 默认状态 COMPRESS_ENABLED=False，因为生产环境 DEBUG=False
+# 只有在生产环境才有压缩静态资源的需求
+# 如果是开发环境就主动开启压缩功能、开启手动压缩功能
 # if DEBUG:
 #     COMPRESS_ENABLED = True  # 开启压缩功能
 #     COMPRESS_OFFLINE = True  # 开启手动压缩

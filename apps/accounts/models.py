@@ -19,49 +19,14 @@ from uuslug import slugify
 from datetime import datetime
 import random
 from wsme import Unset
-from apps.role.models import Role
+from apps.role.models import Role,RolePagePermission
 from django.contrib.auth.hashers import check_password, make_password
-# 用户注册
-# def user_register(request):
-#     '''
-#     用户注册视图函数
-#     :param request:
-#     :return:
-#     '''
-#     if request.session.get('is_login', None):
-#         return redirect('/')
-#     if request.method == 'GET':
-#         return render(request, 'user/user_register.html', {})
-#     elif request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         repassword = request.POST.get('repassword')
-#         email = request.POST.get('email')
-#         try:
-#             user = models.User.objects.get(username=username)
-#             return render(request, 'user/user_register.html', {'error_code': -1, 'error_msg': '账号已经存在,换个账号试试吧!'})
-#         except:
-#             try:
-#                 user = models.User.objects.get(email=email)
-#                 return render(request, 'user/user_register.html',
-#                               {'error_code': -2, 'error_msg': '邮箱已经存在,换个昵称试试吧!'})
-#             except:
-#                 if password != repassword:
-#                     return render(request, 'user/user_register.html',
-#                                   {'error_code': -3, 'error_msg': '两次密码输入不一致,请重新注册'})
-#                 else:
-#                     password = makepassword(password, None, 'pbkdf2_sha256')
-#                     user = models.User(username=username,
-#                                        password=password, email=email)
-#                     user.save()
-#                     code = make_confirm_string(user)
-#                     send_email(email, code)
+from apps import system_name
 
-#                     message = '请前往注册邮箱，进行邮件确认！'
-#                     return render(request, 'user/confirm.html', locals())
-
-
+from apps.utils.django_db import DBUtil
 # 邮箱发送
+
+
 def send_email(email, code):
     from django.core.mail import EmailMultiAlternatives
 
@@ -112,20 +77,22 @@ class Contacts(models.Model):
 
 class Ouser(AbstractUser):
     """
-    AbstractUser ，django 自带用户类，扩展用户个人网站字段，用户头像字段  article/members
-    manytomany
-    CASCADE   级联删除，此类选项模仿SQL语句ON DELETE CASCADE，再删除此字段信息的时候同时删除包含ForeignKey字段的目标（object）
-    PROTECT 通过django.db.IntegrityError中的ProtectedError来保护此字段不被删除，若进行删除操作则抛出错误
-    SET_NULL    将ForeignKey置为空，这只在null选项为True的时候产生作用
-    SET_DEFAULT 设为默认值（default value），此默认值已预先对ForeignKey设置
-    SET()   对ForeignKey设置对SET()函数传递的数值
-    DO_NOTHING  不进行任何操作。若数据库提高了引用完整性，则此种设置会抛出一个IntegrityError，除非对这一数据字段手动添加了SQL语句中的ON DELETE字段
+    系统用户基类，继承django抽象用户基类进行重构
+
+    采用如下方法进行调用：
+    >>> from django.contrib.auth import get_user_model
+    >>> User = get_user_model()
+
+    @staticmethod方法可以通过类直接调用
+    >>> from django.contrib.auth import get_user_model
+    >>> User = get_user_model()
+    >>> User.xx_some_static_method_xx()
     """
     class Meta:
         verbose_name = """用户"""
         verbose_name_plural = verbose_name
         ordering = ['id']
-        db_table = "user"
+        db_table = "{}_user".format(system_name)
     username_validator = UnicodeUsernameValidator()
     username = models.CharField(
         _('username'),
@@ -145,7 +112,7 @@ class Ouser(AbstractUser):
         '个人网址', blank=True, help_text='提示：网址必须填写以http开头的完整形式')
     contact = models.ManyToManyField(Contacts, verbose_name='通讯录', default='1')
     is_admin = models.BooleanField(verbose_name='管理员', default=False)
-    is_delete = models.BooleanField(verbose_name='已删除', default=False)
+    is_deleted = models.BooleanField(verbose_name='已删除', default=False)
     introduction = models.TextField('个人简介', max_length=240, default='沉默是金😂')
     phone = models.TextField('电话号码', max_length=64, default='')
     # 扩展用户头像字段
@@ -170,22 +137,26 @@ class Ouser(AbstractUser):
             x.save()
         super(Ouser, self).save(*args, **kwargs)
 
+    def set_password(self, raw_password):
+        """
+        修改用户密码
+        >>> python manage.py shell
+        >>> from apps.accounts.models import Ouser
+        >>> user=Ouser.objects.get(username='username')
+        >>> user.set_password('new_password')
+        """
+        self.password = make_password(raw_password)
+        self._password = raw_password
+        self.save()
+
     @property
     def is_admin(self):
-        # NOTE:2.2版本user有type_code字段，但是七匹狼不需要全部判定为非管理员
-        # return self.type_code == self.TYPE_ADMIN
+        """
+        判断用户是否是管理员
+        """
         return True if self.user_id == 1 else False
 
-    # @property
-    # def password(self):
-    #     return self.password
-
-    # @password.setter
-    # def password(self, raw):
-    #     # make_password(原始密码) 或 make_password(原始密码，None) 或 make_password(原始密码，'')：每次产生的密码均不同。
-    #     self.password = make_password(raw)
-
-    def checkpassword(self, value):
+    def checkpassword(self, value: '待验证的密码'):
         """
         密码校验
         """
@@ -195,13 +166,19 @@ class Ouser(AbstractUser):
 
     @property
     def is_authenticated(self):
-        """验证用户是否登录"""
+        """
+        验证用户是否登录
+        """
         if isinstance(self, AnonymousUser):
             return False
         else:
             return True
 
     def is_del(self):
+        """
+        用户软删除机制
+        判断用户是否删除
+        """
         return self.is_delete
 
     @property
@@ -218,13 +195,13 @@ class Ouser(AbstractUser):
         return '<User %r>' % self.username
 
     @staticmethod
-    def query_user_from_token(token):
+    def query_user_from_token(token: '用户动态jwt-token'):
         """
         将序列化的内容解码
-        :param token: 序列化的内容
-        :return: 
         """
-        _user = token_get_user_model(token)
+        User = get_user_model()
+        _id = _token_get_user_id(token)
+        _user = User.objects.get(id=_id)
         return _user
 
     @staticmethod
@@ -293,7 +270,7 @@ class User_role(models.Model):
     class Meta:
         verbose_name = """用户角色关系表"""
         verbose_name_plural = verbose_name
-        db_table = "user_role"
+        db_table = "{}_user_role".format(system_name)
 
     def __str__(self):
         return self.name
@@ -303,14 +280,15 @@ class User_role(models.Model):
     # 用户id
     user_id = models.IntegerField(
         verbose_name=u"角色id")
-
+    
+    is_deleted = models.BooleanField(verbose_name='已删除', default=False)
 
 class UserInfoSerializer(HyperlinkedModelSerializer):
     avatar = serializers.SerializerMethodField()
 
     class Meta:
         model = Ouser
-        fields = ['id', 'username', 'introduction', 'avatar']
+        fields = ['username', 'introduction', 'avatar']
 
     def get_avatar(self, obj):
         # 拼接媒体url访问用户头像
@@ -332,11 +310,37 @@ def _token_get_user_id(token):
             detail='Token 失效')
 
 
-def token_get_user_model(token):
-    """
-    根据token返回用户
-    """
-    User = get_user_model()
-    _id = _token_get_user_id(token)
-    _user = User.objects.get(id=_id)
-    return _user
+def get_page_via_user(**params):
+    """根据用户获取路由"""
+    from ele_admin.base.models import PagePermission
+    params = dict({
+        'user_role_tablename': User_role._meta.db_table,
+        'role_tablename': Role._meta.db_table,
+        'role_page_permisson_talbename':RolePagePermission._meta.db_table,
+        '_page_permisson':PagePermission._meta.db_table
+    }, **params)
+    sql = """
+        with user_roles as(
+            select u_r.role_id, u_r.user_id
+            from public.{role_tablename} r
+            left join public.{user_role_tablename} u_r on r.role_id = u_r.role_id
+            where u_r.user_id = :user_id
+        -- 	and r.is_active = true
+        )
+        ,
+        user_page_perm as
+        (
+            select p_p.page_id, p_p.page_name, p_p.page_route, p_p.page_path, p_p.weight, p_p.parent_id, r_p.operation_type, p_p.icon
+                from user_roles u_r
+                left join public.{role_page_permisson_talbename} r_p on u_r.role_id = r_p.role_id
+                left join public.{_page_permisson} p_p on r_p.page_id = p_p.page_id
+                where r_p.operation_type = 1
+        )
+        select page_id::varchar, page_name as title, page_route as route, page_path as path, weight, parent_id::varchar
+        from user_page_perm 
+        group by page_id::integer, page_name, page_route, page_path, weight, parent_id::integer
+        order by weight desc
+    """.format(**params)
+    result = DBUtil.fetch_data_dict_sql(sql, params=params)
+    return result
+

@@ -1,0 +1,5 @@
+INSERT INTO "public"."ele_admin_page_permission"("page_id", "page_name", "page_route", "parent_id", "weight", "icon", "remark", "page_path") VALUES (1, 'Dashboard', '/views/dashboard/index', NULL, NULL, 'dashboard', NULL, '/dashboard');
+INSERT INTO "public"."ele_admin_page_permission"("page_id", "page_name", "page_route", "parent_id", "weight", "icon", "remark", "page_path") VALUES (2, 'Permission', '', NULL, NULL, 'lock', NULL, '/permission');
+INSERT INTO "public"."ele_admin_page_permission"("page_id", "page_name", "page_route", "parent_id", "weight", "icon", "remark", "page_path") VALUES (3, 'PagePermission', '/views/permission/page', 2, 1, '', NULL, '/page');
+INSERT INTO "public"."ele_admin_page_permission"("page_id", "page_name", "page_route", "parent_id", "weight", "icon", "remark", "page_path") VALUES (4, 'DirectivePermission', '/views/permission/directive', 2, 2, '', NULL, '/directive');
+INSERT INTO "public"."ele_admin_page_permission"("page_id", "page_name", "page_route", "parent_id", "weight", "icon", "remark", "page_path") VALUES (5, 'RolePermission', '/views/permission/role', 2, 3, '', NULL, '/role');

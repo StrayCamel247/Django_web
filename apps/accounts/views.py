@@ -1,3 +1,9 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# __author__ : stray_camel
+# __description__ : *登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口
+# __REFERENCES__ : 
+# __date__: 2020/12/04 13
 from django.contrib.auth import get_user_model
 from apps.utils.core.http import require_http_methods
 from apps.utils.wsme.signature import signature

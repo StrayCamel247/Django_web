@@ -6,10 +6,8 @@ from apps.api_exception import ParameterException
 from .handler import KpiFactory
 
 
-class DashboardResult(wtypes.Base):
-    status_code = wsme.wsattr(int, default=200)
-    content = _types.jsontype
-    detail = wsme.wsattr(wtypes.text, default=str(_('success')))
+class DashboardResult(_types.SuccessResult):
+    pass
 
 
 class KpiBody(wtypes.Base):

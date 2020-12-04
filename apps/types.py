@@ -137,8 +137,10 @@ class FailResult(BaseResult):
     detail =  wsme.wsattr(wtypes.text, default=str(_('Fail')))
     content = jsontype
 
-class Success(BaseResult):
-    detail =  wtypes.text
+class SuccessResult(BaseResult):
+    status_code =  wsme.wsattr(wtypes.text, default=0x00000c8)
+    detail =  wsme.wsattr(wtypes.text, default=str(_('success')))
+    content = jsontype
 
 
 class QueryFlatResult(BaseResult):

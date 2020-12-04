@@ -41,8 +41,8 @@ def get_dataformat(request):
     if req_dataformat in TYPES:
         return TYPES[req_dataformat]
 
-    log.info('''Could not determine what format is wanted by the
-             caller, falling back to json''')
+    # log.info('''Could not determine what format is wanted by the
+    #          caller, falling back to json''')
     return json
 
 

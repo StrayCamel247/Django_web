@@ -5,10 +5,10 @@
 ![code-size](https://img.shields.io/github/languages/code-size/straycamel247/django_web)
 
 ## ✨Features-持续更新
-> django+vue，CS系统，前后端分离，底层系统自定义构建的基础上和[Vue_web](https://github.com/StrayCamel247/Vue_web)进行接口联调，接口展示。同时运行两个项目可进行数据展示。
+> django3.x+vue3.x，CS系统，前后端分离，底层系统自定义构建的基础上和[Vue_web](https://github.com/StrayCamel247/Vue_web)进行接口联调，接口展示。同时运行两个项目可进行数据展示。
 > 此版本的最终目的在于开发完成用户管理，数据可视化，算法/量化分析可视化等功能的前后端分离系统。
 > 如有问题欢迎[ISSUE](https://github.com/StrayCamel247/Django_web/issues)
-### [🚓项目运行]
+### [🚓项目运行]uwsgi-asgi/wsgi
 > 项目采用uwsgi工具可以启动，通信流程为：`浏览器-http协议-nginx服务器-uwsgi协议-uwsgi服务器-uwsgi协议-python_wsgi_module_wsgi（python专用协议）-python_app（python应用）`
 - 命令行启动
   - `python manage.py runserver` or `python manage.py runserver 0.0.0.0:8000 --noreload`
@@ -62,19 +62,25 @@
       - [x] 获得token校验后会更新token，将数据插入到返回的json中
 
 - [x] jwt登陆验证
+  - [x] **将django-rest-framework-simplejwt中的CBV视图转换为FBV视图handlers**:`apps\accounts\handler.py`
+  - [x] **使用jwt和session联合验证** 
   - [x] **关闭django的csrftoken验证**，开发简单的jwt登陆验证，绕过drf框架，直接使用django原生系统:`apps\utils\jwt`
   - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\accounts\views.py`
     > https://django-rest-framework-simplejwt.readthedocs.io/en/latest/token_types.html#token-types; Simple JWT provides two different token types that can be used to prove authentication; 两种方式均可获得对应的token和user信息（user信息使用的序列化功能在
     - [x] “access”, “sliding”：`apps\accounts\views.py`:token_obtain_pair()/token_access_refresh()
     - [x] “refresh”：`apps\accounts\views.py`:token_obtain_sliding_login()/token_refresh()
-  - [x] **将django-rest-framework-simplejwt中的CBV视图转换为FBV视图handlers**:`apps\accounts\handler.py`
-  - [x] **使用jwt和session联合验证** 
+    
+  - [ ] vue 界面请求接口每次请求两次，一次为设定好的方式，第二次为option
+    - 出现原因：
+    - 解决方法：
+  - [ ] 通过用户信息获取所属角色的界面权限并返回/前端根据返回权限进行渲染
 
 
 - [x] apis
   - [x] **获得所有urls**:`apps\apis\views.py`
 
 #### ele_admin 后端扩展功能
+
 > 结合前端界面[Vue_web](https://github.com/StrayCamel247/Vue_web)进行开发调试
 
 - [x] `ele_admin\ele_admin_dashboard`管理界面仪表盘界面
@@ -90,7 +96,9 @@
   - [x] 前端查询展示 `dashboard/RaddarChart`
   - [x] 前端查询展示 `dashboard/TodoList`
 - [ ] `ele_admin\ele_admin_interface`接口（数据库操作）测试
+
 ### 👻[Version_V2.0](https://github.com/StrayCamel247/Django_web/releases/tag/v2.0.0)
+
 > django+vue，CS系统，系统底层构建等。
 
 ### [🦄Version_V1.0](https://github.com/StrayCamel247/Django_web/releases/tag/v1.0

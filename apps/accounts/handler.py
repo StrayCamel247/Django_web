@@ -8,7 +8,8 @@ import inspect
 import logging
 import re
 from datetime import date
-
+import pandas as pd
+from collections import OrderedDict
 import six
 from apps.api_exception import InvalidJwtToken, InvalidUser
 from apps.apis.serializers import UserSerializer
@@ -17,13 +18,13 @@ from apps.utils.core.session.handler import (_get_user_session_key,
                                              session_logout,
                                              session_user_update)
 from apps.utils.wsme import json
-from django.contrib.auth import get_user_model
+from .models import Ouser
 from django.contrib.auth.models import update_last_login
 from rest_framework_simplejwt.serializers import (
     TokenObtainPairSerializer, TokenObtainSlidingSerializer,
     TokenRefreshSerializer, TokenRefreshSlidingSerializer)
 
-from .models import UserInfoSerializer, token_get_user_model
+from .models import UserInfoSerializer,get_page_via_user
 
 log = logging.getLogger('apps')
 
@@ -42,10 +43,55 @@ def token_obtain_sliding_logout_handler(**params):
     return '登出成功'
 
 
-def token_obtain_sliding_login_handler(request, username, password):
+def get_tree(df, index_key, parent_key):
+    """
+
+    :param df: pandas DataFrame
+    :param index_key:
+    :param parent_key:
+    :return:
+    """
+    # drop掉 某行 index_key 和 parent_key 同时为null的数据
+    result = df.dropna(how='all', subset=[index_key, parent_key])
+
+    result["index"] = result[index_key]
+    result.set_index("index", inplace=True)
+
+    # 移除value为空的数据
+    result = result[~(result[index_key].isnull())]
+    # 记录转为字典，格式 {“index1”： row1_dict， “index2”：row2_dict ...}
+    result_dict = result.to_dict(orient="index", into=OrderedDict)
+    # 获取根节点列表
+    # root_key = [i for i in result[result[parent_key].isna()].index]
+    root_key = []
+    for index, row in result_dict.items():
+        if not row[parent_key] in result_dict:
+            root_key.append(index)
+
+    # 获取parent分组， 格式 {“parent1”： childrenes_list,  “parent2”： childrens_list}
+    parent_groups = result.groupby(parent_key).groups
+    for group, childrens in parent_groups.items():
+        # 在result_dict上维护父子关系
+        for children in childrens:
+            if result_dict.get(group):
+                result_dict[group].setdefault("children", []).append(result_dict[children])
+            else:
+                break
+    content = []
+    # 获取维护好父子关系result_dict中的根节点
+    for i in root_key:
+        content.append(result_dict[i])
+
+    return content, result_dict
+
+
+def token_obtain_sliding_login_handler(request, username: '用户名', password: '密码') -> dict:
     """
     Takes a set of user credentials and returns a sliding JSON web token to
     prove the authentication of those credentials.
+    
+    通过用户信息获取所属角色的界面权限并返回/前端根据返回权限进行渲染
+
     """
     ser = TokenObtainSlidingSerializer(
         data={get_username_field(): username, 'password': password})
@@ -55,8 +101,14 @@ def token_obtain_sliding_login_handler(request, username, password):
         raise InvalidUser('用户名/密码输入错误')
     update_last_login(None, ser.user)
     session_user_update(request, ser.user)
-    res = dict(token=ser.validated_data.get('token'),
-               user=UserSerializer(ser.user).data)
+    pages_data = get_page_via_user(user_id=ser.user.id)
+    pages_df = pd.DataFrame(pages_data)
+    pages, _ = get_tree(pages_df, 'page_id', 'parent_id')
+    print(pages)
+    res = {
+        'token': ser.validated_data.get('token'),
+        'pages':pages
+    }
     return res
 
 
@@ -70,25 +122,40 @@ def token_user_password_change_handler(**kwrags):
 
 def get_username_field():
     try:
-        User = get_user_model()
-        username_field = User.USERNAME_FIELD
+        username_field = Ouser.USERNAME_FIELD
     except AttributeError:
         username_field = 'username'
 
     return username_field
 
-
 def token_user_info_handler(token):
     """
     date通过token获取user的基本信息
+    用户序列化后的数据
+    >>> user:{
+        avatar: "/media/avatar/default/default%20(32).jpg"
+        date_joined: "2020-12-03T12:35:09.587579+08:00"
+        email: "aboyinsky@outlook.com"
+        id: 1
+        introduction: "沉默是金😂"
+        is_active: true
+        is_staff: true
+        is_superuser: true
+        last_login: "2020-12-04T13:19:59.311240+08:00"
+        username: "admin"
+        }
+    >>> roles:['admin']
     """
     # 查询用户序列化信息
-    _user = token_get_user_model(token)
-    res = dict(user=UserInfoSerializer(_user).data)
-    params = dict(user_id=_user.id)
+    _user = Ouser.query_user_from_token(token)
+    res = {
+        'user': UserInfoSerializer(_user).data
+    }
     # 查询用户角色信息
-    role = get_role_via_user(params)
-    roles = dict(roles=[_[0] for _ in role])
+    role = get_role_via_user(user_id=_user.id)
+    roles = {
+        'roles': [_[0] for _ in role]
+    }
     res = dict(res, **roles)
     return res
 
@@ -98,7 +165,7 @@ def token_verify_handler(token):
     Takes a token and indicates if it is valid.  This view provides no
     information about a token's fitness for a particular use.
     """
-    _user = token_get_user_model(token)
+    _user = Ouser.query_user_from_token(token)
     res = dict(user=UserSerializer(_user).data)
     return res
 

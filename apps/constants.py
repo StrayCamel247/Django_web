@@ -12,8 +12,9 @@ import multiprocessing
 # 获取系统最大多线程数
 
 MAX_CPUS = multiprocessing.cpu_count()//(1-0.9)
-# LOG_DIR = os.path.join(current_floder, 'logs')
 
+system_name = 'sys'
+description = '系统底层机制实现'
 
 class DimTypeEnum(IntEnum):
     """

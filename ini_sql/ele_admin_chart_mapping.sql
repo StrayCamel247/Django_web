@@ -1,0 +1,1 @@
+INSERT INTO "public"."ele_admin_chart_mapping"("id", "module_code", "url_code", "chart_body") VALUES (1, 'dashboard', '/apis/dashboard/indicator', '{"title": "KPI", "option": [{"key": "all_users", "name": "总用户数", "value": null, "serial": 1}]}');

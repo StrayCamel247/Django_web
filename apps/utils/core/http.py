@@ -10,14 +10,13 @@ import functools
 import logging
 
 import six
-from apps.accounts.models import token_get_user_model
 from apps.api_exception import (InsufficientPermissionsError, InvalidJwtToken,
                                 InvalidUser, ParameterException,
                                 ResponseNotAllowed)
 # F:\Envs\env\Lib\site-packages\rest_framework\status.py
 from apps.apis.urls import urlpatterns
 from django.conf.urls import url
-
+from apps.accounts.models import Ouser
 log = logging.getLogger('apps')
 # request,针对 传入token的url 赋值此request，具体引用方法看apps\data\views.py
 
@@ -119,7 +118,7 @@ def request_token_check(req, func, jwt_required, *args, **kwargs):
         assert jwt_required
         # 获取jwt中的user
         token = req.headers._store.get('x-token', (None, None))[1]
-        user = token_get_user_model(token)
+        user = Ouser.query_user_from_token(token)
         # 获取session中的user
         from django.contrib.auth import get_user
         _user = get_user(req)
