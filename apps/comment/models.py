@@ -13,7 +13,7 @@ class Comment(models.Model):
     content = MDTextField('评论内容')
     parent_id = models.IntegerField(verbose_name='父级评论id')
     rep_to_id = models.IntegerField(verbose_name='回复评论id')
-    is_deleted = models.BooleanField('是否已删除', default=False)
+    is_deleted = models.BooleanField('是否已删除', default=False, null=True)
     class Meta:
         '''这是一个元类，用来继承的'''
         abstract = True
@@ -37,7 +37,7 @@ class Message_Board(Comment):
     author_id = models.IntegerField(verbose_name='留言者id')
     message_parent_id = models.IntegerField(verbose_name='父级评论id')
     message_rep_id = models.IntegerField(verbose_name='回复评论id')
-    is_deleted = models.BooleanField('是否已删除', default=False)
+    is_deleted = models.BooleanField('是否已删除', default=False, null=True)
     
     class Meta:
         verbose_name = '网站留言'
@@ -51,7 +51,7 @@ class Comment_Notification(models.Model):
     comment_id = models.IntegerField(verbose_name='所属评论id')
     create_date = models.DateTimeField('提示时间', auto_now_add=True)
     is_read = models.BooleanField('是否已读', default=False)
-    is_deleted = models.BooleanField('是否已删除', default=False)
+    is_deleted = models.BooleanField('是否已删除', default=False, null=True)
 
     def mark_to_read(self):
         self.is_read = True

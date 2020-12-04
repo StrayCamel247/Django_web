@@ -20,7 +20,7 @@ from apps.utils.core.handler import ImageStorage
 class Category(models.Model):
     name = models.CharField('文章分类', max_length=20)
     slug = models.SlugField(unique=True)
-    is_deleted = models.BooleanField('是否已删除', default=False)
+    is_deleted = models.BooleanField('是否已删除', default=False, null=True)
     description = models.TextField('描述', max_length=240, default=settings.SITE_DESCRIPTION,
                                    help_text='用来作为SEO中description,长度参考SEO标准')
 
@@ -43,7 +43,7 @@ class Category(models.Model):
 
 class Keyword(models.Model):
     name = models.CharField('文章关键词', max_length=20)
-    is_deleted = models.BooleanField('是否已删除', default=False)
+    is_deleted = models.BooleanField('是否已删除', default=False, null=True)
 
     class Meta:
         verbose_name = '关键词'
@@ -80,7 +80,7 @@ class Article(models.Model):
     is_top = models.BooleanField('是否首页展示', default=False)
     # 是否更新timeline
     is_addtimeline = models.BooleanField('是否添加时间线', default=False)
-    is_deleted = models.BooleanField('是否已删除', default=False)
+    is_deleted = models.BooleanField('是否已删除', default=False, null=True)
 
     class Meta:
         verbose_name = '文章'
@@ -163,7 +163,7 @@ class Timeline(models.Model):
     title = models.CharField('标题', max_length=100)
     update_date = models.DateTimeField('更新时间')
     content = models.TextField('主要内容')
-    is_deleted = models.BooleanField('是否已删除', default=False)
+    is_deleted = models.BooleanField('是否已删除', default=False, null=True)
     # 唯一标识符
     slug = models.SlugField(editable=False, null=True, unique=True)
 

@@ -112,7 +112,7 @@ class Ouser(AbstractUser):
         '个人网址', blank=True, help_text='提示：网址必须填写以http开头的完整形式')
     contact = models.ManyToManyField(Contacts, verbose_name='通讯录', default='1')
     is_admin = models.BooleanField(verbose_name='管理员', default=False)
-    is_deleted = models.BooleanField(verbose_name='已删除', default=False)
+    is_deleted = models.BooleanField(verbose_name='已删除', default=False, null=True)
     introduction = models.TextField('个人简介', max_length=240, default='沉默是金😂')
     phone = models.TextField('电话号码', max_length=64, default='')
     # 扩展用户头像字段
@@ -281,7 +281,7 @@ class User_role(models.Model):
     user_id = models.IntegerField(
         verbose_name=u"角色id")
     
-    is_deleted = models.BooleanField(verbose_name='已删除', default=False)
+    is_deleted = models.BooleanField(verbose_name='已删除', default=False, null=True)
 
 class UserInfoSerializer(HyperlinkedModelSerializer):
     avatar = serializers.SerializerMethodField()

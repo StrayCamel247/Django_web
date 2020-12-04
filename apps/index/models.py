@@ -22,7 +22,7 @@ class FriendLink(models.Model):
     create_date = models.DateTimeField('创建时间', auto_now_add=True)
     is_active = models.BooleanField('是否有效', default=True)
     is_show = models.BooleanField('是否首页展示', default=False)
-    is_deleted = models.BooleanField('是否已删除', default=False)
+    is_deleted = models.BooleanField('是否已删除', default=False, null=True)
 
     class Meta:
         verbose_name = '友情链接'

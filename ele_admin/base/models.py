@@ -40,7 +40,7 @@ class PagePermission(models.Model):
     remark = models.CharField(
         max_length=200, verbose_name=u"评论", null=True)
     
-    is_deleted = models.BooleanField(verbose_name='已删除', default=False)
+    is_deleted = models.BooleanField(verbose_name='已删除', default=False, null=True)
 
 class ChartMapping(models.Model):
     """
