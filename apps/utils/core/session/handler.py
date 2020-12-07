@@ -34,6 +34,7 @@ def _get_user_session_key(request):
 
 def session_user_update(request, user=None, backend=None):
     """
+    根据session更新用户信息
     Persist a user id and a backend in the request. This way a user doesn't
     have to reauthenticate on every request. Note that data set during
     the anonymous session is retained when the user logs in.

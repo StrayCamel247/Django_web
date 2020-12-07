@@ -27,7 +27,10 @@ class Role(models.Model):
         verbose_name=u"角色权重", default=0)
     create_date = models.DateTimeField(verbose_name='创建时间')
     update_date = models.DateTimeField(verbose_name='修改时间', auto_now=True)
-    is_deleted = models.BooleanField(verbose_name='已删除', default=False, null=True)
+    is_deleted = models.BooleanField(
+        verbose_name='已删除', default=False, null=True)
+    is_active = models.BooleanField(
+        verbose_name='是否生效', default=True, null=True)
 
 
 class RolePagePermission(models.Model):
@@ -35,6 +38,7 @@ class RolePagePermission(models.Model):
         verbose_name = """角色页面权限关系表"""
         verbose_name_plural = verbose_name
         db_table = "{sys}_role_page_permission".format(sys=system_name)
+        unique_together = ("role_id", "page_id")
 
     def __str__(self):
         return self.name
@@ -44,6 +48,8 @@ class RolePagePermission(models.Model):
         verbose_name=u"用户")
     page_id = models.IntegerField(
         verbose_name=u"界面路由")
+    is_deleted = models.BooleanField(
+        verbose_name='已删除', default=False, null=True)
 
 
 def get_role_via_user(**params):

@@ -5,11 +5,15 @@
 ![code-size](https://img.shields.io/github/languages/code-size/straycamel247/django_web)
 
 ## ✨Features-持续更新
+
 > django3.x+vue3.x，CS系统，前后端分离，底层系统自定义构建的基础上和[Vue_web](https://github.com/StrayCamel247/Vue_web)进行接口联调，接口展示。同时运行两个项目可进行数据展示。
 > 此版本的最终目的在于开发完成用户管理，数据可视化，算法/量化分析可视化等功能的前后端分离系统。
 > 如有问题欢迎[ISSUE](https://github.com/StrayCamel247/Django_web/issues)
+
 ### [🚓项目运行]uwsgi-asgi/wsgi
+
 > 项目采用uwsgi工具可以启动，通信流程为：`浏览器-http协议-nginx服务器-uwsgi协议-uwsgi服务器-uwsgi协议-python_wsgi_module_wsgi（python专用协议）-python_app（python应用）`
+
 - 命令行启动
   - `python manage.py runserver` or `python manage.py runserver 0.0.0.0:8000 --noreload`
 
@@ -17,14 +21,20 @@
   - 安装虚拟环境，并设置好参数，注意修改下方参数中虚拟环境/项目文件目录是否正确
   - `dev.ini` 文件可直接启动并运行在后台
   - `uwsgi.ini` debug运行
-### [🦍Postman接口文档](https://explore.postman.com/templates/12957/djangoweb)
+
+- [ ]`pip install -r requirements.txt`报错终端下载问题
+  - 解决方法：编写shell脚本自动安装依赖；开发中...
+
+### [🦍Postman接口文档](https://documenter.getpostman.com/view/11005776/TVRd8WHn)
 
 > 开发完后再进行完善
 
 ### 😋Version_V2.1
 
 #### 前后端联调
+
 > 数据基本由faker假数据生成
+
 - [x] 预览
   - [x] 本地预览：![img](./template.png)
   - [ ] 在线预览：（服务器选购中ing）

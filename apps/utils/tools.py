@@ -5,7 +5,7 @@
 # __REFERENCES__ :
 # __date__: 2020/10/23 09
 from apps.utils.django_db import DBUtil
-
+import json
 #   TODO 开发时注释掉缓存
 # @cache.cached(timeout=1000, key_prefix='charts_map/%s')
 
@@ -19,4 +19,5 @@ def ele_admin_chart_mapping(request):
     path = request.path
     result = DBUtil.fetch_data_sql(sql=sql, params={"url_code": path})
     result, = result[0]
-    return result
+    res = json.loads(result)
+    return res

@@ -7,9 +7,10 @@
 import inspect
 import logging
 import re
-from datetime import date
-import pandas as pd
 from collections import OrderedDict
+from datetime import date
+
+import pandas as pd
 import six
 from apps.api_exception import InvalidJwtToken, InvalidUser
 from apps.apis.serializers import UserSerializer
@@ -18,13 +19,12 @@ from apps.utils.core.session.handler import (_get_user_session_key,
                                              session_logout,
                                              session_user_update)
 from apps.utils.wsme import json
-from .models import Ouser
 from django.contrib.auth.models import update_last_login
 from rest_framework_simplejwt.serializers import (
     TokenObtainPairSerializer, TokenObtainSlidingSerializer,
     TokenRefreshSerializer, TokenRefreshSlidingSerializer)
 
-from .models import UserInfoSerializer,get_page_via_user
+from .models import Ouser, UserInfoSerializer, get_page_via_user
 
 log = logging.getLogger('apps')
 
@@ -51,8 +51,8 @@ def get_tree(df, index_key, parent_key):
     :param parent_key:
     :return:
     """
-    # drop掉 某行 index_key 和 parent_key 同时为null的数据
-    result = df.dropna(how='all', subset=[index_key, parent_key])
+    # drop掉 某行 index_key 和 parent_key 同时为null的数据; 替换nan为none
+    result = df.dropna(how='all', subset=[index_key, parent_key]).where(df.notnull(), None)
 
     result["index"] = result[index_key]
     result.set_index("index", inplace=True)
@@ -74,7 +74,8 @@ def get_tree(df, index_key, parent_key):
         # 在result_dict上维护父子关系
         for children in childrens:
             if result_dict.get(group):
-                result_dict[group].setdefault("children", []).append(result_dict[children])
+                result_dict[group].setdefault(
+                    "children", []).append(result_dict[children])
             else:
                 break
     content = []
@@ -89,8 +90,6 @@ def token_obtain_sliding_login_handler(request, username: '用户名', password:
     """
     Takes a set of user credentials and returns a sliding JSON web token to
     prove the authentication of those credentials.
-    
-    通过用户信息获取所属角色的界面权限并返回/前端根据返回权限进行渲染
 
     """
     ser = TokenObtainSlidingSerializer(
@@ -101,13 +100,9 @@ def token_obtain_sliding_login_handler(request, username: '用户名', password:
         raise InvalidUser('用户名/密码输入错误')
     update_last_login(None, ser.user)
     session_user_update(request, ser.user)
-    pages_data = get_page_via_user(user_id=ser.user.id)
-    pages_df = pd.DataFrame(pages_data)
-    pages, _ = get_tree(pages_df, 'page_id', 'parent_id')
-    print(pages)
+   
     res = {
-        'token': ser.validated_data.get('token'),
-        'pages':pages
+        'token': ser.validated_data.get('token')
     }
     return res
 
@@ -128,6 +123,7 @@ def get_username_field():
 
     return username_field
 
+
 def token_user_info_handler(token):
     """
     date通过token获取user的基本信息
@@ -145,16 +141,22 @@ def token_user_info_handler(token):
         username: "admin"
         }
     >>> roles:['admin']
+    通过用户信息获取所属角色的界面权限并返回/前端根据返回权限进行渲染
     """
     # 查询用户序列化信息
     _user = Ouser.query_user_from_token(token)
     res = {
         'user': UserInfoSerializer(_user).data
     }
+    # 查询用户所属路由信息
+    pages_data = get_page_via_user(user_id=_user.id)
+    pages_df = pd.DataFrame(pages_data)
+    pages, _ = get_tree(pages_df, 'page_id', 'parent_id')
     # 查询用户角色信息
     role = get_role_via_user(user_id=_user.id)
     roles = {
-        'roles': [_[0] for _ in role]
+        'roles': [_[0] for _ in role],
+        'pages':pages
     }
     res = dict(res, **roles)
     return res

@@ -118,7 +118,7 @@ def render_sql(sql=None, params=None):
         broker_name='A%',
         broker_id=10
     )
-    
+
     print(SQL % test)
 
 

@@ -317,7 +317,7 @@ def get_page_via_user(**params):
         'user_role_tablename': User_role._meta.db_table,
         'role_tablename': Role._meta.db_table,
         'role_page_permisson_talbename':RolePagePermission._meta.db_table,
-        '_page_permisson':PagePermission._meta.db_table
+        'ele_page_permisson':PagePermission._meta.db_table
     }, **params)
     sql = """
         with user_roles as(
@@ -325,21 +325,53 @@ def get_page_via_user(**params):
             from public.{role_tablename} r
             left join public.{user_role_tablename} u_r on r.role_id = u_r.role_id
             where u_r.user_id = :user_id
-        -- 	and r.is_active = true
+        and r.is_active = true
         )
-        ,
-        user_page_perm as
+        , user_page_perm as
         (
-            select p_p.page_id, p_p.page_name, p_p.page_route, p_p.page_path, p_p.weight, p_p.parent_id, r_p.operation_type, p_p.icon
-                from user_roles u_r
-                left join public.{role_page_permisson_talbename} r_p on u_r.role_id = r_p.role_id
-                left join public.{_page_permisson} p_p on r_p.page_id = p_p.page_id
-                where r_p.operation_type = 1
+            select 
+                p_p.page_id, 
+                p_p.page_name, 
+                p_p.page_route, 
+                p_p.page_path, 
+                p_p.weight, 
+                p_p.parent_id, 
+                r_p.operation_type, 
+                p_p.icon, 
+                p_p.is_hidden
+            from user_roles u_r
+            left join public.{role_page_permisson_talbename} r_p 
+                on u_r.role_id = r_p.role_id
+                and r_p.is_deleted = false
+            left join public.{ele_page_permisson} p_p 
+                on p_p.is_deleted = false
+                and p_p.basic = false 
+                and r_p.page_id = p_p.page_id
+            where r_p.operation_type = 1
+            union all
+            select 
+                p_p.page_id, 
+                p_p.page_name, 
+                p_p.page_route, 
+                p_p.page_path, 
+                p_p.weight, 
+                p_p.parent_id, 
+                1 operation_type, 
+                p_p.icon, 
+                p_p.is_hidden
+            from public.{ele_page_permisson} p_p 
+            where p_p.basic = true
         )
-        select page_id::varchar, page_name as title, page_route as route, page_path as path, weight, parent_id::varchar
+        select 
+            page_id, 
+            page_name as title, 
+            page_route as route, 
+            page_path as path,
+            weight, 
+            parent_id
         from user_page_perm 
-        group by page_id::integer, page_name, page_route, page_path, weight, parent_id::integer
-        order by weight desc
+        group by page_id, page_name, page_route, page_path, weight, parent_id
+        order by page_id, weight 
     """.format(**params)
     result = DBUtil.fetch_data_dict_sql(sql, params=params)
     return result

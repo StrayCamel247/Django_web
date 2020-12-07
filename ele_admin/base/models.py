@@ -39,6 +39,12 @@ class PagePermission(models.Model):
     # 评论
     remark = models.CharField(
         max_length=200, verbose_name=u"评论", null=True)
+    # 评论
+    is_hidden = models.BooleanField(
+        verbose_name='左侧菜单隐藏', default=False, null=True)
+    # 评论
+    basic = models.BooleanField(
+        verbose_name='基础界面', default=False, null=True)
     
     is_deleted = models.BooleanField(verbose_name='已删除', default=False, null=True)
 
