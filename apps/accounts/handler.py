@@ -43,17 +43,15 @@ def token_obtain_sliding_logout_handler(**params):
     return '登出成功'
 
 
-def get_tree(df, index_key, parent_key):
+def get_tree(df:pd.DataFrame, index_key, parent_key):
     """
-
-    :param df: pandas DataFrame
-    :param index_key:
-    :param parent_key:
-    :return:
+    界面权限树构造
     """
+    df = df.where(df.notnull(), None)
     # drop掉 某行 index_key 和 parent_key 同时为null的数据; 替换nan为none
-    result = df.dropna(how='all', subset=[index_key, parent_key]).where(df.notnull(), None)
-
+    result = df.dropna(how='all', subset=[index_key, parent_key])
+    # 删除weight列
+    result = df.drop(columns='weight')
     result["index"] = result[index_key]
     result.set_index("index", inplace=True)
 
@@ -100,7 +98,6 @@ def token_obtain_sliding_login_handler(request, username: '用户名', password:
         raise InvalidUser('用户名/密码输入错误')
     update_last_login(None, ser.user)
     session_user_update(request, ser.user)
-   
     res = {
         'token': ser.validated_data.get('token')
     }
@@ -141,19 +138,17 @@ def token_user_info_handler(token):
         username: "admin"
         }
     >>> roles:['admin']
-    通过用户信息获取所属角色的界面权限并返回/前端根据返回权限进行渲染
     """
     # 查询用户序列化信息
     _user = Ouser.query_user_from_token(token)
     res = {
         'user': UserInfoSerializer(_user).data
     }
-    # 查询用户所属路由信息
+    # 查询用户角色信息
+    role = get_role_via_user(user_id=_user.id)
     pages_data = get_page_via_user(user_id=_user.id)
     pages_df = pd.DataFrame(pages_data)
     pages, _ = get_tree(pages_df, 'page_id', 'parent_id')
-    # 查询用户角色信息
-    role = get_role_via_user(user_id=_user.id)
     roles = {
         'roles': [_[0] for _ in role],
         'pages':pages

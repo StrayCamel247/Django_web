@@ -120,15 +120,10 @@ def render_sql(sql=None, params=None):
     )
 
     print(SQL % test)
-
-
     """
     cur = conn.cursor()
     # 自定义输入格式
     sql = re.sub('([^:]):(\w+)(?!:)', '\\1%(\\2)s', sql)
-    # try:
     logging.info(sql % params)
-    # except Exception:
-    #     logging.warn('sql日志打印失败')
     cur.close()
     return sql

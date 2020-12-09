@@ -1,29 +1,31 @@
-from rest_framework_simplejwt.settings import api_settings
-from django.contrib.auth import get_user_model
-from rest_framework_simplejwt.models import TokenUser
+import random
+from datetime import datetime
+
+from apps import system_name
 from apps.api_exception import InvalidJwtToken, InvalidUser
-from rest_framework_simplejwt.tokens import SlidingToken
-from django.db import models
-from django.contrib.auth.models import AbstractUser, User, AnonymousUser
-from django.db.models.fields import IntegerField
-from django.contrib.auth.validators import UnicodeUsernameValidator
+from apps.role.models import Role, RolePagePermission
+from apps.utils.django_db import DBUtil
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth.models import AbstractUser, AnonymousUser, User
+from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.db import models
+from django.db.models.fields import IntegerField
 from django.shortcuts import reverse
 from django.utils.translation import gettext_lazy as _
-from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer
-from rest_framework import serializers
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
+from rest_framework import serializers
+from rest_framework.serializers import (HyperlinkedModelSerializer,
+                                        ModelSerializer)
+from rest_framework_simplejwt.models import TokenUser
+from rest_framework_simplejwt.settings import api_settings
+from rest_framework_simplejwt.tokens import SlidingToken
 from six import integer_types
 from uuslug import slugify
-from datetime import datetime
-import random
 from wsme import Unset
-from apps.role.models import Role,RolePagePermission
-from django.contrib.auth.hashers import check_password, make_password
-from apps import system_name
 
-from apps.utils.django_db import DBUtil
 # 邮箱发送
 
 
@@ -112,7 +114,8 @@ class Ouser(AbstractUser):
         '个人网址', blank=True, help_text='提示：网址必须填写以http开头的完整形式')
     contact = models.ManyToManyField(Contacts, verbose_name='通讯录', default='1')
     is_admin = models.BooleanField(verbose_name='管理员', default=False)
-    is_deleted = models.BooleanField(verbose_name='已删除', default=False, null=True)
+    is_deleted = models.BooleanField(
+        verbose_name='已删除', default=False, null=True)
     introduction = models.TextField('个人简介', max_length=240, default='沉默是金😂')
     phone = models.TextField('电话号码', max_length=64, default='')
     # 扩展用户头像字段
@@ -280,8 +283,10 @@ class User_role(models.Model):
     # 用户id
     user_id = models.IntegerField(
         verbose_name=u"角色id")
-    
-    is_deleted = models.BooleanField(verbose_name='已删除', default=False, null=True)
+
+    is_deleted = models.BooleanField(
+        verbose_name='已删除', default=False, null=True)
+
 
 class UserInfoSerializer(HyperlinkedModelSerializer):
     avatar = serializers.SerializerMethodField()
@@ -316,8 +321,8 @@ def get_page_via_user(**params):
     params = dict({
         'user_role_tablename': User_role._meta.db_table,
         'role_tablename': Role._meta.db_table,
-        'role_page_permisson_talbename':RolePagePermission._meta.db_table,
-        'ele_page_permisson':PagePermission._meta.db_table
+        'role_page_permisson_talbename': RolePagePermission._meta.db_table,
+        'ele_page_permisson': PagePermission._meta.db_table
     }, **params)
     sql = """
         with user_roles as(
@@ -337,7 +342,8 @@ def get_page_via_user(**params):
                 p_p.weight, 
                 p_p.parent_id, 
                 r_p.operation_type, 
-                p_p.icon, 
+                p_p.icon,
+                p_p.redirect,  
                 p_p.is_hidden
             from user_roles u_r
             left join public.{role_page_permisson_talbename} r_p 
@@ -358,6 +364,7 @@ def get_page_via_user(**params):
                 p_p.parent_id, 
                 1 operation_type, 
                 p_p.icon, 
+                p_p.redirect,  
                 p_p.is_hidden
             from public.{ele_page_permisson} p_p 
             where p_p.basic = true
@@ -367,12 +374,13 @@ def get_page_via_user(**params):
             page_name as title, 
             page_route as route, 
             page_path as path,
-            weight, 
+            weight,
+            redirect, 
+            icon, 
+            is_hidden,
             parent_id
         from user_page_perm 
-        group by page_id, page_name, page_route, page_path, weight, parent_id
         order by page_id, weight 
     """.format(**params)
     result = DBUtil.fetch_data_dict_sql(sql, params=params)
     return result
-
