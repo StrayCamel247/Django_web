@@ -113,7 +113,7 @@ def request_token_check(req, func, jwt_required, *args, **kwargs):
     """校验token，获取user信息并添加到request中"""
     res = None
     # 本地环境无需验证登陆
-    jwt_required *= env != 'loc'
+    jwt_required &= env != 'loc'
     try:
         assert jwt_required
         # 获取jwt中的user

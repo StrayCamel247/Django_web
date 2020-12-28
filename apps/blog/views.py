@@ -16,7 +16,6 @@ from .handler import get_posts_handler
 from apps.utils.wsme.signature import signature
 from .types import BlogResult
 
-from django.core.paginator import Paginator
 class index_posts_view(generic.View):
     """ 首页展示博文的信息 """
     paginate_by = getattr(settings, 'BASE_PAGE_BY', None)

@@ -68,13 +68,13 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 urlpatterns += [
-    path(_v+'/', include('.'.join([k, _v, 'urls'])), name='_v'.join([k, _v]))\
-    for k, v in settings.APPS_FLODER_DICT.items()\
-    for _v in v\
+    path(_v+'/', include('.'.join([k, _v, 'urls'])), name='_v'.join([k, _v]))
+    for k, v in settings.APPS_FLODER_DICT.items()
+    for _v in v
     if os.path.exists(os.path.join(settings.BASE_DIR, k, _v, 'urls.py'))
 ]
 
-# TODO:自动载入重写后的views文件
+# TODO: 自动载入重写后的views文件
 urlpatterns += [path('', include('apps.data_analysis.views'.format(
     app_name='data_analysis')), name='data_analysis')]
 urlpatterns += [path('', include('apps.data.views'.format(app_name='data')), name='data')]
@@ -82,6 +82,8 @@ urlpatterns += [path('', include('apps.apis.views'.format(
     app_name='apis_views')), name='apis_views')]
 urlpatterns += [path('', include('apps.accounts.views'.format(
     app_name='accounts_views')), name='accounts_views')]
+
 urlpatterns += [path('', include('ele_admin.ele_admin_dashboard.views'.format(
     app_name='ele_admin_dashboard_views')), name='ele_admin_dashboard_views')]
-
+urlpatterns += [path('', include('ele_admin.recurrence_quantifucation_analysis.views'.format(
+    app_name='recurrence_quantifucation_analysis_views')), name='recurrence_quantifucation_analysis_views')]

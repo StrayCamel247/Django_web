@@ -121,8 +121,7 @@ class Ouser(AbstractUser):
     # 扩展用户头像字段
     avatar = ProcessedImageField(
         upload_to='avatar/%Y%m%d',
-        default='avatar/default/default ({}).jpg'.format(
-            random.randint(0, 134)),
+        default='avatar/default/default (132).jpg',
         verbose_name='头像',
         processors=[ResizeToFill(80, 80)],
         blank=True

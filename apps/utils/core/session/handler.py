@@ -8,6 +8,9 @@ from django.contrib.auth import (BACKEND_SESSION_KEY, HASH_SESSION_KEY,
                                  SESSION_KEY, get_user_model, _get_backends)
 from django.utils.crypto import constant_time_compare
 
+import os
+env = os.getenv('django_web_flag', 'loc')
+
 
 def session_logout(request):
     """
@@ -60,7 +63,7 @@ def session_user_update(request, user=None, backend=None):
         backend = backend or user.backend
     except AttributeError:
         backends = _get_backends(return_tuples=True)
-        if len(backends) == 1:
+        if len(backends) == 1 or env == 'loc':
             _, backend = backends[0]
         else:
             raise ValueError(
