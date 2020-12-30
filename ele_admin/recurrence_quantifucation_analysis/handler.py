@@ -9,6 +9,10 @@ from .models import Holding_Stock
 from .tradingsystem import read_excel, make_excel, ParseQDII, JQ
 import pandas as pd
 
+from django.contrib.sessions.models import Session
+
+from apps.api_exception import ParameterException
+
 
 def _get_holding_stock(**params):
     """
@@ -27,29 +31,69 @@ def _get_holding_stock(**params):
     """
     request = params.get('request')
     user_id = request.user.id
-    from django.core.paginator import Paginator, Page  # 导入模块
-    stock_list = Holding_Stock.objects.filter(
-        user_id=user_id).all()
-    paginator = Paginator(stock_list, 10)
-    # 创建一个对象paginator，又有这是一个对象，所以可以通过点“.”来调用一些功能
-    # per_page: 每页显示条目数量
-    # count:    数据总个数
-    # num_pages:总页数
-    # page_range:总页数的索引范围，如: (1,10),(1,200)
-    # page:     page对象
-    stocks = paginator.page(number=1).object_list
-    print(stocks)
+    limit, page = params['limit'], params['page']-1
+    _filters = dict(
+        user_id=user_id,
+        is_deleted=False)
+    if params['code']:
+        _filters['code'] = params['code']
+    stocks = Holding_Stock.objects.filter(**_filters).all()[
+        page*limit:(page+1)*limit].values('code', 'cost', 'num')
     df = pd.DataFrame(stocks)
+    df['id'] = df.index
     return df
+
+
+def del_holding_stock_handler(**params):
+    """
+    获取持仓数据
+    """
+    request = params.pop('request')
+    user_id = request.user.id
+    code = params.pop('code')
+    params['is_deleted'] = True
+    _ = Holding_Stock.objects.filter(
+        user_id=user_id, code=code).update(**params)
+    res = {
+        'lines': _
+    }
+    return res
+
+
+def put_holding_stock_handler(**params):
+    """
+    获取持仓数据
+    """
+    params['user_id'] = params.pop('request').user.id
+    params['is_deleted'] = False
+    defaults = dict(
+        num=params.pop('num'),
+        cost=params.pop('cost')
+    )
+    _ = Holding_Stock.objects.update_or_create(**params, defaults=defaults)
+    res = {
+        'id': _[0].id,
+        'is_new': _[-1]
+    }
+    return res
 
 
 def get_holding_stock_handler(**params):
     """
     获取持仓数据
     """
-    df = _get_holding_stock(**params).drop('user_id', axis=1)
+    df = _get_holding_stock(**params)
+    asceding, order_column = params.get(
+        'sort')[:1] == '+', params.get('sort')[1:]
+    if order_column not in df.columns and not df.empty:
+        raise ParameterException(detail='排序字段不在数据中:%s' % order_column)
+    df.sort_values(order_column,
+                   ascending=[asceding], inplace=True)
+    df = df.reset_index()
+    df['id'] = df.index
+    data = [] if df.empty else df.to_dict('records')
     res = {
-        'items': df.to_dict('records'),
+        'items': data,
         'total': df.shape[0]
     }
     return res
@@ -58,7 +102,7 @@ def get_holding_stock_handler(**params):
 def rqa_pred_stock_handler(**params):
     df = _get_holding_stock(**params)
     # 构建dataframe 以数据库id为索引，删除用户id列
-    df = df.set_index('id').drop('user_id', axis=1)
+    df = df.set_index('id')
     sdk = JQ()
     df = read_excel(sdk, df)
     make_excel(df)

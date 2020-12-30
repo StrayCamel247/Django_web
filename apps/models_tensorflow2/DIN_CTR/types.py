@@ -17,7 +17,7 @@ class HelloWordBody(wtypes.Base):
     test = wsme.wsattr(wtypes.text, mandatory=True)
     def validate(self):
         if not self.test :
-            raise ParameterException(msg=str(_("params error")))
+            raise ParameterException(detail=str(_("params error")))
         if self.test == "test":
             pass
         return self

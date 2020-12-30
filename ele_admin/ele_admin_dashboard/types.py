@@ -15,5 +15,5 @@ class KpiBody(wtypes.Base):
 
     def validate(self):
         if self.indicator not in KpiFactory.options:
-            raise ParameterException(msg=str(_("params error")))
+            raise ParameterException(detail=str(_("params error")))
         return self

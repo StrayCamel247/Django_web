@@ -100,7 +100,7 @@ class ListType(wtypes.UserType):
         if isinstance(value, list):
             return value
         else:
-            raise api_exception.ParameterException(msg='应该传数组类型')
+            raise api_exception.ParameterException(detail='应该传数组类型')
 
     @staticmethod
     def frombasetype(value):

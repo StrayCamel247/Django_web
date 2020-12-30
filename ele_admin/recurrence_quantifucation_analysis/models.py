@@ -8,6 +8,8 @@
 from django.db import models
 from ele_admin import system_name
 
+from apps.utils.django_db import DBUtil
+
 
 class Holding_Stock(models.Model):
     """
@@ -19,7 +21,10 @@ class Holding_Stock(models.Model):
         verbose_name = """股票持仓"""
         verbose_name_plural = verbose_name
         db_table = "{sys}_holding_stock".format(sys=system_name)
+        unique_together = (("code",  "user_id"),)
     code = models.CharField(max_length=200, default="")
     cost = models.FloatField(max_length=200, default=0.00)
     num = models.FloatField(max_length=200, default=0.00)
     user_id = models.CharField(max_length=200, null=True)
+    is_deleted = models.BooleanField(
+        verbose_name='已删除', default=False, null=True)

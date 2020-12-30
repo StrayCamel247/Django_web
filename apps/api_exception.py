@@ -5,7 +5,7 @@
 
 from apps.utils.wsme.signature import get_dataformat
 import json
-from django.http.response import HttpResponseNotFound, HttpResponseServerError, HttpResponseForbidden,HttpResponseNotAllowed
+from django.http.response import HttpResponseNotFound, HttpResponseServerError, HttpResponseForbidden, HttpResponseNotAllowed
 from functools import lru_cache
 import logging
 import sys
@@ -34,13 +34,15 @@ PRODUCT_ERROR_CODE = 0x1f4
 @lru_cache(maxsize=128, typed=False)
 def _exception_handler(exc, debug=True):
     """Extract informations that can be sent to the client."""
+
     status_code = getattr(exc[0], 'status_code', None)
     if status_code:
-        detail = (six.text_type(exc[0].detail) if hasattr(exc[0], 'detail')
-                  else six.text_type(exc))
+        error = exc[1]
+        detail = (six.text_type(error.detail) if hasattr(error, 'detail')
+                  else six.text_type(error))
         r = dict(status_code=status_code,
                  detail=UNDEFINED_EXCEPTION_MSG)
-        # log.warn("Defined error: %s" % r['detail'])
+        log.warn("Defined error: %s" % r['detail'])
         r['debuginfo'] = detail
         return Response(r)
     else:
@@ -96,16 +98,14 @@ def _handler404(request=None, exception=None):
     return HttpResponseNotFound(json.dumps(response.data), content_type=res.content_type)
 
 
-    
 def _handler500(request=None, exception=None):
     """重写django系统对400、403、404、500code报错的机制handler"""
     exception = sys.exc_info()
     response = exception_process(
         exception=exception, context=None)
     res = get_dataformat(request)
-    status_code = getattr(exception[0], 'status_code', None)
-    response.data['status_code']= _HANDLER500_CODE if not status_code else status_code
-    print(res)
+    # status_code = getattr(exception[0], 'status_code', None)
+    # response.data['status_code']= _HANDLER500_CODE if not status_code else status_code
     return HttpResponseServerError(json.dumps(response.data), content_type=res.content_type)
 
 
@@ -133,7 +133,7 @@ class Fail(APIException):
 
 class ParameterException(APIException):
     detail = _('Invalid parameter')
-    status_code = 0x00000003
+    status_code = 0x000000c8
 
 
 class ServerError(APIException):
@@ -143,7 +143,7 @@ class ServerError(APIException):
 
 class NotFound(APIException):
     detail = _('Request content does not exist')
-    status_code = 0x00000005
+    status_code = 0x00000194
 
 
 class DBError(APIException):
@@ -298,6 +298,7 @@ class RoleUsed(APIException):
 class UserUsed(APIException):
     detail = _("This user is in use and cannot be deleted")
     status_code = 0x00000024
+
 
 class ResponseNotAllowed(APIException):
     detail = _("'Method Not Allowed")
