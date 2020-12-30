@@ -85,13 +85,19 @@ def get_holding_stock_handler(**params):
     df = _get_holding_stock(**params)
     asceding, order_column = params.get(
         'sort')[:1] == '+', params.get('sort')[1:]
-    if order_column not in df.columns and not df.empty:
+    if df.empty:
+        res = {
+        'items': [],
+        'total': 0
+        }
+        return res
+    if order_column not in df.columns:
         raise ParameterException(detail='排序字段不在数据中:%s' % order_column)
     df.sort_values(order_column,
                    ascending=[asceding], inplace=True)
     df = df.reset_index()
     df['id'] = df.index
-    data = [] if df.empty else df.to_dict('records')
+    data = df.to_dict('records')
     res = {
         'items': data,
         'total': df.shape[0]
