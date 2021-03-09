@@ -89,6 +89,11 @@ def token_obtain_sliding_login_handler(request, username: '用户名', password:
     Takes a set of user credentials and returns a sliding JSON web token to
     prove the authentication of those credentials.
     """
+    # if already login, flush session data.
+    try:
+        session_logout(request)
+    except:
+        pass
     user_name_field = get_username_field()
     ser = TokenObtainSlidingSerializer(
         data={
