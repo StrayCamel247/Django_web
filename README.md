@@ -37,7 +37,7 @@
 
 - [x] 预览
   - [x] 本地预览：![img](./template.png)
-  - [x] 在线预览：[选购了半天选了个五百三年的服务器，8说了我太穷了，买不起贵的](http://47.114.93.191:422/)
+  - [x] 在线预览：[在线预览](http://47.114.93.191:422/)
 - [x] apps\dashboard: Vue_web仪表盘功能
   - [x] kpi各个指标根据kpi_indicator接口工厂分配查询各指标，分多次请求查询各个kpi值
   - [x] 仪表盘各类图标通过接口获取数据展示
@@ -68,7 +68,7 @@
   - [x] **重构django http请求方式校验，而不是再urls.py文件配置**:`apps\utils\decorators\http.py`
     - [x] 支持将用户指定url和request methods，并自动将url注册到apis连接下
     - [x] 支持对request.user校验
-    - [x] 支持对jwt的token校验（jwt生辰方式见jwt登陆验证）
+    - [x] 支持对jwt的token校验（jwt生成方式见jwt登陆验证）
       - [x] 获得token校验后会更新token，将数据插入到返回的json中
 
 - [x] jwt登陆验证
@@ -107,6 +107,11 @@
   - [x] 前端查询展示 `dashboard/TodoList`
 - [ ] `ele_admin\ele_admin_interface`接口（数据库操作）测试
 
+- [ ] recurrence_quantifucation_analysis:
+  > 股票持仓量化分析
+  > 数据是现成的通过定期的爬取作展示
+  > 
+  - 
 ### 👻[Version_V2.0](https://github.com/StrayCamel247/Django_web/releases/tag/v2.0.0)
 
 > django+vue，CS系统，系统底层构建等。
@@ -154,7 +159,7 @@
 - Linux系统django-haystack库安装失败
   - python比较好的地方就在于，出现异常抛出的异常上下文信息比较明确，能一眼看出问题所在，看了一下异常报错，原因在于当前虚拟环境下缺少setuptools_scm库，django-haystack的安装依赖这个库。`python -m pip install setuptools_scm`
   
-- `ImportError: cannot import name 'ChineseAnalyzer' from 'jieba.analyse' `
+- `ImportError: cannot import name 'ChineseAnalyzer' from 'jieba.analyse'`
   - 安装依赖包`whoosh`，其实在requirement里面已经有了，但是估计时没安装成功吧。再安装一次就好了
 
 - `ModuleNotFoundError: No module named 'user_agent'`
@@ -163,6 +168,11 @@
 - 数据库迁移/项目运行bug：`ValueError : unsupported pickle protocol: 5`
   - 这个bug根据pick协议，我们的查询功能whoosh功能时当我们访问这个页面，就将信息缓存下来，由于服务器py版本和win版本不一样可能会导致这个问题，解决方法就是删除项目中`apps\search\whoosh_index`文件夹中的所有文件。
 
+### 关于作者
+
+- [StrayCamel247](https://github.com/StrayCamel247):
+  - C/S-WEB系统从大二就开始学习做，从express到djangp/flask都会一点，2020年第一次入职工作就是用flask开发的系统，通过此项目可以作为个人能力的一个展示。
+  - 此项目会扩展成很多不同的demo，从市场经济股票基金到机器学习算法数据分析都会包含，立足于兴趣点并扩展本身的能力和知识点。
 
 <!-- ### 项目stars曲线图
 [![Stargazers over time](https://starcharts.herokuapp.com/StrayCamel247/Django_web.svg)](https://github.com/StrayCamel247/Django_web) -->

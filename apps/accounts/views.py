@@ -24,16 +24,18 @@ urlpatterns = []
 
 User = get_user_model()
 
-@require_http_methods('api/auth/get_users', methods=['POST'])
+@require_http_methods('api/auth/get-users', methods=['POST'])
 @signature(AccountsResult, body=QueryUserInfo)
 def get_users(request, body):
-    """模糊查询用户"""
+    """
+    模糊查询用户
+    """
     users = User.get_users(body)
     content = {"users": users}
     return AccountsResult(msg=str(_('get users success')), content=content)
 
 
-@require_http_methods('account/access_login', methods=['POST'])
+@require_http_methods('account/access-login', methods=['POST'])
 @signature(AccountsResult, body=AccountLoginBody)
 def token_obtain_pair(request, body):
     params = {
@@ -44,7 +46,7 @@ def token_obtain_pair(request, body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/access_refresh', methods=['POST'])
+@require_http_methods('account/access-refresh', methods=['POST'])
 @signature(AccountsResult, body=AccountRefreshBody)
 def token_access_refresh(request, body):
     params = {
@@ -53,8 +55,7 @@ def token_access_refresh(request, body):
     content = token_refresh_handler(**params)
     return AccountsResult(content=content)
 
-
-@require_http_methods('account/token_login', methods=['POST'], jwt_required=False)
+@require_http_methods('account/token-login', methods=['POST'], jwt_required=False)
 @signature(AccountsResult, body=AccountLoginBody)
 def token_obtain_sliding_login(request, body):
     """用户登陆"""
@@ -68,7 +69,7 @@ def token_obtain_sliding_login(request, body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/token_logout', methods=['POST'])
+@require_http_methods('account/token-logout', methods=['POST'])
 @signature(AccountsResult)
 def token_obtain_sliding_logout(request):
     """用户登出"""
@@ -76,8 +77,8 @@ def token_obtain_sliding_logout(request):
     content = token_obtain_sliding_logout_handler(**params)
     return AccountsResult(content=content)
 
-
-@require_http_methods('account/token_refresh', methods=['POST'])
+# 用户状态刷新
+@require_http_methods('account/token-refresh', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def token_refresh(request, body):
     params = {
@@ -86,8 +87,8 @@ def token_refresh(request, body):
     content = token_refresh_sliding_handler(**params)
     return AccountsResult(content=content)
 
-
-@require_http_methods('account/token_verify', methods=['POST'])
+# 用户信息验证
+@require_http_methods('account/token-verify', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def token_verify(request, body):
     params = {
@@ -97,7 +98,7 @@ def token_verify(request, body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/user_info', methods=['POST'])
+@require_http_methods('account/user-info', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def token_user_info(request, body):
     params = {
@@ -107,7 +108,7 @@ def token_user_info(request, body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/user_password_change', methods=['POST'])
+@require_http_methods('account/user-password-change', methods=['POST'])
 @signature(AccountsResult, body=AccountPasswordChangeBody)
 def token_user_password_change(request, body):
     params = {

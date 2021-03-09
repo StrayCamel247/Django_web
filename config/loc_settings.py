@@ -126,15 +126,6 @@ REST_FRAMEWORK = {
         'DEFAULT_VERSION': 'v1'
         # 以上两项设置分别全局指定使用的 API 版本管理方式和客户端缺省版本号的情况下默认请求的 API 版本。尽管这些配置项也可以在单个视图或者视图集的范围内指定，但是，统一的版本管理模式更为可取，因此我们在全局配置中指定。
     },
-    # jwt登陆机制
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    # JWT认证
-    # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-    # Session认证
-    # 'rest_framework.authentication.SessionAuthentication',
-    # # Basic认证
-    # 'rest_framework.authentication.BasicAuthentication',
-    # ),
 
 }
 
@@ -318,8 +309,8 @@ DATABASES = {
         'NAME': 'django_web',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        # 'HOST': '47.114.93.191',
+        # 'HOST': '127.0.0.1',
+        'HOST': '47.114.93.191',
         'PORT': 5432
      }
 }

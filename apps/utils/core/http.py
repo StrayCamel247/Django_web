@@ -113,25 +113,35 @@ def request_token_check(req, func, jwt_required, *args, **kwargs):
     """校验token，获取user信息并添加到request中"""
     res = None
     # 本地环境无需验证登陆
-    jwt_required &= env != 'loc'
-    try:
-        assert jwt_required
-        # 获取jwt中的user
-        token = req.headers._store.get('x-token', (None, None))[1]
-        user = Ouser.query_user_from_token(token)
-        # 获取session中的user
-        from django.contrib.auth import get_user
-        _user = get_user(req)
-        # 校验user
-        assert user.pk == _user.pk, 'session和token不匹配'
-        # res = func(req, *args, **kwargs)
-        # res.content = json.dumps(
-        #     dict(json.loads(res.content)))
-    except AssertionError as e:
-        msg = six.text_type(e)
-        if msg:
-            raise InvalidUser('token和session用户不一致')
-    except IndexError or TypeError:
-        message = 'headers need token'
-        log.warn(message)
-        raise InvalidJwtToken(detail=message)
+    _is_loc = env == 'loc'
+    jwt_required &= not _is_loc
+    if _is_loc and req.user.is_anonymous:
+        """
+        本地环境测试接口时 自动登陆admin账号
+        """
+        # from apps.accounts.handler import token_obtain_sliding_login_handler
+        # token_obtain_sliding_login_handler(req, 'admin', 'test123456')
+        # logging.info('本地环境自动登录，登陆的用户为%s' % 'admin')
+        pass
+    else:
+        try:
+            assert jwt_required
+            # 获取jwt中的user
+            token = req.headers._store.get('x-token', (None, None))[1]
+            user = Ouser.query_user_from_token(token)
+            # 获取session中的user
+            from django.contrib.auth import get_user
+            _user = get_user(req)
+            # 校验user
+            assert user.pk == _user.pk, 'session和token不匹配'
+            # res = func(req, *args, **kwargs)
+            # res.content = json.dumps(
+            #     dict(json.loads(res.content)))
+        except AssertionError as e:
+            msg = six.text_type(e)
+            if msg:
+                raise InvalidUser('token和session用户不一致')
+        except IndexError or TypeError:
+            message = 'headers need token'
+            log.warn(message)
+            raise InvalidJwtToken(detail=message)

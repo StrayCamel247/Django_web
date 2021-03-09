@@ -10,6 +10,8 @@ import pandas as pd
 import requests
 from lxml import etree
 
+import logging
+log = logging.getLogger('apps')
 
 def handle_code_list(func):
     def wrapper(self, code_list):
@@ -44,7 +46,11 @@ class JQ:
 
     @handle_code_list
     def get_security_name(self, code):
-        return self._sdk.get_security_info(code).display_name
+        info = self._sdk.get_security_info(code)
+        if not info:
+            log.info('股票代码为%s没找到此股票信息，请修改后重新输入'%code)
+            return ''
+        return info.display_name
 
     @handle_code_list
     def get_industry(self, code):
@@ -107,7 +113,8 @@ def get_conbond_data():
 
 def read_excel(sdk, df: '处理好的持仓数据' = pd.DataFrame(), input_file='股票持仓.xlsx'):
     if df.empty:
-        df = pd.read_excel(input_file, dtype={'code': 'str'})
+        # df = pd.read_excel(input_file, dtype={'code': 'str'})
+        return df
 
     # 格式化股票代码，如 000002 -> 000002.XSHE
     code_list = sdk.normalize_code(df.code)

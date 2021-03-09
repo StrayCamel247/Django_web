@@ -8,9 +8,9 @@ from typing import DefaultDict
 from .models import Holding_Stock
 from .tradingsystem import read_excel, make_excel, ParseQDII, JQ
 import pandas as pd
-
+from .constants import table_header
 from django.contrib.sessions.models import Session
-
+import datetime
 from apps.api_exception import ParameterException
 
 
@@ -38,7 +38,7 @@ def _get_holding_stock(**params):
     if params['code']:
         _filters['code'] = params['code']
     stocks = Holding_Stock.objects.filter(**_filters).all()[
-        page*limit:(page+1)*limit].values('code', 'cost', 'num')
+        page*limit:(page+1)*limit].values()
     df = pd.DataFrame(stocks)
     df['id'] = df.index
     return df
@@ -64,13 +64,19 @@ def put_holding_stock_handler(**params):
     """
     获取持仓数据
     """
-    params['user_id'] = params.pop('request').user.id
-    params['is_deleted'] = False
+    uni_colums = dict(
+        user_id=params.get('request').user.id,
+        is_deleted=False
+    )
+    day_date = datetime.datetime.now().strftime('%y-%m-%d-%h')
+    params['day_date'] = day_date
+    _params = rqa_market_stock_handler(**params)
     defaults = dict(
+        **_params,
         num=params.pop('num'),
         cost=params.pop('cost')
     )
-    _ = Holding_Stock.objects.update_or_create(**params, defaults=defaults)
+    _ = Holding_Stock.objects.update_or_create(**uni_colums, defaults=defaults)
     res = {
         'id': _[0].id,
         'is_new': _[-1]
@@ -87,8 +93,8 @@ def get_holding_stock_handler(**params):
         'sort')[:1] == '+', params.get('sort')[1:]
     if df.empty:
         res = {
-        'items': [],
-        'total': 0
+            'items': [],
+            'total': 0
         }
         return res
     if order_column not in df.columns:
@@ -100,20 +106,28 @@ def get_holding_stock_handler(**params):
     data = df.to_dict('records')
     res = {
         'items': data,
-        'total': df.shape[0]
+        'total': df.shape[0],
+        'header': table_header
     }
     return res
 
 
-def rqa_pred_stock_handler(**params):
+def get_pred_stock_handler(**params):
+    """
+    获取股票收益情况
+    """
+    res = rqa_market_stock_handler(**params)
+
+    return res
+
+
+def rqa_market_stock_handler(**params):
+    """
+    股票量化分析-获取市场信息
+    """
     df = _get_holding_stock(**params)
     # 构建dataframe 以数据库id为索引，删除用户id列
-    df = df.set_index('id')
     sdk = JQ()
     df = read_excel(sdk, df)
-    make_excel(df)
-    print(df)
-    print(df.to_dict())
-    s = ParseQDII()
-    pre_stock_data = s.get_stock_data()
-    return pre_stock_data
+    res = df.to_dict()
+    return res

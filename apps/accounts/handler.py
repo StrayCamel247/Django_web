@@ -39,11 +39,11 @@ def token_obtain_sliding_logout_handler(**params):
         session_logout(current_request)
     except Exception as e:
         log.warn(e)
-        raise InvalidJwtToken(msg=six.text_type(e))
+        raise InvalidJwtToken(detail=six.text_type(e))
     return '登出成功'
 
 
-def get_tree(df:pd.DataFrame, index_key, parent_key):
+def get_tree(df: pd.DataFrame, index_key, parent_key):
     """
     界面权限树构造
     """
@@ -88,16 +88,19 @@ def token_obtain_sliding_login_handler(request, username: '用户名', password:
     """
     Takes a set of user credentials and returns a sliding JSON web token to
     prove the authentication of those credentials.
-
     """
+    user_name_field = get_username_field()
     ser = TokenObtainSlidingSerializer(
-        data={get_username_field(): username, 'password': password})
+        data={
+            user_name_field: username, 'password': password
+        })
     try:
         ser.is_valid(raise_exception=True)
+        user = ser.user
     except:
         raise InvalidUser('用户名/密码输入错误')
-    update_last_login(None, ser.user)
-    session_user_update(request, ser.user)
+    update_last_login(None, user)
+    session_user_update(request, user)
     res = {
         'token': ser.validated_data.get('token')
     }
@@ -151,7 +154,7 @@ def token_user_info_handler(token):
     pages, _ = get_tree(pages_df, 'page_id', 'parent_id')
     roles = {
         'roles': [_[0] for _ in role],
-        'pages':pages
+        'pages': pages
     }
     res = dict(res, **roles)
     return res
