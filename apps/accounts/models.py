@@ -1,6 +1,8 @@
+import logging
 import random
 from datetime import datetime
 
+import six
 from apps import system_name
 from apps.api_exception import InvalidJwtToken, InvalidUser
 from apps.role.models import Role, RolePagePermission
@@ -130,6 +132,22 @@ class Ouser(AbstractUser):
     def __str__(self):
         return self.username
 
+    @staticmethod
+    def check_user(request, **kwargs):
+        try:
+            # 检查用户是否存在
+            user = getattr(request, 'user', None)
+            assert getattr(user, 'is_authenticated', True)
+            # 检查session
+            session_key = getattr(request.session, 'session_key', None)
+            from django.contrib.sessions.models import Session
+            session = Session.objects.get(session_key=session_key)
+            assert getattr(session, 'pk')
+        except Exception as e:
+            logging.info(six.text_type(e))
+            return False
+        return True
+
     def save(self, *args, **kwargs):
         x = Contacts(name=self.username)
         if (Contacts.objects.filter(name=self.username)):
@@ -228,9 +246,9 @@ class Ouser(AbstractUser):
             ) for _ in roles]
             User_role.objects.bulk_create(user_role_infos)
         return user
-
+    
     @staticmethod
-    def update_user(form):
+    def update_user_form(form):
         """
         更新用户
         :param form:前端传入参数

@@ -42,7 +42,8 @@
   - [x] kpi各个指标根据kpi_indicator接口工厂分配查询各指标，分多次请求查询各个kpi值
   - [x] 仪表盘各类图标通过接口获取数据展示
 
-#### apps-后端系统 
+#### apps-后端系统[需求文档]
+> 先写文档再开发，先写注释再写代码
 
 - [x] data
   - [x] **iris_data数据可视化接口**:`apps\data\views.py`
@@ -74,7 +75,9 @@
 - [x] jwt登陆验证
   - [x] **将django-rest-framework-simplejwt中的CBV视图转换为FBV视图handlers**:`apps\accounts\handler.py`
   - [x] **使用jwt和session联合验证** 
-    - 用户登陆创建后端session，设置有效时间，登出删除
+    - [x] 用户登陆创建后端session，设置有效时间，登出删除
+    - [x] 已登陆得用户删除登陆信息重新登陆
+    - [ ] 用户修改用户基本信息
   - [x] **关闭django的csrftoken验证**，开发简单的jwt登陆验证，绕过drf框架，直接使用django原生系统:`apps\utils\jwt`
   - [x] **登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口**:`apps\accounts\views.py`
     > https://django-rest-framework-simplejwt.readthedocs.io/en/latest/token_types.html#token-types; Simple JWT provides two different token types that can be used to prove authentication; 两种方式均可获得对应的token和user信息（user信息使用的序列化功能在

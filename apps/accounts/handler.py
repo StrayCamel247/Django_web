@@ -112,12 +112,21 @@ def token_obtain_sliding_login_handler(request, username: '用户名', password:
     return res
 
 
-def token_user_password_change_handler(**kwrags):
-    """用户根据id或者username+邮箱验证修改密码"""
-    user_id = kwrags.get('id')
-    res = dict(user=UserSerializer(user_id).data)
-    # TODO:待开发
-    pass
+def token_user_info_change_handler(**kwargs):
+    """
+    修改用户基本信息
+    """
+    request = kwargs.get('request')
+    password = kwargs.get('password')
+    # 检查用户是否已登录
+    if not Ouser.check_user(request):
+        raise InvalidUser(detail='Pls login in first!')
+    user = getattr(request, 'user', None)
+    # 修改用户密码
+    user.set_password(password)
+    # 用户重新登陆
+    res = token_obtain_sliding_login_handler(request, user.username, password)
+    return res
 
 
 def get_username_field():

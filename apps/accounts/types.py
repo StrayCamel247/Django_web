@@ -26,14 +26,13 @@ class AccountRefreshBody(wtypes.Base):
         return self
 
 
-class AccountPasswordChangeBody(wtypes.Base):
-    username = wsme.wsattr(wtypes.text, mandatory=False)
-    id = wsme.wsattr(wtypes.text, mandatory=False)
+class AccountInfoChangeBody(wtypes.Base):
+    password = wsme.wsattr(wtypes.text, mandatory=True)
 
     def validate(self):
-        if not self.username or not self.id:
+        if not self.password :
             raise InvalidUser(
-                '用户未登陆或者名称/id未输入')
+                '请输入新的密码')
         return self
 
 

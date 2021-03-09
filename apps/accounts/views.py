@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # __author__ : stray_camel
 # __description__ : *登陆接口化，继承rest framework框架登陆路由，扩展使用jwt原理扩展接口
-# __REFERENCES__ : 
+# __REFERENCES__ :
 # __date__: 2020/12/04 13
 from django.contrib.auth import get_user_model
 from apps.utils.core.http import require_http_methods
@@ -15,14 +15,15 @@ from .handler import (token_obtain_pair_handler,
                       token_obtain_sliding_logout_handler,
                       token_refresh_handler, token_refresh_sliding_handler,
                       token_user_info_handler,
-                      token_user_password_change_handler, token_verify_handler)
-from .types import (AccountLoginBody, AccountPasswordChangeBody,
+                      token_user_info_change_handler, token_verify_handler)
+from .types import (AccountLoginBody, AccountInfoChangeBody,
                     AccountRefreshBody, AccountsResult, AccountTokenBody, QueryUserInfo)
 
 # Create your views here.
 urlpatterns = []
 
 User = get_user_model()
+
 
 @require_http_methods('api/auth/get-users', methods=['POST'])
 @signature(AccountsResult, body=QueryUserInfo)
@@ -55,6 +56,7 @@ def token_access_refresh(request, body):
     content = token_refresh_handler(**params)
     return AccountsResult(content=content)
 
+
 @require_http_methods('account/token-login', methods=['POST'], jwt_required=False)
 @signature(AccountsResult, body=AccountLoginBody)
 def token_obtain_sliding_login(request, body):
@@ -78,6 +80,8 @@ def token_obtain_sliding_logout(request):
     return AccountsResult(content=content)
 
 # 用户状态刷新
+
+
 @require_http_methods('account/token-refresh', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def token_refresh(request, body):
@@ -88,6 +92,8 @@ def token_refresh(request, body):
     return AccountsResult(content=content)
 
 # 用户信息验证
+
+
 @require_http_methods('account/token-verify', methods=['POST'])
 @signature(AccountsResult, body=AccountTokenBody)
 def token_verify(request, body):
@@ -108,12 +114,15 @@ def token_user_info(request, body):
     return AccountsResult(content=content)
 
 
-@require_http_methods('account/user-password-change', methods=['POST'])
-@signature(AccountsResult, body=AccountPasswordChangeBody)
-def token_user_password_change(request, body):
+@require_http_methods('account/user-info-modify', methods=['PUT'])
+@signature(AccountsResult, body=AccountInfoChangeBody)
+def token_user_info_modify(request, body):
+    """
+    用户密码修改-基础信息修改
+    """
     params = {
-        'id': body.id,
-        'username': body.username,
+        'request': request,
+        'password': body.password,
     }
-    content = token_user_password_change_handler(**params)
+    content = token_user_info_change_handler(**params)
     return AccountsResult(content=content)
