@@ -180,15 +180,15 @@ LOGGING = {
     'formatters': {
         'django.server': {
             'format': '%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n%(message)s',
-            # 'style': '{',
+           
         },
         'console_format': {
             'format': '%(color)s\n%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n%(message)s',
-            # 'style': '{',
+           
         },
         'file_format': {
             'format': '%(pathname)s:%(lineno)s %(asctime)s %(levelname)s\n%(message)s',
-            # 'style': '{',
+           
         }
     },
     'handlers': {
@@ -220,7 +220,7 @@ LOGGING = {
             'propagate': False,
         },
         'django': {
-            'handlers': ['django.server', 'file', 'console'],
+            'handlers': ['file', 'console'],
             'level': 'INFO',
             'propagate': False,
         },
@@ -315,8 +315,8 @@ DATABASES = {
         #             'options': '-c search_path=public,apps'
         #         },
         'NAME': 'django_web',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': 'django_web',
+        'PASSWORD': POSTGRESQL_PD,
         # 'HOST': '127.0.0.1',
         'HOST': '47.114.93.191',
         'PORT': 5432

@@ -36,10 +36,10 @@
 > 数据基本由faker假数据生成
 
 - [x] 预览
-  - [x] 本地预览：![img](./template.png)
+  - [x] 本地预览：![demo](./template.png)
   - [x] 在线预览：[在线预览](http://47.114.93.191:422/)
 - [x] apps\dashboard: Vue_web仪表盘功能
-  - [x] kpi各个指标根据kpi_indicator接口工厂分配查询各指标，分多次请求查询各个kpi值
+  - [x] kpi各个指标根据kpi_indicator接口分配查询各指标，分多次请求查询各个kpi值
   - [x] 仪表盘各类图标通过接口获取数据展示
 
 #### apps-后端系统[需求文档]

@@ -27,7 +27,7 @@ def kpi_indicator(request):
     return DashboardResult(content=result)
 
 
-@require_http_methods('dashboard/kpi_value', methods=['POST'])
+@require_http_methods('dashboard/kpi-value', methods=['POST'])
 @signature(DashboardResult, body=KpiBody)
 def kpi_value(request, body):
     """kpi值接口  根据 indicator 传入参数不同请求不同的 handler"""
