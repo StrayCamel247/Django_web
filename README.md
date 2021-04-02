@@ -13,7 +13,9 @@
 ### [🚓项目运行]uwsgi-asgi/wsgi
 
 > 项目采用uwsgi工具可以启动，通信流程为：`浏览器-http协议-nginx服务器-uwsgi协议-uwsgi服务器-uwsgi协议-python_wsgi_module_wsgi（python专用协议）-python_app（python应用）`
-
+- 添加服务器所需要的命令
+  - 更改默认文件`apps\default_passwords.py`文件名：`apps\passwords.py`
+  - 在文件中填写对应的密码-才能正常启动
 - 命令行启动
   - `python manage.py runserver` or `python manage.py runserver 0.0.0.0:8000 --noreload`
 
