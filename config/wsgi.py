@@ -10,10 +10,9 @@ https://docs.djangoproject.com/en/2.0/howto/deployment/wsgi/
 import sys
 import os
 from django.core.wsgi import get_wsgi_application
-
+env = os.getenv('django_web_flag', 'loc')
 
 def setdefault_django_settings_module():
-    from .constants import env
     # 设置django默认环境变量 DJANGO_SETTINGS_MODULE
     os.environ.setdefault("DJANGO_SETTINGS_MODULE",
                           'config.{}_settings'.format(env))
