@@ -97,7 +97,7 @@ sklearn==0.0
 sqlparse==0.4.1
 tensorboard==2.4.0
 tensorboard-plugin-wit==1.7.0
-tensorflow==2.4.0
+tensorflow==2.5.1
 tensorflow-estimator==2.3.0
 termcolor==1.1.0
 text-unidecode==1.3
