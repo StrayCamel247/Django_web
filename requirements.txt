@@ -6,7 +6,7 @@ astunparse==1.6.3
 autopep8==1.5.4
 billiard==3.3.0.23
 cachetools==4.1.1
-celery==3.1.26.post2
+celery==5.2.2
 certifi==2020.11.8
 cffi==1.14.3
 chardet==3.0.4
