@@ -47,7 +47,7 @@ iso8601==0.1.13
 jdcal==1.4.1
 jieba==0.42.1
 Jinja2==2.11.3
-joblib==0.17.0
+joblib==1.2.0
 Keras-Preprocessing==1.1.2
 kombu==3.0.37
 Markdown==3.3.3
