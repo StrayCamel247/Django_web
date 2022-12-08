@@ -7,7 +7,7 @@ autopep8==1.5.4
 billiard==3.3.0.23
 cachetools==4.1.1
 celery==3.1.26.post2
-certifi==2020.11.8
+certifi==2022.12.7
 cffi==1.14.3
 chardet==3.0.4
 construct==2.5.3
